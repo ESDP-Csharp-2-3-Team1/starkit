@@ -89,3 +89,15 @@ body {
 .col-form-label{
   font-size: 15px;
 }
+.row{
+  justify-content: center;
+}
+.create-dis, .create-category{
+  text-align: center;
+  margin-bottom: 50px;
+}
+.validationError{
+  color: red;
+}
+
+
