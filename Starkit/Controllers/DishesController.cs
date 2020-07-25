@@ -51,6 +51,7 @@ namespace Starkit.Controllers
                 dish.Avatar = Load(dish.Id, dish.File);
                 _db.Entry(dish).State = EntityState.Added;
                 await _db.SaveChangesAsync();
+                return RedirectToAction("Create");
             }
             return View(dish);
         }
