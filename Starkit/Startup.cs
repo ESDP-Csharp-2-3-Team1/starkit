@@ -28,7 +28,8 @@ namespace Starkit
         public void ConfigureServices(IServiceCollection services)
         {
             string connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<StarkitContext>(options => options.UseNpgsql(connection))
+            services.AddDbContext<StarkitContext>(options => options.UseNpgsql(connection)
+                    .UseLazyLoadingProxies())
                 .AddIdentity<User,IdentityRole>(options =>
                 {
                     options.Password.RequiredLength = 3;   // минимальная длина
@@ -37,6 +38,7 @@ namespace Starkit
                     options.Password.RequireUppercase = false; // требуются ли символы в верхнем регистре
                     options.Password.RequireDigit = false; // требуются ли цифры
                 })
+                
                 .AddEntityFrameworkStores<StarkitContext>();;
             services.AddControllersWithViews();
         }

@@ -8,6 +8,7 @@ namespace Starkit.Models.Data
     public class StarkitContext : IdentityDbContext<User>
     {
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Dish> Dishes { get; set; }
         
         public StarkitContext(DbContextOptions<StarkitContext> options) : base(options) {}
 
