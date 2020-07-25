@@ -1,6 +1,10 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Starkit.Models;
 using Starkit.Models.Data;
 using Starkit.ViewModels;
@@ -35,14 +39,47 @@ namespace Starkit.Controllers
         }
         
         [HttpPost]
-        public IActionResult Register(Register model)
+        public async Task<IActionResult> Register(Register model)
         {
             if(ModelState.IsValid)
             {
+                User newUser = new User()
+                {
+                    UserName =  model.Email,
+                    Name = model.Name,
+                    SurName = model.SurName,
+                    Email = model.Email,
+                    PhoneNumber = model.PhoneNumber,
+                    CityPhone = model.CityPhone,
+                    CompanyName = model.CompanyName,
+                    IIN = model.IIN
+                };
+                model.PostalAddress.UserId = newUser.Id;
+                model.LegalAddress.UserId = newUser.Id;
                 
+                var result = await _userManager.CreateAsync(newUser, model.Password);
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(newUser, "restaurateur");
+                    await _signInManager.SignInAsync(newUser, false);
+                    await _db.LegalAddresses.AddAsync(model.LegalAddress);
+                    await _db.PostalAddresses.AddAsync(model.PostalAddress);
+                    return RedirectToAction("Index", "Starkit");
+                }
+
+                foreach (var error in result.Errors)
+                    ModelState.AddModelError(String.Empty, error.Description);
             }
             return View(model);
         }
+
+        [Authorize]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login","Account");
+        }
+
        
     }
 }

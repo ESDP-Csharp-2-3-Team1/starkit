@@ -6,14 +6,15 @@
     Layout = "_Layout";
 }
 <div class="col-md-9 block-register">
-    <form>
+    <form asp-action="Register" asp-controller="Account" method="post">
+        <div asp-validation-summary="ModelOnly"></div>
         <div class="client_form">
             @{
                 <h3>Свидетельство о государственной регистрации индивидуального предпринимателя</h3>
                 await Html.RenderPartialAsync("Partial/PartialCertificate");
 
                 <h3>Юридический адрес</h3>
-                await Html.RenderPartialAsync("Partial/PartialPostalAddress");
+                await Html.RenderPartialAsync("Partial/PartialLegalAddress");
 
                 <h3>Почтовый адрес</h3>
                 await Html.RenderPartialAsync("Partial/PartialPostalAddress");
@@ -27,7 +28,14 @@
             <div class="form-group " style="text-align: end;">
                 <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
             </div>
-           
+
         </div>
     </form>
 </div>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

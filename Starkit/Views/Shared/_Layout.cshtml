@@ -23,7 +23,21 @@
                     </li>
                 </ul>
             </div>
-        </div>
+
+        <div class="login_group">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a href="#">Личный кабинет</a>
+                    <a asp-controller="Account" asp-action="Logout">Выход</a>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Login">Вход</a>
+                    <span>/</span>
+                    <a asp-controller="Account" asp-action="Register">Регистрация</a>
+                }
+            </div>
+             </div>
     </nav>
 </header>
 <div class="container">

@@ -82,4 +82,10 @@ body {
 .block-register{
   padding-top: 50px;
 }
-
+.field-validation-error{
+  color: red;
+  font-size: 13px;
+}
+.col-form-label{
+  font-size: 15px;
+}

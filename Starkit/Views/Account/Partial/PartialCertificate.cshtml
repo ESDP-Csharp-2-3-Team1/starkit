@@ -6,14 +6,16 @@
     </label>
     <div class="col-sm-9">
         <input type="text" class="form-control" asp-for="SurName">
+        <span asp-validation-for="SurName"></span>
     </div>
 </div>
 <div class="form-group row">
-    <label asp-for="UserName" class="col-sm-3 col-form-label">Имя:
+    <label asp-for="Name" class="col-sm-3 col-form-label">Имя:
         <span title="Обязательное поле" class="form-required">*</span>
     </label>
     <div class="col-sm-9">
-        <input type="text" class="form-control" asp-for="UserName">
+        <input type="text" class="form-control" asp-for="Name">
+        <span asp-validation-for="Name"></span>
     </div>
 </div>
 <div class="form-group row">
@@ -23,6 +25,7 @@
     </label>
     <div class="col-sm-9">
         <input type="text" class="form-control" asp-for="CompanyName">
+        <span asp-validation-for="CompanyName"></span>
     </div>
 </div>
 <div class="form-group row">
@@ -30,6 +33,7 @@
         <span title="Обязательное поле" class="form-required">*</span>
     </label>
     <div class="col-sm-9">
-        <input type="text" class="form-control" asp-for="IIN" placeholder="12 цифр">
+        <input type="number" class="form-control" asp-for="IIN" placeholder="12 цифр">
+        <span asp-validation-for="IIN"></span>
     </div>
 </div>
