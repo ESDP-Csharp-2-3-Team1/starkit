@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Starkit.Models;
 using Starkit.Models.Data;
+using Starkit.Services;
 
 namespace Starkit
 {
@@ -28,6 +29,7 @@ namespace Starkit
         public void ConfigureServices(IServiceCollection services)
         {
             string connection = Configuration.GetConnectionString("DefaultConnection");
+            services.AddTransient<UploadService>();
             services.AddDbContext<StarkitContext>(options => options.UseNpgsql(connection)
                     .UseLazyLoadingProxies())
                 .AddIdentity<User,IdentityRole>(options =>
@@ -38,7 +40,6 @@ namespace Starkit
                     options.Password.RequireUppercase = false; // требуются ли символы в верхнем регистре
                     options.Password.RequireDigit = false; // требуются ли цифры
                 })
-                
                 .AddEntityFrameworkStores<StarkitContext>();;
             services.AddControllersWithViews();
         }
