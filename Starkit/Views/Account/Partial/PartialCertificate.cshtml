@@ -1,0 +1,35 @@
+﻿@model Register
+
+<div class="form-group row">
+    <label asp-for="SurName" class="col-sm-3 col-form-label">Фамилия:
+        <span title="Обязательное поле" class="form-required">*</span>
+    </label>
+    <div class="col-sm-9">
+        <input type="text" class="form-control" asp-for="SurName">
+    </div>
+</div>
+<div class="form-group row">
+    <label asp-for="UserName" class="col-sm-3 col-form-label">Имя:
+        <span title="Обязательное поле" class="form-required">*</span>
+    </label>
+    <div class="col-sm-9">
+        <input type="text" class="form-control" asp-for="UserName">
+    </div>
+</div>
+<div class="form-group row">
+    <label asp-for="CompanyName" class="col-sm-3 col-form-label">
+        Название компании:
+        <span title="Обязательное поле" class="form-required">*</span>
+    </label>
+    <div class="col-sm-9">
+        <input type="text" class="form-control" asp-for="CompanyName">
+    </div>
+</div>
+<div class="form-group row">
+    <label asp-for="IIN" class="col-sm-3 col-form-label">ИИН:
+        <span title="Обязательное поле" class="form-required">*</span>
+    </label>
+    <div class="col-sm-9">
+        <input type="text" class="form-control" asp-for="IIN" placeholder="12 цифр">
+    </div>
+</div>

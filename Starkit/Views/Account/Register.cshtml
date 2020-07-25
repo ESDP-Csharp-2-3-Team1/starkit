@@ -1,0 +1,33 @@
+﻿@using System.Security.Cryptography
+@model Register
+
+@{
+    ViewBag.Title = "Регистрация";
+    Layout = "_Layout";
+}
+<div class="col-md-9 block-register">
+    <form>
+        <div class="client_form">
+            @{
+                <h3>Свидетельство о государственной регистрации индивидуального предпринимателя</h3>
+                await Html.RenderPartialAsync("Partial/PartialCertificate");
+
+                <h3>Юридический адрес</h3>
+                await Html.RenderPartialAsync("Partial/PartialPostalAddress");
+
+                <h3>Почтовый адрес</h3>
+                await Html.RenderPartialAsync("Partial/PartialPostalAddress");
+
+                <h3>Контактная информация</h3>
+                await Html.RenderPartialAsync("Partial/PartialContactInformation");
+
+                <h3>Информация для входа в личный кабинет</h3>
+                await Html.RenderPartialAsync("Partial/PartialInformationForAuthorization");
+            }
+            <div class="form-group " style="text-align: end;">
+                <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+            </div>
+           
+        </div>
+    </form>
+</div>

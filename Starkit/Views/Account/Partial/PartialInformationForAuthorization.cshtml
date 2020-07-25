@@ -1,0 +1,29 @@
+﻿@model Register
+
+<div class="form-group row">
+    <label asp-for="Login" class="col-sm-3 col-form-label">Логин:
+        <span title="Обязательное поле" class="form-required">*</span>
+    </label>
+    <div class="col-sm-9">
+        <input type="number" class="form-control" asp-for="Login" disabled>
+        <span style="color: silver;">
+            В качестве логина для личного кабинета используется ваш email из контактной информации.
+        </span>
+    </div>
+</div>
+<div class="form-group row">
+    <label asp-for="Password" class="col-sm-3 col-form-label">Пароль:
+        <span title="Обязательное поле" class="form-required">*</span>
+    </label>
+    <div class="col-sm-9">
+        <input class="form-control" asp-for="Password">
+    </div>
+</div>
+<div class="form-group row">
+    <label asp-for="ConfirmPassword" class="col-sm-3 col-form-label">Подтвердите пароль:
+        <span title="Обязательное поле" class="form-required">*</span>
+    </label>
+    <div class="col-sm-9">
+        <input class="form-control" asp-for="ConfirmPassword">
+    </div>
+</div>

@@ -1,0 +1,33 @@
+﻿@model Register
+<div class="form-group row">
+    <label asp-for="PostalAddress.Index" class="col-sm-3 col-form-label">Индекс:
+        <span title="Обязательное поле" class="form-required">*</span>
+    </label>
+    <div class="col-sm-9">
+        <input type="text" class="form-control" asp-for="PostalAddress.Index" placeholder="050000">
+    </div>
+</div>
+<div class="form-group row">
+    <label asp-for="PostalAddress.Region" class="col-sm-3 col-form-label">Область:
+        <span title="Обязательное поле" class="form-required">*</span>
+    </label>
+    <div class="col-sm-9">
+        <input type="text" class="form-control" asp-for="PostalAddress.Region">
+    </div>
+</div>
+<div class="form-group row">
+    <label asp-for="PostalAddress.City" class="col-sm-3 col-form-label">Область:
+        <span title="Обязательное поле" class="form-required">*</span>
+    </label>
+    <div class="col-sm-9">
+        <input type="text" class="form-control" asp-for="PostalAddress.City">
+    </div>
+</div>
+<div class="form-group row">
+    <label asp-for="PostalAddress.Address" class="col-sm-3 col-form-label">Адрес:
+        <span title="Обязательное поле" class="form-required">*</span>
+    </label>
+    <div class="col-sm-9">
+        <input type="text" class="form-control" asp-for="PostalAddress.Address">
+    </div>
+</div>
