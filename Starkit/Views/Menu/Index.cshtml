@@ -1,0 +1,47 @@
+﻿@model List<Dish>
+
+@{
+    ViewBag.Title = "Управление меню";
+    Layout = "_Layout";
+}
+
+<h2 class="text-menu">Меню</h2>
+<div style="overflow-x:auto;">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th style="vertical-align: middle; text-align: center" scope="col">Изображение</th>
+            <th style="vertical-align: middle; text-align: center" scope="col">Наименование</th>
+            <th style="vertical-align: middle; text-align: center" scope="col">Стоимость</th>
+            <th style="vertical-align: middle; text-align: center" scope="col">Описание</th>
+            <th style="vertical-align: middle; text-align: center" scope="col">ПП</th>
+            <th style="vertical-align: middle; text-align: center" scope="col">Вег</th>
+            <th style="vertical-align: middle; text-align: center" scope="col">Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+            @foreach (var dish in Model)
+            {
+                <tr>
+                    <td style="vertical-align: middle; text-align: center"><img src="~/@dish.Avatar" style="width: 50px; height: 50px" alt=""></td>
+                    <td style="vertical-align: middle; text-align: center">@dish.Name</td>
+                    <td style="vertical-align: middle; text-align: center">@dish.Cost</td>
+                    <td style="vertical-align: middle; text-align: center">@dish.Description</td>
+                    <td style="vertical-align: middle; text-align: center">
+                        @if (dish.ProperNutrition)
+                        {
+                            <img src="https://img.icons8.com/material-sharp/24/000000/check-all.png"/>
+                        }
+                    </td>
+                    <td style="vertical-align: middle ; text-align: center">
+                        @if (dish.Vegetarian)
+                        {
+                            <img src="https://img.icons8.com/material-sharp/24/000000/check-all.png"/>
+                        }
+                    </td>
+                    <td style="vertical-align: middle; text-align: center"></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -109,5 +109,8 @@ body {
   width: 40%;
   margin: auto;
 }
-
+.text-menu{
+  text-align: center;
+  margin: 50px 0 50px 0;
+}
 

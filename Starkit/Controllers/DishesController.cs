@@ -17,7 +17,7 @@ namespace Starkit.Controllers
         private StarkitContext _db;
         private IHostEnvironment _environment;
         private UploadService _uploadService;
-        public UserManager<User> _userManager { get; set; }
+        private UserManager<User> _userManager { get; set; }
 
         public DishesController(StarkitContext db, IHostEnvironment environment, UploadService uploadService, UserManager<User> userManager)
         {
