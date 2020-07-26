@@ -30,7 +30,31 @@ namespace Starkit.Controllers
 
         public IActionResult Login()
         {
-            return null;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(Login model)
+        {
+            if (ModelState.IsValid)
+            {
+                User user = await _db.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+                if (user != null)
+                {
+                    var result = await _signInManager.PasswordSignInAsync(
+                        user,
+                        model.Password,
+                        model.RememberMe,
+                        false
+                        );
+                    if (result.Succeeded)
+                        return RedirectToAction("Index", "Starkit");
+                    ModelState.AddModelError("","Неверный пароль пользователя");
+                }
+                else
+                    ModelState.AddModelError("","E-mail не зарегистрирован.");
+            }
+            return View(model);
         }
 
         public IActionResult Register()

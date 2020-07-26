@@ -99,5 +99,13 @@ body {
 .validationError{
   color: red;
 }
+#form-authorization{
+  border: 1px solid #e2e2e2;
+  padding: 27px;
+  border-radius: 2px;
+  width: 40%;
+  margin: auto;
+  
+}
 
 

@@ -1,0 +1,36 @@
+﻿@model Login
+
+@{
+    ViewBag.Title = "Авторизация";
+    Layout = "_Layout";
+}
+
+<h2 style="text-align: center;">Войти в личный кабинет</h2>
+
+<div class="block-authorization">
+    <form asp-action="Login" asp-controller="Account" method="post" id="form-authorization">
+        <div asp-validation-summary="ModelOnly"></div>
+        
+        <div class="form-group">
+            <input class="form-control" placeholder="Email" asp-for="Email">
+            <span asp-validation-for="Email"></span>
+        </div>
+        <div class="form-group">
+            <input class="form-control" placeholder="Пароль" asp-for="Password">
+            <span asp-validation-for="Password"></span>
+        </div>
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1" asp-for="RememberMe">
+            <label class="form-check-label" for="exampleCheck1">Запомнить меня</label>
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Войти">
+        </div>
+    </form>
+</div>
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
