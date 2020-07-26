@@ -19,8 +19,7 @@ namespace Starkit.Controllers
 
         public IActionResult Index()
         {
-            string id = _userManager.GetUserId(User);
-            return View(_db.Dishes.Where(d => d.UserId == id).ToList());
+            return View();
         }
     }
 }

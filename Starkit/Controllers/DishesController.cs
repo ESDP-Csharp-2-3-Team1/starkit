@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -115,6 +116,33 @@ namespace Starkit.Controllers
                 return RedirectToAction("Index", "Menu");
             }
             return View(model);
+        }
+
+        public async Task<IActionResult> GetDishes()
+        {
+            List<Dish> dishes = _db.Dishes.Where(d => d.UserId == _userManager.GetUserId(User)).ToList();
+            return PartialView("PartialViews/LIstDishPartialView", dishes);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(string[] ids)
+        {
+            List<Dish> dishes = new List<Dish>();
+            foreach (var id in ids)
+            {
+                dishes.Add(_db.Dishes.FirstOrDefault(d => d.Id == id));
+                string userId = _userManager.GetUserId(User);
+                string filePath = _environment.ContentRootPath + $"\\wwwroot\\images\\{userId}\\Dishes\\" + id; 
+                if (Directory.Exists(filePath))
+                    Directory.Delete(filePath, true);
+            }
+            if (dishes.Count == 1)
+                _db.Dishes.Remove(dishes[0]);
+            else
+                _db.Dishes.RemoveRange(dishes);
+            await _db.SaveChangesAsync();
+            dishes = _db.Dishes.Where(d => d.UserId == _userManager.GetUserId(User)).ToList();
+            return PartialView("PartialViews/LIstDishPartialView", dishes);
         }
     }
 }
