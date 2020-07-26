@@ -1,7 +1,7 @@
 ﻿@model Register
 
 <div class="form-group row">
-    <label asp-for="SurName" class="col-sm-3 col-form-label">Фамилия:
+    <label asp-for="SurName" class="col-sm-3 col-form-label register-label">Фамилия:
         <span title="Обязательное поле" class="form-required">*</span>
     </label>
     <div class="col-sm-9">
@@ -10,7 +10,7 @@
     </div>
 </div>
 <div class="form-group row">
-    <label asp-for="Name" class="col-sm-3 col-form-label">Имя:
+    <label asp-for="Name" class="col-sm-3 col-form-label register-label">Имя:
         <span title="Обязательное поле" class="form-required">*</span>
     </label>
     <div class="col-sm-9">
@@ -19,7 +19,7 @@
     </div>
 </div>
 <div class="form-group row">
-    <label asp-for="CompanyName" class="col-sm-3 col-form-label">
+    <label asp-for="CompanyName" class="col-sm-3 col-form-label register-label">
         Название компании:
         <span title="Обязательное поле" class="form-required">*</span>
     </label>
@@ -29,11 +29,11 @@
     </div>
 </div>
 <div class="form-group row">
-    <label asp-for="IIN" class="col-sm-3 col-form-label">ИИН:
+    <label asp-for="IIN" class="col-sm-3 col-form-label register-label">ИИН:
         <span title="Обязательное поле" class="form-required">*</span>
     </label>
     <div class="col-sm-9">
-        <input type="number" class="form-control" asp-for="IIN" placeholder="12 цифр">
+        <input type="number" maxlength="12" class="form-control"  asp-for="IIN" placeholder="12 цифр">
         <span asp-validation-for="IIN"></span>
     </div>
 </div>

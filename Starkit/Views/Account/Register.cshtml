@@ -17,14 +17,7 @@
                 <h3>Юридический адрес</h3>
                 await Html.RenderPartialAsync("Partial/PartialLegalAddress");
 
-                <h3>Почтовый адрес</h3>
-                <div class="form-group">
-                    <div class="col-sm-offset-3 padding-left-11">
-                        <a href="#" id="copy_to_postal_address" nowrap="">
-                            Скопировать из юридического адреса ↓
-                        </a>
-                    </div>
-                </div>
+                <h3 id="title-block-postal">Почтовый адрес </h3>
                 await Html.RenderPartialAsync("Partial/PartialPostalAddress");
 
                 <h3>Контактная информация</h3>
@@ -41,23 +34,31 @@
     </form>
 </div>
 
+
 @section Scripts
 {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     <script >
-            $('#copy_to_postal_address').click(function(event) {
-                event.preventDefault();
-                $('#Postal-index').val($('#Legal-index').val());
-                $('#Postal-region').val($('#Legal-region').val());
-                $('#Postal-city').val($('#Legal-city').val());
-                $('#Postal-address').val($('#Legal-address').val());
+            $(document).ready(function() {
+              $('#phoneNumber').mask("+7 (999) 999-9999");
+              $('#cityPhone').mask("+7 (727) 999-9999 (99999)");
+             
+              $('#copy_to_postal_address').click(function(event) {
+                              event.preventDefault();
+                              $('#Postal-index').val($('#Legal-index').val());
+                              $('#Postal-region').val($('#Legal-region').val());
+                              $('#Postal-city').val($('#Legal-city').val());
+                              $('#Postal-address').val($('#Legal-address').val());
+                          });
+                          
+               $("#Email").keyup(function () {
+                  $("#login").text($('#Email').val());
+               });
             })
+             
             
-           $("#Email").keyup(function () {
-             $("#login").text($('#Email').val());
-           });
         
     </script>
 }

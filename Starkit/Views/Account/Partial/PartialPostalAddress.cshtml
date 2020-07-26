@@ -1,6 +1,17 @@
 ﻿@model Register
+
+<div class="form-group" id="copy_to_postal_address-up">
+    <div class="col-sm-offset-3 padding-left-11">
+        <a href="#" id="copy_to_postal_address" nowrap="">
+            Скопировать из юридического адреса ↓
+        </a>
+    </div>
+</div>
+
+@* ------------------------------------------------ *@
+
 <div class="form-group row">
-    <label asp-for="PostalAddress.Index" class="col-sm-3 col-form-label">Индекс:
+    <label asp-for="PostalAddress.Index" class="col-sm-3 col-form-label register-label">Индекс:
         <span title="Обязательное поле" class="form-required">*</span>
     </label>
     <div class="col-sm-9">
@@ -9,14 +20,25 @@
         </div>
 </div>
 <div class="form-group row">
-    <label asp-for="PostalAddress.Region" class="col-sm-3 col-form-label">Область:
+    <label asp-for="PostalAddress.Index" class="col-sm-3 col-form-label register-label">
+        Страна:
+        <span title="Обязательное поле" class="form-required">*</span>
+    </label>
+    <div class="col-sm-9">
+        <select id="disabledSelect" class="form-control" disabled>
+            <option>Казахстан</option>
+        </select>
+    </div>
+</div>
+<div class="form-group row">
+    <label asp-for="PostalAddress.Region" class="col-sm-3 col-form-label register-label">Область:
     </label>
     <div class="col-sm-9">
         <input type="text" id="Postal-region" class="form-control" asp-for="PostalAddress.Region">
     </div>
 </div>
 <div class="form-group row">
-    <label asp-for="PostalAddress.City" class="col-sm-3 col-form-label">Город:
+    <label asp-for="PostalAddress.City" class="col-sm-3 col-form-label register-label">Город:
         <span title="Обязательное поле" class="form-required">*</span>
     </label>
     <div class="col-sm-9">
@@ -24,7 +46,7 @@
     </div>
 </div>
 <div class="form-group row">
-    <label asp-for="PostalAddress.Address" class="col-sm-3 col-form-label">Адрес:
+    <label asp-for="PostalAddress.Address" class="col-sm-3 col-form-label register-label">Адрес:
         <span title="Обязательное поле" class="form-required">*</span>
     </label>
     <div class="col-sm-9">

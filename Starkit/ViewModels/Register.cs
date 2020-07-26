@@ -20,6 +20,7 @@ namespace Starkit.ViewModels
         [Required(ErrorMessage = "Это поле необходимо заполнить.")]
         [MinLength(12,ErrorMessage = "Минимальная длина 12 символов.")]
         [MaxLength(12,ErrorMessage = "Максимальная длина 12 символов")]
+        
         public string IIN { get; set; }
         [Required(ErrorMessage = "Это поле необходимо заполнить.")]
         public string PhoneNumber { get; set; }
