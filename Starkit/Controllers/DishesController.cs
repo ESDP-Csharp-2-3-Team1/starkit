@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
@@ -16,12 +17,14 @@ namespace Starkit.Controllers
         private StarkitContext _db;
         private IHostEnvironment _environment;
         private UploadService _uploadService;
+        public UserManager<User> _userManager { get; set; }
 
-        public DishesController(StarkitContext db, IHostEnvironment environment, UploadService uploadService)
+        public DishesController(StarkitContext db, IHostEnvironment environment, UploadService uploadService, UserManager<User> userManager)
         {
             _db = db;
             _environment = environment;
             _uploadService = uploadService;
+            _userManager = userManager;
         }
 
         private string Load(string id, IFormFile file)
@@ -48,6 +51,7 @@ namespace Starkit.Controllers
         {
             if (ModelState.IsValid)
             {
+                dish.UserId = _userManager.GetUserId(User);
                 dish.Avatar = Load(dish.Id, dish.File);
                 _db.Entry(dish).State = EntityState.Added;
                 await _db.SaveChangesAsync();

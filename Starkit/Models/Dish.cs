@@ -35,6 +35,9 @@ namespace Starkit.Models
 
         public bool Vegetarian { get; set; }
 
+        public string UserId { get; set; }
+        public virtual User User { get; set; }
+
         [NotMapped]
         public List<Category> Categories { get; set; }
     }
