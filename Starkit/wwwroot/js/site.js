@@ -1,4 +1,16 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
+﻿function deleteDishes() {
+    var checkboxes = $("input:checkbox:checked");
+    let arr = [];
+    $.each(checkboxes, function (index, value) {
+       arr.push(value.id);
+    });
+        $.ajax({
+            url: "http://localhost:5000/Dishes/Delete",
+            type: "Delete",
+            data: {ids:arr},
+            success: function (data) {
+                $("#result").html(data);
+                $(".show").hide();
+            }
+        })
+}
