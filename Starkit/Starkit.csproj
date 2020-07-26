@@ -53,8 +53,4 @@
       <_ContentIncludedByDefault Remove="wwwroot\images\Dishes\bb521aff-6f73-49ea-80cb-c3c716630419\Без названия (1).jpg" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="wwwroot\images\Dishes" />
-    </ItemGroup>
-
 </Project>

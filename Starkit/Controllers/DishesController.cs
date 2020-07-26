@@ -31,7 +31,8 @@ namespace Starkit.Controllers
         
         private void DeleteDishAvatar(Dish dish)
         {
-            string filePath = _environment.ContentRootPath + "\\wwwroot\\images\\Dishes\\" + dish.Id; 
+            string userId = _userManager.GetUserId(User);
+            string filePath = _environment.ContentRootPath + $"\\wwwroot\\images\\{userId}\\Dishes\\" + dish.Id; 
             if (Directory.Exists(filePath))
             {
                 System.IO.File.Delete("wwwroot/" + dish.Avatar);
@@ -40,11 +41,12 @@ namespace Starkit.Controllers
 
         private string Load(string id, IFormFile file)
         {
-            string path = Path.Combine(_environment.ContentRootPath + $"\\wwwroot\\images\\Dishes\\{id}");
-            string photoPath = $"images/Dishes/{id}/{file.FileName}";
-            if (!Directory.Exists($"wwwroot/images/Dishes/{id}"))
+            string userId = _userManager.GetUserId(User);
+            string path = Path.Combine(_environment.ContentRootPath + $"\\wwwroot\\images\\{userId}\\Dishes\\{id}");
+            string photoPath = $"images/{userId}/Dishes/{id}/{file.FileName}";
+            if (!Directory.Exists($"wwwroot/images/{userId}/Dishes/{id}"))
             {
-                Directory.CreateDirectory($"wwwroot/images/Dishes/{id}");
+                Directory.CreateDirectory($"wwwroot/images/{userId}/Dishes/{id}");
             }
             _uploadService.Upload(path, file.FileName, file);
             return photoPath;
