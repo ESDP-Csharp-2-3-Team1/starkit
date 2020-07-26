@@ -5,6 +5,7 @@ namespace Starkit.Models
     public class PostalAddress
     {
         public int Id { get; set; }
+        [Required(ErrorMessage = "Это поле необходимо заполнить.")]
         public int Index { get; set; }
         public string Country { get; set; } = "Казахстан";
         public string Region { get; set; }

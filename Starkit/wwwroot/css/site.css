@@ -107,5 +107,15 @@ body {
   margin: auto;
   
 }
+.input-validation-error{
+  border: 1px solid red;
+}
+#login{
+  margin: 0;
+}
+
+#copy_to_postal_address{
+ 
+}
 
 

@@ -6,6 +6,7 @@
     Layout = "_Layout";
 }
 <div class="col-md-9 block-register">
+    <div asp-validation-summary="All"></div>
     <form asp-action="Register" asp-controller="Account" method="post">
         <div asp-validation-summary="ModelOnly"></div>
         <div class="client_form">
@@ -17,6 +18,13 @@
                 await Html.RenderPartialAsync("Partial/PartialLegalAddress");
 
                 <h3>Почтовый адрес</h3>
+                <div class="form-group">
+                    <div class="col-sm-offset-3 padding-left-11">
+                        <a href="#" id="copy_to_postal_address" nowrap="">
+                            Скопировать из юридического адреса ↓
+                        </a>
+                    </div>
+                </div>
                 await Html.RenderPartialAsync("Partial/PartialPostalAddress");
 
                 <h3>Контактная информация</h3>
@@ -38,4 +46,18 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script >
+            $('#copy_to_postal_address').click(function(event) {
+                event.preventDefault();
+                $('#Postal-index').val($('#Legal-index').val());
+                $('#Postal-region').val($('#Legal-region').val());
+                $('#Postal-city').val($('#Legal-city').val());
+                $('#Postal-address').val($('#Legal-address').val());
+            })
+            
+           $("#Email").keyup(function () {
+             $("#login").text($('#Email').val());
+           });
+        
+    </script>
 }

@@ -1,11 +1,11 @@
 ﻿@model Register
 
 <div class="form-group row">
-            <label asp-for="Email" class="col-sm-3 col-form-label">E-mail:
+            <label asp-for="Email"  class="col-sm-3 col-form-label">E-mail:
                 <span title="Обязательное поле" class="form-required">*</span>
             </label>
             <div class="col-sm-9">
-                <input class="form-control" asp-for="Email">
+                <input class="form-control" id="Email" asp-for="Email">
                 <span asp-validation-for="Email"></span>
             </div>
         </div>
