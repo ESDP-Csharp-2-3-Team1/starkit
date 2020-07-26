@@ -144,5 +144,23 @@ namespace Starkit.Controllers
             dishes = _db.Dishes.Where(d => d.UserId == _userManager.GetUserId(User)).ToList();
             return PartialView("PartialViews/LIstDishPartialView", dishes);
         }
+
+        [HttpPut]
+        public async Task<IActionResult> Hide(List<string> ids)
+        {
+            Dish dish = new Dish();
+            foreach (var id in ids)
+            {
+                dish = _db.Dishes.FirstOrDefault(d => d.Id == id);
+                if (dish.Visibility)
+                    dish.Visibility = false;
+                else
+                    dish.Visibility = true;
+                _db.Entry(dish).State = EntityState.Modified;
+            }
+            await _db.SaveChangesAsync();
+            return PartialView("PartialViews/LIstDishPartialView", 
+                _db.Dishes.Where(d => d.UserId == _userManager.GetUserId(User)).ToList());
+        }
     }
 }

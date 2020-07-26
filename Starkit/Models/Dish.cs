@@ -35,6 +35,8 @@ namespace Starkit.Models
 
         public bool Vegetarian { get; set; }
 
+        public bool Visibility { get; set; }
+
         public string UserId { get; set; }
         public virtual User User { get; set; }
 
