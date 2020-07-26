@@ -98,6 +98,9 @@ body {
 }
 .validationError{
   color: red;
+  margin-left: auto;
+  margin-right: 15px;
+  margin-top: 10px;
 }
 #form-authorization{
   border: 1px solid #e2e2e2;
@@ -116,7 +119,6 @@ body {
 .padding-left-11{
  text-align: end;
 }
-
 
 .text-menu{
   text-align: center;
