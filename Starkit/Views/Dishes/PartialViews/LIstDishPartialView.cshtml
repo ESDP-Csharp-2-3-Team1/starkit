@@ -11,19 +11,8 @@
         </td>
         <td style="vertical-align: middle; text-align: center">@dish.Name</td>
         <td style="vertical-align: middle; text-align: center">@dish.Cost</td>
-        <td style="vertical-align: middle; text-align: center">@dish.Description</td>
-        <td style="vertical-align: middle; text-align: center">
-            @if (dish.ProperNutrition)
-            {
-                <img src="https://img.icons8.com/material-sharp/24/000000/check-all.png"/>
-            }
-        </td>
-        <td style="vertical-align: middle ; text-align: center">
-            @if (dish.Vegetarian)
-            {
-                <img src="https://img.icons8.com/material-sharp/24/000000/check-all.png"/>
-            }
-        </td>
+        <td style="vertical-align: middle; text-align: center">@dish.AddTime</td>
+        <td style="vertical-align: middle ; text-align: center">@dish.EditTime</td>
         <td style="vertical-align: middle ; text-align: center">
             @if (dish.Visibility)
             {
@@ -31,7 +20,7 @@
             }
         </td>
         <td style="vertical-align: middle; text-align: center">
-            <a class="btn btn-dark" asp-action="Edit" asp-controller="Dishes" asp-route-id="@dish.Id">Редактировать</a>
+            <a style="margin-bottom: 10px" class="btn btn-dark" asp-action="Edit" asp-controller="Dishes"asp-route-id="@dish.Id">Редактировать</a>
             <a class="btn btn-dark" href="#">Добавить в акцию</a>
         </td>
     </tr>
