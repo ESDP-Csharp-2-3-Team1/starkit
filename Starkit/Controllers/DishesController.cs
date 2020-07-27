@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -68,6 +69,7 @@ namespace Starkit.Controllers
             {
                 dish.UserId = _userManager.GetUserId(User);
                 dish.Avatar = Load(dish.Id, dish.File);
+                dish.AddTime = DateTime.Now;
                 _db.Entry(dish).State = EntityState.Added;
                 await _db.SaveChangesAsync();
                 return RedirectToAction("Create");
@@ -90,6 +92,7 @@ namespace Starkit.Controllers
                 Calorie = dish.Calorie,
                 ProperNutrition = dish.ProperNutrition,
                 Vegetarian = dish.Vegetarian,
+                Ingredients = dish.Ingredients
             };
             return View(model);
         }
@@ -106,6 +109,8 @@ namespace Starkit.Controllers
                 dish.Calorie = model.Calorie;
                 dish.ProperNutrition = model.ProperNutrition;
                 dish.Vegetarian = model.Vegetarian;
+                dish.Ingredients = model.Ingredients;
+                dish.EditTime = DateTime.Now;
                 if (model.File != null)
                 {
                     DeleteDishAvatar(dish);

@@ -37,6 +37,13 @@ namespace Starkit.Models
 
         public bool Visibility { get; set; }
 
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
+        public string Ingredients { get; set; }
+
+        public DateTime AddTime { get; set; }
+
+        public DateTime? EditTime { get; set; }
+
         public string UserId { get; set; }
         public virtual User User { get; set; }
 
