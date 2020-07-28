@@ -44,8 +44,11 @@ namespace Starkit.Models
 
         public DateTime? EditTime { get; set; }
 
-        public string UserId { get; set; }
-        public virtual User User { get; set; }
+        public string CreatorId { get; set; }
+        public virtual User Creator { get; set; }
+
+        public string EditorId { get; set; }
+        public virtual User Editor { get; set; }
 
         [NotMapped]
         public List<Category> Categories { get; set; }

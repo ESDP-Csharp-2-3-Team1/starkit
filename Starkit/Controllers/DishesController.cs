@@ -67,7 +67,7 @@ namespace Starkit.Controllers
         {
             if (ModelState.IsValid)
             {
-                dish.UserId = _userManager.GetUserId(User);
+                dish.CreatorId = _userManager.GetUserId(User);
                 dish.Avatar = Load(dish.Id, dish.File);
                 dish.AddTime = DateTime.Now;
                 _db.Entry(dish).State = EntityState.Added;
@@ -111,6 +111,7 @@ namespace Starkit.Controllers
                 dish.Vegetarian = model.Vegetarian;
                 dish.Ingredients = model.Ingredients;
                 dish.EditTime = DateTime.Now;
+                dish.EditorId = _userManager.GetUserId(User);
                 if (model.File != null)
                 {
                     DeleteDishAvatar(dish);
@@ -125,7 +126,7 @@ namespace Starkit.Controllers
 
         public async Task<IActionResult> GetDishes()
         {
-            List<Dish> dishes = _db.Dishes.Where(d => d.UserId == _userManager.GetUserId(User)).ToList();
+            List<Dish> dishes = _db.Dishes.Where(d => d.CreatorId == _userManager.GetUserId(User)).ToList();
             return PartialView("PartialViews/LIstDishPartialView", dishes);
         }
 
@@ -146,7 +147,7 @@ namespace Starkit.Controllers
             else
                 _db.Dishes.RemoveRange(dishes);
             await _db.SaveChangesAsync();
-            dishes = _db.Dishes.Where(d => d.UserId == _userManager.GetUserId(User)).ToList();
+            dishes = _db.Dishes.Where(d => d.CreatorId == _userManager.GetUserId(User)).ToList();
             return PartialView("PartialViews/LIstDishPartialView", dishes);
         }
 
@@ -165,7 +166,7 @@ namespace Starkit.Controllers
             }
             await _db.SaveChangesAsync();
             return PartialView("PartialViews/LIstDishPartialView", 
-                _db.Dishes.Where(d => d.UserId == _userManager.GetUserId(User)).ToList());
+                _db.Dishes.Where(d => d.CreatorId == _userManager.GetUserId(User)).ToList());
         }
     }
 }
