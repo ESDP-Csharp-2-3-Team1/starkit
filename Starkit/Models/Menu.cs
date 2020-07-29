@@ -22,6 +22,9 @@ namespace Starkit.Models
 
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         public string Name { get; set; }
+
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
+        public decimal Cost { get; set; }
         
         [NotMapped]
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]

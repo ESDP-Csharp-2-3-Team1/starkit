@@ -48,6 +48,18 @@ namespace Starkit.Controllers
             return View();
         }
 
+        public IActionResult ListMenu()
+        {
+            List<Menu> menu = _db.Menu.Where(d => d.CreatorId == _userManager.GetUserId(User)).ToList();
+            return View(menu);
+        }
+
+        public IActionResult GetMenu()
+        {
+            List<Menu> menu = _db.Menu.Where(m => m.CreatorId == _userManager.GetUserId(User)).ToList();
+            return PartialView("PartialViews/ListMenuPartialView", menu);
+        }
+
         [Authorize]
         public IActionResult Create()
         {

@@ -1,0 +1,27 @@
+﻿@model List<Menu>
+
+@foreach (var menu in Model)
+{
+    <tr>
+        <td id="checkbox-td" style="vertical-align: middle; text-align: center">
+            <input type="checkbox" value="true" id="@menu.Id">
+        </td>
+        <td style="vertical-align: middle; text-align: center">
+            <img src="~/@menu.Avatar" style="width: 50px; height: 50px" alt="">
+        </td>
+        <td style="vertical-align: middle; text-align: center">@menu.Name</td>
+        <td style="vertical-align: middle; text-align: center">@menu.Cost</td>
+        <td style="vertical-align: middle; text-align: center">@menu.AddTime</td>
+        <td style="vertical-align: middle ; text-align: center">@menu.EditTime</td>
+        <td style="vertical-align: middle ; text-align: center">
+            @foreach (var menuDish in menu.MenuDishes)
+            {
+                <p>@menuDish.Dish.Name</p>
+            }
+        </td>
+        <td style="vertical-align: middle; text-align: center">
+            <a style="margin-bottom: 10px" class="btn btn-dark" asp-action="Edit" asp-controller="Dishes"asp-route-id="@menu.Id">Редактировать</a>
+            <a class="btn btn-dark" href="#">Добавить в акцию</a>
+        </td>
+    </tr>
+}
