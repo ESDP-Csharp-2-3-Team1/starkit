@@ -53,6 +53,12 @@ namespace Starkit.Controllers
             _uploadService.Upload(path, file.FileName, file);
             return photoPath;
         }
+        
+        [Authorize]
+        public IActionResult Index()
+        {
+            return View();
+        }
 
         [Authorize]
         [HttpGet]
@@ -72,7 +78,7 @@ namespace Starkit.Controllers
                 dish.AddTime = DateTime.Now;
                 _db.Entry(dish).State = EntityState.Added;
                 await _db.SaveChangesAsync();
-                return RedirectToAction("Create");
+                return RedirectToAction("Index");
             }
             return View(dish);
         }
@@ -119,7 +125,7 @@ namespace Starkit.Controllers
                 }
                 _db.Entry(dish).State = EntityState.Modified;
                 await _db.SaveChangesAsync();
-                return RedirectToAction("Index", "Menu");
+                return RedirectToAction("Index", "Dishes");
             }
             return View(model);
         }

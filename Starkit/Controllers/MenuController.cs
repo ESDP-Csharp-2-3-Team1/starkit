@@ -54,11 +54,6 @@ namespace Starkit.Controllers
             }
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         [Authorize]
         public IActionResult ListMenu()
         {
