@@ -24,7 +24,7 @@ namespace Starkit.Services
             using var client = new SmtpClient();
             
             await client.ConnectAsync("smtp.yandex.kz", 25, false);
-            await client.AuthenticateAsync("asdoomn@yandex.kz", ""); 
+            await client.AuthenticateAsync("asdoomn@yandex.kz", "");
             await client.SendAsync(emailMessage);
             await client.DisconnectAsync(true);
             

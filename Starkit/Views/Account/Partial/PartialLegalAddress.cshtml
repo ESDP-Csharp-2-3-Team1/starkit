@@ -4,7 +4,7 @@
         <span title="Обязательное поле" class="form-required">*</span>
     </label>
     <div class="col-sm-9">
-        <input type="number" id="Legal-index" class="form-control" asp-for="LegalAddress.Index" placeholder="050000">
+        <input type="text"  maxlength="6" id="Legal-index" class="form-control" asp-for="LegalAddress.Index" placeholder="050000">
         <span asp-validation-for="LegalAddress.Index"></span>
     </div>
 </div>

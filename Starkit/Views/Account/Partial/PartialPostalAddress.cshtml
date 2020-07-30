@@ -15,7 +15,7 @@
         <span title="Обязательное поле" class="form-required">*</span>
     </label>
     <div class="col-sm-9">
-        <input type="number" id="Postal-index" class="form-control" asp-for="PostalAddress.Index" placeholder="050000">
+        <input type="text"  maxlength="6" id="Postal-index" class="form-control" asp-for="PostalAddress.Index" placeholder="050000">
         <span asp-validation-for="PostalAddress.Index"></span>
         </div>
 </div>

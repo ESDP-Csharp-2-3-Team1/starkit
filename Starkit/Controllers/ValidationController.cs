@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -24,5 +25,13 @@ namespace Starkit.Controllers
         {
             return !await _db.Users.AnyAsync(u => u.Email == email);
         }
+
+        public bool CheckIIN(string IIN)
+        {
+            string pattern = "^[0-9]+$";
+            if (!Regex.IsMatch(IIN, pattern)) return false;
+            return true;
+        }
+       
     }
 }

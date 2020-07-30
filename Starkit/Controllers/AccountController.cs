@@ -97,22 +97,21 @@ namespace Starkit.Controllers
             }
             return View(model);
         }
-
         
-        // Требует доработки, незаконченный action
         [Authorize]
-        [HttpGet]
-        public async Task<IActionResult> ConfirmEmailAsync(string email)
+        public async Task<IActionResult> Confirm(string email)
         {
             if (email != null)
             {
                 User user = await _userManager.FindByEmailAsync(email);
                 if (user != null)
                 {
+                    if (user.EmailConfirmed)
+                        return View();
                     user.EmailConfirmed = true;
                     _db.Users.Update(user);
                     await _db.SaveChangesAsync();
-                    return null; // не готов 
+                    return View();
                 }
             }
             return NotFound();
