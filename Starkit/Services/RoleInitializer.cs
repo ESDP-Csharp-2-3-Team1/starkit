@@ -9,7 +9,7 @@ namespace Starkit.Services
         public static async Task Initialize(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
             
-            var roles = new[] { "admin","restaurateur","client"};
+            var roles = new[] { "admin","restaurateur","employee"};
             foreach (var role in roles)
             {
                 if (await roleManager.FindByNameAsync(role) is null)

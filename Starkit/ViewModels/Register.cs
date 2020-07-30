@@ -27,10 +27,12 @@ namespace Starkit.ViewModels
         public string CityPhone { get; set; }
         [Required(ErrorMessage = "Это поле необходимо заполнить.")]
         [DataType(DataType.Password)]
+        [MinLength(3,ErrorMessage = "Минимальная длина пароля 3 символа")]
         public string Password { get; set; }
         [Required(ErrorMessage = "Это поле необходимо заполнить.")]
         [DataType(DataType.Password)]
         [Compare("Password",ErrorMessage = "Пароли не совпадают.")]
+        [MinLength(3,ErrorMessage = "Минимальная длина пароля 3 символа")]
         public string ConfirmPassword { get; set; }
         public LegalAddress LegalAddress { get; set; }
         public PostalAddress PostalAddress { get; set; }
