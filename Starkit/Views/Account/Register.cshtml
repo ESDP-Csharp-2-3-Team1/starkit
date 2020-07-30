@@ -56,9 +56,21 @@
                $("#Email").keyup(function () {
                   $("#login").text($('#Email').val());
                });
-            })
-             
-            
-        
+               
+               $('body').on('click', '.password-control', function(){
+                                     	if ($('#inputPassword').attr('type') === 'password'){
+                                     		$('.password-control').addClass('view');
+                                     		$('#inputPassword').attr('type', 'text');
+                                     		$('#inputPassword2').attr('type', 'text');
+                                     	} else {
+                                     		$('.password-control').removeClass('view');
+                                     		$('#inputPassword').attr('type', 'password');
+                                     		$('#inputPassword2').attr('type', 'password');
+                                     	}
+                                     	return false;
+                                     });
+               
+            });
+      
     </script>
 }

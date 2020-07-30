@@ -381,4 +381,12 @@ body {
   background: url(../images/Login/eye.svg) 0 0 no-repeat;
 }
 /* end Views => Account => Login.cshtml*/
-
+.input-group-text-register{
+  padding-right: 20px;
+  padding-left: 20px;
+  
+}
+.password-control-register{
+  color: silver;
+  margin-right: 10px;
+}

@@ -15,7 +15,14 @@
         <span title="Обязательное поле" class="form-required">*</span>
     </label>
     <div class="col-sm-9">
-        <input class="form-control" asp-for="Password">
+        <div class="input-group">
+                    <input class="form-control" id="inputPassword" asp-for="Password">
+                    <div class="input-group-append ">
+                        <span class="input-group-text input-group-text-register">
+                            <a href="#" class="password-control password-control-register"></a>
+                        </span>
+                    </div>
+                </div>
         <span asp-validation-for="Password"></span>
     </div>
 </div>
@@ -24,7 +31,14 @@
         <span title="Обязательное поле" class="form-required">*</span>
     </label>
     <div class="col-sm-9">
-        <input class="form-control" asp-for="ConfirmPassword">
+        <div class="input-group">
+            <input class="form-control" id="inputPassword2" asp-for="ConfirmPassword">
+            <div class="input-group-append">
+                <span class="input-group-text input-group-text-register">
+                    <a href="#" class="password-control password-control-register "></a>
+                </span>
+            </div>
+        </div>
         <span asp-validation-for="ConfirmPassword"></span>
     </div>
 </div>
