@@ -144,7 +144,7 @@ namespace Starkit.Controllers
             if (category != null)
                 dishes = dishes.Where(d => d.CategoryId == category);
             if (!String.IsNullOrEmpty(name))
-                dishes = dishes.Where(d => d.Name.Contains(name));
+                dishes = dishes.Where(d => d.Name.ToLower().Contains(name.ToLower()));
 
             switch (sortOrder)
             {
