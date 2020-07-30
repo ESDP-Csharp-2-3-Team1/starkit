@@ -57,6 +57,11 @@
       <_ContentIncludedByDefault Remove="wwwroot\images\11b21dcd-97c9-437c-9e19-531c816c0fdb\Dishes\bf4f9c18-ccb6-48b2-846c-7b0b9c3719ff\Без названия (1).jpg" />
       <_ContentIncludedByDefault Remove="wwwroot\images\dda701d6-1335-4938-800c-252aba49b7c9\Dishes\802cc07f-aee7-455d-9065-f8bbb2fd14e7\Без названия (1).jpg" />
       <_ContentIncludedByDefault Remove="wwwroot\images\0ebbcf10-1257-4ef4-bbe9-bea4360b8eca\Dishes\0f65e951-1796-4be1-adab-0e94b85e61b6\Без названия.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\4dae26bf-330a-4259-a330-d2b702474cc0\Dishes\d29a5d5d-1ca5-4c93-9564-acdc27db0eb2\Без названия (1).jpg" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\images" />
     </ItemGroup>
 
 </Project>

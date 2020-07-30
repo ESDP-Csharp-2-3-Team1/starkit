@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Starkit.Models;
@@ -57,7 +58,10 @@ namespace Starkit.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            return View();
+            List<Category> categories = _db.Categories.ToList();
+            categories.Insert(0, new Category{Name = "Все", Id = null});
+            var selectList = new SelectList(categories, "Id", "Name");
+            return View(selectList);
         }
 
         [Authorize]
@@ -130,10 +134,69 @@ namespace Starkit.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> GetDishes()
+        public async Task<IActionResult> GetDishes(string category, string name, 
+            int page = 1, SortState sortOrder = SortState.AddTimeAsc)
         {
-            List<Dish> dishes = _db.Dishes.Where(d => d.CreatorId == _userManager.GetUserId(User)).ToList();
-            return PartialView("PartialViews/LIstDishPartialView", dishes);
+            int pageSize = 2;
+            
+            IQueryable<Dish> dishes = _db.Dishes.Where(d => d.CreatorId == _userManager.GetUserId(User));
+
+            if (category != null)
+                dishes = dishes.Where(d => d.CategoryId == category);
+            if (!String.IsNullOrEmpty(name))
+                dishes = dishes.Where(d => d.Name.Contains(name));
+
+            switch (sortOrder)
+            {
+                case SortState.NameDesc:
+                    dishes = dishes.OrderByDescending(d => d.Name);
+                    break;
+                case SortState.CostAsc:
+                    dishes = dishes.OrderBy(d => d.Cost);
+                    break;
+                case SortState.CostDesc:
+                    dishes = dishes.OrderByDescending(d => d.Cost);
+                    break;
+                case SortState.CategoryAsc:
+                    dishes = dishes.OrderBy(d => d.Category);
+                    break;
+                case SortState.CategoryDesc:
+                    dishes = dishes.OrderByDescending(d => d.Category);
+                    break;
+                case SortState.CalorieAsc:
+                    dishes = dishes.OrderBy(d => d.Calorie);
+                    break;
+                case SortState.CalorieDesc:
+                    dishes = dishes.OrderByDescending(d => d.Calorie);
+                    break;
+                case SortState.AddTimeAsc:
+                    dishes = dishes.OrderBy(d => d.AddTime);
+                    break;
+                case SortState.AddTimeDesc:
+                    dishes = dishes.OrderByDescending(d => d.AddTime);
+                    break;
+                default:
+                    dishes = dishes.OrderBy(d => d.Name);
+                    break;
+            }
+            
+            var count = await dishes.CountAsync();
+            var items = await dishes.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+
+            if (items.Count == 0 && page != 1)
+            {
+                page = page - 1;
+                items = await dishes.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();   
+            }
+
+            IndexViewModel viewModel = new IndexViewModel
+            {
+                PageViewModel = new PageViewModel(count, page, pageSize),
+                SortViewModel = new SortViewModel(sortOrder),
+                FilterViewModel = new FilterViewModel(_db.Categories.ToList(), category, name),
+                Dishes = items
+            };
+            return PartialView("PartialViews/LIstDishPartialView", viewModel);
         }
 
         [HttpDelete]
@@ -153,10 +216,9 @@ namespace Starkit.Controllers
             else
                 _db.Dishes.RemoveRange(dishes);
             await _db.SaveChangesAsync();
-            dishes = _db.Dishes.Where(d => d.CreatorId == _userManager.GetUserId(User)).ToList();
-            return PartialView("PartialViews/LIstDishPartialView", dishes);
+            return Json(true);
         }
-
+        
         [HttpPut]
         public async Task<IActionResult> Hide(List<string> ids)
         {
@@ -171,8 +233,7 @@ namespace Starkit.Controllers
                 _db.Entry(dish).State = EntityState.Modified;
             }
             await _db.SaveChangesAsync();
-            return PartialView("PartialViews/LIstDishPartialView", 
-                _db.Dishes.Where(d => d.CreatorId == _userManager.GetUserId(User)).ToList());
+            return Json(true);
         }
     }
 }
