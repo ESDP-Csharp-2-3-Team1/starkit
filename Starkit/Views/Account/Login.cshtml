@@ -22,7 +22,10 @@
          <div class="form-group">
              <div class="input-group">
                  <span class="input-group-addon"><i class="fa fa-lock ti-unlock"></i></span>
-                 <input class="form-control" placeholder="Пароль" asp-for="Password">
+                 <input id="inputPassword" class="form-control" placeholder="Пароль" asp-for="Password">
+                 <span class="input-group-addon">
+                     <a href="#" class="password-control"></a>
+                 </span>
              </div>
              <span asp-validation-for="Password"></span>
          </div>
@@ -70,5 +73,18 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    
+    <script>
+        $('body').on('click', '.password-control', function(){
+                if ($('#inputPassword').attr('type') === 'password'){
+                    $(this).addClass('view');
+                    $('#inputPassword').attr('type', 'text');
+                } else {
+                    $(this).removeClass('view');
+                    $('#inputPassword').attr('type', 'password');
+                }
+                return false;
+            });
+</script>
   
 }

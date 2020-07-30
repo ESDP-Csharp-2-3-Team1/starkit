@@ -367,5 +367,18 @@ body {
   padding: 6px 12px;
 }
 
+.password-control {
+  position: absolute;
+  top: 11px;
+  right: 1px;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url(../images/Login/no-eye.svg) 0 0 no-repeat;
+
+}
+.password-control.view {
+  background: url(../images/Login/eye.svg) 0 0 no-repeat;
+}
 /* end Views => Account => Login.cshtml*/
 
