@@ -1,0 +1,37 @@
+﻿@model List<Menu>
+
+@{
+    ViewBag.Title = "Список меню";
+    Layout = "_Layout";
+}
+
+<h2 class="text-menu">Список меню</h2>
+<a asp-action="Create" asp-controller="Menu">Добавить меню</a>
+<div style="overflow-x:auto;">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th></th>
+            <th style="vertical-align: middle; text-align: center" scope="col">Изображение</th>
+            <th style="vertical-align: middle; text-align: center" scope="col">Наименование</th>
+            <th style="vertical-align: middle; text-align: center" scope="col">Цена</th>
+            <th style="vertical-align: middle; text-align: center" scope="col">Время добавления</th>
+            <th style="vertical-align: middle; text-align: center" scope="col">Время редактирования</th>
+            <th style="vertical-align: middle; text-align: center" scope="col">Блюда в меню</th>
+            <th style="vertical-align: middle; text-align: center" scope="col">Действие</th>
+        </tr>
+        </thead>
+        <tbody id="result"></tbody>
+    </table>
+</div>
+@section Scripts
+{
+    <script>
+        $(document).ready(function() {
+            $.get('@Url.Action("GetMenu", "Menu")', function(data) {
+                $("#result").html(data);
+            })
+        })
+    </script>
+}
+

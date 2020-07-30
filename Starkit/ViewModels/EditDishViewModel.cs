@@ -28,5 +28,8 @@ namespace Starkit.ViewModels
         public bool ProperNutrition { get; set; }
         
         public bool Vegetarian { get; set; }
+        
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
+        public string Ingredients { get; set; }
     }
 }

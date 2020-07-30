@@ -1,0 +1,246 @@
+﻿@model SelectList
+
+@{
+    ViewBag.Title = "Управление меню";
+    Layout = "_Layout";
+}
+
+<h2 class="text-menu">Меню</h2>
+<form method="get" id="filter" asp-action="GetDishes" asp-controller="Dishes">
+    <div class="form-inline">
+        <label>Имя: </label>
+        <input id="searchName" name="name" class="form-control" />
+
+        <label>Компания: </label>
+        <select id="filterCategory" name="category" asp-items="@Model" class="form-control"></select>
+ 
+        <input type="submit" value="Фильтр" class="btn btn-outline-dark" />
+    </div>
+</form>
+<form method="get" id="sortOrder" asp-action="GetDishes" asp-controller="Dishes">
+    <label>Сортировать: </label>
+    <select id="sort-param" name="sortOrder">
+        <option id="sortName" value="NameAsc">По имени</option>
+        <option id="sortCost" value="CostAsc">По цене</option>
+        <option id="sortAddTime" value="AddTimeDesc">По дате создания</option>
+        <option id="sortCategory" value="CategoryAsc">По категорий</option>
+        <option id="sortCalorie" value="CalorieAsc">По калорий</option>
+    </select>
+    <input type="hidden" name="name" id="name">
+    <input type="hidden" name="category" id="category">
+    <input type="submit" value="Сортировка" class="btn btn-outline-dark" />
+</form>
+
+<div id="message">Не выбрано ни одного блюда</div>
+<button type="button" class="btn btn-dark" id="delete">Удалить выбранное</button>
+<button type="button" class="btn btn-dark" id="hide">Скрыть/Отображать выбранное</button>
+<div class="modal answer-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-body"><h5>Вы уверены?</h5></div>
+      <div class="modal-footer">
+          <button onclick="deleteDishes()" type="button" class="btn btn-primary button-delete">Удалить</button>
+          <button onclick="hideDishes()" type="button" class="btn btn-primary button-hide">Скрыть/Отображать</button>
+          <button type="button" class="btn btn-secondary" onclick="closeModal()">Закрыть</button> 
+      </div>
+    </div>
+  </div>
+</div>
+<div id="result">
+    
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function() {
+          $.get('@Url.Action("GetDishes", "Dishes")', function(data) {
+             $("#result").html(data);
+          })
+        });
+        
+        function deleteDishes() {
+            var checkboxes = $("input:checkbox:checked");
+            let arr = [];
+            $.each(checkboxes, function (index, value) {
+               arr.push(value.id);
+            });
+            $.ajax({
+                url: '@Url.Action("Delete", "Dishes")',
+                type: "Delete",
+                data: {ids:arr},
+                success: function (data) {
+                    if (data == true){
+                        $(".modal").hide();
+                        getDishes();
+                    }
+                }
+            });   
+        }
+            
+        $("#delete").click(function (event) {
+            event.preventDefault();
+            $(".button-delete").show();
+            $(".button-hide").hide();
+            var checkboxes = $("input:checkbox:checked");
+            if (checkboxes.length > 0){
+                $(".modal").show();
+                $("#message").hide();
+            }
+            else{
+                $("#message").show();
+            }
+        });
+        
+        function closeModal() {
+            $(".modal").hide();
+        }
+        
+        $("#hide").click(function (event) {
+            event.preventDefault();
+            $(".button-delete").hide();
+            $(".button-hide").show();
+            var checkboxes = $("input:checkbox:checked");
+            if (checkboxes.length > 0){
+                $(".modal").show();
+                $("#message").hide();
+            }
+            else{
+                $("#message").show();
+            }
+        });
+        
+        function hideDishes() {
+            var checkboxes = $("input:checkbox:checked");
+            let arr = [];
+            $.each(checkboxes, function (index, value) {
+                arr.push(value.id);
+            });
+            $.ajax({
+                url: '@Url.Action("Hide", "Dishes")',
+                type: "Put",
+                data: {ids:arr},
+                success: function (data) {
+                    if (data == true){
+                        $(".modal").hide();
+                        getDishes();
+                    }
+                }
+            });
+        }
+        
+        $('#filter').submit(function(e) {
+            e.preventDefault();
+            var form = $(this);
+            $.ajax({
+                type: form.attr("method"),
+                url: form.attr("action"),
+                data: form.serialize()
+            }).done(function(data) {
+                $("#result").html(data);
+                var category = $("#filterCategory").val();
+                var name = $("#searchName").val();
+                $("#category").val(category);
+                $("#name").val(name);
+            })
+        });
+        
+        $("#sortOrder").submit(function(e) {
+            e.preventDefault();
+            var form = $(this);
+            $.ajax({
+                type: form.attr("method"),
+                url: form.attr("action"),
+                data: form.serialize()
+            }).done(function(data) {
+                $("#result").html(data);
+                var sortParam = $("#sort-param").val();
+                var sortName = $("#sortName");
+                var sortCost = $("#sortCost");
+                var sortAddTime = $("#sortAddTime");
+                var sortCategory = $("#sortCategory");
+                var sortCalorie = $("#sortCalorie");
+                switch (sortParam) {
+                  case "NameAsc":
+                      sortName.val("NameDesc");
+                      break;
+                  case "NameDesc":
+                      sortName.val("NameAsc");
+                      break;
+                  case "CostAsc":
+                      sortCost.val("CostDesc");
+                      break;
+                  case "CostDesc":
+                      sortCost.val("CostAsc");
+                      break;
+                  case "AddTimeAsc":
+                      sortAddTime.val("AddTimeDesc");
+                      break;
+                  case "AddTimeDesc":
+                      sortAddTime.val("AddTimeAsc");
+                      break;
+                  case "CategoryAsc":
+                      sortCategory.val("CategoryDesc");
+                      break;
+                  case "CategoryDesc":
+                      sortCategory.val("CategoryAsc");
+                      break;
+                  case "CalorieAsc":
+                      sortCalorie.val("CalorieDesc");
+                      break;
+                  case "CalorieDesc":
+                      sortCalorie.val("CalorieAsc");
+                      break;
+                }
+            });
+        });
+        
+        function previousPage(page, name, category, sortOrder) {
+            $.ajax({
+                url: '@Url.Action("GetDishes", "Dishes")',
+                type: "GET",
+                data: {
+                    category: category,
+                    name: name,
+                    page: page,
+                    sortOrder: sortOrder
+                },
+                success: function(data) {
+                    $("#result").html(data);
+                }
+            })
+        }
+        
+        function nextPage(page, name, category, sortOrder) {
+            $.ajax({
+                url: '@Url.Action("GetDishes", "Dishes")',
+                type: "GET",
+                data: {
+                    category: category,
+                    name: name,
+                    page: page,
+                    sortOrder: sortOrder
+                },
+                success: function(data) {
+                    $("#result").html(data);
+                }
+            })
+        }
+        
+        function getDishes(){
+            $.ajax({
+                url: '@Url.Action("GetDishes", "Dishes")',
+                type: "GET",
+                data: {
+                    category: $("#modelCategory").val(),
+                    name: $("#modelName").val(),
+                    page: $("#modelPage").val(),
+                    sortOrder: $("#modelSort").val()        
+                },
+                success: function(data) {
+                    $("#result").html(data);  
+                }
+            });
+        }
+    </script>
+}

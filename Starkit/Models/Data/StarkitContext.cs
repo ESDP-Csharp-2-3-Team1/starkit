@@ -12,6 +12,8 @@ namespace Starkit.Models.Data
         public DbSet<LegalAddress> LegalAddresses { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Dish> Dishes { get; set; }
+        public DbSet<Menu> Menu { get; set; }
+        public DbSet<MenuDish> MenuDishes  { get; set; }
         
         public StarkitContext(DbContextOptions<StarkitContext> options) : base(options) {}
 
@@ -23,7 +25,9 @@ namespace Starkit.Models.Data
                 {
                     new Category{Id = Guid.NewGuid().ToString(), Name = "Первые блюда"}, 
                     new Category{Id = Guid.NewGuid().ToString(), Name = "Вторые блюда"}, 
+                    new Category{Id = Guid.NewGuid().ToString(), Name = "Салаты"}, 
                     new Category{Id = Guid.NewGuid().ToString(), Name = "Десерты"}, 
+                    new Category{Id = Guid.NewGuid().ToString(), Name = "Дополнительное"}, 
                     new Category{Id = Guid.NewGuid().ToString(), Name = "Напитки"} 
                 });
         }

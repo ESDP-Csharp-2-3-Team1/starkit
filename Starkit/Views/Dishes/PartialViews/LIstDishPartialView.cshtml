@@ -1,32 +1,72 @@
-﻿@model List<Dish>
+﻿@model IndexViewModel
+<input type="hidden" id="modelCategory" value="@Model.FilterViewModel.SelectedCategory">
+<input type="hidden" id="modelName" value="@Model.FilterViewModel.SelectedName">
+<input type="hidden" id="modelSort" value="@Model.SortViewModel.Current">
+<input type="hidden" id="modelPage" value="@Model.PageViewModel.PageNumber">
 
-@foreach (var dish in Model)
+<div style="overflow-x:auto;">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th></th>
+            <th style="vertical-align: middle; text-align: center" scope="col">Изображение</th>
+            <th style="vertical-align: middle; text-align: center" scope="col">Наименование</th>
+            <th style="vertical-align: middle; text-align: center" scope="col">Стоимость</th>
+            <th style="vertical-align: middle; text-align: center" scope="col">Время добавления</th>
+            <th style="vertical-align: middle; text-align: center" scope="col">Время редактирования</th>
+            <th style="vertical-align: middle; text-align: center" scope="col">Видимость</th>
+            <th style="vertical-align: middle; text-align: center" scope="col">Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+            @foreach (var dish in Model.Dishes)
+            {
+                <tr>
+                    <td id="checkbox-td" style="vertical-align: middle; text-align: center">
+                        <input type="checkbox" value="true" id="@dish.Id">
+                    </td>
+                    <td style="vertical-align: middle; text-align: center">
+                        <img src="~/@dish.Avatar" style="width: 50px; height: 50px" alt="">
+                    </td>
+                    <td style="vertical-align: middle; text-align: center">@dish.Name</td>
+                    <td style="vertical-align: middle; text-align: center">@dish.Cost</td>
+                    <td style="vertical-align: middle; text-align: center">@dish.AddTime</td>
+                    <td style="vertical-align: middle ; text-align: center">@dish.EditTime</td>
+                    <td style="vertical-align: middle ; text-align: center">
+                        @if (dish.Visibility)
+                        {
+                            <img src="https://img.icons8.com/material-sharp/24/000000/check-all.png"/>
+                        }
+                    </td>
+                    <td style="vertical-align: middle; text-align: center">
+                        <a style="margin-bottom: 10px" class="btn btn-dark" asp-action="Edit" asp-controller="Dishes"asp-route-id="@dish.Id">Редактировать</a>
+                        <a class="btn btn-dark" href="#">Добавить в акцию</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@if (Model.PageViewModel.HasPreviousPage)
 {
-    <tr>
-        <td id="checkbox-td" style="vertical-align: middle; text-align: center">
-            <input type="checkbox" value="true" id="@dish.Id">
-        </td>
-        <td style="vertical-align: middle; text-align: center">
-            <img src="~/@dish.Avatar" style="width: 50px; height: 50px" alt="">
-        </td>
-        <td style="vertical-align: middle; text-align: center">@dish.Name</td>
-        <td style="vertical-align: middle; text-align: center">@dish.Cost</td>
-        <td style="vertical-align: middle; text-align: center">@dish.Description</td>
-        <td style="vertical-align: middle; text-align: center">
-            @if (dish.ProperNutrition)
-            {
-                <img src="https://img.icons8.com/material-sharp/24/000000/check-all.png"/>
-            }
-        </td>
-        <td style="vertical-align: middle ; text-align: center">
-            @if (dish.Vegetarian)
-            {
-                <img src="https://img.icons8.com/material-sharp/24/000000/check-all.png"/>
-            }
-        </td>
-        <td style="vertical-align: middle; text-align: center">
-            <a class="btn btn-dark" asp-action="Edit" asp-controller="Dishes" asp-route-id="@dish.Id">Редактировать</a>
-            <a class="btn btn-dark" href="#">Добавить в акцию</a>
-        </td>
-    </tr>
+    <button class="btn btn-outline-dark" onclick="previousPage('@(Model.PageViewModel.PageNumber - 1)', 
+                '@(Model.FilterViewModel.SelectedName)',
+                '@(Model.FilterViewModel.SelectedCategory)',
+                '@(Model.SortViewModel.Current)')">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Назад
+    </button>
 }
+
+@if (Model.PageViewModel.HasNextPage)
+{
+    <button class="btn btn-outline-dark" onclick="nextPage('@(Model.PageViewModel.PageNumber + 1)', 
+                '@(Model.FilterViewModel.SelectedName)',
+                '@(Model.FilterViewModel.SelectedCategory)',
+                '@(Model.SortViewModel.Current)')">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </button>
+}
+
