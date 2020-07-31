@@ -292,7 +292,8 @@ body {
     transform:none;
     padding:30px 15px
   }
-  .login-block{padding:20px}}
+  .login-block{padding:20px}
+}
 .social-icons
 {
   padding-left:0;
@@ -395,4 +396,16 @@ body {
 }
 .validation-summary-errors ul{
   margin: 0;
+}
+.login-block-register{
+  margin-top: 50px;
+  background-color:#fff;
+  -webkit-box-shadow:0 3px 50px 0 rgba(0,0,0,.1);
+  box-shadow:0 3px 50px 0 rgba(0,0,0,.1);
+  border-radius:5px;
+  
+}
+.block-register{
+  margin: auto;
+  padding-bottom: 50px;
 }
