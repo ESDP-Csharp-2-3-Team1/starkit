@@ -390,3 +390,9 @@ body {
   color: silver;
   margin-right: 10px;
 }
+.validation-summary-errors{
+  color: red;
+}
+.validation-summary-errors ul{
+  margin: 0;
+}

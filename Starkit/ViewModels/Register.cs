@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Starkit.Models;
 
@@ -27,12 +28,13 @@ namespace Starkit.ViewModels
         public string CityPhone { get; set; }
         [Required(ErrorMessage = "Это поле необходимо заполнить.")]
         [DataType(DataType.Password)]
-        [MinLength(3,ErrorMessage = "Минимальная длина пароля 3 символа")]
+        [MinLength(6,ErrorMessage = "Пароль должен содержать не менее 8 символов.")]
+        
         public string Password { get; set; }
         [Required(ErrorMessage = "Это поле необходимо заполнить.")]
         [DataType(DataType.Password)]
         [Compare("Password",ErrorMessage = "Пароли не совпадают.")]
-        [MinLength(3,ErrorMessage = "Минимальная длина пароля 3 символа")]
+        [MinLength(6,ErrorMessage = "Пароль должен содержать не менее 8 символов.")]
         public string ConfirmPassword { get; set; }
         public LegalAddress LegalAddress { get; set; }
         public PostalAddress PostalAddress { get; set; }

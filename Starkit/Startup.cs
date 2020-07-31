@@ -28,17 +28,20 @@ namespace Starkit
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IPasswordValidator<User>, CustomPasswordValidator>(
+                server => new CustomPasswordValidator(8));
+            
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddTransient<UploadService>();
             services.AddDbContext<StarkitContext>(options => options.UseNpgsql(connection)
                     .UseLazyLoadingProxies())
                 .AddIdentity<User,IdentityRole>(options =>
                 {
-                    options.Password.RequiredLength = 3;   // минимальная длина
+                    options.Password.RequiredLength = 8;   // минимальная длина
                     options.Password.RequireNonAlphanumeric = false;   // требуются ли не алфавитно-цифровые символы
-                    options.Password.RequireLowercase = false; // требуются ли символы в нижнем регистре
-                    options.Password.RequireUppercase = false; // требуются ли символы в верхнем регистре
-                    options.Password.RequireDigit = false; // требуются ли цифры
+                    options.Password.RequireLowercase = true; // требуются ли символы в нижнем регистре
+                    options.Password.RequireUppercase = true; // требуются ли символы в верхнем регистре
+                    options.Password.RequireDigit = true; // требуются ли цифры
                 })
                 .AddEntityFrameworkStores<StarkitContext>();;
             services.AddControllersWithViews();

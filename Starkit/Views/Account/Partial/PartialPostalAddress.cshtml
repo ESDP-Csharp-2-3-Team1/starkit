@@ -20,7 +20,7 @@
         </div>
 </div>
 <div class="form-group row">
-    <label asp-for="PostalAddress.Index" class="col-sm-3 col-form-label register-label">
+    <label asp-for="PostalAddress.Country" class="col-sm-3 col-form-label register-label">
         Страна:
         <span title="Обязательное поле" class="form-required">*</span>
     </label>
@@ -39,7 +39,6 @@
 </div>
 <div class="form-group row">
     <label asp-for="PostalAddress.City" class="col-sm-3 col-form-label register-label">Город:
-        <span title="Обязательное поле" class="form-required">*</span>
     </label>
     <div class="col-sm-9">
         <input type="text" id="Postal-city" class="form-control" asp-for="PostalAddress.City">
