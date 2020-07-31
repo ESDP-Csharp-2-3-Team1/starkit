@@ -9,5 +9,6 @@ namespace Starkit.Models
         public string CompanyName { get; set; }
         public string IIN { get; set; }
         public string CityPhone { get; set; }
+        public string AvatarPath { get; set; }
     }
 }

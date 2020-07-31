@@ -1,5 +1,8 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
+/*body{*/
+/*  background: #f5f9fa;*/
+/*}*/
 
 a.navbar-brand {
   white-space: normal;
@@ -409,3 +412,50 @@ body {
   margin: auto;
   padding-bottom: 50px;
 }
+/* start Views => Users => Index.cshtml*/
+.block-user input{
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid #95a9b2 ;
+  background: none;
+  padding-left: 0;
+
+}
+.block-user input:disabled{
+  background: none;
+}
+.user-form label{
+  color: #95a9b2;
+  margin: 0;
+  font-size: 14px;
+}
+.user-avatar{
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  min-width: 200px;
+  max-width: 200px;
+  max-height: 200px;
+  min-height: 200px;
+
+}
+
+.block-user{
+  margin-top: 50px;
+  background-color:#fff;
+  -webkit-box-shadow:0 3px 50px 0 rgba(0,0,0,.1);
+  box-shadow:0 3px 50px 0 rgba(0,0,0,.1);
+  border-radius:5px;
+  padding: 50px;
+  
+}
+.user-form{
+  display: grid;
+  grid-template-columns: 25% 75%;
+}
+.user-box-2{
+  margin-top: 25px;
+}
+
+/* end Views => Users => Index.cshtml*/
+

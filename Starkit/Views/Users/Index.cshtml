@@ -1,0 +1,68 @@
+﻿@model Register
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+
+<div class="block-user">
+    <form class="user-form">
+        <div class="user-box-1">
+            <img class="user-avatar" src="~/images/error/none.png" alt="">
+        </div>
+        <div class="user-box-2">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="Name">Имя:</label>
+                    <input id="name" type="text" asp-for="Name" class="form-control" value="@ViewBag.User.Name" disabled>
+                    <span asp-validation-for="Name"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="IIN">ИИН:</label>
+                    <input type="text" maxlength="12" asp-for="IIN" class="form-control" value="@ViewBag.User.IIN" disabled>
+                    <span asp-validation-for="IIN"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="SurName">Фамилия:</label>
+                    <input type="text" class="form-control" value="@ViewBag.User.SurName" disabled>
+                    <span asp-validation-for="SurName"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Email">Email:</label>
+                    <input asp-for="Email" class="form-control" value="@ViewBag.User.Email" disabled>
+                    <span asp-validation-for="Email"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="CompanyName">Название компании:</label>
+                    <input type="text" class="form-control" value="@ViewBag.User.CompanyName" disabled>
+                    <span asp-validation-for="CompanyName"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="PhoneNumber">Номер телефона:</label>
+                    <input type="text" class="form-control" value="@ViewBag.User.PhoneNumber" disabled>
+                    <span asp-validation-for="PhoneNumber"></span>
+                </div>
+
+            </div>
+            <a id="user-form-edit-btn" class="btn-primary btn" onclick="edit()">Редактировать</a>
+            <button type="submit" id="user-form-submit-btn"  class="btn-primary btn" onclick="edit()" style="display: none;">Сохранить изменения</button>
+        </div>
+        
+    </form>
+</div>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script >
+        function edit(event){
+          
+            $('#user-form-edit-btn').hide();
+            $('#user-form-submit-btn').show();
+            $('#name').prop('disabled', false);
+        }
+    </script>
+}

@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - Starkit</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <link rel="stylesheet" href="~/css/site.css"/>
     
 </head>
@@ -38,7 +39,8 @@
         <div class="login_group">
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <a href="#">Личный кабинет</a>
+                    <a asp-action="Index" asp-controller="Users">Личный кабинет</a>
+                    <span>/</span>
                     <a asp-controller="Account" asp-action="Logout">Выход</a>
                 }
                 else
