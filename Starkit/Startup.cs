@@ -45,6 +45,8 @@ namespace Starkit
                 })
                 .AddEntityFrameworkStores<StarkitContext>();;
             services.AddControllersWithViews();
+            services.Configure<AppOptions>(Configuration);
+            services.AddSingleton<IRecaptchaService, GoogleRecaptchaService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
