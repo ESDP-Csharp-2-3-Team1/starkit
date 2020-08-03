@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -16,19 +15,22 @@ namespace Starkit.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly IRecaptchaService _recaptcha;
         public UserManager<User> _userManager { get; set; }
         public RoleManager<IdentityRole> _roleManager { get; set; }
         public SignInManager<User> _signInManager { get; set; }
         public StarkitContext _db { get; set; }
         public IHostEnvironment _environment { get; set; }
+        
 
-        public AccountController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, SignInManager<User> signInManager, StarkitContext db, IHostEnvironment environment)
+        public AccountController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, SignInManager<User> signInManager, StarkitContext db, IHostEnvironment environment, IRecaptchaService recaptcha)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
             _db = db;
             _environment = environment;
+            _recaptcha = recaptcha;
         }
 
         // GET
@@ -67,6 +69,13 @@ namespace Starkit.Controllers
         {
             if(ModelState.IsValid)
             {
+                var captchaResponse = await _recaptcha.Validate(Request.Form);
+                if (!captchaResponse.Success)
+                {
+                    ModelState.AddModelError("reCaptchaError", 
+                        "Ошибка проверки reCAPTCHA. Попробуйте еще раз.");
+                    return View(model);
+                }
                 User newUser = new User
                 {
                     UserName =  model.Email,
@@ -116,9 +125,7 @@ namespace Starkit.Controllers
             }
             return NotFound();
         }
-        
-        
-        
+
         [NonAction]
         private async Task SendConfirmationEmailAsync(string email)
         {

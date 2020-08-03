@@ -459,3 +459,7 @@ body {
 
 /* end Views => Users => Index.cshtml*/
 
+.g-recaptcha{
+  width: 304px;
+  margin-bottom: 30px;
+}
