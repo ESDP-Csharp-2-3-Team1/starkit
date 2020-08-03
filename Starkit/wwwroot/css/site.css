@@ -459,7 +459,14 @@ body {
 
 /* end Views => Users => Index.cshtml*/
 
-.g-recaptcha{
+.block-register .g-recaptcha{
   width: 304px;
   margin-bottom: 30px;
+}
+.block-register .ml-auto{
+  margin-bottom: 5px;
+}
+.block-register .block-message-error-recaptcha{
+  text-align: end;
+  padding-bottom: 20px;
 }
