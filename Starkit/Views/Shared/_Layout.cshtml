@@ -14,19 +14,28 @@
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom  my-navbar-style">
         <div class="container">
-            <a class="navbar-brand" asp-area="" asp-controller="Starkit" asp-action="Index">Starkit</a>
+            <a class="navbar-brand my-navbar-brand-n1" asp-area="" asp-controller="Starkit" asp-action="Index">Starkit</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                <ul class="navbar-nav flex-grow-1 justify-content-end">
+                <ul class="navbar-nav flex-grow-1 justify-content-end my-navbar-nav-n1">
                     <li class="nav-item">
-                        <a asp-controller="Account" asp-action="Login">Вход </a>
+                        <a href="#" class="link1">Связаться с нами</a>
                     </li>
-                    <span>/</span>
                     <li class="nav-item">
-                        <a asp-controller="Account" asp-action="Register"> Регистрация</a>
+                        <a href="#" class="basket-link">
+                            <img src="~/images/etc/basket.png" alt="">
+                            <span> 0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="link2" asp-controller="Account" asp-action="Login">Вход </a>
+                    </li>
+                    <span class="space">/</span>
+                    <li class="nav-item">
+                        <a class="link2" asp-controller="Account" asp-action="Register"> Регистрация</a>
                     </li>
                 </ul>
             </div>
