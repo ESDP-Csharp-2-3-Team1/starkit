@@ -39,12 +39,30 @@
                     </li>
                 </ul>
             </div>
-            
-             </div>
+
+        </div>
     </nav>
-     @{
-            await Html.RenderPartialAsync("Partial/_PartialLayout");
-        }
+    @{
+        await Html.RenderPartialAsync("Partial/_PartialLayout");
+    }
+    @* start Временный navbar *@
+    <div class="temporary-navbar" style="position: absolute;margin-left: 50px">
+        <div class="row">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Dishes" asp-action="Create">Добавить блюдо</a>
+                </li>
+                <li class="list-group-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Create">Добавить категорию</a>
+                </li>
+                <li class="list-group-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Dishes" asp-action="Index">Список блюд</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    @* end Временный navbar *@
+
 </header>
 <div class="container">
     <main role="main" class="pb-3">
