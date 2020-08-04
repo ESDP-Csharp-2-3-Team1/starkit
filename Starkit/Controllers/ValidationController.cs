@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -32,6 +34,11 @@ namespace Starkit.Controllers
             if (!Regex.IsMatch(IIN, pattern)) return false;
             return true;
         }
-       
+
+        public bool CheckNameCategory(string name)
+        {
+            return !_db.Categories.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim() 
+                                            && c.UserId == _userManager.GetUserId(User));
+        }
     }
 }

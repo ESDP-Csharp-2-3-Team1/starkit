@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Starkit.Models
 {
@@ -11,6 +12,7 @@ namespace Starkit.Models
         public virtual List<Dish> Dishes { get; set; }
 
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
+        [Remote("CheckNameCategory", "Validation", ErrorMessage = "Такая категория уже существует")]
         public string Name { get; set; }
 
         public string UserId { get; set; }
