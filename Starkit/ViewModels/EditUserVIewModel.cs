@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
+using Starkit.Models;
 
 namespace Starkit.ViewModels
 {
@@ -13,17 +14,19 @@ namespace Starkit.ViewModels
         public string IIN { get; set; }
         public string PhoneNumber { get; set; }
         public string CityPhone { get; set; }
+
         [Required(ErrorMessage = "Это поле необходимо заполнить.")]
         [DataType(DataType.Password)]
         [Remote("CheckOldPassword", "Validation", ErrorMessage = "Введите старый пароль")]
         public string OldPassword { get; set; }
         [Required(ErrorMessage = "Это поле необходимо заполнить.")]
         [DataType(DataType.Password)]
+        [Remote("ComparePasswords", "Validation", ErrorMessage = "Новый пароль должен отличаться от старого.", AdditionalFields = "OldPassword")]
         [MinLength(8,ErrorMessage = "Пароль должен содержать не менее 8 символов.")]
         public string NewPassword { get; set; }
         [Required(ErrorMessage = "Это поле необходимо заполнить.")]
         [DataType(DataType.Password)]
-        [Compare("NewPassword",ErrorMessage = "Пароли не совпадают.")]
+        [Compare("NewPassword", ErrorMessage = "Пароли не совпадают.")]
         [MinLength(8,ErrorMessage = "Пароль должен содержать не менее 8 символов.")]
         public string ConfirmPassword { get; set; }
     }

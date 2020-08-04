@@ -32,6 +32,17 @@ namespace Starkit.Controllers
             if (!Regex.IsMatch(IIN, pattern)) return false;
             return true;
         }
-       
+        public async Task<bool>CheckOldPassword(string oldPassword)
+        {
+            User user = _userManager.GetUserAsync(User).Result;
+            var result = await _userManager.CheckPasswordAsync(user, oldPassword);
+            if (result) return true;
+            return false;
+        }
+        public bool ComparePasswords(string oldPassword, string newPassword)
+        {
+            if (oldPassword == newPassword) return false;
+            return true;
+        }
     }
 }
