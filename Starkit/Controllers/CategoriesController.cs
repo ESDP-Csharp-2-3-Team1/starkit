@@ -24,8 +24,13 @@ namespace Starkit.Controllers
         [Authorize]
         public IActionResult Index()
         {
+            return View();
+        }
+
+        public IActionResult GetCategories()
+        {
             List<Category> categories =_db.Categories.Where(c => c.UserId == _userManager.GetUserId(User)).ToList();
-            return View(categories);
+            return PartialView("PartialViews/ListCategoryPartialView", categories);
         }
 
         [Authorize]
@@ -46,6 +51,16 @@ namespace Starkit.Controllers
                 return RedirectToAction("Index");
             }
             return View(category);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(string id)
+        {
+            Category category = new Category{Id = id};
+            _db.Entry(category).State = EntityState.Deleted;
+            await _db.SaveChangesAsync();
+            List<Category> categories = _db.Categories.Where(c => c.UserId == _userManager.GetUserId(User)).ToList();
+            return PartialView("PartialViews/ListCategoryPartialView", categories);
         }
     }
 }

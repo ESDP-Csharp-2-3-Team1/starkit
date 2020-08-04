@@ -1,10 +1,19 @@
-﻿@model List<Category>
-
-@{
+﻿@{
     ViewBag.Title = "Спсиок категорий";
     Layout = "_Layout";
 }
 
+<div class="modal answer-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body"><h5>Вы уверены?</h5></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary deleteCategory">Удалить</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">Закрыть</button> 
+            </div>
+        </div>
+    </div>
+</div>
 <h2 class="text-categories">Список категорий</h2>
 <div style="overflow-x:auto;">
     <table class="table table-bordered">
@@ -15,20 +24,45 @@
             <th>Действие</th>
         </tr>
         </thead>
-        @if (Model.Count != 0)
-        {
-            @foreach (var category in Model)
-            {
-                <tr>
-                    <td>@category.Id</td>
-                    <td>@category.Name</td>
-                    <td>
-                        <button type="button" class="btn btn-danger" id="delete">Удалить</button>
-                        <a href="#">Редактировать</a>
-                    </td>
-                </tr>
-            }
-        }
+        <tbody id="result">
+            
+        </tbody>
     </table>
 </div>
-
+@section Scripts
+{
+    <script>
+        $(document).ready(function() {
+          $.get('@Url.Action("GetCategories", "Categories")', function(data) {
+                $("#result").html(data);
+          })
+        });
+        
+        var deleteCategory = $(".deleteCategory");
+        
+        function openModal(id) {
+            $(".modal").show();
+            $(deleteCategory).attr("id", id);
+        }
+          
+        function closeModal() {
+            $(".modal").hide();
+        }
+        
+        $(deleteCategory).click(function (event) {
+            event.preventDefault();
+            var id = deleteCategory.attr("id");
+            $.ajax({
+                url: '@Url.Action("Delete", "Categories")',
+                type: "Delete",
+                data: {
+                    id: id
+                },
+                success: function(data) {
+                  $(".modal").hide();
+                  $("#result").html(data);
+                }
+            })
+        });
+    </script>
+}
