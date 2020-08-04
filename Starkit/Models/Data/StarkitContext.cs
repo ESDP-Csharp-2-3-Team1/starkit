@@ -16,20 +16,5 @@ namespace Starkit.Models.Data
         public DbSet<MenuDish> MenuDishes  { get; set; }
         
         public StarkitContext(DbContextOptions<StarkitContext> options) : base(options) {}
-
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
-            builder.Entity<Category>().HasData(
-                new Category[]
-                {
-                    new Category{Id = Guid.NewGuid().ToString(), Name = "Первые блюда"}, 
-                    new Category{Id = Guid.NewGuid().ToString(), Name = "Вторые блюда"}, 
-                    new Category{Id = Guid.NewGuid().ToString(), Name = "Салаты"}, 
-                    new Category{Id = Guid.NewGuid().ToString(), Name = "Десерты"}, 
-                    new Category{Id = Guid.NewGuid().ToString(), Name = "Дополнительное"}, 
-                    new Category{Id = Guid.NewGuid().ToString(), Name = "Напитки"} 
-                });
-        }
     }
 }
