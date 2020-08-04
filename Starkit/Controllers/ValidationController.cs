@@ -35,10 +35,15 @@ namespace Starkit.Controllers
             return true;
         }
 
-        public bool CheckNameCategory(string name)
+        public bool CheckNameCategory(string name, string id)
         {
-            return !_db.Categories.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim() 
-                                            && c.UserId == _userManager.GetUserId(User));
+            if (id == null)
+                return !_db.Categories.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim() 
+                                                && c.UserId == _userManager.GetUserId(User));
+            
+            List<Category> categories = _db.Categories.Where(c => c.Id != id && 
+                                                                  c.UserId == _userManager.GetUserId(User)).ToList();
+            return !categories.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim());
         }
     }
 }

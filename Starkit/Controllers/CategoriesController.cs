@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Starkit.Models;
 using Starkit.Models.Data;
+using Starkit.ViewModels;
 
 namespace Starkit.Controllers
 {
@@ -46,6 +48,7 @@ namespace Starkit.Controllers
             if (ModelState.IsValid)
             {
                 category.UserId = _userManager.GetUserId(User);
+                category.CreateTime = DateTime.Now;
                 _db.Entry(category).State = EntityState.Added;
                 await _db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -61,6 +64,31 @@ namespace Starkit.Controllers
             await _db.SaveChangesAsync();
             List<Category> categories = _db.Categories.Where(c => c.UserId == _userManager.GetUserId(User)).ToList();
             return PartialView("PartialViews/ListCategoryPartialView", categories);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult Edit(string id)
+        {
+            Category category = _db.Categories.FirstOrDefault(c => c.Id == id);
+            EditCategoryViewModel model = new EditCategoryViewModel{Id = id, Name = category.Name};
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditCategoryViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Category category = _db.Categories.FirstOrDefault(c => c.Id == model.Id);
+                if (model.Name != category.Name)
+                    category.EditedTime = DateTime.Now;
+                category.Name = model.Name;
+                _db.Entry(category).State = EntityState.Modified;
+                await _db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            return View(model);
         }
     }
 }

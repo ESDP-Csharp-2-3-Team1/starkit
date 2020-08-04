@@ -7,9 +7,11 @@
         <tr>
             <td>@category.Id</td>
             <td>@category.Name</td>
+            <td>@category.CreateTime</td>
+            <td>@category.EditedTime</td>
             <td>
                 <button type="button" class="btn btn-danger" onclick="openModal('@category.Id')">Удалить</button>
-                <a href="#">Редактировать</a>
+                <a class="btn btn-primary" asp-action="Edit" asp-route-id="@category.Id">Редактировать</a>
             </td>
         </tr>
     }   
