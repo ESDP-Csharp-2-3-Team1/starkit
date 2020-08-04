@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -43,6 +45,7 @@ namespace Starkit.Controllers
                                                                   c.UserId == _userManager.GetUserId(User)).ToList();
             return !categories.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim());
         }
+        
         public async Task<bool>CheckOldPassword(string oldPassword)
         {
             User user = _userManager.GetUserAsync(User).Result;
@@ -50,6 +53,7 @@ namespace Starkit.Controllers
             if (result) return true;
             return false;
         }
+        
         public bool ComparePasswords(string oldPassword, string newPassword)
         {
             if (oldPassword == newPassword) return false;
