@@ -10,5 +10,6 @@ namespace Starkit.Models
         public string IIN { get; set; }
         public string CityPhone { get; set; }
         public string AvatarPath { get; set; }
+        public bool IsTermsAccepted { get; set; }
     }
 }

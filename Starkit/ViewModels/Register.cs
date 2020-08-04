@@ -36,6 +36,10 @@ namespace Starkit.ViewModels
         [Compare("Password",ErrorMessage = "Пароли не совпадают.")]
         [MinLength(6,ErrorMessage = "Пароль должен содержать не менее 8 символов.")]
         public string ConfirmPassword { get; set; }
+
+        public bool IsTrue { get; set; } = true;
+        [Compare("IsTrue", ErrorMessage = "Необходимо принять условия пользования сайтом.")]
+        public bool IsTermsAccepted { get; set; }
         public LegalAddress LegalAddress { get; set; }
         public PostalAddress PostalAddress { get; set; }
     }
