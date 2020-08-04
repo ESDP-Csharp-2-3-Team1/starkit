@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -87,9 +89,10 @@ namespace Starkit.Controllers
                     CompanyName = model.CompanyName,
                     IIN = model.IIN
                 };
+                
                 model.PostalAddress.UserId = newUser.Id;
                 model.LegalAddress.UserId = newUser.Id;
-                
+
                 var result = await _userManager.CreateAsync(newUser, model.Password);
                 if (result.Succeeded)
                 {
@@ -97,6 +100,7 @@ namespace Starkit.Controllers
                     await _signInManager.SignInAsync(newUser, false);
                     await _db.LegalAddresses.AddAsync(model.LegalAddress);
                     await _db.PostalAddresses.AddAsync(model.PostalAddress);
+                    _db.SaveChanges();
                     // await SendConfirmationEmailAsync(model.Email);      // Функционал подтверждение электронного адреса. Осталось доработать шаблон письма добавив информацию о пользователе. 
                     return RedirectToAction("Index", "Starkit");
                 }
@@ -144,6 +148,35 @@ namespace Starkit.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login","Account");
+        }
+
+        
+
+        
+        
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> ChangePassword(string id, string oldPassword, string newPassword)
+        {
+            User user = _userManager.FindByIdAsync(id).Result;
+                
+                if (user != null)
+                {
+                    EditUserViewModel model = new EditUserViewModel()
+                    {
+                        Id = user.Id,
+                        OldPassword = oldPassword,
+                        NewPassword = newPassword
+                    };
+                    var result = await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+                    if (result.Succeeded)
+                    {
+                        return Ok("Пароль успешно изменен");
+                    }
+                    return PartialView("~/Views/Users/PartialViews/EditPasswordPartialView.cshtml", model);
+                }
+
+                return NotFound();
         }
 
        

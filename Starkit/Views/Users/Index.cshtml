@@ -1,4 +1,4 @@
-﻿@model Register
+﻿@model EditUserViewModel
 
 @{
     ViewBag.Title = "title";
@@ -9,7 +9,10 @@
 <div class="block-user">
     <form class="user-form">
         <div class="user-box-1">
-            <img class="user-avatar" src="~/images/error/none.png" alt="">
+            <div class="text-center">
+                <img class="user-avatar" src="~/images/error/none.png" alt="">
+                <button type="button" id="user-form-submit-btn" class="btn-outline-dark btn mt-4" data-toggle="modal" data-target="#editModal">Изменить пароль</button>
+            </div>
         </div>
         <div class="user-box-2">
             <div class="form-row">
@@ -43,13 +46,35 @@
                     <input type="text" class="form-control" value="@ViewBag.User.PhoneNumber" disabled>
                     <span asp-validation-for="PhoneNumber"></span>
                 </div>
-
+                <div class="form-group col-md-6">
+                    <label>Юридический адрес:</label>
+                    <input type="text" class="form-control" value="@Model.LegalAddress.Address" disabled>
+                    <input type="text" class="form-control" value="@Model.LegalAddress.City, @Model.LegalAddress.Country, @Model.LegalAddress.Index" disabled>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Почтовый адрес:</label>
+                    <input type="text" class="form-control" value="@Model.PostalAddress.Address" disabled>
+                    <input type="text" class="form-control" value="@Model.PostalAddress.City, @Model.PostalAddress.Country, @Model.PostalAddress.Index" disabled>
+                </div>
             </div>
-            <a id="user-form-edit-btn" class="btn-primary btn" onclick="edit()">Редактировать</a>
-            <button type="submit" id="user-form-submit-btn"  class="btn-primary btn" onclick="edit()" style="display: none;">Сохранить изменения</button>
         </div>
-        
     </form>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Введите изменения</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @{ await Html.RenderPartialAsync("PartialViews/EditPasswordPartialView", Model);}
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts
@@ -58,11 +83,37 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     <script >
-        function edit(event){
-          
-            $('#user-form-edit-btn').hide();
-            $('#user-form-submit-btn').show();
-            $('#name').prop('disabled', false);
+        function changePassword(){
+
+            $.ajax({
+                url: '@Url.Action("ChangePassword", "Account")',
+                type: 'POST',
+                data: {'id': $('#user-id').val(), 'oldPassword': $('#OldPassword').val(), 'newPassword': $('#NewPassword').val()},
+                success: function(data) {
+                  $('.modal-body').html(data);
+                }
+            })
         }
+        
+        
+        $('#user-form-submit-btn').on('shown.bs.modal', function () {
+          $('#myInput').trigger('focus')
+        });
+      
+        $('body').on('click', '.password-control', function(){
+            if ($('#OldPassword').attr('type') === 'password'){
+                $('.password-control').addClass('view');
+                $('#OldPassword').attr('type', 'text');
+                $('#NewPassword').attr('type', 'text');
+                $('#ConfirmPassword').attr('type', 'text');
+            } else {
+                $('.password-control').removeClass('view');
+                $('#OldPassword').attr('type', 'password');
+                $('#NewPassword').attr('type', 'password');
+                $('#ConfirmPassword').attr('type', 'password');
+            }
+            return false;
+           });
+    
     </script>
 }
