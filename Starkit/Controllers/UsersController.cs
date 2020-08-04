@@ -27,7 +27,9 @@ namespace Starkit.Controllers
             string userId = _userManager.GetUserId(User);
             EditUserViewModel model = new EditUserViewModel()
             {
-                Id = userId
+                Id = userId,
+                LegalAddress = _db.LegalAddresses.FirstOrDefault(l => l.UserId == userId),
+                PostalAddress = _db.PostalAddresses.FirstOrDefault(p => p.UserId == userId)
             };
             ViewBag.LegalAddress = _db.LegalAddresses.FirstOrDefault(l => l.UserId == userId);
             ViewBag.PostalAddress = _db.PostalAddresses.FirstOrDefault(p => p.UserId == userId);

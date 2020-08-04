@@ -46,6 +46,16 @@
                     <input type="text" class="form-control" value="@ViewBag.User.PhoneNumber" disabled>
                     <span asp-validation-for="PhoneNumber"></span>
                 </div>
+                <div class="form-group col-md-6">
+                    <label>Юридический адрес:</label>
+                    <input type="text" class="form-control" value="@Model.LegalAddress.Address" disabled>
+                    <input type="text" class="form-control" value="@Model.LegalAddress.City, @Model.LegalAddress.Country, @Model.LegalAddress.Index" disabled>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Почтовый адрес:</label>
+                    <input type="text" class="form-control" value="@Model.PostalAddress.Address" disabled>
+                    <input type="text" class="form-control" value="@Model.PostalAddress.City, @Model.PostalAddress.Country, @Model.PostalAddress.Index" disabled>
+                </div>
             </div>
         </div>
     </form>

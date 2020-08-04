@@ -89,9 +89,10 @@ namespace Starkit.Controllers
                     CompanyName = model.CompanyName,
                     IIN = model.IIN
                 };
+                
                 model.PostalAddress.UserId = newUser.Id;
                 model.LegalAddress.UserId = newUser.Id;
-                
+
                 var result = await _userManager.CreateAsync(newUser, model.Password);
                 if (result.Succeeded)
                 {
@@ -99,6 +100,7 @@ namespace Starkit.Controllers
                     await _signInManager.SignInAsync(newUser, false);
                     await _db.LegalAddresses.AddAsync(model.LegalAddress);
                     await _db.PostalAddresses.AddAsync(model.PostalAddress);
+                    _db.SaveChanges();
                     // await SendConfirmationEmailAsync(model.Email);      // Функционал подтверждение электронного адреса. Осталось доработать шаблон письма добавив информацию о пользователе. 
                     return RedirectToAction("Index", "Starkit");
                 }
