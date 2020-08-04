@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +20,13 @@ namespace Starkit.Controllers
             _db = db;
             _userManager = userManager;
         }
+        
+        [Authorize]
+        public IActionResult Index()
+        {
+            List<Category> categories =_db.Categories.Where(c => c.UserId == _userManager.GetUserId(User)).ToList();
+            return View(categories);
+        }
 
         [Authorize]
         [HttpGet]
@@ -25,7 +34,7 @@ namespace Starkit.Controllers
         {
             return View(new Category());
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> Create(Category category)
         {
@@ -34,7 +43,7 @@ namespace Starkit.Controllers
                 category.UserId = _userManager.GetUserId(User);
                 _db.Entry(category).State = EntityState.Added;
                 await _db.SaveChangesAsync();
-                return RedirectToAction("Create");
+                return RedirectToAction("Index");
             }
             return View(category);
         }
