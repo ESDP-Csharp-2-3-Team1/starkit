@@ -12,46 +12,57 @@
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom  my-navbar-style">
         <div class="container">
-            <a class="navbar-brand" asp-area="" asp-controller="" asp-action="">Starkit</a>
+            <a class="navbar-brand my-navbar-brand-n1" asp-area="" asp-controller="Starkit" asp-action="Index">Starkit</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                <ul class="navbar-nav flex-grow-1">
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Dishes" asp-action="Create">Добавить блюдо</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Create">Добавить категорию</a>
-                        </li>    
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Dishes" asp-action="Index">Список блюд</a>
-                        </li>
-                    }
+                <ul class="navbar-nav flex-grow-1 justify-content-end my-navbar-nav-n1">
+                    <li class="nav-item">
+                        <a href="#" class="link1">Связаться с нами</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="basket-link">
+                            <img src="~/images/etc/basket.png" alt="">
+                            <span> 0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="link2" asp-controller="Account" asp-action="Login">Вход </a>
+                    </li>
+                    <span class="space">/</span>
+                    <li class="nav-item">
+                        <a class="link2" asp-controller="Account" asp-action="Register"> Регистрация</a>
+                    </li>
                 </ul>
             </div>
 
-        <div class="login_group">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <a asp-action="Index" asp-controller="Users">Личный кабинет</a>
-                    <span>/</span>
-                    <a asp-controller="Account" asp-action="Logout">Выход</a>
-                }
-                else
-                {
-                    <a asp-controller="Account" asp-action="Login">Вход</a>
-                    <span>/</span>
-                    <a asp-controller="Account" asp-action="Register">Регистрация</a>
-                }
-            </div>
-             </div>
+        </div>
     </nav>
+    @{
+        await Html.RenderPartialAsync("Partial/_PartialLayout");
+    }
+    @* start Временный navbar *@
+    <div class="temporary-navbar" style="position: absolute;margin-left: 50px">
+        <div class="row">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Dishes" asp-action="Create">Добавить блюдо</a>
+                </li>
+                <li class="list-group-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Create">Добавить категорию</a>
+                </li>
+                <li class="list-group-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Dishes" asp-action="Index">Список блюд</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    @* end Временный navbar *@
+
 </header>
 <div class="container">
     <main role="main" class="pb-3">

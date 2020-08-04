@@ -3,7 +3,10 @@ for details on configuring this project to bundle and minify static web assets. 
 /*body{*/
 /*  background: #f5f9fa;*/
 /*}*/
-
+body{
+  /*background: #e5e7ed;*/
+  /*background: #fafafa;*/
+}
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -459,6 +462,8 @@ body {
 
 /* end Views => Users => Index.cshtml*/
 
+/* start Views => Shared => _Layout.cshtml and _PartialLayout.cshtml*/
+
 .block-register .g-recaptcha{
   width: 304px;
   margin-bottom: 30px;
@@ -470,3 +475,48 @@ body {
   text-align: end;
   padding-bottom: 20px;
 }
+.my-bg-white{
+  background: #41728B;
+  padding: 0;
+}
+.my-navbar-nav li a{
+  padding: 13px 25px 11px !important;
+}
+.my-navbar-style{
+  padding: 18px 0 !important;
+}
+.my-navbar-nav-n1 li a{
+  color: #464646;
+}
+.basket-link img{
+  filter: grayscale(100%) brightness(300%);
+}
+.my-navbar-brand-n1{
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.basket-link{
+  text-decoration: none !important;
+  margin: 0 40px;
+  color: #d9d9d9 !important;
+}
+.my-navbar-nav-n1 li .link1{
+  text-decoration: none;
+  border-bottom: 1px dotted #09c;
+}
+.my-navbar-nav-n1 li .link2{
+  text-decoration: none;
+  border-bottom: 1px solid #09c;
+}
+.my-navbar-nav-n1 li .link2{
+  text-decoration: none;
+  border-bottom: 1px solid #09c;
+}
+.my-navbar-nav-n1 .space{
+  align-content: center;
+  font-size: 13px;
+  margin: auto 4px;
+}
+/* end Views => Shared => _Layout.cshtml and _PartialLayout.cshtml*/
+
+
