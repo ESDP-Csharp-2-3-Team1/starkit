@@ -29,6 +29,12 @@
 
                 <h3>Информация для входа в личный кабинет</h3>
                 await Html.RenderPartialAsync("Partial/PartialInformationForAuthorization");
+                
+                <div class="form-group row terms-checkbox custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" asp-for="IsTermsAccepted" value="true">
+                    <label class="custom-control-label" asp-for="IsTermsAccepted">Я ознакомился(лась) и принимаю <a href="#termsModal" id="terms-link" onclick="readTerms()">Правила пользования сайтом</a></label><br/>
+                    <span asp-validation-for="IsTermsAccepted"></span>
+                </div>
             }
             <div class="g-recaptcha ml-auto" data-sitekey="@AppOptions.Value.ReCaptcha.SiteKey"></div> 
             <div class="block-message-error-recaptcha">
@@ -43,6 +49,27 @@
         </div>
     </form>
 </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="termsModal" tabindex="-1" role="dialog" aria-labelledby="termsModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="termsModalLabel">Пользовательское соглашение</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        @{ await Html.RenderPartialAsync("Partial/TermsPartialView");}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="acceptTerms()">Принять</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 
@@ -71,19 +98,31 @@
                });
                
                $('body').on('click', '.password-control', function(){
-                                     	if ($('#inputPassword').attr('type') === 'password'){
-                                     		$('.password-control').addClass('view');
-                                     		$('#inputPassword').attr('type', 'text');
-                                     		$('#inputPassword2').attr('type', 'text');
-                                     	} else {
-                                     		$('.password-control').removeClass('view');
-                                     		$('#inputPassword').attr('type', 'password');
-                                     		$('#inputPassword2').attr('type', 'password');
-                                     	}
-                                     	return false;
-                                     });
+                    if ($('#inputPassword').attr('type') === 'password'){
+                        $('.password-control').addClass('view');
+                        $('#inputPassword').attr('type', 'text');
+                        $('#inputPassword2').attr('type', 'text');
+                    } else {
+                        $('.password-control').removeClass('view');
+                        $('#inputPassword').attr('type', 'password');
+                        $('#inputPassword2').attr('type', 'password');
+                    }
+                    return false;
+                 });
+             
                
             });
-  
+            
+            function readTerms()
+            {
+               $('#termsModal').modal('show');
+            }
+            
+            function acceptTerms()
+            {
+               $('#IsTermsAccepted').prop('checked', true);
+               $('#termsModal').modal('hide');
+            }
+           
     </script>
 }

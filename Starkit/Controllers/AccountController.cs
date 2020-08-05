@@ -87,9 +87,10 @@ namespace Starkit.Controllers
                     PhoneNumber = model.PhoneNumber,
                     CityPhone = model.CityPhone,
                     CompanyName = model.CompanyName,
-                    IIN = model.IIN
+                    IIN = model.IIN,
+                    IsTermsAccepted = model.IsTermsAccepted
                 };
-                
+
                 model.PostalAddress.UserId = newUser.Id;
                 model.LegalAddress.UserId = newUser.Id;
 
@@ -150,10 +151,6 @@ namespace Starkit.Controllers
             return RedirectToAction("Login","Account");
         }
 
-        
-
-        
-        
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> ChangePassword(string id, string oldPassword, string newPassword)

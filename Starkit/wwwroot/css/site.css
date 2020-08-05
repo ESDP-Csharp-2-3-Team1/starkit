@@ -517,6 +517,11 @@ body {
   font-size: 13px;
   margin: auto 4px;
 }
+.terms-checkbox{
+   margin-left: 210px;
+ }
 /* end Views => Shared => _Layout.cshtml and _PartialLayout.cshtml*/
 
 
+
+    
