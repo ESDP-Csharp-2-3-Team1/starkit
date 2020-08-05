@@ -1,4 +1,6 @@
 ﻿@model IndexViewModel
+
+@addTagHelper *, Starkit
 <input type="hidden" id="modelCategory" value="@Model.FilterViewModel.SelectedCategory">
 <input type="hidden" id="modelName" value="@Model.FilterViewModel.SelectedName">
 <input type="hidden" id="modelSort" value="@Model.SortViewModel.Current">
@@ -19,54 +21,75 @@
         </tr>
         </thead>
         <tbody>
-            @foreach (var dish in Model.Dishes)
-            {
-                <tr>
-                    <td id="checkbox-td" style="vertical-align: middle; text-align: center">
-                        <input type="checkbox" value="true" id="@dish.Id">
-                    </td>
-                    <td style="vertical-align: middle; text-align: center">
-                        <img src="~/@dish.Avatar" style="width: 50px; height: 50px" alt="">
-                    </td>
-                    <td style="vertical-align: middle; text-align: center">@dish.Name</td>
-                    <td style="vertical-align: middle; text-align: center">@dish.Cost</td>
-                    <td style="vertical-align: middle; text-align: center">@dish.AddTime</td>
-                    <td style="vertical-align: middle ; text-align: center">@dish.EditTime</td>
-                    <td style="vertical-align: middle ; text-align: center">
-                        @if (dish.Visibility)
-                        {
-                            <img src="https://img.icons8.com/material-sharp/24/000000/check-all.png"/>
-                        }
-                    </td>
-                    <td style="vertical-align: middle; text-align: center">
-                        <a style="margin-bottom: 10px" class="btn btn-dark" asp-action="Edit" asp-controller="Dishes"asp-route-id="@dish.Id">Редактировать</a>
-                        <a class="btn btn-dark" href="#">Добавить в акцию</a>
-                    </td>
-                </tr>
-            }
+        @foreach (var dish in Model.Dishes)
+        {
+            <tr>
+                <td id="checkbox-td" style="vertical-align: middle; text-align: center">
+                    <input type="checkbox" value="true" id="@dish.Id">
+                </td>
+                <td style="vertical-align: middle; text-align: center">
+                    <img src="~/@dish.Avatar" style="width: 50px; height: 50px" alt="">
+                </td>
+                <td style="vertical-align: middle; text-align: center">@dish.Name</td>
+                <td style="vertical-align: middle; text-align: center">@dish.Cost</td>
+                <td style="vertical-align: middle; text-align: center">@dish.AddTime</td>
+                <td style="vertical-align: middle ; text-align: center">@dish.EditTime</td>
+                <td style="vertical-align: middle ; text-align: center">
+                    @if (dish.Visibility)
+                    {
+                        <img src="https://img.icons8.com/material-sharp/24/000000/check-all.png"/>
+                    }
+                </td>
+                <td style="vertical-align: middle; text-align: center">
+                    <a style="margin-bottom: 10px" class="btn btn-dark" asp-action="Edit" asp-controller="Dishes" asp-route-id="@dish.Id">Редактировать</a>
+                    <a class="btn btn-dark" href="#">Добавить в акцию</a>
+                </td>
+            </tr>
+        }
         </tbody>
     </table>
 </div>
 
-@if (Model.PageViewModel.HasPreviousPage)
-{
-    <button class="btn btn-outline-dark" onclick="previousPage('@(Model.PageViewModel.PageNumber - 1)', 
-                '@(Model.FilterViewModel.SelectedName)',
-                '@(Model.FilterViewModel.SelectedCategory)',
-                '@(Model.SortViewModel.Current)')">
-        <i class="glyphicon glyphicon-chevron-left"></i>
-        Назад
-    </button>
-}
-
-@if (Model.PageViewModel.HasNextPage)
-{
-    <button class="btn btn-outline-dark" onclick="nextPage('@(Model.PageViewModel.PageNumber + 1)', 
-                '@(Model.FilterViewModel.SelectedName)',
-                '@(Model.FilterViewModel.SelectedCategory)',
-                '@(Model.SortViewModel.Current)')">
-        Вперед
-        <i class="glyphicon glyphicon-chevron-right"></i>
-    </button>
-}
-
+<div>
+<ul class="pagination">
+    <li class="page-item">
+        <a class="page-link" href="#@(Model.PageViewModel.PageNumber - 1)" aria-label="Previous"
+           onclick="previousPage('@(Model.PageViewModel.PageNumber - 1)',
+                                    '@(Model.FilterViewModel.SelectedName)',
+                                    '@(Model.FilterViewModel.SelectedCategory)',
+                                    '@(Model.SortViewModel.Current)')"><span aria-hidden="true">&laquo;</span></a>
+    </li>
+    @for (int itmp = 1; itmp < Model.PageViewModel.TotalPages + 1; itmp++)
+    {
+        @if (Model.PageViewModel.PageNumber == itmp)
+        {
+            <li class="page-item active">
+                <a class="page-link" href="#@itmp" id="page@itmp"
+                   onclick="clickedPage(
+                       '@itmp',
+                       '@(Model.FilterViewModel.SelectedName)',
+                       '@(Model.FilterViewModel.SelectedCategory)',
+                       '@(Model.SortViewModel.Current)')">@itmp.ToString()</a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item">
+                <a class="page-link" href="#@itmp" id="page@itmp"
+                   onclick="clickedPage(
+                   '@itmp',
+                   '@(Model.FilterViewModel.SelectedName)',
+                   '@(Model.FilterViewModel.SelectedCategory)',
+                   '@(Model.SortViewModel.Current)')">@itmp.ToString()</a>
+            </li>
+        }
+    }
+    <li class="page-item">
+        <a class="page-link" href="#@(Model.PageViewModel.PageNumber + 1)" aria-label="Next"
+           onclick="nextPage('@(Model.PageViewModel.PageNumber + 1)',
+                           '@(Model.FilterViewModel.SelectedName)',
+                           '@(Model.FilterViewModel.SelectedCategory)',
+                           '@(Model.SortViewModel.Current)')"><span aria-hidden="true">&raquo;</span></a>
+    </li>
+</ul>
+</div>

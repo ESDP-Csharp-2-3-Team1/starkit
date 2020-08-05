@@ -9,12 +9,12 @@
 <form method="get" id="filter" asp-action="GetDishes" asp-controller="Dishes">
     <div class="form-inline">
         <label>Имя: </label>
-        <input id="searchName" name="name" class="form-control" />
+        <input id="searchName" name="name" class="form-control"/>
 
         <label>Категория: </label>
         <select id="filterCategory" name="category" asp-items="@Model" class="form-control"></select>
- 
-        <input type="submit" value="Фильтр" class="btn btn-outline-dark" />
+
+        <input type="submit" value="Фильтр" class="btn btn-outline-dark"/>
     </div>
 </form>
 <form method="get" id="sortOrder" asp-action="GetDishes" asp-controller="Dishes">
@@ -28,26 +28,28 @@
     </select>
     <input type="hidden" name="name" id="name">
     <input type="hidden" name="category" id="category">
-    <input type="submit" value="Сортировка" class="btn btn-outline-dark" />
+    <input type="submit" value="Сортировка" class="btn btn-outline-dark"/>
 </form>
 
 <div id="message">Не выбрано ни одного блюда</div>
 <button type="button" class="btn btn-dark" id="delete">Удалить выбранное</button>
 <button type="button" class="btn btn-dark" id="hide">Скрыть/Отображать выбранное</button>
 <div class="modal answer-modal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-        <div class="modal-body"><h5>Вы уверены?</h5></div>
-      <div class="modal-footer">
-          <button onclick="deleteDishes()" type="button" class="btn btn-primary button-delete">Удалить</button>
-          <button onclick="hideDishes()" type="button" class="btn btn-primary button-hide">Скрыть/Отображать</button>
-          <button type="button" class="btn btn-secondary" onclick="closeModal()">Закрыть</button> 
-      </div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h5>Вы уверены?</h5>
+            </div>
+            <div class="modal-footer">
+                <button onclick="deleteDishes()" type="button" class="btn btn-primary button-delete">Удалить</button>
+                <button onclick="hideDishes()" type="button" class="btn btn-primary button-hide">Скрыть/Отображать</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">Закрыть</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 <div id="result">
-    
+
 </div>
 
 @section Scripts
@@ -241,6 +243,26 @@
                     $("#result").html(data);  
                 }
             });
+        }
+        
+        function clickedPage(page, name, category, sortOrder) {
+            const active_page = page;
+            var item = document.getElementsByClassName("page-item active");
+            $(item[0]).toggleClass("active");
+            $.ajax({
+                url: '@Url.Action("GetDishes", "Dishes")',
+                type: "GET",
+                data: {
+                    category: category,
+                    name: name,
+                    page: page,
+                    sortOrder: sortOrder
+                },
+                success: function(data) {
+                    $("#result").html(data);
+                }
+            })
+            $("#page" + active_page).toggleClass("active");
         }
     </script>
 }
