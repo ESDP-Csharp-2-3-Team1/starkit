@@ -20,5 +20,7 @@ namespace Starkit.Models
 
         public DateTime CreateTime { get; set; }
         public DateTime? EditedTime { get; set; }
+        
+        public virtual List<SubCategory> SubCategories { get; set; }
     }
 }

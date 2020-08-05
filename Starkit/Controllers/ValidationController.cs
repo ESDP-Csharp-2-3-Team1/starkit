@@ -45,6 +45,13 @@ namespace Starkit.Controllers
                                                                   c.UserId == _userManager.GetUserId(User)).ToList();
             return !categories.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim());
         }
+
+        public bool CheckNameSubCategory(string name)
+        {
+            List<Category> categories = _db.Categories.Where(c => c.UserId == _userManager.GetUserId(User)).ToList();
+            return !_db.Categories.Any(c => c.UserId == _userManager.GetUserId(User) &&
+                                           c.SubCategories.Any(s => s.Name.ToLower().Trim() == name.ToLower().Trim()));
+        }
         
         public async Task<bool>CheckOldPassword(string oldPassword)
         {

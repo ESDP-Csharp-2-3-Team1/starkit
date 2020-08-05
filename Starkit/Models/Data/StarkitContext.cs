@@ -12,6 +12,7 @@ namespace Starkit.Models.Data
         public DbSet<LegalAddress> LegalAddresses { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Dish> Dishes { get; set; }
+        public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<Menu> Menu { get; set; }
         public DbSet<MenuDish> MenuDishes  { get; set; }
         
