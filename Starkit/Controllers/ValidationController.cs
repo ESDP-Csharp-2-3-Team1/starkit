@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Starkit.Models;
 using Starkit.Models.Data;
+using Starkit.Services;
 
 namespace Starkit.Controllers
 {
@@ -15,12 +16,14 @@ namespace Starkit.Controllers
         private StarkitContext _db;
         private UserManager<User> _userManager;
         private SignInManager<User> _signInManager;
+        private readonly IRecaptchaService _recaptcha;
 
-        public ValidationController(StarkitContext db, UserManager<User> userManager, SignInManager<User> signInManager)
+        public ValidationController(StarkitContext db, UserManager<User> userManager, SignInManager<User> signInManager, IRecaptchaService recaptcha)
         {
             _db = db;
             _userManager = userManager;
             _signInManager = signInManager;
+            _recaptcha = recaptcha;
         }
         // GET
         public async Task<bool> CheckEmail(string email)
@@ -57,14 +60,12 @@ namespace Starkit.Controllers
         {
             User user = _userManager.GetUserAsync(User).Result;
             var result = await _userManager.CheckPasswordAsync(user, oldPassword);
-            if (result) return true;
-            return false;
+            return result;
         }
         
         public bool ComparePasswords(string oldPassword, string newPassword)
         {
-            if (oldPassword == newPassword) return false;
-            return true;
+            return oldPassword != newPassword;
         }
     }
 }

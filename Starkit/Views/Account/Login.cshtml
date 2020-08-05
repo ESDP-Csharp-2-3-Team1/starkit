@@ -1,4 +1,6 @@
-﻿@model Login
+﻿@using Microsoft.Extensions.Options
+@model Login
+@inject IOptions<AppOptions> AppOptions
 
 @{
     ViewBag.Title = "Авторизация";
@@ -35,7 +37,13 @@
                  Запомнить меня
              </label>
          </div>
-         <button class="btn btn-primary btn-block" type="submit">ВОЙТИ НА САЙТ</button>
+         <div id="recaptcha-block" class="d-none">
+             <div class="g-recaptcha" data-sitekey="@AppOptions.Value.ReCaptcha.SiteKey"></div>
+         </div>
+         <div class="block-message-error-recaptcha">
+             @Html.ValidationMessage("ReCaptchaError", new { @class = "text-danger" })
+         </div>
+         <button class="btn btn-primary btn-block" id="login-btn" type="submit">ВОЙТИ НА САЙТ</button>
          <div class="login-footer">
              <h6>или войдите с помощью</h6>
              <ul class="social-icons">
@@ -73,6 +81,7 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script src="https://www.google.com/recaptcha/api.js"></script>
     
     <script>
         $('body').on('click', '.password-control', function(){
@@ -85,6 +94,20 @@
                 }
                 return false;
             });
+        $('.login-block').keyup(function() {
+            $.ajax({
+                url: '@Url.Action("FindUserByEmail", "Account")',
+                type: 'GET',
+                data: {'email': $('#Email').val()},
+                success: function(data) {
+                    if (data >= 3)
+                        {
+                             $('#recaptcha-block').removeClass('d-none');
+                        }
+                }
+            })
+         
+        })
 </script>
   
 }

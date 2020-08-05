@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
@@ -50,13 +51,30 @@ namespace Starkit.Controllers
                 User user = await _db.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
                 if (user != null)
                 {
+                    if (user.AccessFailedCount >= 3)
+                    {
+                        var captchaResponse = await _recaptcha.Validate(Request.Form);
+                        if (!captchaResponse.Success)
+                        {
+                            ModelState.AddModelError("reCaptchaError", 
+                                "Ошибка проверки reCAPTCHA. Попробуйте еще раз.");
+                            return View(model);
+                        }
+                    }
                     var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
                     if (result.Succeeded)
+                    {
+                        user.AccessFailedCount = 0;
+                        await _userManager.UpdateAsync(user);
                         return RedirectToAction("Index", "Starkit");
-                    ModelState.AddModelError("","Неверный пароль пользователя");
+                    }
+
+                    user.AccessFailedCount += 1;
+                    await _userManager.UpdateAsync(user);
+                    ModelState.AddModelError("","Неверный email или пароль пользователя");
                 }
                 else
-                    ModelState.AddModelError("","E-mail не зарегистрирован.");
+                    ModelState.AddModelError("","Неверный email или пароль пользователя");
             }
             return View(model);
         }
@@ -102,7 +120,7 @@ namespace Starkit.Controllers
                     await _db.LegalAddresses.AddAsync(model.LegalAddress);
                     await _db.PostalAddresses.AddAsync(model.PostalAddress);
                     _db.SaveChanges();
-                    // await SendConfirmationEmailAsync(model.Email);      // Функционал подтверждение электронного адреса. Осталось доработать шаблон письма добавив информацию о пользователе. 
+                    
                     return RedirectToAction("Index", "Starkit");
                 }
 
@@ -176,6 +194,15 @@ namespace Starkit.Controllers
                 return NotFound();
         }
 
-       
+        public async Task<IActionResult> FindUserByEmail(string email)
+        {
+            if (email != null)
+            {
+                User user = await _userManager.FindByEmailAsync(email);
+                if (user != null)
+                    return Json(user.AccessFailedCount);
+            }
+            return NoContent();
+        }
     }
 }
