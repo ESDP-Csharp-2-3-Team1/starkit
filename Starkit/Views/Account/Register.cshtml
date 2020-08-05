@@ -32,7 +32,8 @@
                 
                 <div class="form-group row terms-checkbox custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" asp-for="IsTermsAccepted" value="true">
-                    <label class="custom-control-label" asp-for="IsTermsAccepted">Я ознакомился(лась) и принимаю <a href="#termsModal" id="terms-link" onclick="readTerms()">Правила пользования сайтом</a></label><br/>
+                    <label class="custom-control-label custom-control-label-register" asp-for="IsTermsAccepted">Я ознакомился(лась) и принимаю 
+                        <a href="#termsModal" id="terms-link" onclick="readTerms()">Правила пользования сайтом</a></label><br/>
                     <span asp-validation-for="IsTermsAccepted"></span>
                 </div>
             }
@@ -40,8 +41,8 @@
             <div class="block-message-error-recaptcha">
                 @Html.ValidationMessage("ReCaptchaError", new { @class = "text-danger" })
             </div>
-            <div class="form-group " style="text-align: end;">
-                <button type="submit" class="btn btn-primary">
+            <div class="form-group form-group-btn-register" style="text-align: end;">
+                <button type="submit" class="btn register-btn">
                     Зарегистрировать меня
                 </button>
             </div>
@@ -56,13 +57,15 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="termsModalLabel">Пользовательское соглашение</h5>
+        <h5 class="modal-title register-my-modal-title" id="termsModalLabel">Пользовательское соглашение</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        @{ await Html.RenderPartialAsync("Partial/TermsPartialView");}
+        @{
+            await Html.RenderPartialAsync("Partial/TermsPartialView");
+        }
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

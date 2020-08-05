@@ -522,6 +522,27 @@ body {
  }
 /* end Views => Shared => _Layout.cshtml and _PartialLayout.cshtml*/
 
-
+.custom-control-label-register{
+  /*font-size: 15px;  */
+  font-weight: 600;
+}
+.custom-control-label-register a{
+  text-decoration: none;
+}
+.register-btn {
+  color: white;
+  padding: 15px;
+  background: #29aafe;
+  text-decoration: none;
+  width: 304px;
+}
+.form-group-btn-register .btn:hover{
+  color: white;
+}
+#copy_to_postal_address{
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+}
 
     
