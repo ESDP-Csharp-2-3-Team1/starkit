@@ -14,7 +14,6 @@ using Starkit.Models;
 using Starkit.Models.Data;
 using Starkit.Services;
 using Starkit.ViewModels;
-using X.PagedList;
 
 namespace Starkit.Controllers
 {
