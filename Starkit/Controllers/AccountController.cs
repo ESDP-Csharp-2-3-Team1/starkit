@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -119,7 +119,7 @@ namespace Starkit.Controllers
                     await _db.LegalAddresses.AddAsync(model.LegalAddress);
                     await _db.PostalAddresses.AddAsync(model.PostalAddress);
                     _db.SaveChanges();
-                    // await SendConfirmationEmailAsync(model.Email);      // Функционал подтверждение электронного адреса. Осталось доработать шаблон письма добавив информацию о пользователе. 
+                    
                     return RedirectToAction("Index", "Starkit");
                 }
 
@@ -193,6 +193,15 @@ namespace Starkit.Controllers
                 return NotFound();
         }
 
-       
+        public async Task<IActionResult> FindUserByEmail(string email)
+        {
+            if (email != null)
+            {
+                User user = await _userManager.FindByEmailAsync(email);
+                if (user != null)
+                    return Json(user.AccessFailedCount);
+            }
+            return NoContent();
+        }
     }
 }
