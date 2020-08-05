@@ -135,6 +135,7 @@ namespace Starkit.Controllers
             return View(model);
         }
 
+        [Authorize]
         public async Task<IActionResult> GetDishes(string category, string name, int page = 1, SortState sortOrder = SortState.AddTimeAsc)
         {
             var dishes = _db.Dishes.Where(d => d.CreatorId == _userManager.GetUserId(User));
@@ -198,6 +199,7 @@ namespace Starkit.Controllers
             return PartialView("PartialViews/LIstDishPartialView", viewModel);
         }
 
+        [Authorize]
         [HttpDelete]
         public async Task<IActionResult> Delete(string[] ids)
         {

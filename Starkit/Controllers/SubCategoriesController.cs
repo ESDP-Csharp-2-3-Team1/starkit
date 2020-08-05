@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,7 @@ namespace Starkit.Controllers
             _userManager = userManager;
         }
 
+        [Authorize]
         public IActionResult Create()
         {
             SubCategory subCategory = new SubCategory{Categories = _db.Categories.Where(c => 

@@ -72,21 +72,30 @@
         await Html.RenderPartialAsync("Partial/_PartialLayout");
     }
     @* start Временный navbar *@
-    <div class="temporary-navbar" style="position: absolute;margin-left: 50px">
-        <div class="row">
-            <ul class="list-group">
-                <li class="list-group-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Dishes" asp-action="Create">Добавить блюдо</a>
-                </li>
-                <li class="list-group-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Create">Добавить категорию</a>
-                </li>
-                <li class="list-group-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Dishes" asp-action="Index">Список блюд</a>
-                </li>
-            </ul>
-        </div>
-    </div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="temporary-navbar" style="position: absolute;margin-left: 50px">
+            <div class="row">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Dishes" asp-action="Create">Добавить блюдо</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Create">Добавить категорию</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="SubCategories" asp-action="Create">Добавить подкатегорию</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Dishes" asp-action="Index">Список блюд</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Index">Список категорий</a>
+                    </li>
+                </ul>
+            </div>
+        </div>   
+    }
     @* end Временный navbar *@
 
 </header>
