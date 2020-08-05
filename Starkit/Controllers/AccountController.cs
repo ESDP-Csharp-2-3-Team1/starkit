@@ -51,13 +51,14 @@ namespace Starkit.Controllers
                 User user = await _db.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
                 if (user != null)
                 {
-                    if (user.AccessFailedCount > 3)
+                    if (user.AccessFailedCount >= 3)
                     {
                         var captchaResponse = await _recaptcha.Validate(Request.Form);
                         if (!captchaResponse.Success)
                         {
                             ModelState.AddModelError("reCaptchaError", 
                                 "Ошибка проверки reCAPTCHA. Попробуйте еще раз.");
+                            return View(model);
                         }
                     }
                     var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);

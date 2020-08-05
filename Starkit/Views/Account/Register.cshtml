@@ -37,7 +37,10 @@
                     <span asp-validation-for="IsTermsAccepted"></span>
                 </div>
             }
-            @{ await Html.RenderPartialAsync("Partial/ReCaptchaPartialView");}
+            <div class="g-recaptcha ml-auto" data-sitekey="@AppOptions.Value.ReCaptcha.SiteKey"></div>
+            <div class="block-message-error-recaptcha">
+                @Html.ValidationMessage("ReCaptchaError", new { @class = "text-danger" })
+            </div>
             <div class="form-group form-group-btn-register" style="text-align: end;">
                 <button type="submit" class="btn register-btn">
                     Зарегистрировать меня

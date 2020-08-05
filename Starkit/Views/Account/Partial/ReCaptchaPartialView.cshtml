@@ -1,8 +1,0 @@
-@using Microsoft.Extensions.Options
-@inject IOptions<AppOptions> AppOptions
-
-<div class="g-recaptcha ml-auto" data-sitekey="@AppOptions.Value.ReCaptcha.SiteKey"></div> 
-<div class="block-message-error-recaptcha">
-    @Html.ValidationMessage("ReCaptchaError", new { @class = "text-danger" })
-</div>
-

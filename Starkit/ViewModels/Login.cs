@@ -12,6 +12,5 @@ namespace Starkit.ViewModels
         [MinLength(6,ErrorMessage = "Пароль должен содержать не менее 8 символов.")]
         public string Password { get; set; }
         public bool RememberMe { get; set; }
-        public int AccessFailedCount { get; set; }
     }
 }

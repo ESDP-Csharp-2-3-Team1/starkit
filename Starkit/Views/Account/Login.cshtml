@@ -38,7 +38,10 @@
              </label>
          </div>
          <div id="recaptcha-block" class="d-none">
-             @{ await Html.RenderPartialAsync("Partial/ReCaptchaPartialView");}
+             <div class="g-recaptcha" data-sitekey="@AppOptions.Value.ReCaptcha.SiteKey"></div>
+         </div>
+         <div class="block-message-error-recaptcha">
+             @Html.ValidationMessage("ReCaptchaError", new { @class = "text-danger" })
          </div>
          <button class="btn btn-primary btn-block" id="login-btn" type="submit">ВОЙТИ НА САЙТ</button>
          <div class="login-footer">
@@ -97,7 +100,7 @@
                 type: 'GET',
                 data: {'email': $('#Email').val()},
                 success: function(data) {
-                    if (data > 3)
+                    if (data >= 3)
                         {
                              $('#recaptcha-block').removeClass('d-none');
                         }
