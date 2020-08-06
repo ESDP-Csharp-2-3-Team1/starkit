@@ -28,7 +28,7 @@
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom  my-navbar-style">
         <div class="container">
-            <a class="navbar-brand my-navbar-brand-n1" asp-area="" asp-controller="Starkit" asp-action="Index">Starkit</a>
+            <a class="navbar-brand my-navbar-brand-n1" asp-area="" >Starkit</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -74,7 +74,7 @@
     @* start Временный navbar *@
     @if (User.Identity.IsAuthenticated)
     {
-        <div class="temporary-navbar" style="position: absolute;margin-left: 50px">
+        <div class="temporary-navbar" style="position: absolute;margin-left: 50px;display: none;">
             <div class="row">
                 <ul class="list-group">
                     <li class="list-group-item">
@@ -101,7 +101,21 @@
 </header>
 <div class="container">
     <main role="main" class="pb-3">
-        @RenderBody()
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="container-edit">
+               @{
+                   await Html.RenderPartialAsync("Partial/_PartialLeftNavbar");
+               }
+                <div class="edit-block2">
+                      @RenderBody()
+                </div>
+            </div>
+        }
+        else
+        {
+            @RenderBody()
+        }
     </main>
 </div>
 
