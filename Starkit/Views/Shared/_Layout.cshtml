@@ -38,12 +38,7 @@
                     <li class="nav-item">
                         <a href="#" class="link1">Связаться с нами</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#" class="basket-link">
-                            <img src="~/images/etc/basket.png" alt="">
-                            <span> 0</span>
-                        </a>
-                    </li>
+                   
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item">
@@ -71,32 +66,6 @@
     @{
         await Html.RenderPartialAsync("Partial/_PartialLayout");
     }
-    @* start Временный navbar *@
-    @if (User.Identity.IsAuthenticated)
-    {
-        <div class="temporary-navbar" style="position: absolute;margin-left: 50px;display: none;">
-            <div class="row">
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Dishes" asp-action="Create">Добавить блюдо</a>
-                    </li>
-                    <li class="list-group-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Create">Добавить категорию</a>
-                    </li>
-                    <li class="list-group-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="SubCategories" asp-action="Create">Добавить подкатегорию</a>
-                    </li>
-                    <li class="list-group-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Dishes" asp-action="Index">Список блюд</a>
-                    </li>
-                    <li class="list-group-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Index">Список категорий</a>
-                    </li>
-                </ul>
-            </div>
-        </div>   
-    }
-    @* end Временный navbar *@
 
 </header>
 <div class="container">

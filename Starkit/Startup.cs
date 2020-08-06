@@ -75,7 +75,7 @@ namespace Starkit
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Starkit}/{action=Index}/{id?}");
+                    pattern: "{controller=Users}/{action=Index}/{id?}");
             });
         }
     }
