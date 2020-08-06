@@ -231,7 +231,7 @@ namespace Starkit.Controllers
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var callback = Url.Action("ResetPassword", "Account", new {token, email = user.Email}, Request.Scheme);
     
-            var message = new Message(new[] { "samal.zhex@gmail.com" }, "Reset password token", callback);
+            var message = new Message(new[] { model.Email }, "Reset password token", callback);
             await _emailSender.SendEmailAsync(message);
  
             return RedirectToAction(nameof(ForgotPasswordConfirmation));
