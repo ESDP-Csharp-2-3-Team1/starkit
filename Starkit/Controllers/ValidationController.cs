@@ -30,6 +30,10 @@ namespace Starkit.Controllers
         {
             return !await _db.Users.AnyAsync(u => u.Email == email);
         }
+        public async Task<bool> VerifyingEmailAuthenticity(string email)
+        {
+            return await _db.Users.AnyAsync(u => u.Email == email);
+        }
 
         public bool CheckIIN(string IIN)
         {

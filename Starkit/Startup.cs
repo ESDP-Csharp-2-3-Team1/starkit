@@ -43,10 +43,18 @@ namespace Starkit
                     options.Password.RequireUppercase = true; // требуются ли символы в верхнем регистре
                     options.Password.RequireDigit = true; // требуются ли цифры
                 })
-                .AddEntityFrameworkStores<StarkitContext>();;
+                .AddEntityFrameworkStores<StarkitContext>()
+                .AddDefaultTokenProviders();    
             services.AddControllersWithViews();
             services.Configure<AppOptions>(Configuration);
             services.AddSingleton<IRecaptchaService, GoogleRecaptchaService>();
+            services.Configure<DataProtectionTokenProviderOptions>(opt =>
+                opt.TokenLifespan = TimeSpan.FromHours(1));
+            var emailConfig = Configuration
+                .GetSection("EmailConfiguration")
+                .Get<EmailConfiguration>();    
+            services.AddSingleton(emailConfig);
+            services.AddScoped<IEmailSender, EmailSender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
