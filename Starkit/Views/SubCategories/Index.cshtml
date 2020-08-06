@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "Список подкатегорий";
+    Layout = "_Layout";
+}
+
+<div class="modal answer-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body"><h5>Вы уверены?</h5></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary deleteSubCategory">Удалить</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">Закрыть</button> 
+            </div>
+        </div>
+    </div>
+</div>
+<h2 class="text-subcategories">Список подкатегорий</h2>
+<div style="overflow-x:auto;">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Название подкатегории</th>
+            <th>Название категории</th>
+            <th>Дата создание</th>
+            <th>Дата редактирования</th>
+            <th>Действие</th>
+        </tr>
+        </thead>
+        <tbody id="result">
+            
+        </tbody>
+    </table>
+</div>
+@section Scripts
+{
+    <script>
+        $(document).ready(function() {
+          $.get('@Url.Action("GetSubCategories", "SubCategories")', function(data) {
+                $("#result").html(data);
+          })
+        });
+        
+        var deleteSubCategory = $(".deleteSubCategory");
+        
+        function openModal(id) {
+            $(".modal").show();
+            $(deleteSubCategory).attr("id", id);
+        }
+          
+        function closeModal() {
+            $(".modal").hide();
+        }
+        
+        $(deleteSubCategory).click(function (event) {
+            event.preventDefault();
+            var id = deleteSubCategory.attr("id");
+            $.ajax({
+                url: '@Url.Action("Delete", "SubCategories")',
+                type: "Delete",
+                data: {
+                    id: id
+                },
+                success: function(data) {
+                  $(".modal").hide();
+                  $("#result").html(data);
+                }
+            })
+        });
+    </script>
+}
+
