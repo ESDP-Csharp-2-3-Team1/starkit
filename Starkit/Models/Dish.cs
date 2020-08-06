@@ -9,6 +9,7 @@ namespace Starkit.Models
     public class Dish
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         public string CategoryId { get; set; }
         public virtual Category Category { get; set; }
         public string SubCategoryId { get; set; }

@@ -1,0 +1,15 @@
+﻿@model Dish
+
+@if (Model.SubCategories.Count != 0)
+{
+    <label for="" class="col-sm-4 col-form-label">Выберите подкатегорию</label><br/>
+    <div class="col-sm-8">
+        <select class="form-control" asp-for="SubCategoryId">
+            @foreach (var subCategory in Model.SubCategories)
+            {
+                <option value="@subCategory.Id">@subCategory.Name</option>
+            }
+        </select>
+    </div>
+    <span class="validationError" asp-validation-for="SubCategoryId"></span>   
+}

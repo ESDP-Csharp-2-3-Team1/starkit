@@ -74,6 +74,18 @@ namespace Starkit.Controllers
             return View(dish);
         }
 
+        [Authorize]
+        [HttpGet]
+        public IActionResult GetCreateDish(string id)
+        {
+            Category category =  _db.Categories.FirstOrDefault(c => c.Id == id);
+            var dish = new Dish
+            {
+                SubCategories = category.SubCategories 
+            };
+            return PartialView("PartialViews/SubcategoryOptions", dish);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(Dish dish)
         {
