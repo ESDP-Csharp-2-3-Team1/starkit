@@ -12,8 +12,7 @@ namespace Starkit.Models
         public string CategoryId { get; set; }
         public virtual Category Category { get; set; }
         public string SubCategoryId { get; set; }
-        [NotMapped]
-        public SubCategory SubCategory { get; set; }
+        public virtual SubCategory SubCategory { get; set; }
         
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         public string Name { get; set; }
