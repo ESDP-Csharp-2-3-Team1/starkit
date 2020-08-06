@@ -37,6 +37,7 @@ namespace Starkit.Controllers
             if (ModelState.IsValid)
             {
                 subCategory.CreateTime = DateTime.Now;
+                subCategory.UserId = _userManager.GetUserId(User);
                 _db.Entry(subCategory).State = EntityState.Added;
                 await _db.SaveChangesAsync();
                 return RedirectToAction("Create");
@@ -59,12 +60,12 @@ namespace Starkit.Controllers
         public IActionResult Edit(string id)
         {
             SubCategory subCategory = _db.SubCategories.FirstOrDefault(c => c.Id == id);
-            EditCategoryViewModel model = new EditCategoryViewModel{Id = id, Name = subCategory.Name};
+            EditSubCategoryViewModel model = new EditSubCategoryViewModel{Id = id, Name = subCategory.Name};
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(EditCategoryViewModel model)
+        public async Task<IActionResult> Edit(EditSubCategoryViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -72,6 +73,7 @@ namespace Starkit.Controllers
                 if (model.Name != subCategory.Name)
                     subCategory.EditedTime = DateTime.Now;
                 subCategory.Name = model.Name;
+                subCategory.UserId = _userManager.GetUserId(User);
                 _db.Entry(subCategory).State = EntityState.Modified;
                 await _db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -79,9 +81,16 @@ namespace Starkit.Controllers
             return View(model);
         }
 
+        [Authorize]
         public IActionResult Index()
         {
-            throw new NotImplementedException();
+            return View();
+        }
+
+        public IActionResult GetSubCategories()
+        {
+            List<SubCategory> subCategories =_db.SubCategories.Where(c => c.UserId == _userManager.GetUserId(User)).ToList();
+            return PartialView("PartialViews/ListSubCategoryPartialView", subCategories);
         }
     }
 }
