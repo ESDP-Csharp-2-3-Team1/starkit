@@ -64,17 +64,20 @@ namespace Starkit.Controllers
                     var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
                     if (result.Succeeded)
                     {
-                        user.AccessFailedCount = 0;
-                        await _userManager.UpdateAsync(user);
+                        if (user.AccessFailedCount != 0)
+                        {
+                            user.AccessFailedCount = 0;
+                            await _userManager.UpdateAsync(user);
+                        }
                         return RedirectToAction("Index", "Starkit");
                     }
 
                     user.AccessFailedCount += 1;
                     await _userManager.UpdateAsync(user);
-                    ModelState.AddModelError("","Неверный email или пароль пользователя");
+                    ModelState.AddModelError("","Неверный пароль пользователя");
                 }
                 else
-                    ModelState.AddModelError("","Неверный email или пароль пользователя");
+                    ModelState.AddModelError("","E-mail не зарегистрирован");
             }
             return View(model);
         }
@@ -119,8 +122,7 @@ namespace Starkit.Controllers
                     await _signInManager.SignInAsync(newUser, false);
                     await _db.LegalAddresses.AddAsync(model.LegalAddress);
                     await _db.PostalAddresses.AddAsync(model.PostalAddress);
-                    _db.SaveChanges();
-                    
+                    await _db.SaveChangesAsync();
                     return RedirectToAction("Index", "Starkit");
                 }
 
