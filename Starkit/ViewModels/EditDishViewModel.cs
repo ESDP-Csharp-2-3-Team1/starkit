@@ -10,6 +10,7 @@ namespace Starkit.ViewModels
     {
         public string Id { get; set; }
         public virtual Category Category { get; set; }
+        public virtual SubCategory SubCategory { get; set; }
 
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         public string Name { get; set; }
