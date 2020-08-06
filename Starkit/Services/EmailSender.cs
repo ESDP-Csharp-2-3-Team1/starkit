@@ -9,14 +9,11 @@ namespace Starkit.Services
 {
     public class EmailSender : IEmailSender
     {
-        
         private readonly EmailConfiguration _emailConfig;
- 
         public EmailSender(EmailConfiguration emailConfig)
         {
             _emailConfig = emailConfig;
         }
-        
         private MimeMessage CreateEmailMessage(Message message)
         {
             var emailMessage = new MimeMessage();
@@ -24,7 +21,6 @@ namespace Starkit.Services
             emailMessage.To.AddRange(message.To);
             emailMessage.Subject = message.Subject;
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Text) { Text = message.Content };
- 
             return emailMessage;
         }
 
