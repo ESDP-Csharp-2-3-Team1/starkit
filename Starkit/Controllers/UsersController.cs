@@ -21,9 +21,11 @@ namespace Starkit.Controllers
         }
 
         // GET
-        [Authorize]
         public async Task<IActionResult> Index()
         {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
+                    
             string userId = _userManager.GetUserId(User);
             EditUserViewModel model = new EditUserViewModel()
             {

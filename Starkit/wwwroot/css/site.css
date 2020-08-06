@@ -719,5 +719,14 @@ body {
 .my-navbar-nav-n1 .link1{
   margin-right: 50px;
 }
+.form-group-reset-password{
+    margin-bottom: 0!important;
+  font-size: 15px; 
+ 
+}
+.form-group-reset-password a{
+  color: #3eb2fd;
+}
+
 
     
