@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Starkit.Models
 {
@@ -16,6 +17,7 @@ namespace Starkit.Models
         public virtual SubCategory SubCategory { get; set; }
         
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
+        [Remote("CheckNameDish", "Validation", ErrorMessage = "Такое блюдо уже существует")]
         public string Name { get; set; }
         
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
