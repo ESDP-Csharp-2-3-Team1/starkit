@@ -1,0 +1,99 @@
+﻿@model EditUserViewModel
+<div class="form-group  ed2-form-group">
+    <div class="ed2-form-label">
+        <label >Имя:</label>
+    </div>
+    <div class="ed2-form-input">
+        <div class="boxx2">
+            <input type="text" class="form-control" value="@ViewBag.User.Name" disabled>
+        </div>
+    </div>
+</div>
+<div class="form-group  ed2-form-group">
+    <div class="ed2-form-label">
+        <label >Фамилия:</label>
+    </div>
+    <div class="ed2-form-input">
+        <div class="boxx2">
+            <input type="text" class="form-control" value="@ViewBag.User.SurName" disabled>
+        </div>
+    </div>
+</div>
+<div class="form-group  ed2-form-group">
+    <div class="ed2-form-label">
+        <label >Название компании:</label>
+    </div>
+    <div class="ed2-form-input">
+        <div class="boxx2">
+            <input type="text" class="form-control" value="@ViewBag.User.CompanyName" disabled>
+        </div>
+    </div>
+</div>
+<div class="form-group  ed2-form-group">
+    <div class="ed2-form-label">
+        <label >ИИН:</label>
+    </div>
+    <div class="ed2-form-input">
+        <div class="boxx2">
+            <input type="text" class="form-control" value="@ViewBag.User.IIN" disabled>
+        </div>
+    </div>
+</div>
+<div class="boxx2 boxx22">
+    <p class="ed2p2 ed2p22">
+        <input  id="regul" type="hidden" value="0">
+        <a type="button" onclick="expandTheBlock()"><span id="uk15">Показать</span> юридический & почтовый адрес ↓</a>
+    </p>
+</div>
+<div id="block-UP-address">
+    <div class="form-group  ed2-form-group">
+        <div class="ed2-form-label">
+            <label >Индекс:</label>
+        </div>
+        <div class="ed2-form-input">
+            <div class="boxx2">
+                <input type="text" class="form-control" value="@ViewBag.LegalAddress.Index" disabled>
+            </div>
+        </div>
+    </div>
+    <div class="form-group  ed2-form-group">
+        <div class="ed2-form-label">
+            <label >Адрес:</label>
+        </div>
+        <div class="ed2-form-input">
+            <div class="boxx2">
+                <input type="text" class="form-control" value="@ViewBag.LegalAddress.Address" disabled>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="form-group  ed2-form-group">
+    <div class="ed2-form-label">
+        <label >Эл. адрес:</label>
+    </div>
+    <div class="ed2-form-input">
+        <div class="boxx2 ">
+            <input type="text" class="form-control" value="@ViewBag.User.Email" disabled>
+        </div>
+    </div>
+</div>
+<div class="form-group  ed2-form-group">
+    <div class="ed2-form-label">
+        <label >Номер телефона:</label>
+    </div>
+    <div class="ed2-form-input">
+        <div class="boxx2">
+            <input type="text" class="form-control" value="@ViewBag.User.PhoneNumber" disabled>
+            <p class="ed2p1">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur delectus harum magnam maxime natus, sed sit? Aliquam perferendis rerum sequi.
+            </p>
+            <p class="ed2p2">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+            </p>
+            <p class="ed2p2 ed2p22">
+                <a type="button" id="user-form-submit-btn" data-toggle="modal" data-target="#editModal">Изменить пароль</a>
+            </p>
+        </div>
+    </div>
+</div>
+

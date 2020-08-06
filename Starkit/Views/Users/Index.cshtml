@@ -4,60 +4,11 @@
     ViewBag.Title = "Личный кабинет";
     Layout = "_Layout";
 }
-
-
-<div class="block-user">
-    <form class="user-form">
-        <div class="user-box-1">
-            <div class="text-center">
-                <img class="user-avatar" src="~/images/etc/none.png" alt="">
-                <button type="button" id="user-form-submit-btn" class="btn-outline-dark btn mt-4" data-toggle="modal" data-target="#editModal">Изменить пароль</button>
-            </div>
-        </div>
-        <div class="user-box-2">
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label asp-for="Name">Имя:</label>
-                    <input id="name" type="text" asp-for="Name" class="form-control" value="@ViewBag.User.Name" disabled>
-                    <span asp-validation-for="Name"></span>
-                </div>
-                <div class="form-group col-md-6">
-                    <label asp-for="IIN">ИИН:</label>
-                    <input type="text" maxlength="12" asp-for="IIN" class="form-control" value="@ViewBag.User.IIN" disabled>
-                    <span asp-validation-for="IIN"></span>
-                </div>
-                <div class="form-group col-md-6">
-                    <label asp-for="SurName">Фамилия:</label>
-                    <input type="text" class="form-control" value="@ViewBag.User.SurName" disabled>
-                    <span asp-validation-for="SurName"></span>
-                </div>
-                <div class="form-group col-md-6">
-                    <label asp-for="Email">Email:</label>
-                    <input asp-for="Email" class="form-control" value="@ViewBag.User.Email" disabled>
-                    <span asp-validation-for="Email"></span>
-                </div>
-                <div class="form-group col-md-6">
-                    <label asp-for="CompanyName">Название компании:</label>
-                    <input type="text" class="form-control" value="@ViewBag.User.CompanyName" disabled>
-                    <span asp-validation-for="CompanyName"></span>
-                </div>
-                <div class="form-group col-md-6">
-                    <label asp-for="PhoneNumber">Номер телефона:</label>
-                    <input type="text" class="form-control" value="@ViewBag.User.PhoneNumber" disabled>
-                    <span asp-validation-for="PhoneNumber"></span>
-                </div>
-                <div class="form-group col-md-6">
-                    <label>Юридический адрес:</label>
-                    <input type="text" class="form-control" value="@Model.LegalAddress.Address" disabled>
-                    <input type="text" class="form-control" value="@Model.LegalAddress.City, @Model.LegalAddress.Country, @Model.LegalAddress.Index" disabled>
-                </div>
-                <div class="form-group col-md-6">
-                    <label>Почтовый адрес:</label>
-                    <input type="text" class="form-control" value="@Model.PostalAddress.Address" disabled>
-                    <input type="text" class="form-control" value="@Model.PostalAddress.City, @Model.PostalAddress.Country, @Model.PostalAddress.Index" disabled>
-                </div>
-            </div>
-        </div>
+<div class="container-personalAccount">
+    <form class="edit-form">
+        @{
+            await Html.RenderPartialAsync("PartialViews/UserInformationPartial");
+        }
     </form>
 </div>
 
@@ -77,6 +28,7 @@
     </div>
 </div>
 
+
 @section Scripts
 {
     @{
@@ -94,8 +46,6 @@
                 }
             })
         }
-        
-        
         $('#user-form-submit-btn').on('shown.bs.modal', function () {
           $('#myInput').trigger('focus')
         });
@@ -114,6 +64,21 @@
             }
             return false;
            });
-    
+        function expandTheBlock(){
+            var result = $('#regul').val();
+            if( result === "0")
+             {
+                $('#block-UP-address').show();
+                $('#uk15').text("Скрыть")
+                $('#regul').val(1)
+             }
+            else{
+                $('#block-UP-address').hide();
+                $('#uk15').text("Показать")
+                $('#regul').val(0)
+
+            }
+            
+        }
     </script>
 }

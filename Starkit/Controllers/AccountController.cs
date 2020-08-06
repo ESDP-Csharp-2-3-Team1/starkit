@@ -40,6 +40,8 @@ namespace Starkit.Controllers
 
         public IActionResult Login()
         {
+            if (User.Identity.IsAuthenticated)
+                return RedirectToAction("Index","Users");
             return View();
         }
 
@@ -69,7 +71,7 @@ namespace Starkit.Controllers
                             user.AccessFailedCount = 0;
                             await _userManager.UpdateAsync(user);
                         }
-                        return RedirectToAction("Index", "Starkit");
+                        return RedirectToAction("Index", "Users");
                     }
 
                     user.AccessFailedCount += 1;
@@ -81,9 +83,10 @@ namespace Starkit.Controllers
             }
             return View(model);
         }
-
         public IActionResult Register()
         {
+            if (User.Identity.IsAuthenticated)
+                return RedirectToAction("Index","Users");
             return View();
         }
         
@@ -123,7 +126,7 @@ namespace Starkit.Controllers
                     await _db.LegalAddresses.AddAsync(model.LegalAddress);
                     await _db.PostalAddresses.AddAsync(model.PostalAddress);
                     await _db.SaveChangesAsync();
-                    return RedirectToAction("Index", "Starkit");
+                    return RedirectToAction("Index", "Users");
                 }
 
                 foreach (var error in result.Errors)
