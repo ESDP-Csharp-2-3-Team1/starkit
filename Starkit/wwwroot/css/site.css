@@ -5,7 +5,7 @@ for details on configuring this project to bundle and minify static web assets. 
 /*}*/
 body{
   /*background: #e5e7ed;*/
-  /*background: #fafafa;*/
+  background: #fafafa;
 }
 a.navbar-brand {
   white-space: normal;
@@ -549,5 +549,172 @@ body {
   width: 304px;
   margin: 0 auto;
 }
+
+/* start Views => User => Index.cshtml*/
+
+
+.container-edit{
+  /*background: white;*/
+  display: grid;
+  grid-template-columns: 280px auto;
+  /*border: 1px solid rgba(var(--b6a,219,219,219),1);*/
+  /*border-radius: 3px;*/
+}
+.edit-block2{
+  /*background: white;*/
+  background-color: white;
+  -webkit-box-shadow:0 3px 50px 0 rgba(0,0,0,.1);
+  box-shadow:0 3px 50px 0 rgba(0,0,0,.1);
+  border-radius:5px;
+  /*border: 1px solid rgba(var(--b6a,219,219,219),1);*/
+  /*border-radius: 3px;*/
+}
+.container-personalAccount{
+  padding:  50px;
+}
+.edit-block1{
+  /*border-right: 1px solid rgba(var(--b6a,219,219,219),1);*/
+  margin-bottom: 0;
+  text-decoration: none;
+  padding: 0;
+}
+
+.edit-block1 li{
+  width: 235px;
+  list-style-type: none;
+  background: #41728b;
+  margin-bottom: 2px;
+}
+.edit-block1 a{
+  display: block;
+  padding: 16px 16px 16px 30px;
+  color: white;
+  text-decoration: none;
+  border-left: 2px solid transparent;
+}
+
+.edit-block1 a:hover{
+  font-weight: 600;
+  background: #9ad9ea;
+  color: #262626;
+  border-left: 2px solid #41728b;
+}
+.edit-block1 a:active{
+  color: silver;
+}
+/*-----*/
+.ed2-box1{
+  margin-top: 32px;
+  display: grid;
+  grid-template-columns: 194px 502px;
+}
+.ed2-box1-img{
+  margin: 2px 32px 0 124px;
+  height: 38px;
+  width: 38px;
+}
+.ed2-box1-img img{
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+}
+.ed2-box1-name{
+  padding-right: 60px;
+}
+.ed2-box1-name h1{
+  font-size: 20px;
+  color: #262626;
+  line-height: 22px;
+  margin-bottom: 2px;
+  font-weight: 400;
+}
+.ed2-box1-name button{
+  border: none;
+  outline: none;
+  background: none;
+  color: #0095F6;
+  color: rgba(var(--d69,0,149,246),1);
+  padding: 0;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.ed2-form-label{
+  padding: 0 32px;
+  margin-top: 6px;
+  text-align: end;
+  font-weight: 600;
+}
+.ed2-form-input{
+  padding-right: 60px;
+}
+.boxx2{
+  width: 355px;
+}
+.ed2-form-input input{
+  margin: 0;
+  height: 30px;
+  padding: 0 10px;
+}
+.ed2-form-input span{
+  width: 355px;
+}
+
+.ed2-form-input p{
+  color: #8e8e8e;
+  font-size: 12px;
+  line-height: 14px;
+}
+.ed2-form-input .ed2p1{
+  margin: 16px  0 13px 0;
+}
+.ed2-form-input .ed2p2{
+  margin-bottom: 8px;
+}
+.ed2-form-group{
+  margin-bottom: 16px;
+}
+.boxx2 input:disabled{
+  background: none;
+}
+.ed2-form-group{
+  display: grid;
+  grid-template-columns: 225px auto;
+}
+.edit-form{
+  margin: 0;
+}
+.boxx22{
+  margin-left: 225px;
+}
+
+.ed2p22 a{
+  font-size: 14px!important;
+  color: #0095F6 !important;
+  font-weight: 600;
+}
+.ed2p22{
+  text-align: end;
+}
+.boxx22 p{
+  margin: 0;
+}
+.up-address{
+  text-align: end;
+}
+.boxx255 a{
+  text-decoration: none;
+  font-size: 14px;
+  color: #0366D6;
+  font-weight: 600;
+
+}
+#block-UP-address{
+  display: none;
+}
+
+
+/* end Views => User => Index.cshtml*/
 
     
