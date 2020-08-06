@@ -19,14 +19,16 @@ namespace Starkit.Controllers
     public class AccountController : Controller
     {
         private readonly IRecaptchaService _recaptcha;
+        private readonly IEmailSender _emailSender;
         public UserManager<User> _userManager { get; set; }
         public RoleManager<IdentityRole> _roleManager { get; set; }
         public SignInManager<User> _signInManager { get; set; }
         public StarkitContext _db { get; set; }
         public IHostEnvironment _environment { get; set; }
         
+        
 
-        public AccountController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, SignInManager<User> signInManager, StarkitContext db, IHostEnvironment environment, IRecaptchaService recaptcha)
+        public AccountController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, SignInManager<User> signInManager, StarkitContext db, IHostEnvironment environment, IRecaptchaService recaptcha, IEmailSender emailSender)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -34,6 +36,7 @@ namespace Starkit.Controllers
             _db = db;
             _environment = environment;
             _recaptcha = recaptcha;
+            _emailSender = emailSender;
         }
 
         // GET
@@ -203,6 +206,76 @@ namespace Starkit.Controllers
                     return Json(user.AccessFailedCount);
             }
             return NoContent();
+        }
+        
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+        
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+ 
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+                return RedirectToAction("ForgotPasswordConfirmation");
+ 
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var callback = Url.Action("ResetPassword", "Account", new {token, email = user.Email}, Request.Scheme);
+    
+            var message = new Message(new[] { "samal.zhex@gmail.com" }, "Reset password token", callback);
+            await _emailSender.SendEmailAsync(message);
+ 
+            return RedirectToAction(nameof(ForgotPasswordConfirmation));
+        }
+        
+        public IActionResult ForgotPasswordConfirmation()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult ResetPassword(string token, string email)
+        {
+            var model = new ResetPasswordViewModel { Token = token, Email = email };
+            return View(model);
+        }
+ 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+ 
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+                RedirectToAction(nameof(ResetPasswordConfirmation));
+ 
+            var resetPassResult = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
+            if(!resetPassResult.Succeeded)
+            {
+                foreach (var error in resetPassResult.Errors)
+                {
+                    ModelState.TryAddModelError(error.Code, error.Description);
+                }
+ 
+                return View();
+            }
+ 
+            return RedirectToAction(nameof(ResetPasswordConfirmation));
+        }
+ 
+        [HttpGet]
+        public IActionResult ResetPasswordConfirmation()
+        {
+            return View();
         }
     }
 }
