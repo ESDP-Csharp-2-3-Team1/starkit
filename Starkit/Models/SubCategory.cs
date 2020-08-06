@@ -24,5 +24,8 @@ namespace Starkit.Models
 
         [NotMapped]
         public List<Category> Categories { get; set; }
+        
+        public string UserId { get; set; }
+        public virtual User User { get; set; }
     }
 }
