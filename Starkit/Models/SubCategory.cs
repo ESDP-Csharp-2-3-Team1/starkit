@@ -13,11 +13,9 @@ namespace Starkit.Models
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [Remote("CheckNameSubCategory", "Validation", ErrorMessage = "Такая подкатегория уже существует")]
         public string Name { get; set; }
-        
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         public string CategoryId { get; set; }
         public virtual Category Category { get; set; }
-
         public DateTime CreateTime { get; set; }
         
         public DateTime? EditedTime { get; set; }

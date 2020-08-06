@@ -9,12 +9,11 @@ namespace Starkit.Models
     public class Dish
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
-
         public string CategoryId { get; set; }
         public virtual Category Category { get; set; }
-        
         public string SubCategoryId { get; set; }
-        public virtual SubCategory SubCategory { get; set; }
+        [NotMapped]
+        public SubCategory SubCategory { get; set; }
         
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         public string Name { get; set; }
@@ -33,7 +32,6 @@ namespace Starkit.Models
         
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         public double Calorie { get; set; }
-
         public bool ProperNutrition { get; set; }
 
         public bool Vegetarian { get; set; }
@@ -42,19 +40,16 @@ namespace Starkit.Models
 
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         public string Ingredients { get; set; }
-
         public DateTime AddTime { get; set; }
-
         public DateTime? EditTime { get; set; }
-
         public string CreatorId { get; set; }
         public virtual User Creator { get; set; }
-
         public string EditorId { get; set; }
         public virtual User Editor { get; set; }
 
         [NotMapped]
         public List<Category> Categories { get; set; }
-        public List<SubCategory> SubCategories { get; set; }
+        [NotMapped]
+        public  List<SubCategory> SubCategories { get; set; }
     }
 }
