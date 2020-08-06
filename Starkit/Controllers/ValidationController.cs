@@ -59,9 +59,9 @@ namespace Starkit.Controllers
                 return !_db.Dishes.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim() 
                                                 && c.CreatorId == _userManager.GetUserId(User));
             
-            List<Category> categories = _db.Categories.Where(c => c.Id != id && 
-                                                                  c.UserId == _userManager.GetUserId(User)).ToList();
-            return !categories.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim());
+            List<Dish> dishes = _db.Dishes.Where(d => d.Id != id && 
+                                                                  d.CreatorId == _userManager.GetUserId(User)).ToList();
+            return !dishes.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim());
         }
 
         public bool CheckNameSubCategory(string name)
