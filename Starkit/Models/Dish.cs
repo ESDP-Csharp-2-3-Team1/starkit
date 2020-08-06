@@ -55,5 +55,6 @@ namespace Starkit.Models
 
         [NotMapped]
         public List<Category> Categories { get; set; }
+        public List<SubCategory> SubCategories { get; set; }
     }
 }

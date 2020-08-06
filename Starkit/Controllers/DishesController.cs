@@ -66,7 +66,11 @@ namespace Starkit.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            var dish = new Dish {Categories = _db.Categories.ToList()};
+            var dish = new Dish
+            {
+                Categories = _db.Categories.ToList(),
+                SubCategories = _db.SubCategories.ToList()
+            };
             return View(dish);
         }
 
