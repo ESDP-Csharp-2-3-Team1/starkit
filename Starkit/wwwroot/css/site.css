@@ -728,5 +728,15 @@ body {
   color: #3eb2fd;
 }
 
+#block-UP-address hr{
+  margin-top: 0;
+}
+.ed2-form-input input::placeholder{
+  font-size: 12px;
+}
+#btn-submit-save-edit-password{
+  display: none;
+}
+
 
     
