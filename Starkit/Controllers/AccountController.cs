@@ -81,7 +81,7 @@ namespace Starkit.Controllers
                     ModelState.AddModelError("", "Неверная попытка входа в систему");
                     return View();
                 }
-                ModelState.AddModelError("","E-mail не зарегистрирован");
+                ModelState.AddModelError("","Неверная попытка входа в систему");
             }
             return View(model);
         }
