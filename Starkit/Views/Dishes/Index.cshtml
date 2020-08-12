@@ -1,55 +1,47 @@
 ﻿@model SelectList
 
 @{
-    ViewBag.Title = "Управление меню";
+    ViewBag.Title = "Список блюд";
     Layout = "_Layout";
 }
 
-<h2 class="text-menu">Список блюд</h2>
-<form method="get" id="filter" asp-action="GetDishes" asp-controller="Dishes">
-    <div class="form-inline">
-        <label>Имя: </label>
-        <input id="searchName" name="name" class="form-control"/>
-
-        <label>Категория: </label>
-        <select id="filterCategory" name="category" asp-items="@Model" class="form-control"></select>
-
-        <input type="submit" value="Фильтр" class="btn btn-outline-dark"/>
+<div class="container" style="width: 90%; margin-bottom: 50px">
+    <h2 class="text-menu">Список блюд</h2>
+    <div class="d-flex bd-highlight mb-3">
+        <div class="p-2 bd-highlight">
+            <label>Категория: </label>
+            <select id="filterCategory" name="category" asp-items="@Model" class="form-control"></select>
+        </div>
+        <div class="p-2 bd-highlight">
+            <label>Имя: </label>
+            <input id="searchName" name="name" class="form-control"/>
+        </div>
+        <div class="p-2 bd-highlight">
+            <img src="https://img.icons8.com/wired/48/000000/delete-forever.png" id="delete" style="cursor: pointer; margin-top: 25px;"/>
+        </div>
+        <div class="p-2 bd-highlight">
+            <img src="https://img.icons8.com/material-rounded/48/000000/hide.png" id="hide" style="cursor: pointer; margin-top: 25px"/>
+        </div>
     </div>
-</form>
-<form method="get" id="sortOrder" asp-action="GetDishes" asp-controller="Dishes">
-    <label>Сортировать: </label>
-    <select id="sort-param" name="sortOrder">
-        <option id="sortName" value="NameAsc">По имени</option>
-        <option id="sortCost" value="CostAsc">По цене</option>
-        <option id="sortAddTime" value="AddTimeDesc">По дате создания</option>
-        <option id="sortCategory" value="CategoryAsc">По категорий</option>
-        <option id="sortCalorie" value="CalorieAsc">По калорий</option>
-    </select>
-    <input type="hidden" name="name" id="name">
-    <input type="hidden" name="category" id="category">
-    <input type="submit" value="Сортировка" class="btn btn-outline-dark"/>
-</form>
 
-<div id="message">Не выбрано ни одного блюда</div>
-<button type="button" class="btn btn-dark" id="delete">Удалить выбранное</button>
-<button type="button" class="btn btn-dark" id="hide">Скрыть/Отображать выбранное</button>
-<div class="modal answer-modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <h5>Вы уверены?</h5>
-            </div>
-            <div class="modal-footer">
-                <button onclick="deleteDishes()" type="button" class="btn btn-primary button-delete">Удалить</button>
-                <button onclick="hideDishes()" type="button" class="btn btn-primary button-hide">Скрыть/Отображать</button>
-                <button type="button" class="btn btn-secondary" onclick="closeModal()">Закрыть</button>
+    <div id="message" style="color: red">Не выбрано ни одного блюда</div>
+    <div class="modal answer-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h5>Вы уверены?</h5>
+                </div>
+                <div class="modal-footer">
+                    <button onclick="deleteDishes()" type="button" class="btn btn-primary button-delete">Удалить</button>
+                    <button onclick="hideDishes()" type="button" class="btn btn-primary button-hide">Скрыть/Отображать</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Закрыть</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div id="result">
-
+    <div id="result">
+    
+    </div>
 </div>
 
 @section Scripts
@@ -131,71 +123,68 @@
             });
         }
         
-        $('#filter').submit(function(e) {
-            e.preventDefault();
-            var form = $(this);
-            $.ajax({
-                type: form.attr("method"),
-                url: form.attr("action"),
-                data: form.serialize()
-            }).done(function(data) {
-                $("#result").html(data);
-                var category = $("#filterCategory").val();
-                var name = $("#searchName").val();
-                $("#category").val(category);
-                $("#name").val(name);
-            })
+        $("#filterCategory").change(function() {
+          var filter = $("#filterCategory").val();
+          var search = $("#searchName").val();
+          $.ajax({
+                url: '@Url.Action("GetDishes")',
+                type: "GET",
+                data: {
+                    name: search,
+                    category: filter,
+                    sortOrder: sort
+                }
+          }).done(function(data) {
+            $("#result").html(data);
+          });
         });
         
-        $("#sortOrder").submit(function(e) {
-            e.preventDefault();
-            var form = $(this);
+        $("#searchName").keyup(function() {
+            var filter = $("#filterCategory").val();
+            var search = $("#searchName").val();
             $.ajax({
-                type: form.attr("method"),
-                url: form.attr("action"),
-                data: form.serialize()
+                url: '@Url.Action("GetDishes")',
+                type: "GET",
+                data: {
+                    name: search,
+                    category: filter,
+                    sortOrder: sort
+                }
             }).done(function(data) {
                 $("#result").html(data);
-                var sortParam = $("#sort-param").val();
-                var sortName = $("#sortName");
-                var sortCost = $("#sortCost");
-                var sortAddTime = $("#sortAddTime");
-                var sortCategory = $("#sortCategory");
-                var sortCalorie = $("#sortCalorie");
-                switch (sortParam) {
-                  case "NameAsc":
-                      sortName.val("NameDesc");
-                      break;
-                  case "NameDesc":
-                      sortName.val("NameAsc");
-                      break;
-                  case "CostAsc":
-                      sortCost.val("CostDesc");
-                      break;
-                  case "CostDesc":
-                      sortCost.val("CostAsc");
-                      break;
-                  case "AddTimeAsc":
-                      sortAddTime.val("AddTimeDesc");
-                      break;
-                  case "AddTimeDesc":
-                      sortAddTime.val("AddTimeAsc");
-                      break;
-                  case "CategoryAsc":
-                      sortCategory.val("CategoryDesc");
-                      break;
-                  case "CategoryDesc":
-                      sortCategory.val("CategoryAsc");
-                      break;
-                  case "CalorieAsc":
-                      sortCalorie.val("CalorieDesc");
-                      break;
-                  case "CalorieDesc":
-                      sortCalorie.val("CalorieAsc");
-                      break;
-                }
             });
         });
+        
+        function nameSort(){
+            var sortParam = $(".nameSort").attr('id');
+            sort(sortParam);
+        }
+        
+        function costSort() {
+            var sortParam = $(".nameSort").attr('id');
+            sort(sortParam);
+        }
+        
+        function addTimeSort() {
+            var sortParam = $(".nameSort").attr('id');
+            sort(sortParam);
+        }
+        
+        function sort(sortParam){
+            var filter = $("#filterCategory").val();
+            var search = $("#searchName").val();
+            $.ajax({
+            url: '@Url.Action("GetDishes")',
+                type: "GET",
+                data: {
+                    name: search,
+                    category: filter,
+                    sortOrder: sortParam
+                }
+            }).done(function(data) {
+                $("#result").html(data);
+            })
+        }
         
         function previousPage(page, name, category, sortOrder) {
             $.ajax({

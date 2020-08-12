@@ -12,9 +12,24 @@
         <tr>
             <th></th>
             <th style="vertical-align: middle; text-align: center" scope="col">Изображение</th>
-            <th style="vertical-align: middle; text-align: center" scope="col">Наименование</th>
-            <th style="vertical-align: middle; text-align: center" scope="col">Стоимость</th>
-            <th style="vertical-align: middle; text-align: center" scope="col">Время добавления</th>
+            <th style="vertical-align: middle; text-align: center" scope="col">
+                Наименование
+                <a style="cursor: pointer" id="@Model.SortViewModel.NameSort" class="nameSort" onclick="nameSort('')">
+                    <img src="https://img.icons8.com/material-sharp/24/000000/sort.png"/>
+                </a>
+            </th>
+            <th style="vertical-align: middle; text-align: center" scope="col">
+                Стоимость
+                <a style="cursor: pointer" id="@Model.SortViewModel.CostSort" class="costSort" onclick="costSort('')">
+                    <img src="https://img.icons8.com/material-sharp/24/000000/sort.png"/>
+                </a>
+            </th>
+            <th style="vertical-align: middle; text-align: center" scope="col">
+                Время добавления
+                <a style="cursor: pointer" id="@Model.SortViewModel.AddTimeSort" class="addTimeSort" onclick="addTimeSort('')">
+                    <img src="https://img.icons8.com/material-sharp/24/000000/sort.png"/>
+                </a>
+            </th>
             <th style="vertical-align: middle; text-align: center" scope="col">Время редактирования</th>
             <th style="vertical-align: middle; text-align: center" scope="col">Видимость</th>
             <th style="vertical-align: middle; text-align: center" scope="col">Действие</th>
@@ -41,8 +56,12 @@
                     }
                 </td>
                 <td style="vertical-align: middle; text-align: center">
-                    <a style="margin-bottom: 10px" class="btn btn-dark" asp-action="Edit" asp-controller="Dishes" asp-route-id="@dish.Id">Редактировать</a>
-                    <a class="btn btn-dark" href="#">Добавить в акцию</a>
+                    <a style="margin-bottom: 10px" asp-action="Edit" asp-controller="Dishes" asp-route-id="@dish.Id">
+                        <img src="https://img.icons8.com/ios-glyphs/24/000000/edit.png"/>
+                    </a>
+                    <a href="#">
+                        <img src="https://img.icons8.com/cotton/24/000000/discount--v3.png"/>
+                    </a>
                 </td>
             </tr>
         }
