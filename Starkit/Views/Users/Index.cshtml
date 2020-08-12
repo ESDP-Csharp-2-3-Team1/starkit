@@ -35,8 +35,31 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     <script >
+            $('.cityPhone-nu').keyup(function() {
+                let a = $('#postal-city').val();
+                a = a !== undefined ?  a : "";
+                let b = $('#cityPhone').val();
+                b = b !== undefined ?  b : "";
+                let c = $('#postal-region').val();
+                c = c !== undefined ?  c : "";
+                let r = $('#legal-region').val();
+                r = r !== undefined ?  r : "";
+                let l = $('#legal-city').val();
+                l = l !== undefined ?  l : "";
+                let result = a + b + c + r + l;
+                 
+                if(result.trim() !== '') 
+                    {
+                        $('#btn-submit-edit-password').hide();
+                        $('#btn-submit-save-edit-password').show();
+                    }
+                    else{
+                        $('#btn-submit-save-edit-password').hide();
+                        $('#btn-submit-edit-password').show();
+                    }
+            })
+    
         function changePassword(){
-
             $.ajax({
                 url: '@Url.Action("ChangePassword", "Account")',
                 type: 'POST',

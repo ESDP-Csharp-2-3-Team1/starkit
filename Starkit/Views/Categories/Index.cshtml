@@ -3,33 +3,36 @@
     Layout = "_Layout";
 }
 
-<div class="modal answer-modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body"><h5>Вы уверены?</h5></div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary deleteCategory">Удалить</button>
-                <button type="button" class="btn btn-secondary" onclick="closeModal()">Закрыть</button> 
+<div class="container" style="width: 90%; margin-bottom: 50px">
+    <div class="modal answer-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body"><h5>Вы уверены?</h5></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary deleteCategory">Удалить</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Закрыть</button> 
+                </div>
             </div>
         </div>
     </div>
+    <h2 class="text-categories">Список категорий</h2>
+    <div style="overflow-x:auto;">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th style="vertical-align: middle; text-align: center" scope="col">Название</th>
+                <th style="vertical-align: middle; text-align: center" scope="col">Дата создание</th>
+                <th style="vertical-align: middle; text-align: center" scope="col">Дата редактирования</th>
+                <th style="vertical-align: middle; text-align: center" scope="col">Действие</th>
+            </tr>
+            </thead>
+            <tbody id="result">
+                
+            </tbody>
+        </table>
+    </div>    
 </div>
-<h2 class="text-categories">Список категорий</h2>
-<div style="overflow-x:auto;">
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th>Название</th>
-            <th>Дата создание</th>
-            <th>Дата редактирования</th>
-            <th>Действие</th>
-        </tr>
-        </thead>
-        <tbody id="result">
-            
-        </tbody>
-    </table>
-</div>
+
 @section Scripts
 {
     <script>
