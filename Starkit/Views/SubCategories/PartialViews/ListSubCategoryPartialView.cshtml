@@ -2,16 +2,18 @@
 
 @if (Model.Count != 0)
 {
-    @foreach (var subCategories in Model)
+    @foreach (var subCategory in Model)
     {
         <tr>
-            <td>@subCategories.Name</td>
-            <td>@subCategories.Category.Name</td>
-            <td>@subCategories.CreateTime</td>
-            <td>@subCategories.EditedTime</td>
-            <td>
-                <button type="button" class="btn btn-danger" onclick="openModal('@subCategories.Id')">Удалить</button>
-                <a class="btn btn-primary" asp-action="Edit" asp-route-id="@subCategories.Id">Редактировать</a>
+            <td style="vertical-align: middle; text-align: center">@subCategory.Name</td>
+            <td style="vertical-align: middle; text-align: center">@subCategory.Category.Name</td>
+            <td style="vertical-align: middle; text-align: center">@subCategory.CreateTime</td>
+            <td style="vertical-align: middle; text-align: center">@subCategory.EditedTime</td>
+            <td style="vertical-align: middle; text-align: center">
+                <img src="https://img.icons8.com/wired/24/000000/delete-forever.png" onclick="openModal('@subCategory.Id')" style="cursor: pointer;"/>
+                <a asp-action="Edit" asp-route-id="@subCategory.Id">
+                    <img src="https://img.icons8.com/ios-glyphs/24/000000/edit.png"/>
+                </a>
             </td>
         </tr>
     }   
