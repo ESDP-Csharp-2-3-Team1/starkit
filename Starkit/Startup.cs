@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Starkit.CustomTokenProviders;
 using Starkit.Models;
 using Starkit.Models.Data;
 using Starkit.Services;
@@ -42,14 +43,19 @@ namespace Starkit
                     options.Password.RequireLowercase = true; // требуются ли символы в нижнем регистре
                     options.Password.RequireUppercase = true; // требуются ли символы в верхнем регистре
                     options.Password.RequireDigit = true; // требуются ли цифры
+                    options.SignIn.RequireConfirmedAccount = true;
+                    options.Tokens.EmailConfirmationTokenProvider = "emailconfirmation";
                 })
                 .AddEntityFrameworkStores<StarkitContext>()
-                .AddDefaultTokenProviders();    
+                .AddDefaultTokenProviders()
+                .AddTokenProvider<EmailConfirmationTokenProvider<User>>("emailconfirmation");    
             services.AddControllersWithViews();
             services.Configure<AppOptions>(Configuration);
             services.AddSingleton<IRecaptchaService, GoogleRecaptchaService>();
             services.Configure<DataProtectionTokenProviderOptions>(opt =>
                 opt.TokenLifespan = TimeSpan.FromHours(1));
+            services.Configure<EmailConfirmationTokenProviderOptions>(opt =>
+                opt.TokenLifespan = TimeSpan.FromDays(3));
             var emailConfig = Configuration
                 .GetSection("EmailConfiguration")
                 .Get<EmailConfiguration>();    

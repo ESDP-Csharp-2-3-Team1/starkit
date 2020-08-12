@@ -76,13 +76,12 @@ namespace Starkit.Controllers
                         }
                         return RedirectToAction("Index", "Users");
                     }
-
                     user.AccessFailedCount += 1;
                     await _userManager.UpdateAsync(user);
-                    ModelState.AddModelError("","Неверный пароль пользователя");
+                    ModelState.AddModelError("", "Неверная попытка входа в систему");
+                    return View();
                 }
-                else
-                    ModelState.AddModelError("","E-mail не зарегистрирован");
+                ModelState.AddModelError("","Неверная попытка входа в систему");
             }
             return View(model);
         }
@@ -125,11 +124,17 @@ namespace Starkit.Controllers
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(newUser, "restaurateur");
-                    await _signInManager.SignInAsync(newUser, false);
                     await _db.LegalAddresses.AddAsync(model.LegalAddress);
                     await _db.PostalAddresses.AddAsync(model.PostalAddress);
                     await _db.SaveChangesAsync();
-                    return RedirectToAction("Index", "Users");
+                    
+                    var token = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
+                    var confirmationLink = Url.Action(nameof(ConfirmEmail), "Account", new { token, email = newUser.Email }, Request.Scheme);
+
+                    var message = new Message(new string[] { newUser.Email }, "Confirmation email link", confirmationLink);
+                    await _emailSender.SendEmailAsync(message);
+
+                    return RedirectToAction(nameof(SuccessRegistration));
                 }
 
                 foreach (var error in result.Errors)
@@ -275,6 +280,23 @@ namespace Starkit.Controllers
  
         [HttpGet]
         public IActionResult ResetPasswordConfirmation()
+        {
+            return View();
+        }
+        
+        [HttpGet]
+        public async Task<IActionResult> ConfirmEmail(string token, string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+                return View("Error");
+ 
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            return View(result.Succeeded ? nameof(ConfirmEmail) : "Ошибка");
+        }
+ 
+        [HttpGet]
+        public IActionResult SuccessRegistration()
         {
             return View();
         }
