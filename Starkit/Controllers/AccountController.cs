@@ -129,12 +129,12 @@ namespace Starkit.Controllers
                     await _db.SaveChangesAsync();
                     
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
-                    var confirmationLink = Url.Action(nameof(ConfirmEmail), "Account", new { token, email = newUser.Email }, Request.Scheme);
+                    var confirmationLink = Url.Action("ConfirmEmail", "Account", new { token, email = newUser.Email }, Request.Scheme);
 
-                    var message = new Message(new string[] { newUser.Email }, "Confirmation email link", confirmationLink);
+                    var message = new Message(new [] { newUser.Email }, "Подтверждение адреса электронной почты", confirmationLink);
                     await _emailSender.SendEmailAsync(message);
 
-                    return RedirectToAction(nameof(SuccessRegistration));
+                    return RedirectToAction("SuccessRegistration");
                 }
 
                 foreach (var error in result.Errors)
@@ -236,9 +236,9 @@ namespace Starkit.Controllers
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var callback = Url.Action("ResetPassword", "Account", new {token, email = user.Email}, Request.Scheme);
     
-            var message = new Message(new[] { model.Email }, "Reset password token", callback);
+            var message = new Message(new[] { model.Email }, "Восстановление пароля", callback);
             await _emailSender.SendEmailAsync(message);
-            return RedirectToAction(nameof(ForgotPasswordConfirmation));
+            return RedirectToAction("ForgotPasswordConfirmation");
         }
         
         public IActionResult ForgotPasswordConfirmation()
@@ -262,7 +262,7 @@ namespace Starkit.Controllers
  
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
-                RedirectToAction(nameof(ResetPasswordConfirmation));
+                RedirectToAction("ResetPasswordConfirmation");
  
             var resetPassResult = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
             if(!resetPassResult.Succeeded)
@@ -275,7 +275,7 @@ namespace Starkit.Controllers
                 return View();
             }
  
-            return RedirectToAction(nameof(ResetPasswordConfirmation));
+            return RedirectToAction("ResetPasswordConfirmation");
         }
  
         [HttpGet]
