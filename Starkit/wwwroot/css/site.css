@@ -743,7 +743,10 @@ body {
   margin-top: 50px;
 }
 /*dropdown*/
-.my-dropdown-menu{
+#dropdown1{
+  display: none;
+}
+#dropdown2{
   display: none;
 }
 .my-dropdown-menu li{
