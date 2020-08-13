@@ -1,9 +1,21 @@
-﻿<ul  class="edit-block1">
+﻿
+
+
+
+
+<ul class="edit-block1">
+    <div>
+        <li class="nav-item my-dropdown">
+            <a role="button" class="my-drop-btn-menu" onclick="showDropdown(1)" id="drop-btn-menu">МЕНЮ</a>
+        </li>
+        <div class="my-dropdown-menu" id="dropdown1">
+            <li class="link-1"><a asp-action="Create" asp-controller="Dishes">Добавить блюдо</a></li>
+                <li class="link-1"><a asp-action="Create" asp-controller="Categories">Добавить категорию</a></li>
+                <li class="link-1"><a asp-action="Create" asp-controller="SubCategories">Добавить подкатегорию</a></li>
+                <li class="link-1"><a asp-action="Index" asp-controller="Dishes">Список блюд</a></li>
+                <li class="link-1"><a asp-action="Index" asp-controller="Categories">Список категорий</a></li>
+                <li class="link-1"><a asp-action="Index" asp-controller="SubCategories">Список подкатегорий</a></li>
+        </div>
+    </div>
     <li class="link-1"><a asp-action="Index" asp-controller="Users">Редактировать профиль</a></li>
-    <li class="link-1"><a asp-action="Create" asp-controller="Dishes">Добавить блюдо</a></li>
-    <li class="link-1"><a asp-action="Create" asp-controller="Categories">Добавить категорию</a></li>
-    <li class="link-1"><a asp-action="Create" asp-controller="SubCategories">Добавить подкатегорию</a></li>
-    <li class="link-1"><a asp-action="Index" asp-controller="Dishes">Список блюд</a></li>
-    <li class="link-1"><a asp-action="Index" asp-controller="Categories">Список категорий</a></li>
-    <li class="link-1"><a asp-action="Index" asp-controller="SubCategories">Список подкатегорий</a></li>
 </ul>
