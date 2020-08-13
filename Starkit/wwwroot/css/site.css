@@ -757,8 +757,11 @@ body {
   /*font-weight: 600;*/
 }
 #drop-btn-menu{
-  color: white;
   font-size: 20px;
+}
+#drop-btn-menu, #drop-btn-prof{
+  color: white;
   font-weight: 600;
 }
+
 
