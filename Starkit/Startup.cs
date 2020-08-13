@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Starkit.CustomTokenProviders;
 using Starkit.Models;
 using Starkit.Models.Data;
 using Starkit.Services;
@@ -36,31 +35,18 @@ namespace Starkit
             services.AddTransient<UploadService>();
             services.AddDbContext<StarkitContext>(options => options.UseNpgsql(connection)
                     .UseLazyLoadingProxies())
-                .AddIdentity<User,IdentityRole>(options =>
+                .AddIdentity<User, IdentityRole>(options =>
                 {
-                    options.Password.RequiredLength = 8;   // минимальная длина
-                    options.Password.RequireNonAlphanumeric = false;   // требуются ли не алфавитно-цифровые символы
+                    options.Password.RequiredLength = 8; // минимальная длина
+                    options.Password.RequireNonAlphanumeric = false; // требуются ли не алфавитно-цифровые символы
                     options.Password.RequireLowercase = true; // требуются ли символы в нижнем регистре
                     options.Password.RequireUppercase = true; // требуются ли символы в верхнем регистре
                     options.Password.RequireDigit = true; // требуются ли цифры
-                    options.SignIn.RequireConfirmedAccount = true;
-                    options.Tokens.EmailConfirmationTokenProvider = "emailconfirmation";
                 })
-                .AddEntityFrameworkStores<StarkitContext>()
-                .AddDefaultTokenProviders()
-                .AddTokenProvider<EmailConfirmationTokenProvider<User>>("emailconfirmation");    
+                .AddEntityFrameworkStores<StarkitContext>();
             services.AddControllersWithViews();
             services.Configure<AppOptions>(Configuration);
             services.AddSingleton<IRecaptchaService, GoogleRecaptchaService>();
-            services.Configure<DataProtectionTokenProviderOptions>(opt =>
-                opt.TokenLifespan = TimeSpan.FromHours(1));
-            services.Configure<EmailConfirmationTokenProviderOptions>(opt =>
-                opt.TokenLifespan = TimeSpan.FromDays(3));
-            var emailConfig = Configuration
-                .GetSection("EmailConfiguration")
-                .Get<EmailConfiguration>();    
-            services.AddSingleton(emailConfig);
-            services.AddScoped<IEmailSender, EmailSender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
