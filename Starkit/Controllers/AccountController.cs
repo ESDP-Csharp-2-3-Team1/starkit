@@ -125,6 +125,7 @@ namespace Starkit.Controllers
                     await _db.LegalAddresses.AddAsync(model.LegalAddress);
                     await _db.PostalAddresses.AddAsync(model.PostalAddress);
                     await _db.SaveChangesAsync();
+                    await _signInManager.SignInAsync(newUser, false);
                     return RedirectToAction("Index", "Users");
                 }
 
