@@ -22,23 +22,21 @@ namespace Starkit.Models
 
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         public string Name { get; set; }
-
-        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
-        public decimal Cost { get; set; }
+        
+        public decimal? Cost { get; set; }
         
         [NotMapped]
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         public IFormFile File { get; set; }
 
         public string Avatar { get; set; }
+
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
+        public string Description { get; set; }
+        
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
+        public string Type { get; set; }
         
         public virtual List<MenuDish> MenuDishes  { get; set; }
-        
-        [NotMapped] 
-        public IEnumerable<IGrouping<Category, Dish>> Dishes { get; set; }
-
-        [NotMapped]
-        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
-        public List<string> DishesId { get; set; }
     }
 }
