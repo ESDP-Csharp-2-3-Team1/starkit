@@ -754,7 +754,8 @@ body {
 }
 .container-edit .edit-block1 li a{
   padding: 10px 16px 10px 30px;
-  /*font-weight: 600;*/
+  cursor: pointer;
+  font-weight: 600;
 }
 #drop-btn-menu{
   font-size: 20px;

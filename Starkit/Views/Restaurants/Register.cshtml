@@ -1,0 +1,24 @@
+﻿@model Restaurant
+
+@{
+    ViewBag.Title = "Регистрация заведений";
+    Layout = "_Layout";
+}
+
+
+<div class="container-personalAccount main-register-block ">
+    <form asp-action="Register" asp-controller="Restaurants" method="post">
+        @{
+            await Html.RenderPartialAsync("Partial/RestaurantRegisterFormPartial");
+        }
+
+    </form>
+</div>
+
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
