@@ -60,5 +60,20 @@ namespace Starkit.Controllers
         {
             return View();
         }
+        
+        [HttpPost]
+        public async Task<IActionResult> Create(Menu menu)
+        {
+            if (ModelState.IsValid)
+            {
+                menu.Avatar = menu.Avatar = Load(menu.Id, menu.File);
+                menu.AddTime = DateTime.Now;
+                menu.CreatorId = _userManager.GetUserId(User);
+                _db.Entry(menu).State = EntityState.Added;
+                await _db.SaveChangesAsync();
+                return RedirectToAction("Create");
+            }
+            return View(menu);
+        }
     }
 }
