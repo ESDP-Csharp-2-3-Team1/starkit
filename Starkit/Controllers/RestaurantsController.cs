@@ -16,14 +16,14 @@ namespace Starkit.Controllers
         private StarkitContext _db { get; set; }
         private UserManager<User> _userManager { get; set; }
         private IHostEnvironment _environment { get; set; }
-        private CreateFile _createFile { get; set; }
+        private UploadService _uploadService { get; set; }
 
-        public RestaurantsController(StarkitContext db, UserManager<User> userManager, IHostEnvironment environment, CreateFile _createFile)
+        public RestaurantsController(StarkitContext db, UserManager<User> userManager, IHostEnvironment environment, UploadService uploadService)
         {
             _db = db;
             _userManager = userManager;
             _environment = environment;
-            _createFile = _createFile;
+            _uploadService = uploadService;
         }
 
 
@@ -44,7 +44,7 @@ namespace Starkit.Controllers
                 if (model.File != null)
                 {
                     string filePath = Path.Combine(_environment.ContentRootPath,$"wwwroot/images/{userId}/logo");
-                    await _createFile.FileCreate(model.File.FileName,filePath,model.File);
+                    await _uploadService.Upload(filePath,model.File.FileName,model.File);
                     model.LogoPath = $"images/users/{userId}/logo/{model.File.FileName}";
                 }
                 await _db.Restaurants.AddAsync(model);

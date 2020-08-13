@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
@@ -17,6 +18,7 @@ namespace Starkit
     {
         public static async Task Main(string[] args)
         {
+            Directory.CreateDirectory($"wwwroot\\images\\Dishes");
             var host = CreateHostBuilder(args).Build();
             using var scope = host.Services.CreateScope();
             var services = scope.ServiceProvider;

@@ -141,8 +141,11 @@ namespace Starkit.Controllers
         {
             string directoryPath = Path.Combine(_environment.ContentRootPath, $"wwwroot\\images\\users\\{newUserId}\\Dishes");
             string directoryPath2 = Path.Combine(_environment.ContentRootPath, $"wwwroot\\images\\users\\{newUserId}\\logo");
-            Directory.CreateDirectory(directoryPath);
-            Directory.CreateDirectory(directoryPath2);
+            if (!Directory.Exists(directoryPath))
+                Directory.CreateDirectory(directoryPath);
+            if (!Directory.Exists(directoryPath2))
+                Directory.CreateDirectory(directoryPath2);
+               
         }
 
         [Authorize]
