@@ -742,4 +742,23 @@ body {
 .content{
   margin-top: 50px;
 }
-    
+/*dropdown*/
+.my-dropdown-menu{
+  display: none;
+}
+.my-dropdown-menu li{
+  margin-left: 30px;
+}
+.my-dropdown-menu li:hover{
+  margin-left: 15px;
+}
+.container-edit .edit-block1 li a{
+  padding: 10px 16px 10px 30px;
+  /*font-weight: 600;*/
+}
+#drop-btn-menu{
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+}
+
