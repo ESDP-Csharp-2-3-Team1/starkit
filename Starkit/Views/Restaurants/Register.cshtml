@@ -11,7 +11,13 @@
         @{
             await Html.RenderPartialAsync("Partial/RestaurantRegisterFormPartial");
         }
-
+        <div class="form-group  ed2-form-group">
+            <div class="ed2-form-input" id="box-restaurant-form">
+                <div class="boxx2">
+                   <button type="submit" class="btn btn-primary">Создать</button>
+                </div>
+            </div>
+        </div>
     </form>
 </div>
 
@@ -21,4 +27,10 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script >
+        function BlockDomainShow(value){
+           value === true ? $('#block-domain').show() : $('#block-domain').hide()
+       
+        }
+    </script>
 }
