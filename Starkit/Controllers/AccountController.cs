@@ -19,7 +19,6 @@ namespace Starkit.Controllers
     public class AccountController : Controller
     {
         private readonly IRecaptchaService _recaptcha;
-        private readonly IEmailSender _emailSender;
         public UserManager<User> _userManager { get; set; }
         public RoleManager<IdentityRole> _roleManager { get; set; }
         public SignInManager<User> _signInManager { get; set; }
@@ -28,7 +27,7 @@ namespace Starkit.Controllers
         
         
 
-        public AccountController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, SignInManager<User> signInManager, StarkitContext db, IHostEnvironment environment, IRecaptchaService recaptcha, IEmailSender emailSender)
+        public AccountController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, SignInManager<User> signInManager, StarkitContext db, IHostEnvironment environment, IRecaptchaService recaptcha)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -36,7 +35,6 @@ namespace Starkit.Controllers
             _db = db;
             _environment = environment;
             _recaptcha = recaptcha;
-            _emailSender = emailSender;
         }
 
         // GET
@@ -127,14 +125,7 @@ namespace Starkit.Controllers
                     await _db.LegalAddresses.AddAsync(model.LegalAddress);
                     await _db.PostalAddresses.AddAsync(model.PostalAddress);
                     await _db.SaveChangesAsync();
-                    
-                    var token = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
-                    var confirmationLink = Url.Action("ConfirmEmail", "Account", new { token, email = newUser.Email }, Request.Scheme);
-
-                    var message = new Message(new [] { newUser.Email }, "Подтверждение адреса электронной почты", confirmationLink);
-                    await _emailSender.SendEmailAsync(message);
-
-                    return RedirectToAction("SuccessRegistration");
+                    return RedirectToAction("Index", "Users");
                 }
 
                 foreach (var error in result.Errors)
@@ -235,9 +226,9 @@ namespace Starkit.Controllers
             var user = await _userManager.FindByEmailAsync(model.Email);
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var callback = Url.Action("ResetPassword", "Account", new {token, email = user.Email}, Request.Scheme);
-    
-            var message = new Message(new[] { model.Email }, "Восстановление пароля", callback);
-            await _emailSender.SendEmailAsync(message);
+            
+            MailService mailService = new MailService();
+            await mailService.SendEmailAsync(model.Email, "Восстановление пароля", callback);
             return RedirectToAction("ForgotPasswordConfirmation");
         }
         
@@ -292,7 +283,7 @@ namespace Starkit.Controllers
                 return View("Error");
  
             var result = await _userManager.ConfirmEmailAsync(user, token);
-            return View(result.Succeeded ? nameof(ConfirmEmail) : "Ошибка");
+            return View(result.Succeeded ? "ConfirmEmail" : "Login");
         }
  
         [HttpGet]
