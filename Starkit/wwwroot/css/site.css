@@ -791,6 +791,15 @@ body {
 #block-domain{
   display: none;
 }
+.block-restaurant-item{
+    border-bottom: 1px solid silver;
+    padding: 25px;
+   text-align: center;
+}
+.block-restaurant-item h2{
+    margin: 0;
+    color: #262626;
+}
 /*end Restaurants => Register*/
 
 

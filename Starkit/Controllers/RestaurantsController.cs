@@ -7,7 +7,8 @@ using Microsoft.Extensions.Hosting;
 using Starkit.Models;
 using Starkit.Models.Data;
 using Starkit.Services;
-using Starkit.ViewModels;
+
+
 
 namespace Starkit.Controllers
 {
@@ -43,9 +44,11 @@ namespace Starkit.Controllers
                 model.UserId = userId;
                 if (model.File != null)
                 {
-                    string filePath = Path.Combine(_environment.ContentRootPath,$"wwwroot/images/{userId}/logo");
-                    await _uploadService.Upload(filePath,model.File.FileName,model.File);
-                    model.LogoPath = $"images/users/{userId}/logo/{model.File.FileName}";
+                    string directoryPath = Path.Combine(_environment.ContentRootPath,$"wwwroot\\images\\users\\{userId}\\logo");
+                    if (!Directory.Exists(directoryPath))
+                        Directory.CreateDirectory(directoryPath);
+                    await _uploadService.Upload(directoryPath,model.File.FileName,model.File);
+                    model.LogoPath = $"images\\users\\{userId}\\logo\\{model.File.FileName}";
                 }
                 await _db.Restaurants.AddAsync(model);
                 await _db.SaveChangesAsync();

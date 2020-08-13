@@ -5,16 +5,19 @@
     Layout = "_Layout";
 }
 
-
+<div class="block-restaurant-item">
+    <h2>Для начала работы заполните форму ниже</h2>
+</div>
 <div class="container-personalAccount main-register-block ">
-    <form asp-action="Register" asp-controller="Restaurants" method="post">
+    <div asp-validation-summary="All" style="text-align: center"></div>
+    <form asp-action="Register" asp-controller="Restaurants" method="post" enctype="multipart/form-data">
         @{
             await Html.RenderPartialAsync("Partial/RestaurantRegisterFormPartial");
         }
         <div class="form-group  ed2-form-group">
             <div class="ed2-form-input" id="box-restaurant-form">
                 <div class="boxx2">
-                   <button type="submit" class="btn btn-primary">Создать</button>
+                    <button type="submit" class="btn btn-primary">Создать</button>
                 </div>
             </div>
         </div>
