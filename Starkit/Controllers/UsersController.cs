@@ -41,32 +41,31 @@ namespace Starkit.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> UpdateUserInformation(EditUserViewModel model)
+        [HttpPost]
+        public async Task<IActionResult> UpdateInfo(string cityphone,string postalCity, string postalRegion, string legalCity, string legalRegion)
         {
-            if (model != null)
-            {
-                string userId = _userManager.GetUserId(User);
+            string userId = _userManager.GetUserId(User);
                 LegalAddress legalAddress = await _db.LegalAddresses.FirstOrDefaultAsync(l => l.UserId == userId);
                 PostalAddress postalAddress = await _db.PostalAddresses.FirstOrDefaultAsync(p => p.UserId == userId);
-                if (legalAddress is null || postalAddress is null)
-                    return NotFound();
-                legalAddress.City = model.LegalAddress.City;
-                legalAddress.Region = model.LegalAddress.Region;
-                postalAddress.City = model.PostalAddress.City;
-                postalAddress.Region = model.PostalAddress.Region;
-                if (!string.IsNullOrEmpty(model.CityPhone))
+              
+                if (!(legalCity is null))
+                    legalAddress.City = legalCity;
+                if (!(legalRegion is null))
+                    legalAddress.Region = legalRegion;
+                if (!(postalCity is null))
+                    postalAddress.City = postalRegion;
+                if (!(postalCity is null))
+                    postalAddress.Region = postalCity;
+                if (!(cityphone is null))
                 {
                     User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
-                    user.CityPhone = model.CityPhone;
-                    user.CityPhone = model.CityPhone;
+                    user.CityPhone = cityphone;
                     _db.Users.Update(user);
                 }
                 _db.LegalAddresses.Update(legalAddress);
                 _db.PostalAddresses.Update(postalAddress);
+                await _db.SaveChangesAsync();
                 return RedirectToAction("Index");
-            }
-
-            return NotFound();
         }
     }
 }
