@@ -22,7 +22,7 @@ namespace Starkit.Controllers
         private readonly StarkitContext _db;
         private readonly IHostEnvironment _environment;
         private readonly UploadService _uploadService;
-        public int pageSize = 5;
+        private int pageSize = 5;
 
         public DishesController(StarkitContext db, IHostEnvironment environment, UploadService uploadService,
             UserManager<User> userManager)
@@ -49,6 +49,7 @@ namespace Starkit.Controllers
             var photoPath = $"images/{userId}/Dishes/{id}/{file.FileName}";
             if (!Directory.Exists($"wwwroot/images/{userId}/Dishes/{id}"))
                 Directory.CreateDirectory($"wwwroot/images/{userId}/Dishes/{id}");
+            
             _uploadService.Upload(path, file.FileName, file);
             return photoPath;
         }

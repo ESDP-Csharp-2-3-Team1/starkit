@@ -28,6 +28,9 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     <script >
+    $(document).ready(function() {
+                  $('#phoneNumber').mask("+7 (999) 999-9999");
+                   });
         function BlockDomainShow(value){
            value === true ? $('#block-domain').show() : $('#block-domain').hide()
        

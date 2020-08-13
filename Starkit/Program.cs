@@ -14,11 +14,10 @@ using Starkit.Services;
 
 namespace Starkit
 {
-    public class Program
+    public static class Program
     {
         public static async Task Main(string[] args)
         {
-            Directory.CreateDirectory($"wwwroot\\images\\Dishes");
             var host = CreateHostBuilder(args).Build();
             using var scope = host.Services.CreateScope();
             var services = scope.ServiceProvider;
@@ -37,7 +36,7 @@ namespace Starkit
             host.Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
+        private static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
     }
