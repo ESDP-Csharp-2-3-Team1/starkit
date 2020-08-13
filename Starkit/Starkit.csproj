@@ -118,4 +118,8 @@
       <_ContentIncludedByDefault Remove="wwwroot\images\4dae26bf-330a-4259-a330-d2b702474cc0\Dishes\d29a5d5d-1ca5-4c93-9564-acdc27db0eb2\Без названия (1).jpg" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="wwwroot\images\users" />
+    </ItemGroup>
+
 </Project>

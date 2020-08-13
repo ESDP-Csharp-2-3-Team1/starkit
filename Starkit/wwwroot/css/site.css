@@ -776,10 +776,17 @@ body {
   padding-left: 0;
 }
 #box-restaurant-form{
-  margin-left: 255px;
+  margin-left: 225px;
+}
+#box-restaurant-form .boxx2 {
+  margin: auto;
 }
 #box-restaurant-form button{
   background: #29aafe;
+  text-transform: uppercase;
+  border: none;
+  padding-right: 30px;
+  padding-left: 30px;
 }
 #block-domain{
   display: none;

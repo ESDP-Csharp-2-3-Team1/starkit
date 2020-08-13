@@ -20,7 +20,10 @@ namespace Starkit.Models
         public bool DomainAvailability { get; set; }
         public string DomainName { get; set; }
         public string LogoPath { get; set; }
+        public string UserId { get; set; }
         [NotMapped]
         public IFormFile File { get; set; }
+
+        
     }
 }
