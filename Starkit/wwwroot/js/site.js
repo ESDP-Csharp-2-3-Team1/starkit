@@ -9,6 +9,8 @@ function showDropdown(value){
         $('#dropdown1').hide();
         el = document.getElementById('dropdown2');
     }
+    if (el.style.display === '') 
+        el.style.display = 'none';
+        
     el.style.display === 'none' ? el.style.display = 'initial' : el.style.display = 'none';
-
 }

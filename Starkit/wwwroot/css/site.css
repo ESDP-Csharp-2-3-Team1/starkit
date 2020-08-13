@@ -743,7 +743,10 @@ body {
   margin-top: 50px;
 }
 /*dropdown*/
-.my-dropdown-menu{
+#dropdown1{
+  display: none;
+}
+#dropdown2{
   display: none;
 }
 .my-dropdown-menu li{
@@ -754,7 +757,8 @@ body {
 }
 .container-edit .edit-block1 li a{
   padding: 10px 16px 10px 30px;
-  /*font-weight: 600;*/
+  cursor: pointer;
+  font-weight: 600;
 }
 #drop-btn-menu{
   font-size: 20px;
@@ -763,5 +767,43 @@ body {
   color: white;
   font-weight: 600;
 }
+
+/*start Restaurants => Register*/
+#exampleFormControlTextarea156s{
+  height: 60px;
+  min-height: 60px;
+  padding: 6px 10px;
+}
+#restaurantLogo{
+  border: none;
+  padding-left: 0;
+}
+#box-restaurant-form{
+  margin-left: 225px;
+}
+#box-restaurant-form .boxx2 {
+  margin: auto;
+}
+#box-restaurant-form button{
+  background: #29aafe;
+  text-transform: uppercase;
+  border: none;
+  padding-right: 30px;
+  padding-left: 30px;
+}
+#block-domain{
+  display: none;
+}
+.block-restaurant-item{
+    border-bottom: 1px solid silver;
+    padding: 25px;
+   text-align: center;
+}
+.block-restaurant-item h2{
+    margin: 0;
+    color: #262626;
+}
+/*end Restaurants => Register*/
+
 
 

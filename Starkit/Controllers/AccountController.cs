@@ -139,6 +139,7 @@ namespace Starkit.Controllers
             return View(model);
         }
         
+
         [Authorize]
         public async Task<IActionResult> Confirm(string email)
         {
