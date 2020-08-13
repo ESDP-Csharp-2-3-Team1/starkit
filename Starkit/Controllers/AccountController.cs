@@ -126,6 +126,7 @@ namespace Starkit.Controllers
                     await _db.PostalAddresses.AddAsync(model.PostalAddress);
                     await _db.SaveChangesAsync();
                     await _signInManager.SignInAsync(newUser, false);
+                    CreateUserDirectory(newUser.Id);
                     return RedirectToAction("Index", "Users");
                 }
 
@@ -134,7 +135,18 @@ namespace Starkit.Controllers
             }
             return View(model);
         }
-        
+
+        [NonAction]
+        private void CreateUserDirectory(string newUserId)
+        {
+            string directoryPath = Path.Combine(_environment.ContentRootPath, $"wwwroot/imges/users/{newUserId}");
+            string directoryPath2 = Path.Combine(_environment.ContentRootPath, $"wwwroot/imges/users/{newUserId}/logo");
+            string directoryPath3 = Path.Combine(_environment.ContentRootPath, $"wwwroot/imges/users/{newUserId}/Dishes");
+            Directory.CreateDirectory(directoryPath);
+            Directory.CreateDirectory(directoryPath2);
+            Directory.CreateDirectory(directoryPath3);
+        }
+
         [Authorize]
         public async Task<IActionResult> Confirm(string email)
         {
