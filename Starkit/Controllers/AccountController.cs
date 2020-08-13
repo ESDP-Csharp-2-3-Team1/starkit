@@ -139,12 +139,10 @@ namespace Starkit.Controllers
         [NonAction]
         private void CreateUserDirectory(string newUserId)
         {
-            string directoryPath = Path.Combine(_environment.ContentRootPath, $"wwwroot/imges/users/{newUserId}");
-            string directoryPath2 = Path.Combine(_environment.ContentRootPath, $"wwwroot/imges/users/{newUserId}/logo");
-            string directoryPath3 = Path.Combine(_environment.ContentRootPath, $"wwwroot/imges/users/{newUserId}/Dishes");
+            string directoryPath = Path.Combine(_environment.ContentRootPath, $"wwwroot\\images\\users\\{newUserId}\\Dishes");
+            string directoryPath2 = Path.Combine(_environment.ContentRootPath, $"wwwroot\\images\\users\\{newUserId}\\logo");
             Directory.CreateDirectory(directoryPath);
             Directory.CreateDirectory(directoryPath2);
-            Directory.CreateDirectory(directoryPath3);
         }
 
         [Authorize]
