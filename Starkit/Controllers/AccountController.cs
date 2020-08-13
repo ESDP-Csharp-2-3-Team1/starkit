@@ -125,6 +125,11 @@ namespace Starkit.Controllers
                     await _db.LegalAddresses.AddAsync(model.LegalAddress);
                     await _db.PostalAddresses.AddAsync(model.PostalAddress);
                     await _db.SaveChangesAsync();
+                    var token = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
+                    var confirmationLink = Url.Action("ConfirmEmail", "Account", new { token, email = newUser.Email }, Request.Scheme);
+                    MailService mailService = new MailService();
+                    await mailService.SendEmailAsync(newUser.Email, "Confirm email address", confirmationLink);
+                    await _signInManager.SignInAsync(newUser, false);
                     return RedirectToAction("Index", "Users");
                 }
 
