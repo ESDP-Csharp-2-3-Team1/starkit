@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Starkit.Models
 {
@@ -21,9 +22,11 @@ namespace Starkit.Models
         public DateTime? EditTime { get; set; }
 
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
+        [Remote("CheckNameMenu", "Validation", ErrorMessage = "Такое меню уже существует")]
         public string Name { get; set; }
+        
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
-        public decimal? Cost { get; set; }
+        public decimal Cost { get; set; }
         
         [NotMapped]
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]

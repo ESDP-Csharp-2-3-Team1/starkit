@@ -54,11 +54,7 @@
         });
         
         function deleteDishes() {
-            var checkboxes = $("input:checkbox:checked");
-            let arr = [];
-            $.each(checkboxes, function (index, value) {
-               arr.push(value.id);
-            });
+            let arr = getCheckedDishes();
             $.ajax({
                 url: '@Url.Action("Delete", "Dishes")',
                 type: "Delete",
@@ -105,11 +101,7 @@
         });
         
         function hideDishes() {
-            var checkboxes = $("input:checkbox:checked");
-            let arr = [];
-            $.each(checkboxes, function (index, value) {
-                arr.push(value.id);
-            });
+            let arr = getCheckedDishes();
             $.ajax({
                 url: '@Url.Action("Hide", "Dishes")',
                 type: "Put",
@@ -252,6 +244,15 @@
                 }
             })
             $("#page" + active_page).toggleClass("active");
+        }
+        
+        function getCheckedDishes() {
+            var checkboxes = $("input:checkbox:checked");
+            let arr = [];
+            $.each(checkboxes, function (index, value) {
+                arr.push(value.id);
+            });
+            return arr;
         }
     </script>
 }
