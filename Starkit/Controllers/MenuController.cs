@@ -50,7 +50,14 @@ namespace Starkit.Controllers
             string filePath = _environment.ContentRootPath + $"\\wwwroot\\images\\{userId}\\Menu\\" + menu.Id; 
             if (Directory.Exists(filePath))
             {
-                System.IO.File.Delete("wwwroot/" + menu.Avatar);
+                if (menu.Avatar == null)
+                {
+                    Directory.Delete(filePath, true);
+                }
+                else
+                {
+                    System.IO.File.Delete("wwwroot/" + menu.Avatar);   
+                }
             }
         }
 
@@ -93,6 +100,7 @@ namespace Starkit.Controllers
             Menu menu = new Menu{Id = id};
             _db.Entry(menu).State = EntityState.Deleted;
             await _db.SaveChangesAsync();
+            DeleteMenuAvatar(menu);
             List<Menu> listMenu = _db.Menu.Where(c => c.CreatorId == _userManager.GetUserId(User)).ToList();
             return PartialView("PartialViews/ListMenuPartialView", listMenu);
         }

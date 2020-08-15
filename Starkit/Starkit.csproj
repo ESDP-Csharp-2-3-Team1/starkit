@@ -110,6 +110,7 @@
       <_ContentIncludedByDefault Remove="wwwroot\images\4dae26bf-330a-4259-a330-d2b702474cc0\Dishes\d29a5d5d-1ca5-4c93-9564-acdc27db0eb2\Без названия (1).jpg" />
       <_ContentIncludedByDefault Remove="Views\Menu\PartialViews\ListMenuPartialView.cshtml" />
       <_ContentIncludedByDefault Remove="wwwroot\images\37418742-f888-489e-94b0-a8983dc990f2\Menu\25fce308-4c6c-45cd-a627-ac6f0b7a256a\1591606975797.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\37418742-f888-489e-94b0-a8983dc990f2\Menu\7c17e954-e348-4324-b0c0-9aec5b98b5c0\recipe_4ef47f29-51b7-466e-a7fb-b587a6aa4beb_large.jpg" />
     </ItemGroup>
 
 </Project>
