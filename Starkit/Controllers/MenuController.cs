@@ -96,5 +96,20 @@ namespace Starkit.Controllers
             List<Menu> listMenu = _db.Menu.Where(c => c.CreatorId == _userManager.GetUserId(User)).ToList();
             return PartialView("PartialViews/ListMenuPartialView", listMenu);
         }
+
+        [HttpGet]
+        public IActionResult Edit(string id)
+        {
+            Menu menu = _db.Menu.FirstOrDefault(m => m.Id == id);
+            EditMenuViewModel model = new EditMenuViewModel
+            {
+                Id = menu.Id,
+                Name = menu.Name,
+                Type = menu.Type,
+                Cost = menu.Cost,
+                Description = menu.Description,
+            };
+            return View(model);
+        }
     }
 }
