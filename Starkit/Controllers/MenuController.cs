@@ -82,7 +82,7 @@ namespace Starkit.Controllers
                 menu.CreatorId = _userManager.GetUserId(User);
                 _db.Entry(menu).State = EntityState.Added;
                 await _db.SaveChangesAsync();
-                return RedirectToAction("Create");
+                return RedirectToAction("Index");
             }
             return View(menu);
         }
@@ -110,6 +110,32 @@ namespace Starkit.Controllers
                 Description = menu.Description,
             };
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditMenuViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var menu = _db.Menu.FirstOrDefault(m => m.Id == model.Id);
+                menu.Name = model.Name;
+                menu.Type = model.Type;
+                menu.Cost = model.Cost;
+                menu.EditTime = DateTime.Now;
+                menu.EditorId = _userManager.GetUserId(User);
+                menu.Description = model.Description;
+                if (model.File != null)
+                {
+                    DeleteMenuAvatar(menu);
+                    menu.Avatar = Load(model.Id, model.File);
+                }
+                
+                _db.Entry(menu).State = EntityState.Modified;
+                await _db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+
+            return View();
         }
     }
 }

@@ -8,7 +8,7 @@
 <div class="row" style="margin: 30px 0 80px 0">
     <div class="col-md-6 mt-5">
         <h2 class="create-category">Редактирование меню</h2>
-        <form asp-action="Edit" method="post">
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
             @Html.Hidden("Id", Model.Id)
             <div class="form-group row">
                 <label for="" class="col-sm-4 col-form-label">Название</label><br/>
@@ -41,14 +41,14 @@
             <div class="form-group row" id="cost" style="display: none">
                 <label for="" class="col-sm-4 col-form-label">Цена</label><br/>
                 <div class="col-sm-8">
-                    <input id="inputCost" type="number" class="form-control" asp-for="Cost" value="@Model.Cost">
+                    <input id="inputCost" type="text" class="form-control" asp-for="Cost" value="@Model.Cost">
                 </div>
                 <span class="validationError" asp-validation-for="Cost"></span>
             </div>
             <div class="form-group row">
                 <div class="col-sm-12">
                     <label for="myFIle" class="chous">Выберите файл</label>
-                    <input type="file"  id="myFIle" class="form-control my" asp-for="File" multiple="multiple"/>
+                    <input type="file" id="myFIle" class="form-control my" asp-for="File" multiple="multiple"/>
                 </div>
             </div>
             <input type="hidden" asp-for="Id" value="@Model.Id">
@@ -72,8 +72,9 @@
             });
                 
             $(document).ready(function() {
+                var val = $("#modelCost").val();
                 var type = $("#type").val();
-                if (type == "Спсиок"){
+                if (type == "Список"){
                     $("#list").prop("checked", true);
                 }
                 else{
@@ -88,7 +89,12 @@
                 }
                 else if(this.value == 'Комбо'){
                     $("#cost").show();
-                    $("#inputCost").val($("#modelCost").val());
+                    if (val != 0){
+                        $("#inputCost").val(val);   
+                    }
+                    else{
+                        $("#inputCost").val(null);
+                    }
                 }
             })
         })
