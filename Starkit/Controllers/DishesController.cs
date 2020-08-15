@@ -212,7 +212,7 @@ namespace Starkit.Controllers
                 PageViewModel = new PageViewModel(count, page, pageSize),
                 SortViewModel = new SortViewModel(sortOrder),
                 FilterViewModel = new FilterViewModel(_db.Categories.ToList(), category, name),
-                Dishes = items
+                Dishes = items,
             };
 
             return PartialView("PartialViews/LIstDishPartialView", viewModel);
@@ -256,6 +256,13 @@ namespace Starkit.Controllers
 
             await _db.SaveChangesAsync();
             return Json(true);
+        }
+
+        public IActionResult GetModalDish(string id)
+        {
+            Dish dish = _db.Dishes.FirstOrDefault(d => d.Id == id);
+            dish.Menu = _db.Menu.Where(m => m.CreatorId == _userManager.GetUserId(User)).ToList();
+            return PartialView("PartialViews/ModalAddDishToMenuPartialView", dish);
         }
     }
 }

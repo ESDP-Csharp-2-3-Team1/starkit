@@ -53,5 +53,9 @@ namespace Starkit.Models
         public List<Category> Categories { get; set; }
         [NotMapped]
         public  List<SubCategory> SubCategories { get; set; }
+        
+        public virtual List<MenuDish> MenuDish { get; set; }
+        [NotMapped]
+        public List<Menu> Menu { get; set; }
     }
 }
