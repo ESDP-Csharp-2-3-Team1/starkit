@@ -11,7 +11,7 @@
             <div class="modal-content">
                 <div class="modal-body"><h5>Вы уверены?</h5></div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary deleteCategory">Удалить</button>
+                    <button type="button" class="btn btn-primary deleteMenu">Удалить</button>
                     <button type="button" class="btn btn-secondary" onclick="closeModal()">Закрыть</button> 
                 </div>
             </div>
@@ -44,5 +44,33 @@
                 $("#result").html(data);
             })
         });
+        
+        var deleteMenu = $(".deleteMenu");
+        
+        function openModal(id) {
+            $(".modal").show();
+            $(deleteMenu).attr("id", id);
+        }
+        
+        function closeModal() {
+            $(".modal").hide();
+        }
+        
+        $(deleteMenu).click(function(event) {
+            event.preventDefault();
+            var id = deleteMenu.attr("id");
+            $.ajax({
+                url: '@Url.Action("Delete", "Menu")',
+                type: "Delete",
+                data: {
+                    id: id
+                },
+                success: function(data) {
+                    $(".modal").hide();
+                    $("#result").html(data);
+                }
+            })
+        });
+        
     </script>
 }

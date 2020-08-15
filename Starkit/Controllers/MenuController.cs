@@ -86,5 +86,15 @@ namespace Starkit.Controllers
             }
             return View(menu);
         }
+        
+        [HttpDelete]
+        public async Task<IActionResult> Delete(string id)
+        {
+            Menu menu = new Menu{Id = id};
+            _db.Entry(menu).State = EntityState.Deleted;
+            await _db.SaveChangesAsync();
+            List<Menu> listMenu = _db.Menu.Where(c => c.CreatorId == _userManager.GetUserId(User)).ToList();
+            return PartialView("PartialViews/ListMenuPartialView", listMenu);
+        }
     }
 }
