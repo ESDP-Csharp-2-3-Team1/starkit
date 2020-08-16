@@ -4,6 +4,25 @@
     ViewBag.Title = "Личный кабинет";
     Layout = "_Layout";
 }
+<style>
+    #dropdown2{
+        display: block;
+    }
+    #dropdown2-li-1{
+          margin-left: 15px;
+            background: #9ad9ea;
+    }
+    #dropdown2-li-1 a{
+                color: #262626;
+                font-weight: 600;
+                border-left: 2px solid #41728b;
+    }
+    #dropdown2-li-1 a:hover{
+        color: #262626;
+    }
+ </style>
+
+
 <div class="container-personalAccount">
     <form asp-action="UpdateInfo" asp-controller="Users" method="post">
         @{
@@ -28,13 +47,13 @@
     </div>
 </div>
 
-
 @section Scripts
 {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     <script >
+               
             $('.cityPhone-nu').keyup(function() {
                 let a = $('#postal-city').val();
                 a = a !== undefined ?  a : "";

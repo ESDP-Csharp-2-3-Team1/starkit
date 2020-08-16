@@ -5,12 +5,12 @@
             <a role="button" class="my-drop-btn-menu" onclick="showDropdown(1)" id="drop-btn-menu">МЕНЮ</a>
         </li>
         <div class="my-dropdown-menu" id="dropdown1">
-            <li class="link-1"><a asp-action="Create"  asp-controller="Dishes">Добавить блюдо</a></li>
-            <li class="link-1"><a asp-action="Create" asp-controller="Categories">Добавить категорию</a></li>
-            <li class="link-1"><a asp-action="Create" asp-controller="SubCategories">Добавить подкатегорию</a></li>
-            <li class="link-1"><a asp-action="Index" asp-controller="Dishes">Список блюд</a></li>
-            <li class="link-1"><a asp-action="Index" asp-controller="Categories">Список категорий</a></li>
-            <li class="link-1"><a asp-action="Index" asp-controller="SubCategories">Список подкатегорий</a></li>
+            <li class="link-1" id="dropdown1-li-1"><a asp-action="Create"  asp-controller="Dishes">Добавить блюдо</a></li>
+            <li class="link-1" id="dropdown1-li-2"><a asp-action="Create" asp-controller="Categories">Добавить категорию</a></li>
+            <li class="link-1" id="dropdown1-li-3"><a asp-action="Create" asp-controller="SubCategories">Добавить подкатегорию</a></li>
+            <li class="link-1" id="dropdown1-li-4"><a asp-action="Index" asp-controller="Dishes">Список блюд</a></li>
+            <li class="link-1" id="dropdown1-li-5"><a asp-action="Index" asp-controller="Categories">Список категорий</a></li>
+            <li class="link-1" id="dropdown1-li-6"><a asp-action="Index" asp-controller="SubCategories">Список подкатегорий</a></li>
         </div>
     </div>
      <div>
@@ -18,7 +18,7 @@
                 <a role="button" class="my-drop-btn-menu" onclick="showDropdown(2)" id="drop-btn-prof">Управление аккаунтом</a>
             </li>
             <div class="my-dropdown-menu" id="dropdown2">
-                    <li class="link-1 "  ><a asp-action="Index" asp-controller="Users">Редактировать профиль</a></li>
+                    <li class="link-1" id="dropdown2-li-1" ><a asp-action="Index" asp-controller="Users">Редактировать профиль</a></li>
                     <li class="link-1 " id="my-dr-ResInd" ><a  asp-action="Index" asp-controller="Restaurants">Ресторан</a></li>
             </div>
         </div>
