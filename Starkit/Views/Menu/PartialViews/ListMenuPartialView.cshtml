@@ -6,9 +6,11 @@
     {
         <tr>
             <td style="vertical-align: middle; text-align: center">
-                <img src="~/@menu.Avatar" style="width: 50px; height: 50px" alt="">
+                <img src="~/@menu.Avatar" style="width: 50px; height: 50px; border-radius: 40px" alt="">
             </td>
-            <td style="vertical-align: middle; text-align: center">@menu.Name</td>
+            <td class="link-menu-name" style="vertical-align: middle; text-align: center" onclick="menuDetails('@menu.Id')">
+                @menu.Name
+            </td>
             <td style="vertical-align: middle; text-align: center">@menu.AddTime</td>
             <td style="vertical-align: middle; text-align: center">@menu.EditTime</td>
             <td style="vertical-align: middle; text-align: center">@menu.Type</td>

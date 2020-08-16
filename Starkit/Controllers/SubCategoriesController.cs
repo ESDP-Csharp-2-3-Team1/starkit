@@ -40,7 +40,7 @@ namespace Starkit.Controllers
                 subCategory.UserId = _userManager.GetUserId(User);
                 _db.Entry(subCategory).State = EntityState.Added;
                 await _db.SaveChangesAsync();
-                return RedirectToAction("Create");
+                return RedirectToAction("Index");
             }
             return View(subCategory);
         }

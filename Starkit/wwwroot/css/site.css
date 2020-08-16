@@ -787,3 +787,9 @@ body {
   margin-right: 20px;
   cursor: pointer;
 }
+.link-menu-name{
+  cursor: pointer;
+}
+.link-menu-name:hover{
+  color: gold;
+}

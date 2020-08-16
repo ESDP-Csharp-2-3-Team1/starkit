@@ -1,0 +1,38 @@
+﻿@model Menu
+
+<div class="modal answer-modal" tabindex="-1" role="dialog" xmlns="http://www.w3.org/1999/html" id="modal-details">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>@Model.Name</h5>
+            </div>
+            <div class="modal-body">
+                <img src="~/@Model.Avatar" alt="" style="width: 100%">
+                <p style="margin-top: 20px"><span style="font-weight: 700">Дата создания </span>- @Model.AddTime</p>
+                @if (Model.EditTime != null)
+                {
+                    <p><span style="font-weight: 700">Дата редактирования </span>- @Model.EditTime</p>
+                }
+                <p><span style="font-weight: 700">Тип </span>- @Model.Type</p>
+                <p><span style="font-weight: 700">Описание </span>- @Model.Description</p>
+                @if (Model.Cost != 0)
+                {
+                    <p><span style="font-weight: 700">Цена </span>- @Model.Cost</p>
+                }
+                @if (Model.MenuDishes.Count != 0)
+                {
+                    <p style="font-weight: 700">Состав меню</p>
+                    <ul>
+                        @foreach (var menuDish in Model.MenuDishes)
+                        {
+                            <li>@menuDish.Dish.Name</li>
+                        }
+                    </ul>   
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>

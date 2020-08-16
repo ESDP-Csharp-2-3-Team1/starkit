@@ -34,11 +34,11 @@ namespace Starkit.Controllers
         private string Load(string id, IFormFile file)
         {
             string userId = _userManager.GetUserId(User);
-            string path = Path.Combine(_environment.ContentRootPath + $"\\wwwroot\\images\\{userId}\\Menu\\{id}");
-            string photoPath = $"images/{userId}/Menu/{id}/{file.FileName}";
-            if (!Directory.Exists($"wwwroot/images/{userId}/Menu/{id}"))
+            string path = Path.Combine(_environment.ContentRootPath + $"\\wwwroot\\images\\users\\{userId}\\Menu\\{id}");
+            string photoPath = $"images/users/{userId}/Menu/{id}/{file.FileName}";
+            if (!Directory.Exists($"wwwroot/images/users/{userId}/Menu/{id}"))
             {
-                Directory.CreateDirectory($"wwwroot/images/{userId}/Menu/{id}");
+                Directory.CreateDirectory($"wwwroot/images/users/{userId}/Menu/{id}");
             }
             _uploadService.Upload(path, file.FileName, file);
             return photoPath;
@@ -47,17 +47,13 @@ namespace Starkit.Controllers
         private void DeleteMenuAvatar(Menu menu)
         {
             string userId = _userManager.GetUserId(User);
-            string filePath = _environment.ContentRootPath + $"\\wwwroot\\images\\{userId}\\Menu\\" + menu.Id; 
+            string filePath = _environment.ContentRootPath + $"\\wwwroot\\images\\users\\{userId}\\Menu\\" + menu.Id; 
             if (Directory.Exists(filePath))
             {
                 if (menu.Avatar == null)
-                {
                     Directory.Delete(filePath, true);
-                }
                 else
-                {
-                    System.IO.File.Delete("wwwroot/" + menu.Avatar);   
-                }
+                    System.IO.File.Delete("wwwroot/" + menu.Avatar);
             }
         }
 
@@ -144,6 +140,13 @@ namespace Starkit.Controllers
             }
 
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult Details(string id)
+        {
+            return PartialView("PartialViews/DetailMenuModalWindowPartialView",
+                _db.Menu.FirstOrDefault(m => m.Id == id));
         }
     }
 }
