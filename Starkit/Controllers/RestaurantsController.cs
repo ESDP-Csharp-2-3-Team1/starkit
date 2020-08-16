@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Starkit.Models;
 using Starkit.Models.Data;
@@ -30,6 +31,16 @@ namespace Starkit.Controllers
 
         // GET
         [Authorize]
+        public async Task<IActionResult> Index()
+        {
+            string userId = _userManager.GetUserId(User);
+            Restaurant restaurant = await _db.Restaurants.FirstOrDefaultAsync(r => r.UserId == userId);
+            if (restaurant is null)
+                return RedirectToAction("Register");
+            return View(restaurant);
+        }
+        
+        [Authorize]
         public IActionResult Register()
         {
             return View();
@@ -52,7 +63,7 @@ namespace Starkit.Controllers
                 }
                 await _db.Restaurants.AddAsync(model);
                 await _db.SaveChangesAsync();
-                return RedirectToAction("Index", "Users");
+                return RedirectToAction("Index");
             }
             return View(model);
         }

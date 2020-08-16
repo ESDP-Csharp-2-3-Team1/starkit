@@ -1,0 +1,71 @@
+﻿@model Restaurant
+
+@{
+    ViewBag.Title = Model.NameRestaurant;
+    Layout = "_Layout";
+}
+
+<style>
+    #dropdown2{
+        display: block;
+    }
+    #my-dr-ResInd{
+          margin-left: 15px;
+            background: #9ad9ea;
+    }
+    #my-dr-ResInd a{
+                color: #262626;
+                font-weight: 600;
+                border-left: 2px solid #41728b;
+    }
+    #my-dr-ResInd a:hover{
+        color: #262626;
+    }
+</style>
+<div class="restaurants-index-container">
+    <div class="ri-block1">
+        <div class="ri-box-img">
+            @if (!string.IsNullOrEmpty(Model.LogoPath))
+            {
+                <img src="~/@Model.LogoPath" alt="">
+
+            }
+            else
+            {
+                <img src="~/images/etc/none.png" alt="">
+            }
+        </div>
+        <div class="ri-box-btn">
+            <h3>@Model.NameRestaurant</h3>
+            @if (!string.IsNullOrEmpty(Model.DomainName))
+            {
+                <a href="">@Model.DomainName</a>
+            }
+            <button class="btn btn-primary">Редактировать</button>
+        </div>
+    </div>
+    <div class="ri-block2">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">О ресторане</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">График работы</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Контакты</a>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi corporis enim eum fuga inventore magni nam nemo officia quam velit? A accusamus aliquid deleniti earum eum eveniet illo ipsa ipsam iste, iure labore officia perspiciatis quo rem reprehenderit saepe soluta sunt temporibus? Adipisci aliquam at culpa cum dolorem dolorum enim error explicabo facere fugit hic illo ipsum labore laborum magnam natus officia, possimus quae, quasi quia repudiandae similique totam unde voluptas, voluptate! Consequuntur dignissimos, dolorem eaque enim illo nemo. Aperiam commodi corporis eaque excepturi fuga quia quos repellendus rerum ullam! Adipisci, atque autem cupiditate eum fugiat minima necessitatibus reiciendis reprehenderit!</div>
+          <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">.sssssss..</div>
+          <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">.dddddddddd..</div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    
+}

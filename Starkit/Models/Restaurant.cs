@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Http;
 
@@ -19,11 +20,16 @@ namespace Starkit.Models
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         public bool DomainAvailability { get; set; }
         public string DomainName { get; set; }
+        public string DomainRegistrar { get; set; }
         public string LogoPath { get; set; }
+        public string RestaurantOpeningHours { get; set; }
+        public int TotalNumberSeats { get; set; }
+        public int AvailableNumberSeats { get; set; }
+        
         public string UserId { get; set; }
         [NotMapped]
         public IFormFile File { get; set; }
 
-        
+
     }
 }

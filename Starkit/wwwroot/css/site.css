@@ -804,6 +804,30 @@ body {
     color: #262626;
 }
 /*end Restaurants => Register*/
+/*start Restaurants => Index*/
+.ri-block1{
+  display: grid;
+  grid-template-columns: 200px auto;
+}
+.ri-box-img img{
+  width: 150px;
+  height: 150px;
+  max-height: 150px;
+  max-width: 150px;
+  min-height: 150px;
+  min-width: 150px;
+}
+.restaurants-index-container{
+  padding: 50px;
+}
+.ri-block1{
+  padding-bottom: 50px;
+}
+#ri-content-GR #ri-content-CT{
+  display: none;
+}
+/*end Restaurants => Index*/
+
 
 
 
