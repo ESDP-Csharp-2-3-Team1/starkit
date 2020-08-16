@@ -84,6 +84,17 @@
         </div>
     </div>
 </div>
+@if (ViewBag.Edit)
+{
+    if (Model.DomainAvailability)
+    {
+        <style>
+        #block-domain{
+                 display: block;
+               }
+        </style>
+    }
+}
 <div id="block-domain">
     <div class="form-group  ed2-form-group">
         <div class="ed2-form-label">

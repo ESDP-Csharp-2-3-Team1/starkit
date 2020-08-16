@@ -22,10 +22,10 @@ namespace Starkit.Models
         public string DomainName { get; set; }
         public string DomainRegistrar { get; set; }
         public string LogoPath { get; set; }
-        public string RestaurantOpeningHours { get; set; }
+        public string WorkSchedule { get; set; }
         public int TotalNumberSeats { get; set; }
         public int AvailableNumberSeats { get; set; }
-        
+        public string OrderConditions { get; set; }
         public string UserId { get; set; }
         [NotMapped]
         public IFormFile File { get; set; }

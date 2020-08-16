@@ -41,14 +41,25 @@ namespace Starkit.Controllers
         }
         
         [Authorize]
-        public IActionResult Register()
+        public async Task<IActionResult> Register(bool edit = false)
         {
+            string userId = _userManager.GetUserId(User);
+            if (edit)
+            {
+                ViewBag.Edit = true;
+                Restaurant restaurant = await _db.Restaurants.FirstOrDefaultAsync(r => r.UserId == userId);
+                return View(restaurant);
+            }
+
+            if (await _db.Restaurants.AnyAsync(r => r.UserId == userId))
+                return RedirectToAction("Index");
             return View();
         }
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Register(Restaurant model)
         {
+            
             if (ModelState.IsValid)
             {
                 string userId = _userManager.GetUserId(User);
@@ -66,6 +77,42 @@ namespace Starkit.Controllers
                 return RedirectToAction("Index");
             }
             return View(model);
+        }
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Edit(Restaurant model)
+        {
+            
+            if (ModelState.IsValid)
+            {
+                string userId = _userManager.GetUserId(User);
+                model.UserId = userId;
+                Restaurant restaurant = await _db.Restaurants.FirstOrDefaultAsync(r => r.UserId == userId);
+                if (model.File != null)
+                {
+                    string directoryPath = Path.Combine(_environment.ContentRootPath,$"wwwroot\\images\\users\\{userId}\\logo");
+                    if (!Directory.Exists(directoryPath))
+                        Directory.CreateDirectory(directoryPath);
+                    await _uploadService.Upload(directoryPath,model.File.FileName,model.File);
+                    restaurant.LogoPath = $"images\\users\\{userId}\\logo\\{model.File.FileName}";
+                }
+                restaurant.NameRestaurant = model.NameRestaurant;
+                restaurant.PhoneNumber = model.PhoneNumber;
+                restaurant.ContactPerson = model.ContactPerson;
+                restaurant.Address = model.Address;
+                restaurant.RestaurantInformation = model.RestaurantInformation;
+                restaurant.DomainAvailability = model.DomainAvailability;
+                restaurant.DomainName = model.DomainName;
+                restaurant.DomainRegistrar = model.DomainRegistrar;
+                restaurant.WorkSchedule = model.WorkSchedule;
+                restaurant.TotalNumberSeats = model.TotalNumberSeats;
+                restaurant.AvailableNumberSeats = model.AvailableNumberSeats;
+                restaurant.OrderConditions = model.OrderConditions;
+                _db.Restaurants.Update(restaurant);
+                await _db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Register", model);
         }
     }
 }

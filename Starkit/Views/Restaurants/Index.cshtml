@@ -41,7 +41,7 @@
             {
                 <a href="">@Model.DomainName</a>
             }
-            <button class="btn btn-primary">Редактировать</button>
+            <a asp-action="Register" asp-controller="Restaurants" asp-route-edit="true" class="btn btn-primary">Редактировать</a>
         </div>
     </div>
     <div class="ri-block2">
@@ -57,9 +57,14 @@
           </li>
         </ul>
         <div class="tab-content" id="myTabContent">
-          <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi corporis enim eum fuga inventore magni nam nemo officia quam velit? A accusamus aliquid deleniti earum eum eveniet illo ipsa ipsam iste, iure labore officia perspiciatis quo rem reprehenderit saepe soluta sunt temporibus? Adipisci aliquam at culpa cum dolorem dolorum enim error explicabo facere fugit hic illo ipsum labore laborum magnam natus officia, possimus quae, quasi quia repudiandae similique totam unde voluptas, voluptate! Consequuntur dignissimos, dolorem eaque enim illo nemo. Aperiam commodi corporis eaque excepturi fuga quia quos repellendus rerum ullam! Adipisci, atque autem cupiditate eum fugiat minima necessitatibus reiciendis reprehenderit!</div>
-          <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">.sssssss..</div>
-          <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">.dddddddddd..</div>
+          <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">@Model.RestaurantInformation</div>
+          <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">@Model.WorkSchedule</div>
+            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                <p><span>Контактное лицо</span> @Model.ContactPerson</p>
+                <p><span>Номер телефона</span> @Model.PhoneNumber</p>
+                <p><span>Адрес</span> @Model.Address</p>
+                <p><span>Контактное лицо</span> @Model.ContactPerson</p>
+            </div>
         </div>
     </div>
 </div>
