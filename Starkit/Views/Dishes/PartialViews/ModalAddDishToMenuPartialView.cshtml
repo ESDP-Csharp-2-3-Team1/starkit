@@ -9,7 +9,7 @@
             <div class="modal-body" style="margin-top: 20px">
                 <form asp-action="Create" asp-controller="MenuDishes" method="post" id="addToMenu">
                     <div class="form-group row">
-                        <label for="" class="col-sm-4 col-form-label" style="font-weight: 100">Выберите меню</label><br/>
+                        <label for="" class="col-sm-4 col-form-label" style="font-weight: 400">Выберите меню</label><br/>
                         <div class="col-sm-8">
                             <input type="hidden" name="dishId" value="@Model.Id">
                             <select name="menuIds" multiple class="form-control" id="menuSelect">

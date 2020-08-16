@@ -5,7 +5,11 @@
     Layout = "_Layout";
 }
 
-<div class="container" style="width: 90%; margin-bottom: 50px">
+<div style="text-align: right">
+    <img class="fullscreen-icon" id="fullscreen" src="https://img.icons8.com/material-outlined/24/000000/full-screen.png"/>
+    <img style="display: none" class="window-icon" id="window" src="https://img.icons8.com/ios-filled/24/000000/normal-screen.png"/>
+</div>
+<div class="container" style="width: 90%; margin-bottom: 30px">
     <h2 class="text-menu">Список блюд</h2>
     <div class="d-flex bd-highlight mb-3">
         <div class="p-2 bd-highlight">
@@ -44,8 +48,6 @@
     </div>
 </div>
 <link href="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
-<link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css"
-      rel="stylesheet" type="text/css" />
 
 @section Scripts
 {
@@ -297,5 +299,23 @@
                 }
             })
         }
+        
+        $("#fullscreen").click(function(event) {
+            event.preventDefault();
+            $(".edit-block1").css("display", "none");
+            $(".edit-block2").css("width", "100%");
+            $(".container-edit").css("grid-template-columns", '100%');
+            $("#fullscreen").hide();
+            $("#window").show()
+        });
+        
+         $("#window").click(function(event) {
+            event.preventDefault();
+            $(".edit-block1").css("display", "block");
+            $(".edit-block2").css("width", "830px");
+            $(".container-edit").css("grid-template-columns", '280px auto');
+            $("#window").hide();
+            $("#fullscreen").show();
+         });
     </script>
 }
