@@ -826,6 +826,22 @@ body {
 #ri-content-GR #ri-content-CT{
   display: none;
 }
+.content-idcontact{
+  min-height: 200px;
+  padding-top: 20px;
+}
+.content-idcontact span{
+  font-weight: 600;
+}
+.content-idcontact p{
+  border-bottom: 1px solid silver;
+}
+.ri-box-btn span{
+  padding: 0 3px 0 3px;
+  color: #09c;
+  border-bottom: 1px solid #09c;
+  cursor: default;
+}
 /*end Restaurants => Index*/
 
 
