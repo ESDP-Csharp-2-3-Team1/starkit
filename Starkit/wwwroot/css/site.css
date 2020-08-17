@@ -793,3 +793,7 @@ body {
 .link-menu-name:hover{
   color: gold;
 }
+.createMenuLabel{
+  font-weight: 600;
+  text-align: end;
+}
