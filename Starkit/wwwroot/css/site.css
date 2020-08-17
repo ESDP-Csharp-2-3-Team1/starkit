@@ -844,31 +844,9 @@ body {
 }
 /*end Restaurants => Index*/
 /*start Dishes => Create*/
-.dish-main-container{
-  padding: 50px;
-}
-.dish-main-container label{
+.createDishLabel{
+  font-weight: 700;
   text-align: end;
-  font-weight: 600;
-  font-size: 16px;
-}
-.dish-main-container .form-control{
-  padding: 0 10px 0 10px;
-  width: 355px;
-  height: 30px;
-}
-.dish-main-container .my-form-group{
-  height: 38px;
-}
-.dish-main-container textarea{
-  min-height: 60px;
-  padding: 6px 10px!important;
-}
-.my-form-group-2 input{
-  width: 30px!important;
-}
-.create-ct-btn-box{
-  margin-left: 253px;
 }
 
 /*end Dishes => Create*/
