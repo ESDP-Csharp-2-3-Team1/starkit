@@ -1,8 +1,10 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Starkit.Models;
 using Starkit.Models.Data;
@@ -56,6 +58,20 @@ namespace Starkit.Controllers
         public IActionResult Create()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Stock stock)
+        {
+            if (ModelState.IsValid)
+            {
+                stock.CreatorId = _userManager.GetUserId(User);
+                stock.Avatar = Load(stock.Id, stock.File);
+                _db.Entry(stock).State = EntityState.Added;
+                await _db.SaveChangesAsync();
+                return RedirectToAction("Create");
+            }
+            return View(stock);
         }
     }
 }
