@@ -845,7 +845,7 @@ body {
 /*end Restaurants => Index*/
 
 .createDishLabel, .createCategoryLabel, .createSubCategoryLabel{
-  font-weight: 700;
+  font-weight: 600;
   text-align: end;
 }
 
