@@ -21,11 +21,10 @@
         color: #262626;
     }
  </style>
-<div class="row" style="margin: 30px 0 80px 0">
-    <div class="col-md-6 mt-5">
+<div class="dish-main-container">
         <h2 class="create-dish">Добавление блюда</h2>
         <form asp-action="Create" method="post" enctype="multipart/form-data">
-            <div class="form-group row">
+            <div class="form-group row my-form-group">
                 <label for="" class="col-sm-4 col-form-label">Выберите категорию</label><br/>
                 <div class="col-sm-8">
                     <select class="form-control" asp-for="CategoryId" id="category">
@@ -34,67 +33,78 @@
                             <option value="@category.Id">@category.Name</option>
                         }
                     </select>
+                                    <span class="validationError" asp-validation-for="CategoryId"></span>
+
                 </div>
-                <span class="validationError" asp-validation-for="CategoryId"></span>
             </div>
-            <div class="form-group row" id="result"></div>
-            <div class="form-group row">
+            <div class="form-group row my-form-group">
                 <label for="" class="col-sm-4 col-form-label">Название блюда</label><br/>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" asp-for="Name">
+                    <span class="validationError" asp-validation-for="Name"></span>
                 </div>
-                <span class="validationError" asp-validation-for="Name"></span>
             </div>
-            <div class="form-group row">
+            <div class="form-group row my-form-group">
                 <label for="" class="col-sm-4 col-form-label">Стоимость</label><br/>
                 <div class="col-sm-8">
                     <input type="number" class="form-control" asp-for="Cost">
+                                    <span class="validationError" asp-validation-for="Cost"></span>
                 </div>
-                <span class="validationError" asp-validation-for="Cost"></span>
             </div>
-            <div class="form-group row">
+            <div class="form-group row ">
                 <label for="" class="col-sm-4 col-form-label">Описание</label><br/>
                 <div class="col-sm-8">
-                    <textarea style="height: 150px; resize: none" asp-for="Description" class="form-control"></textarea>
+                    <textarea asp-for="Description" style="height: 60px" class="form-control"></textarea>
+                                    <span class="validationError" asp-validation-for="Description"></span>
                 </div>
-                <span class="validationError" asp-validation-for="Description"></span>
             </div>
-            <div class="form-group row">
+            <div class="form-group row ">
                 <label for="" class="col-sm-4 col-form-label">Ингредиенты</label><br/>
                 <div class="col-sm-8">
-                    <textarea style="height: 100px; resize: none" asp-for="Ingredients" class="form-control"></textarea>
+                    <textarea   asp-for="Ingredients" style="height: 60px" class="form-control"></textarea>
+                    <span class="validationError" asp-validation-for="Ingredients"></span>
                 </div>
-                <span class="validationError" asp-validation-for="Ingredients"></span>
             </div>
-            <div class="form-group row">
-                <div class="col-sm-12">
-                    <label for="myFIle" class="chous">Выберите файлы</label>
-                    <input type="file"  id="myFIle" class="form-control my" asp-for="File" multiple="multiple"/>
+            @* <div class="form-group row my-form-group"> *@
+            @*     <div class="col-sm-12"> *@
+            @*         <label for="myFIle" class="chous">Выберите файлы</label> *@
+            @*         <input type="file"  id="myFIle" class="form-control my" asp-for="File" multiple="multiple"/> *@
+            @*     </div> *@
+            @*     <span class="validationError" asp-validation-for="File"></span> *@
+            @* </div> *@
+            <div class="form-group row my-form-group">
+                <label asp-for="File" class="col-sm-4 col-form-label">Фотография блюда</label><br/>
+                <div class="col-sm-8" >
+                    <input type="file" style="border: none" class="form-control" asp-for="File">
+                                    <span class="validationError" asp-validation-for="File"></span>
+
                 </div>
-                <span class="validationError" asp-validation-for="File"></span>
             </div>
-            <div class="form-group row">
+            <div class="form-group row my-form-group">
                 <label for="" class="col-sm-4 col-form-label">Калорийность</label><br/>
                 <div class="col-sm-8">
                     <input type="number" class="form-control" asp-for="Calorie">
+                                    <span class="validationError" asp-validation-for="Calorie"></span>
                 </div>
-                <span class="validationError" asp-validation-for="Calorie"></span>
             </div>
-            <div class="form-group row">
-                <label for="" class="col-sm-4 col-form-label">Правильное питание</label>
-                <div class="col-sm-2">
+            <div class="form-group row my-form-group-2">
+                <label for="" class="col-sm-4 col-form-label label-1">Правильное питание</label>
+                <div class="col-sm-8">
                     <input type="checkbox" class="form-control" asp-for="ProperNutrition" value="true">
                 </div>
-                <label for="" class="col-sm-4 col-form-label">Вегетарианское</label>
-                <div class="col-sm-2">
-                    <input type="checkbox" class="form-control" asp-for="Vegetarian" value="true">
-                </div>
             </div>
-            <div style="text-align: center">
-                <br/><button type="submit" class="btn btn-dark">Опубликовать</button>
+                 <div class="form-group row my-form-group-2">
+                     <label for="" class="col-sm-4 col-form-label label-2">Вегетарианское</label>
+                            <div class="col-sm-8">
+                                <input type="checkbox" class="form-control" asp-for="Vegetarian" value="true">
+                            </div>
+                        </div>
+            <div class="create-ct-btn-box">
+                <button type="submit" class="btn btn-primary"  >Опубликовать</button>
             </div>
         </form>
-    </div>
+                    <div class="form-group row" id="result"></div>
+
 </div>
 @section Scripts
 {
