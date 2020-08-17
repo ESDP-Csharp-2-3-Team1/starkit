@@ -843,13 +843,11 @@ body {
   cursor: default;
 }
 /*end Restaurants => Index*/
-/*start Dishes => Create*/
-.createDishLabel{
+
+.createDishLabel, .createCategoryLabel, .createSubCategoryLabel{
   font-weight: 700;
   text-align: end;
 }
-
-/*end Dishes => Create*/
 
 
 
