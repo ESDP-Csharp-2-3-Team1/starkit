@@ -2,7 +2,7 @@
 
 @if (Model.SubCategories.Count != 0)
 {
-    <label for="" class="col-sm-4 col-form-label">Выберите подкатегорию</label><br/>
+    <label for="" class="col-sm-4 col-form-label createDishLabel">Выберите подкатегорию</label><br/>
     <div class="col-sm-8">
         <select class="form-control" asp-for="SubCategoryId">
             @foreach (var subCategory in Model.SubCategories)
