@@ -44,6 +44,7 @@ namespace Starkit.Controllers
         public async Task<IActionResult> Register(bool edit = false)
         {
             string userId = _userManager.GetUserId(User);
+            ViewBag.Edit = false;
             if (edit)
             {
                 ViewBag.Edit = true;
