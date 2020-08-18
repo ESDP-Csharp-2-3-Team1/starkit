@@ -10,7 +10,7 @@ namespace Starkit.Models
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
         
-        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
+        [Required(ErrorMessage = "Не все поля блюд заполнены")]
         public string Name { get; set; }
         
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
@@ -39,5 +39,14 @@ namespace Starkit.Models
         
         public string EditorId { get; set; }
         public virtual User Editor { get; set; }
+
+        public string FirstDishId { get; set; }
+        public virtual Dish FirstDish { get; set; }
+        
+        public string SecondDishId { get; set; }
+        public virtual Dish SecondDish { get; set; }
+        
+        public string ThirdDishId { get; set; }
+        public virtual Dish ThirdDish { get; set; }
     }
 }

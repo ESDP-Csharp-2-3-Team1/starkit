@@ -787,13 +787,13 @@ body {
   margin-right: 20px;
   cursor: pointer;
 }
-.link-menu-name{
+.link-menu-name, .link-stock-name{
   cursor: pointer;
 }
-.link-menu-name:hover{
+.link-menu-name, .link-stock-name:hover{
   color: gold;
 }
-.createMenuLabel{
+.createMenuLabel, .createStockLabel{
   font-weight: 600;
   text-align: end;
 }

@@ -10,14 +10,14 @@
         <h2 class="create-dish">Добавление акций</h2>
         <form asp-action="Create" method="post" enctype="multipart/form-data">
             <div class="form-group row">
-                <label for="" class="col-sm-4 col-form-label createMenuLabel">Название</label><br/>
+                <label for="" class="col-sm-4 col-form-label createStockLabel">Название</label><br/>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" asp-for="Name">
+                    <input id="name" type="text" asp-for="Name" readonly="readonly" class="form-control">
                 </div>
                 <span class="validationError" asp-validation-for="Name"></span>
             </div>
             <div class="form-group row">
-                <label for="" class="col-sm-4 col-form-label createMenuLabel">Тип</label><br/>
+                <label for="" class="col-sm-4 col-form-label createStockLabel">Тип</label><br/>
                 <div class="col-sm-8">
                     <select class="form-control" asp-for="Type" id="selectType">
                         <option value="1+1=3">1 + 1 = 3</option>
@@ -25,15 +25,28 @@
                     </select>
                 </div>
             </div>
+            <div class="form-group row" id="chooseDishes">
+                <label for="" class="col-sm-4 col-form-label createStockLabel">Выберите блюда</label><br/>
+                <div class="col-sm-8">
+                    <img style="cursor: pointer" onclick="openModal()" src="https://img.icons8.com/android/24/000000/plus.png"/>
+                </div>
+            </div>
+            <input type="hidden" asp-for="FirstDishId" id="firstDish">
+            <input type="hidden" id="firstDishName">
+            <input type="hidden" asp-for="SecondDishId" id="secondDish">
+            <input type="hidden" id="secondDishName">
+            <input type="hidden" asp-for="ThirdDishId" id="thirdDish">
+            <input type="hidden" id="thirdDishName">
+
             <div class="form-group row">
-                <label for="" class="col-sm-4 col-form-label createMenuLabel">Описание</label><br/>
+                <label for="" class="col-sm-4 col-form-label createStockLabel">Описание</label><br/>
                 <div class="col-sm-8">
                     <textarea style="height: 150px; resize: none" asp-for="Description" class="form-control"></textarea>
                 </div>
                 <span class="validationError" asp-validation-for="Description"></span>
             </div>
             <div class="form-group row">
-                <label for="" class="col-sm-4 col-form-label createMenuLabel">Срок действия</label><br/>
+                <label for="" class="col-sm-4 col-form-label createStockLabel">Срок действия</label><br/>
                 <div class="col-sm-1">
                     <input style="font-size: 8px; margin-top: 5px" asp-for="Validity" type="radio" class="form-control" value="По времени">
                 </div>
@@ -45,12 +58,12 @@
                 <span class="validationError" asp-validation-for="Validity"></span>
             </div>
             <div class="form-group row">
-                <label for="" class="col-sm-4 col-form-label createMenuLabel">С</label><br/>
+                <label for="" class="col-sm-4 col-form-label createStockLabel">С</label><br/>
                 <div class="col-sm-3">
                     <input style="font-size: 14px; margin-top: 5px" asp-for="At" type="time" class="form-control dateTime">
                     <span class="validationError" asp-validation-for="At"></span>
                 </div>
-                <label for="" class="col-sm-2 col-form-label createMenuLabel">До</label><br/>
+                <label for="" class="col-sm-2 col-form-label createStockLabel">До</label><br/>
                 <div class="col-sm-3">
                     <input style="font-size: 14px; margin-top: 5px" asp-for="To" type="time" class="form-control dateTime">
                     <span class="validationError" asp-validation-for="To"></span>
@@ -59,16 +72,17 @@
             <div class="form-group row">
                 <div class="col-sm-4" style="text-align: end">
                     <label for="myFIle" style="font-weight: 600" class="chous">Добавить иконку</label>
-                    <input type="file"  id="myFIle" class="form-control my" asp-for="File" multiple="multiple"/>
+                    <input type="file" id="myFIle" class="form-control my" asp-for="File" multiple="multiple"/>
                 </div>
                 <span class="validationError" asp-validation-for="File"></span>
             </div>
             <div style="text-align: center">
-                <br/><button type="submit" class="btn btn-dark">Добавить</button>
+                <br/><button onclick="send()" type="submit" class="btn btn-dark">Добавить</button>
             </div>
         </form>
     </div>
 </div>
+<div id="modal"></div>
 @section Scripts
 {
     @{
@@ -91,5 +105,68 @@
                 }
             });
         });
+        
+        function openModal() {
+            $.get('@Url.Action("GetDishes")', function(data) {
+                $("#modal").html(data);
+                $(".modal").show();
+                
+                var firstDish = $("#firstDish").val();
+                var secondDish = $("#secondDish").val();
+                var thirdDish = $("#thirdDish").val();
+                if (firstDish != "" & secondDish == "" && thirdDish == ""){
+                    $("#addDishes").text("Второе блюдо");
+                    $(".selectDish").attr("id", "secondDish")
+                }
+                else if(firstDish != "" & secondDish != "" && thirdDish == ""){
+                    $("#addDishes").text("Подарочное блюдо");
+                    $(".selectDish").attr("id", "thirdDish")
+                }
+            });
+        }
+        
+        function closeModal() {
+            $(".modal").hide();
+        }
+        
+        function saveChange() {
+            var dishNumber = $(".selectDish").attr("id");
+            var name = $("#name");
+            var dish = $(".selectDish").val();
+            var arr = dish.split("&&");
+            var firstDishName = $("#firstDishName");
+            var secondDishName = $("#secondDishName");
+            var thirdDishName = $("#thirdDishName");
+            if ($("#selectType").val() == "1+1=3"){
+                if (dishNumber == "firstDish"){
+                    $("#firstDish").val(arr[0]);
+                    $(firstDishName).val(arr[1]);
+                    $("#selectType").prop("readonly", true);
+                }
+                else if(dishNumber == "secondDish"){
+                    $("#secondDish").val(arr[0]);
+                    $(secondDishName).val(arr[1]);
+                }
+                else{
+                    $("#thirdDish").val(arr[0]);
+                    $(thirdDishName).val(arr[1]);
+                    $("#chooseDishes").hide();
+                    
+                    $(name).attr("value", `${$(firstDishName).val()}+${$(secondDishName).val()}=${arr[1]}`)
+                }    
+            }
+            else{
+                if (dishNumber == "firstDish"){
+                    $("#firstDish").val(arr[0]);
+                    $(firstDishName).val(arr[1]);
+                    
+                    $(name).attr("val", `${firstDishName.val()}+${firstDishName.val()}=${firstDishName.val()}`);
+                    
+                    $("#chooseDishes").hide();
+                    $("#selectType").prop("readonly", true);
+                }    
+            }
+            $(".modal").hide();
+        }
     </script>
 }

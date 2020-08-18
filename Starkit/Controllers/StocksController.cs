@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -53,6 +55,19 @@ namespace Starkit.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult GetStocks()
+        { 
+            List<Stock> stocks = _db.Stocks.Where(s => s.CreatorId == _userManager.GetUserId(User)).ToList();
+            return PartialView("PartilaViews/ListStockPartialView", stocks);
+        }
+
         [Authorize]
         [HttpGet]
         public IActionResult Create()
@@ -72,6 +87,15 @@ namespace Starkit.Controllers
                 return RedirectToAction("Create");
             }
             return View(stock);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult GetDishes()
+        {
+            List<Dish> dishes = _db.Dishes.Where(d => d.CreatorId == _userManager.GetUserId(User)).ToList();
+            var dishGroup = dishes.GroupBy(d => d.Category);
+            return PartialView("PartilaViews/AddDishesToStockModalWindow", dishGroup);
         }
     }
 }
