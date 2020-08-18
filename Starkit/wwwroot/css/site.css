@@ -797,3 +797,11 @@ body {
   font-weight: 600;
   text-align: end;
 }
+.myLink{
+  color: #0095F6; 
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  text-align: end;
+  margin-right: 0;
+}

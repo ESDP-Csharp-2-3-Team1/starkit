@@ -16,6 +16,9 @@
                 </div>
                 <span class="validationError" asp-validation-for="Name"></span>
             </div>
+            <p onclick="reset()" class="validationError myLink">
+                Сбросить блюда
+            </p>
             <div class="form-group row">
                 <label for="" class="col-sm-4 col-form-label createStockLabel">Тип</label><br/>
                 <div class="col-sm-8">
@@ -141,7 +144,7 @@
                 if (dishNumber == "firstDish"){
                     $("#firstDish").val(arr[0]);
                     $(firstDishName).val(arr[1]);
-                    $("#selectType").prop("readonly", true);
+                    $("#selectType").attr("readonly", true);
                 }
                 else if(dishNumber == "secondDish"){
                     $("#secondDish").val(arr[0]);
@@ -152,7 +155,7 @@
                     $(thirdDishName).val(arr[1]);
                     $("#chooseDishes").hide();
                     
-                    $(name).attr("value", `${$(firstDishName).val()}+${$(secondDishName).val()}=${arr[1]}`)
+                    $(name).val(`${$(firstDishName).val()}+${$(secondDishName).val()}=${arr[1]}`)
                 }    
             }
             else{
@@ -160,13 +163,22 @@
                     $("#firstDish").val(arr[0]);
                     $(firstDishName).val(arr[1]);
                     
-                    $(name).attr("val", `${firstDishName.val()}+${firstDishName.val()}=${firstDishName.val()}`);
+                    $(name).val(`${firstDishName.val()}+${firstDishName.val()}=${firstDishName.val()}`);
                     
                     $("#chooseDishes").hide();
-                    $("#selectType").prop("readonly", true);
+                    $("#selectType").attr("readonly", true);
                 }    
             }
             $(".modal").hide();
+        }
+        
+        function reset() {
+            $("#name").val("");
+            $("#selectType").attr("readonly", false);
+            $("#firstDish").val("");
+            $("#secondDish").val("");
+            $("#thirdDish").val("");
+            $("#chooseDishes").show();
         }
     </script>
 }
