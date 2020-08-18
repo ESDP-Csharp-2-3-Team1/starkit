@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Org.BouncyCastle.Asn1.Cms;
 
 namespace Starkit.Models
@@ -11,6 +12,7 @@ namespace Starkit.Models
         public string Id { get; set; } = Guid.NewGuid().ToString();
         
         [Required(ErrorMessage = "Не все поля блюд заполнены")]
+        [Remote("CheckNameStock", "Validation", ErrorMessage = "Акция с таким содержимом уже существует")]
         public string Name { get; set; }
         
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
