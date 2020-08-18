@@ -18,14 +18,14 @@
             </div>
             <div class="form-group row">
                 <label for="" class="col-sm-4 col-form-label createMenuLabel">Тип</label><br/>
-                <div class="col-sm-2">
+                <label for="" class="col-sm-1 col-form-label type">Список</label><br/>
+                <div class="col-sm-1">
                     <input style="font-size: 8px; margin-top: 5px" asp-for="Type" type="radio" class="form-control" value="Список">
                 </div>
-                <label for="" class="col-sm-2 col-form-label createMenuLabel">Список</label><br/>
-                <div class="col-sm-2">
+                <label for="" class="col-sm-1 col-form-label type">Комбо</label><br/>
+                <div class="col-sm-1">
                     <input style="font-size: 8px; margin-top: 5px" asp-for="Type" type="radio" class="form-control" value="Комбо">
                 </div>
-                <label for="" class="col-sm-2 col-form-label createMenuLabel">Комбо</label><br/>
                 <span class="validationError" asp-validation-for="Type"></span>
             </div>
             <div class="form-group row">

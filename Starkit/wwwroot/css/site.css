@@ -790,7 +790,7 @@ body {
 .link-menu-name, .link-stock-name{
   cursor: pointer;
 }
-.link-menu-name, .link-stock-name:hover{
+.link-menu-name:hover, .link-stock-name:hover{
   color: gold;
 }
 .createMenuLabel, .createStockLabel{
@@ -804,4 +804,7 @@ body {
   font-size: 14px;
   text-align: end;
   margin-right: 0;
+}
+.type{
+  text-align: end;
 }
