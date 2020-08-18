@@ -34,11 +34,11 @@ namespace Starkit.Controllers
         private string Load(string id, IFormFile file)
         {
             string userId = _userManager.GetUserId(User);
-            string path = Path.Combine(_environment.ContentRootPath + $"\\wwwroot\\images\\{userId}\\Menu\\{id}");
-            string photoPath = $"images/{userId}/Menu/{id}/{file.FileName}";
-            if (!Directory.Exists($"wwwroot/images/{userId}/Menu/{id}"))
+            string path = Path.Combine(_environment.ContentRootPath + $"\\wwwroot\\images\\users\\{userId}\\Menu\\{id}");
+            string photoPath = $"images/users/{userId}/Menu/{id}/{file.FileName}";
+            if (!Directory.Exists($"wwwroot/images/users/{userId}/Menu/{id}"))
             {
-                Directory.CreateDirectory($"wwwroot/images/{userId}/Menu/{id}");
+                Directory.CreateDirectory($"wwwroot/images/users/{userId}/Menu/{id}");
             }
             _uploadService.Upload(path, file.FileName, file);
             return photoPath;
@@ -47,20 +47,21 @@ namespace Starkit.Controllers
         private void DeleteMenuAvatar(Menu menu)
         {
             string userId = _userManager.GetUserId(User);
-            string filePath = _environment.ContentRootPath + $"\\wwwroot\\images\\{userId}\\Menu\\" + menu.Id; 
+            string filePath = _environment.ContentRootPath + $"\\wwwroot\\images\\users\\{userId}\\Menu\\" + menu.Id; 
             if (Directory.Exists(filePath))
             {
-                System.IO.File.Delete("wwwroot/" + menu.Avatar);
+                if (menu.Avatar == null)
+                    Directory.Delete(filePath, true);
+                else
+                    System.IO.File.Delete("wwwroot/" + menu.Avatar);
             }
         }
 
-        [Authorize]
-        public IActionResult ListMenu()
+        public IActionResult Index()
         {
-            List<Menu> menu = _db.Menu.Where(d => d.CreatorId == _userManager.GetUserId(User)).ToList();
-            return View(menu);
+            return View(_db.Menu.Where(m => m.CreatorId == _userManager.GetUserId(User)).ToList());
         }
-
+        
         public IActionResult GetMenu()
         {
             List<Menu> menu = _db.Menu.Where(m => m.CreatorId == _userManager.GetUserId(User)).ToList();
@@ -68,51 +69,51 @@ namespace Starkit.Controllers
         }
 
         [Authorize]
-        public IActionResult Create()
+        [HttpGet]
+        public async Task<IActionResult> Create()
         {
-            List<Dish> dishes = _db.Dishes.Where(d => d.CreatorId == _userManager.GetUserId(User)).ToList();
-            var dishGroups = dishes.GroupBy(d => d.Category);
-            Menu menu = new Menu{Dishes = dishGroups};
-            return View(menu);
+            return View();
         }
-
+        
         [HttpPost]
         public async Task<IActionResult> Create(Menu menu)
         {
             if (ModelState.IsValid)
             {
-                foreach (var dishId in menu.DishesId)
-                {
-                    MenuDish menuDish = new MenuDish{MenuId = menu.Id, DishId = dishId};
-                    _db.Entry(menuDish).State = EntityState.Added;
-                }
-                menu.CreatorId = _userManager.GetUserId(User);
-                menu.Avatar = Load(menu.Id, menu.File);
+                menu.Avatar = menu.Avatar = Load(menu.Id, menu.File);
                 menu.AddTime = DateTime.Now;
+                menu.CreatorId = _userManager.GetUserId(User);
                 _db.Entry(menu).State = EntityState.Added;
                 await _db.SaveChangesAsync();
-                return RedirectToAction("ListMenu");
+                return RedirectToAction("Index");
             }
-            List<Dish> dishes = _db.Dishes.Where(d => d.CreatorId == _userManager.GetUserId(User)).ToList();
-            var dishGroups = dishes.GroupBy(d => d.Category);
-            menu = new Menu{Dishes = dishGroups};
             return View(menu);
+        }
+        
+        [HttpDelete]
+        public async Task<IActionResult> Delete(string id)
+        {
+            Menu menu = new Menu{Id = id};
+            _db.Entry(menu).State = EntityState.Deleted;
+            await _db.SaveChangesAsync();
+            DeleteMenuAvatar(menu);
+            List<Menu> listMenu = _db.Menu.Where(c => c.CreatorId == _userManager.GetUserId(User)).ToList();
+            return PartialView("PartialViews/ListMenuPartialView", listMenu);
         }
 
         [HttpGet]
         public IActionResult Edit(string id)
         {
-            List<Dish> dishes = _db.Dishes.Where(d => d.CreatorId == _userManager.GetUserId(User)).ToList();
-            var dishGroups = dishes.GroupBy(d => d.Category);
             Menu menu = _db.Menu.FirstOrDefault(m => m.Id == id);
-            EditMenuViewModel editMenuViewModel = new EditMenuViewModel
+            EditMenuViewModel model = new EditMenuViewModel
             {
-                Id =  id,
+                Id = menu.Id,
                 Name = menu.Name,
+                Type = menu.Type,
                 Cost = menu.Cost,
-                Dishes = dishGroups,
+                Description = menu.Description,
             };
-            return View(editMenuViewModel);
+            return View(model);
         }
 
         [HttpPost]
@@ -120,31 +121,32 @@ namespace Starkit.Controllers
         {
             if (ModelState.IsValid)
             {
-                Menu menu = _db.Menu.FirstOrDefault(m => m.Id == model.Id);
+                var menu = _db.Menu.FirstOrDefault(m => m.Id == model.Id);
                 menu.Name = model.Name;
+                menu.Type = model.Type;
                 menu.Cost = model.Cost;
                 menu.EditTime = DateTime.Now;
                 menu.EditorId = _userManager.GetUserId(User);
-                if (model.DishesId != null)
-                {
-                    List<MenuDish> menuDishes = _db.MenuDishes.Where(m => m.MenuId == model.Id).ToList();
-                    _db.RemoveRange(menuDishes);
-                    foreach (var dishId in model.DishesId)
-                    {
-                        MenuDish menuDish = new MenuDish{MenuId = menu.Id, DishId = dishId};
-                        _db.Entry(menuDish).State = EntityState.Added;
-                    }
-                }
+                menu.Description = model.Description;
                 if (model.File != null)
                 {
                     DeleteMenuAvatar(menu);
                     menu.Avatar = Load(model.Id, model.File);
                 }
+                
                 _db.Entry(menu).State = EntityState.Modified;
                 await _db.SaveChangesAsync();
-                return RedirectToAction("ListMenu");
+                return RedirectToAction("Index");
             }
-            return View(model);
+
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Details(string id)
+        {
+            return PartialView("PartialViews/DetailMenuModalWindowPartialView",
+                _db.Menu.FirstOrDefault(m => m.Id == id));
         }
     }
 }

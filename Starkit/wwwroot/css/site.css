@@ -853,3 +853,49 @@ body {
 
 
 
+
+.multiselect{
+  width: 294px;
+  border-color: #adadad;
+  background-color: #ebebeb;
+  border-radius: 6px;
+}
+.checkbox{
+  color: black;
+}
+.modal-title{
+  font-size: 20px;
+  margin-top: 7px;
+  font-weight: 600;
+}
+.message{
+  display: none;
+  font-weight: 600;
+  color: black;
+}
+.fullscreen-icon, .window-icon{
+  margin-top: 20px;
+  margin-right: 20px;
+  cursor: pointer;
+}
+.link-menu-name, .link-stock-name{
+  cursor: pointer;
+}
+.link-menu-name:hover, .link-stock-name:hover{
+  color: gold;
+}
+.createMenuLabel, .createStockLabel{
+  font-weight: 600;
+  text-align: end;
+}
+.myLink{
+  color: #0095F6; 
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  text-align: end;
+  margin-right: 0;
+}
+.type{
+  text-align: end;
+}

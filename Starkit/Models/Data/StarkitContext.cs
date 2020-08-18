@@ -16,6 +16,7 @@ namespace Starkit.Models.Data
         public DbSet<Menu> Menu { get; set; }
         public DbSet<MenuDish> MenuDishes  { get; set; }
         public DbSet<Restaurant> Restaurants { get; set; }
+        public DbSet<Stock> Stocks { get; set; }
         
         public StarkitContext(DbContextOptions<StarkitContext> options) : base(options) {}
     }

@@ -124,6 +124,10 @@
       <_ContentIncludedByDefault Remove="wwwroot\images\dda701d6-1335-4938-800c-252aba49b7c9\Dishes\802cc07f-aee7-455d-9065-f8bbb2fd14e7\Без названия (1).jpg" />
       <_ContentIncludedByDefault Remove="wwwroot\images\0ebbcf10-1257-4ef4-bbe9-bea4360b8eca\Dishes\0f65e951-1796-4be1-adab-0e94b85e61b6\Без названия.jpg" />
       <_ContentIncludedByDefault Remove="wwwroot\images\4dae26bf-330a-4259-a330-d2b702474cc0\Dishes\d29a5d5d-1ca5-4c93-9564-acdc27db0eb2\Без названия (1).jpg" />
+      <_ContentIncludedByDefault Remove="Views\Menu\PartialViews\ListMenuPartialView.cshtml" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\37418742-f888-489e-94b0-a8983dc990f2\Menu\25fce308-4c6c-45cd-a627-ac6f0b7a256a\1591606975797.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\37418742-f888-489e-94b0-a8983dc990f2\Menu\7c17e954-e348-4324-b0c0-9aec5b98b5c0\recipe_4ef47f29-51b7-466e-a7fb-b587a6aa4beb_large.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\users\7db137c8-ea9f-41dd-ab9f-4281c1bb2e41\Stocks\a229e9f9-12b1-4fa0-98ee-e9e56f7f16fc\file.png" />
       <_ContentIncludedByDefault Remove="wwwroot\images\a3af6b95-a47d-4ee6-a6dc-8847a2799bcc\Dishes\473dee0b-b39e-4bbd-8859-1cdbb5d95f89\Screenshot.png" />
     </ItemGroup>
 

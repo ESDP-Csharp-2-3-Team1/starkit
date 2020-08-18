@@ -1,0 +1,32 @@
+﻿@model IEnumerable<IGrouping<Category, Dish>>
+
+<div class="modal answer-modal" tabindex="-1" role="dialog" id="#modalAddDishesToStock">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body" style="margin-top: 20px">
+                <div class="form-group row">
+                    <label id="addDishes" for="" class="col-sm-4 col-form-label" style="font-weight: 400">
+                        Первое блюдо
+                    </label><br/>
+                    <div class="col-sm-8">
+                        <select class="form-control selectDish" id="firstDish">
+                            @foreach (var g in Model)
+                            {
+                                <optgroup label="@g.Key.Name">
+                                    @foreach (var t in g)
+                                    {
+                                        <option value="@t.Id&&@t.Name">@t.Name</option>
+                                    }
+                                </optgroup>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="saveChange()" type="button" class="btn btn-primary button-save">Сохранить</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>

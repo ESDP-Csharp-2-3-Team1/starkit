@@ -1,0 +1,39 @@
+﻿@model Dish
+
+<div class="modal answer-modal" tabindex="-1" role="dialog" id="#modalChangeMenu">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" class="modal-title">@Model.Name</h5>
+            </div>
+            <div class="modal-body" style="margin-top: 20px">
+                <form asp-action="Create" asp-controller="MenuDishes" method="post" id="addToMenu">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-4 col-form-label" style="font-weight: 400">Выберите меню</label><br/>
+                        <div class="col-sm-8">
+                            <input type="hidden" name="dishId" value="@Model.Id">
+                            <select name="menuIds" multiple class="form-control" id="menuSelect">
+                                @foreach (var menu in Model.Menu)
+                                {
+                                    @if (Model.MenuDish.Any(m => m.DishId == Model.Id && m.MenuId == menu.Id))
+                                    {
+                                        <option class="select-menu" selected="selected" value="@menu.Id">@menu.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@menu.Id">@menu.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <br/><div class="message"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button onclick="saveChange()" type="button" class="btn btn-primary button-save">Сохранить</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>

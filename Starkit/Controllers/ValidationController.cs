@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -63,12 +64,40 @@ namespace Starkit.Controllers
                                                                   d.CreatorId == _userManager.GetUserId(User)).ToList();
             return !dishes.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim());
         }
+        
+        public bool CheckNameMenu(string name, string id)
+        {
+            if (id == null)
+                return !_db.Menu.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim() 
+                                            && c.CreatorId == _userManager.GetUserId(User));
+            
+            List<Menu> menu = _db.Menu.Where(d => d.Id != id && 
+                                                      d.CreatorId == _userManager.GetUserId(User)).ToList();
+            return !menu.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim());
+        }
 
         public bool CheckNameSubCategory(string name)
         {
             List<Category> categories = _db.Categories.Where(c => c.UserId == _userManager.GetUserId(User)).ToList();
             return !_db.Categories.Any(c => c.UserId == _userManager.GetUserId(User) &&
                                            c.SubCategories.Any(s => s.Name.ToLower().Trim() == name.ToLower().Trim()));
+        }
+        
+        public bool CheckNameStock(string name, string id)
+        {
+            string[] separator = {"+", "="};
+            string[] arrWord = name.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+            string name2 = $"{arrWord[1]}+{arrWord[0]}={arrWord[2]}";
+            if (id == null)
+            {
+                return !_db.Stocks.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim() 
+                                            || c.Name.ToLower().Trim() == name2.ToLower().Trim()
+                                            && c.CreatorId == _userManager.GetUserId(User));   
+            }
+
+            List<Stock> stocks = _db.Stocks.Where(c => c.Id != id && 
+                                                       c.CreatorId == _userManager.GetUserId(User)).ToList();
+            return !stocks.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim());
         }
         
         public async Task<bool>CheckOldPassword(string oldPassword)

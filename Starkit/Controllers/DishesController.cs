@@ -38,18 +38,17 @@ namespace Starkit.Controllers
         private void DeleteDishAvatar(Dish dish)
         {
             var userId = _userManager.GetUserId(User);
-            var filePath = _environment.ContentRootPath + $"\\wwwroot\\images\\{userId}\\Dishes\\" + dish.Id;
+            var filePath = _environment.ContentRootPath + $"\\wwwroot\\images\\users\\{userId}\\Dishes\\" + dish.Id;
             if (Directory.Exists(filePath)) System.IO.File.Delete("wwwroot/" + dish.Avatar);
         }
 
         private string Load(string id, IFormFile file)
         {
             var userId = _userManager.GetUserId(User);
-            var path = Path.Combine(_environment.ContentRootPath + $"\\wwwroot\\images\\{userId}\\Dishes\\{id}");
-            var photoPath = $"images/{userId}/Dishes/{id}/{file.FileName}";
-            if (!Directory.Exists($"wwwroot/images/{userId}/Dishes/{id}"))
-                Directory.CreateDirectory($"wwwroot/images/{userId}/Dishes/{id}");
-            
+            var path = Path.Combine(_environment.ContentRootPath + $"\\wwwroot\\images\\users\\{userId}\\Dishes\\{id}");
+            var photoPath = $"images/users/{userId}/Dishes/{id}/{file.FileName}";
+            if (!Directory.Exists($"wwwroot/images/users/{userId}/Dishes/{id}"))
+                Directory.CreateDirectory($"wwwroot/images/users/{userId}/Dishes/{id}");
             _uploadService.Upload(path, file.FileName, file);
             return photoPath;
         }
@@ -228,7 +227,7 @@ namespace Starkit.Controllers
             {
                 dishes.Add(_db.Dishes.FirstOrDefault(d => d.Id == id));
                 var userId = _userManager.GetUserId(User);
-                var filePath = _environment.ContentRootPath + $"\\wwwroot\\images\\{userId}\\Dishes\\" + id;
+                var filePath = _environment.ContentRootPath + $"\\wwwroot\\images\\users\\{userId}\\Dishes\\" + id;
                 if (Directory.Exists(filePath))
                     Directory.Delete(filePath, true);
             }
@@ -257,6 +256,13 @@ namespace Starkit.Controllers
 
             await _db.SaveChangesAsync();
             return Json(true);
+        }
+
+        public IActionResult GetModalDish(string id)
+        {
+            Dish dish = _db.Dishes.FirstOrDefault(d => d.Id == id);
+            dish.Menu = _db.Menu.Where(m => m.CreatorId == _userManager.GetUserId(User)).ToList();
+            return PartialView("PartialViews/ModalAddDishToMenuPartialView", dish);
         }
     }
 }

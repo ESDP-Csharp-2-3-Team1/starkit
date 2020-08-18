@@ -22,6 +22,12 @@
     }
  </style>
 <div class="container" style="width: 90%; margin-bottom: 50px">
+
+<div style="text-align: right">
+    <img class="fullscreen-icon" id="fullscreen" src="https://img.icons8.com/material-outlined/24/000000/full-screen.png"/>
+    <img style="display: none" class="window-icon" id="window" src="https://img.icons8.com/ios-filled/24/000000/normal-screen.png"/>
+</div>
+<div class="container" style="width: 90%; margin-bottom: 30px">
     <h2 class="text-menu">Список блюд</h2>
     <div class="d-flex bd-highlight mb-3">
         <div class="p-2 bd-highlight">
@@ -59,9 +65,14 @@
     
     </div>
 </div>
+<link href="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
 
 @section Scripts
 {
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
+        
+    <script src="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/js/bootstrap-multiselect.js" type="text/javascript"></script>
     <script>
         $(document).ready(function() {
           $.get('@Url.Action("GetDishes", "Dishes")', function(data) {
@@ -70,11 +81,7 @@
         });
         
         function deleteDishes() {
-            var checkboxes = $("input:checkbox:checked");
-            let arr = [];
-            $.each(checkboxes, function (index, value) {
-               arr.push(value.id);
-            });
+            let arr = getCheckedDishes();
             $.ajax({
                 url: '@Url.Action("Delete", "Dishes")',
                 type: "Delete",
@@ -121,11 +128,7 @@
         });
         
         function hideDishes() {
-            var checkboxes = $("input:checkbox:checked");
-            let arr = [];
-            $.each(checkboxes, function (index, value) {
-                arr.push(value.id);
-            });
+            let arr = getCheckedDishes();
             $.ajax({
                 url: '@Url.Action("Hide", "Dishes")',
                 type: "Put",
@@ -269,5 +272,68 @@
             })
             $("#page" + active_page).toggleClass("active");
         }
+        
+        function getCheckedDishes() {
+            var checkboxes = $("input:checkbox:checked");
+            let arr = [];
+            $.each(checkboxes, function (index, value) {
+                arr.push(value.id);
+            });
+            return arr;
+        }
+        
+        function changeMenu(id) {
+            $.get(`@Url.Action("GetModalDish")?id=${id}`, function(data) {
+              $("#modal-window").html(data);
+              $(".modal").show();
+              $("#menuSelect").multiselect({
+                    nonSelectedText: "не выбрано",
+                    allSelectedText: "выбрано все",
+                    nSelectedText: "выбрано"
+              });
+            })
+        }
+        
+        function saveChange() {
+            var message = $(".message");
+            $.ajax({
+                url: '@Url.Action("Create", "MenuDishes")',
+                type: "POST",
+                data: $("#addToMenu").serialize(),
+                statusCode: {
+                    200: function(data) {
+                        if (data == true){
+                            message.text("Изменения сохранились успешно");
+                            
+                        }
+                        else{
+                            message.text("Вы не внесли никаких изменений");
+                        }
+                        message.css("display", "block"); 
+                        setTimeout(function() {
+                            $(".message").css("display", "none");
+                        }, 2000)
+                    }
+                }
+            })
+        }
+        
+        $("#fullscreen").click(function(event) {
+            event.preventDefault();
+            $(".edit-block1").css("display", "none");
+            $(".edit-block2").css("width", "100%");
+            $(".container-edit").css("grid-template-columns", '100%');
+            $("#fullscreen").hide();
+            $("#window").show()
+        });
+        
+         $("#window").click(function(event) {
+            event.preventDefault();
+            $(".edit-block1").css("display", "block");
+            $(".edit-block2").css("width", "830px");
+            $(".container-edit").css("grid-template-columns", '280px auto');
+            $("#window").hide();
+            $("#fullscreen").show();
+         });
     </script>
 }

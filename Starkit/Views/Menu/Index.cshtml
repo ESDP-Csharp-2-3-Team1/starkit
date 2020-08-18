@@ -1,0 +1,87 @@
+﻿@model List<Menu>
+
+@{
+    ViewBag.Title = "Список меню";
+    Layout = "_Layout";
+}
+
+<div class="container" style="width: 90%; margin-bottom: 50px">
+    <div class="modal answer-modal" tabindex="-1" role="dialog" id="deleteModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body"><h5>Вы уверены?</h5></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary deleteMenu">Удалить</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Закрыть</button> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <h2 class="text-categories">Список меню</h2>
+    <div style="overflow-x:auto; font-size: 14px">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th style="vertical-align: middle; text-align: center" scope="col">Изображение</th>
+                <th style="vertical-align: middle; text-align: center" scope="col">Название</th>
+                <th style="vertical-align: middle; text-align: center" scope="col">Дата создание</th>
+                <th style="vertical-align: middle; text-align: center" scope="col">Дата редактирование</th>
+                <th style="vertical-align: middle; text-align: center" scope="col">Тип</th>
+                <th style="vertical-align: middle; text-align: center" scope="col">Цена</th>
+                <th style="vertical-align: middle; text-align: center" scope="col">Действие</th>
+            </tr>
+            </thead>
+            <tbody id="result">
+                
+            </tbody>
+        </table>
+    </div>    
+</div>
+<div id="details"></div>
+@section Scripts
+{
+    <script >
+        $(document).ready(function() {
+            $.get('@Url.Action("GetMenu", "Menu")', function(data) {
+                $("#result").html(data);
+            })
+        });
+        
+        var deleteMenu = $(".deleteMenu");
+        
+        function openModal(id) {
+            $("#deleteModal").show();
+            $(deleteMenu).attr("id", id);
+        }
+        
+        function closeModal() {
+            $(".modal").hide();
+            $("body").css("overflow", "auto");
+        }
+        
+        $(deleteMenu).click(function(event) {
+            event.preventDefault();
+            var id = deleteMenu.attr("id");
+            $.ajax({
+                url: '@Url.Action("Delete", "Menu")',
+                type: "Delete",
+                data: {
+                    id: id
+                },
+                success: function(data) {
+                    $(".modal").hide();
+                    $("#result").html(data);
+                }
+            })
+        });
+        
+        function menuDetails(id) {
+          $.get(`@Url.Action("Details")?id=${id}`, function(data) {
+              $("#details").html(data);
+              $("#modal-details").show();
+              $("#modal-details").css("overflow", "auto");
+              $("body").css("overflow", "hidden");
+          });
+        }
+    </script>
+}
