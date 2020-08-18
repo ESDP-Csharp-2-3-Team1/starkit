@@ -60,7 +60,7 @@ namespace Starkit.Controllers
         public IActionResult Edit(string id)
         {
             SubCategory subCategory = _db.SubCategories.FirstOrDefault(c => c.Id == id);
-            EditSubCategoryViewModel model = new EditSubCategoryViewModel{Id = id, Name = subCategory.Name};
+            EditSubCategoryViewModel model = new EditSubCategoryViewModel{Id = id, Name = subCategory.Name, Category = subCategory.Category};
             return View(model);
         }
 

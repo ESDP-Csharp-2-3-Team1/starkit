@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
+using Starkit.Models;
 
 namespace Starkit.ViewModels
 {
@@ -11,5 +12,7 @@ namespace Starkit.ViewModels
         [Remote("CheckNameSubCategory", "Validation", ErrorMessage = "Такая подкатегория уже существует", 
             AdditionalFields = nameof(Id))]
         public string Name { get; set; }
+
+        public virtual Category Category { get; set; }
     }
 }

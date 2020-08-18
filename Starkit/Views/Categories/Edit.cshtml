@@ -6,12 +6,12 @@
 }
 
 <div class="row" style="margin: 30px 0 80px 0">
-    <div class="col-md-6 mt-5">
+    <div class="col-md-9 mt-5">
         <h2 class="create-category">Редактирование категорий</h2>
         <form asp-action="Edit" method="post">
             @Html.Hidden("Id", Model.Id)
             <div class="form-group row">
-                <label for="" class="col-sm-4 col-form-label">Название категорий</label><br/>
+                <label for="" class="col-sm-4 col-form-label createCategoryLabel">Название категорий</label><br/>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" asp-for="Name" value="@Model.Name">
                 </div>
