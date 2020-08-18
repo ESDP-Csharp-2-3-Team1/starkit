@@ -55,19 +55,6 @@ namespace Starkit.Controllers
             }
         }
 
-        [HttpGet]
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public IActionResult GetStocks()
-        { 
-            List<Stock> stocks = _db.Stocks.Where(s => s.CreatorId == _userManager.GetUserId(User)).ToList();
-            return PartialView("PartilaViews/ListStockPartialView", stocks);
-        }
-
         [Authorize]
         [HttpGet]
         public IActionResult Create()
