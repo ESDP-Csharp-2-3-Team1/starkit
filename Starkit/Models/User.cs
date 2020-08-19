@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Identity;
 
 namespace Starkit.Models
 {
@@ -17,5 +18,10 @@ namespace Starkit.Models
         public string AvatarPath { get; set; }
         public UserStatus Status { get; set; } = UserStatus.Unlocked;
         public bool IsTermsAccepted { get; set; }
+
+        [NotMapped]
+        public LegalAddress LegalAddress { get; set; }
+        [NotMapped]
+        public PostalAddress PostalAddress { get; set; }
     }
 }

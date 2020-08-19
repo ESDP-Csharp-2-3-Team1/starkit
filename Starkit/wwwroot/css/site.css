@@ -895,7 +895,9 @@ body {
 }
 .ac-my-tr{
   display: none;
+
 }
+
 .ac-my-tr:hover{
   background: none!important;
 }

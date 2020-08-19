@@ -1,4 +1,4 @@
-﻿@model List<User>
+﻿@model SuperAdminIndexViewModel
 
 @{
     ViewBag.Title = "Панель администратора";
@@ -16,9 +16,10 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var user in Model)
+    @foreach (var user in Model.Users)
     {
-      <tr onclick="ShowBoxTr('@user.Id')">
+      int countTd = 1;
+      <tr onclick="ShowBoxTr('@user.Id','@countTd')" id="tr-main-info-@user.Id" class="tr-@countTd">
         <th scope="row">1</th>
         <td>@user.CompanyName</td>
         <td>@user.Name @user.SurName</td>
@@ -39,25 +40,43 @@
       
       <tr class="ac-my-tr" id="ac-my-tr-@user.Id">
         <td colspan="5" class="ac-my-td">
-        <div class="ac-user-info">
-          <div class="ac-info-box1">
-            <p class="name-label">Имя:</p>
-            <p class="box-p">@user.Name</p>
+          <div class="ac-user-info">
+            <div class="ac-info-box1">
+              <p class="name-label">Имя:</p>
+              <p class="box-p">@user.Name</p>
+            </div>
+            <div class="ac-info-box2">
+              <p class="name-label">Название компании:</p>
+              <p class="box-p">@user.CompanyName</p>
+            </div>
+            <div class="ac-info-box3">
+              <p class="name-label">Фамилия:</p>
+              <p class="box-p">@user.SurName</p>
+            </div>
+            <div class="ac-info-box4">
+              <p class="name-label">ИИН:</p>
+              <p class="box-p">@user.IIN</p>
+            </div>
           </div>
-          <div class="ac-info-box2">
-            <p class="name-label">Название компании:</p>
-            <p class="box-p">@user.CompanyName</p>
-          </div>
-          <div class="ac-info-box3">
-            <p class="name-label">Фамилия:</p>
-            <p class="box-p">@user.SurName</p>
-          </div>
-          <div class="ac-info-box4">
-            <p class="name-label">ИИН:</p>
-            <p class="box-p">@user.IIN</p>
-          </div>
-
-        </div>
+          <h3>Юридический адрес</h3>
+          <div class="ac-user-info">
+                      <div class="ac-info-box1">
+                        <p class="name-label">Имя:</p>
+                        <p class="box-p">@user.Name</p>
+                      </div>
+                      <div class="ac-info-box2">
+                        <p class="name-label">Название компании:</p>
+                        <p class="box-p">@user.CompanyName</p>
+                      </div>
+                      <div class="ac-info-box3">
+                        <p class="name-label">Фамилия:</p>
+                        <p class="box-p">@user.SurName</p>
+                      </div>
+                      <div class="ac-info-box4">
+                        <p class="name-label">ИИН:</p>
+                        <p class="box-p">@user.IIN</p>
+                      </div>
+                    </div>
         </td>
       </tr>
       
@@ -70,20 +89,25 @@
 
 @section Scripts
 {
-  <script >
-      function ShowBoxTr(userId) {
+  <script>
+      function ShowBoxTr(userId,countTr) {
         let el = document.getElementById('ac-my-tr-'+userId)
         if ( el.style.display === 'none' || el.style.display === '')
           {
+              $('#tr-main-info-'+userId).css('background', 'rgba(0,0,0,.05)')
               $('#ac-my-tr-'+userId).show()
+              // for (let i = 1; i <= 5; i++){
+              //   if (Number(i) !== Number(countTr))
+              //   {
+              //     $('.tr-'+countTr).hide();
+              //   }
+              // }
           }
           else{
+            $('#tr-main-info-'+userId).css('background', 'none')
             $('#ac-my-tr-'+userId).hide()
           }
-       
       }
-  
-  
   
       function UpdateRegistrantStatus(userId){
         console.log(userId)

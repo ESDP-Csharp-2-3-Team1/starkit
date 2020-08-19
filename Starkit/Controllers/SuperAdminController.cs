@@ -9,14 +9,15 @@ using Microsoft.EntityFrameworkCore;
 using Starkit.Models;
 using Starkit.Models.Data;
 using Starkit.Services;
+using Starkit.ViewModels;
 
 namespace Starkit.Controllers
 {
     public class SuperAdminController : Controller
     {
-        public StarkitContext _db { get; set; }
+        private StarkitContext _db { get; set; }
 
-        public UserManager<User> _userManager { get; set; }
+        private UserManager<User> _userManager { get; set; }
 
         public SuperAdminController(StarkitContext db, UserManager<User> userManager)
         {
@@ -26,10 +27,20 @@ namespace Starkit.Controllers
 
         // GET
         [Authorize(Roles = "SuperAdmin")]
-        public async Task<IActionResult> Index()
-        {
-            List<User> users = _db.Users.Where(u=>u.Id != _userManager.GetUserId(User)).ToList();
-            return View(users);
+        public async Task<IActionResult> Index(int page=1)
+        { 
+            string userId = _userManager.GetUserId(User);
+           int pageSize = 5; 
+           List<User> users = _db.Users.Where(u=>u.Id != userId).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+           for (int i = 0; i < users.Count; i++)
+           {
+               users[i].PostalAddress = await _db.PostalAddresses.FirstOrDefaultAsync(p => p.UserId == users[i].Id);
+               users[i].LegalAddress = await _db.LegalAddresses.FirstOrDefaultAsync(u => u.UserId == users[i].Id);
+           }
+           SuperAdminIndexPageInfo pageInfo = new SuperAdminIndexPageInfo { PageNumber=page, PageSize=pageSize, TotalItems=_db.Users.Count()};
+           SuperAdminIndexViewModel ivm = new SuperAdminIndexViewModel { PageInfo = pageInfo, Users = users };
+           return View(ivm);
+                  
         }
 
         [HttpPost]
