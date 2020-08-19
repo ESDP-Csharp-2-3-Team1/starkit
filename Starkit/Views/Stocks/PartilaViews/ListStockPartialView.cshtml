@@ -13,16 +13,16 @@
             <td style="vertical-align: middle; text-align: center">
                 @if (stock.Validity == "По времени")
                 {
-                    <p>@stock.At.ToShortTimeString() - @stock.To.ToShortTimeString()</p>
+                    <p style="margin-top: 15px">@stock.At.ToShortTimeString() - @stock.To.ToShortTimeString()</p>
                 }
                 else
                 {
-                    <p>@stock.At.ToShortDateString() - @stock.To.ToShortDateString()</p>
+                    <p style="margin-top: 15px">@stock.At.ToShortDateString() - @stock.To.ToShortDateString()</p>
                 }
             </td>
             <td style="vertical-align: middle; text-align: center">
                 <img src="https://img.icons8.com/wired/24/000000/delete-forever.png" onclick="openModal('@stock.Id')" style="cursor: pointer;"/>
-                <a asp-route-id="@stock.Id">
+                <a asp-action="Edit" asp-route-id="@stock.Id">
                     <img src="https://img.icons8.com/ios-glyphs/24/000000/edit.png"/>
                 </a>
             </td>
