@@ -843,17 +843,38 @@ body {
   cursor: default;
 }
 /*end Restaurants => Index*/
+/*start SuperAdmin => Index*/
+.ac-linc-edit{
+  background: #29aafe;
+  color: white;
+  /*font-weight: 600;*/
+  padding: 2px 10px 4px;
+  border-radius: 5px;
+  text-decoration: none;
+}
+.ac-linc-edit:hover{
+  text-decoration: none;
+  color: white;
+  background: #237fbb;
+}
+#ac-user-status-unlocked span{
+  background: #02a499;
+  border-radius: 5px;
+  padding: 0 3px;
+  color: white;
+}
+#ac-user-status-locked span{
+  background: #ec4561;
+  border-radius: 5px;
+  padding: 0 3px;
+  color: white;
+}
+/*end SuperAdmin => Index*/
 
 .createDishLabel, .createCategoryLabel, .createSubCategoryLabel{
   font-weight: 600;
   text-align: end;
 }
-
-
-
-
-
-
 .multiselect{
   width: 294px;
   border-color: #adadad;

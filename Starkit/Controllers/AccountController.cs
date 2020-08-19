@@ -72,6 +72,9 @@ namespace Starkit.Controllers
                             user.AccessFailedCount = 0;
                             await _userManager.UpdateAsync(user);
                         }
+
+                        if (user.Email == "admin@admin.com")
+                            return RedirectToAction("Index", "SuperAdmin");
                         return RedirectToAction("Index", "Users");
                     }
                     user.AccessFailedCount += 1;

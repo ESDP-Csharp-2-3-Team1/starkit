@@ -1,0 +1,42 @@
+﻿@model List<User>
+
+@{
+    ViewBag.Title = "Панель администратора";
+    Layout = "_Layout";
+}
+<div class="admin-container">
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Организация </th>
+      <th scope="col">Владелец </th>
+      <th scope="col">Статус</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+  @foreach (var user in Model)
+  {
+    <tr>
+      <th scope="row">1</th>
+      <td>@user.CompanyName</td>
+      <td>@user.Name @user.SurName</td>
+      @if (user.Status == UserStatus.Unlocked)
+      {
+        <td id="ac-user-status-unlocked"><span>@user.Status</span></td>
+      }
+      @if(user.Status == UserStatus.Locked)
+      {
+        <td id="ac-user-status-locked"><span>@user.Status</span></td>
+      }
+      <td>
+        <a class="ac-linc-edit" href="">Редактировать</a>
+      </td>
+      
+    </tr>
+  }
+  
+  </tbody>
+</table>
+</div>
