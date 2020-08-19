@@ -121,7 +121,7 @@ namespace Starkit.Controllers
                 var result = await _userManager.CreateAsync(newUser, model.Password);
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(newUser, "restaurateur");
+                    await _userManager.AddToRoleAsync(newUser, Convert.ToString(Roles.Registrant));
                     await _db.LegalAddresses.AddAsync(model.LegalAddress);
                     await _db.PostalAddresses.AddAsync(model.PostalAddress);
                     await _db.SaveChangesAsync();

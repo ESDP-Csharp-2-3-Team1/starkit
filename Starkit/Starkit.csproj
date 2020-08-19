@@ -131,4 +131,8 @@
       <_ContentIncludedByDefault Remove="wwwroot\images\a3af6b95-a47d-4ee6-a6dc-8847a2799bcc\Dishes\473dee0b-b39e-4bbd-8859-1cdbb5d95f89\Screenshot.png" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Views\SuperAdmin" />
+    </ItemGroup>
+
 </Project>
