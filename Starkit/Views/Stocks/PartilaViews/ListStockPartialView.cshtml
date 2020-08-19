@@ -8,7 +8,7 @@
             <td style="vertical-align: middle; text-align: center">
                 <img src="~/@stock.Avatar" style="width: 50px; height: 50px; border-radius: 40px" alt="">
             </td>
-            <td style="vertical-align: middle; text-align: center">@stock.Name</td>
+            <td class="link-stock-name" style="vertical-align: middle; text-align: center" onclick="stockDetails('@stock.Id')">@stock.Name</td>
             <td style="vertical-align: middle; text-align: center">@stock.Type</td>
             <td style="vertical-align: middle; text-align: center">
                 @if (stock.Validity == "По времени")

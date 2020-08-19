@@ -141,6 +141,7 @@ namespace Starkit.Controllers
                 stock.FirstDishId = model.FirstDishId;
                 stock.SecondDishId = model.SecondDishId;
                 stock.ThirdDishId = model.ThirdDishId;
+                stock.EditorId = _userManager.GetUserId(User);
                 if (model.File != null)
                 {
                     DeleteStockAvatar(stock);
@@ -152,6 +153,14 @@ namespace Starkit.Controllers
             }
 
             return View(model);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult Details(string id)
+        {
+            Stock stock = _db.Stocks.FirstOrDefault(s => s.Id == id);
+            return PartialView("PartilaViews/DetailStockPartialView", stock);
         }
 
         public IActionResult GetStocks()
