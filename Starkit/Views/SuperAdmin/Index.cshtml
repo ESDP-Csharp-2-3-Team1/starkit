@@ -5,8 +5,8 @@
     Layout = "_Layout";
 }
 <div class="admin-container">
-<table class="table table-hover">
-  <thead>
+  <table class="table table-hover">
+    <thead>
     <tr>
       <th scope="col">#</th>
       <th scope="col">Организация </th>
@@ -14,29 +14,73 @@
       <th scope="col">Статус</th>
       <th></th>
     </tr>
-  </thead>
-  <tbody>
-  @foreach (var user in Model)
-  {
-    <tr>
-      <th scope="row">1</th>
-      <td>@user.CompanyName</td>
-      <td>@user.Name @user.SurName</td>
-      @if (user.Status == UserStatus.Unlocked)
-      {
-        <td id="ac-user-status-unlocked"><span>@user.Status</span></td>
-      }
-      @if(user.Status == UserStatus.Locked)
-      {
-        <td id="ac-user-status-locked"><span>@user.Status</span></td>
-      }
-      <td>
-        <a class="ac-linc-edit" href="">Редактировать</a>
-      </td>
+    </thead>
+    <tbody>
+    @foreach (var user in Model)
+    {
+      <tr>
+        <th scope="row">1</th>
+        <td>@user.CompanyName</td>
+        <td>@user.Name @user.SurName</td>
+        <td id="ac-box-status">
+        @if (user.Status == UserStatus.Unlocked)
+        {
+          <span class="ac-user-status-unlocked" id="ac-us-@user.Id">
+            <span class="ac-sp-1" id="ac-sp-@user.Id">@user.Status</span> 
+            <span class="ac-box-un" id="ac-un-@user.Id" onclick="UpdateRegistrantStatus('@user.Id')">
+              <i class="fas fa-unlock"></i>
+            </span>
+          </span>
+        }
+        @if(user.Status == UserStatus.Locked)
+        {
+          <span class="ac-user-status-locked" id="ac-us-@user.Id">
+            <span class="ac-sp-1" id="ac-sp-@user.Id">@user.Status</span>
+            <span class="ac-box-un" id="ac-un-@user.Id" onclick="UpdateRegistrantStatus('@user.Id')">
+              <i class="fas fa-lock"></i>
+            </span>
+          </span>
+        }
+        </td>
+        <td>
+          <a class="ac-linc-edit" href="">Редактировать</a>
+        </td>
       
-    </tr>
-  }
+      </tr>
+    }
   
-  </tbody>
-</table>
+    </tbody>
+  </table>
 </div>
+
+
+@section Scripts
+{
+  <script >
+      function UpdateRegistrantStatus(userId){
+        console.log(userId)
+          $.ajax({
+            url: '@Url.Action("UpdateRegistrantStatus","SuperAdmin")?userId=' + userId,
+            type:"POST",
+            success: function(data) {
+              if (data === "locked")
+                {
+                  console.log(data)
+                  $('#ac-us-'+userId).attr("class","ac-user-status-locked");
+                  $('#ac-sp-'+userId).text('Locked');
+                  $('#ac-un-'+userId).html('<i class="fas fa-lock"></i>');
+                }
+                else if(data === "unlocked")
+                {
+                   $('#ac-us-'+userId).attr("class","ac-user-status-unlocked");
+                   $('#ac-sp-'+userId).text('Unlocked');
+                   $('#ac-un-'+userId).html('<i class="fas fa-unlock"></i>');
+                }
+                else if(data === false){
+                  alert("Что-то пошло не так попробуйте обновить страницу.")
+                }
+            }
+          })
+      }
+  </script>
+}

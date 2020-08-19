@@ -31,5 +31,20 @@ namespace Starkit.Controllers
             List<User> users = _db.Users.Where(u=>u.Id != _userManager.GetUserId(User)).ToList();
             return View(users);
         }
+
+        [HttpPost]
+        [Authorize(Roles = "SuperAdmin")]
+        public async Task<IActionResult> UpdateRegistrantStatus(string userId)
+        {
+            User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if (user != null)
+            {
+                user.Status = user.Status == UserStatus.Unlocked ?  UserStatus.Locked : UserStatus.Unlocked;
+                _db.Users.Update(user);
+                await _db.SaveChangesAsync();
+                return Json(Convert.ToString(user.Status)?.ToLower());
+            }
+            return Json(false);
+        }
     }
 }

@@ -857,19 +857,43 @@ body {
   color: white;
   background: #237fbb;
 }
-#ac-user-status-unlocked span{
+.ac-user-status-unlocked .ac-sp-1{
   background: #02a499;
   border-radius: 5px;
   padding: 0 3px;
   color: white;
 }
-#ac-user-status-locked span{
+.ac-user-status-locked .ac-sp-1{
   background: #ec4561;
   border-radius: 5px;
   padding: 0 3px;
   color: white;
 }
+.ac-user-status-unlocked .ac-box-un{
+  color: #02a499;
+  cursor: pointer;
+}
+.ac-user-status-locked .ac-box-un{
+  color: #ec4561;
+  cursor: pointer;
+}
 /*end SuperAdmin => Index*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .createDishLabel, .createCategoryLabel, .createSubCategoryLabel{
   font-weight: 600;
