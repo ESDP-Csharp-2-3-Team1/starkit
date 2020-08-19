@@ -57,6 +57,13 @@ namespace Starkit.Controllers
 
         [Authorize]
         [HttpGet]
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
@@ -71,7 +78,7 @@ namespace Starkit.Controllers
                 stock.Avatar = Load(stock.Id, stock.File);
                 _db.Entry(stock).State = EntityState.Added;
                 await _db.SaveChangesAsync();
-                return RedirectToAction("Create");
+                return RedirectToAction("Index");
             }
             return View(stock);
         }
@@ -83,6 +90,12 @@ namespace Starkit.Controllers
             List<Dish> dishes = _db.Dishes.Where(d => d.CreatorId == _userManager.GetUserId(User)).ToList();
             var dishGroup = dishes.GroupBy(d => d.Category);
             return PartialView("PartilaViews/AddDishesToStockModalWindow", dishGroup);
+        }
+
+        public IActionResult GetStocks()
+        {
+            List<Stock> stocks = _db.Stocks.Where(s => s.CreatorId == _userManager.GetUserId(User)).ToList();
+            return PartialView("PartilaViews/ListStockPartialView", stocks);
         }
     }
 }

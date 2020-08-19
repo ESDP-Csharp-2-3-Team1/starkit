@@ -126,7 +126,7 @@ body {
  text-align: end;
 }
 
-.text-menu, .text-categories, .text-subcategories{
+.text-menu, .text-categories, .text-subcategories, .text-stocks{
   text-align: center;
   margin: 50px 0 50px 0;
 }

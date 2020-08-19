@@ -1,21 +1,22 @@
-﻿@{
-    ViewBag.Title = "Спсиок категорий";
+@{
+    ViewBag.Title = "Список акций";
     Layout = "_Layout";
 }
+
 <style>
     #dropdown1{
         display: block;
     }
-    #dropdown1-li-9{
+    #dropdown1-li-7{
           margin-left: 15px;
             background: #9ad9ea;
     }
-    #dropdown1-li-9 a{
+    #dropdown1-li-7 a{
                 color: #262626;
                 font-weight: 600;
                 border-left: 2px solid #41728b;
     }
-    #dropdown1-li-9 a:hover{
+    #dropdown1-li-7 a:hover{
         color: #262626;
     }
  </style>
@@ -25,20 +26,21 @@
             <div class="modal-content">
                 <div class="modal-body"><h5>Вы уверены?</h5></div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary deleteCategory">Удалить</button>
+                    <button type="button" class="btn btn-primary deleteStock">Удалить</button>
                     <button type="button" class="btn btn-secondary" onclick="closeModal()">Закрыть</button> 
                 </div>
             </div>
         </div>
     </div>
-    <h2 class="text-categories">Список категорий</h2>
+    <h2 class="text-stocks">Список акций</h2>
     <div style="overflow-x:auto;">
         <table class="table table-bordered">
             <thead>
             <tr>
+                <th style="vertical-align: middle; text-align: center" scope="col">Изображение</th>
                 <th style="vertical-align: middle; text-align: center" scope="col">Название</th>
-                <th style="vertical-align: middle; text-align: center" scope="col">Дата создание</th>
-                <th style="vertical-align: middle; text-align: center" scope="col">Дата редактирования</th>
+                <th style="vertical-align: middle; text-align: center" scope="col">Тип</th>
+                <th style="vertical-align: middle; text-align: center" scope="col">Срок действия</th>
                 <th style="vertical-align: middle; text-align: center" scope="col">Действие</th>
             </tr>
             </thead>
@@ -48,41 +50,13 @@
         </table>
     </div>    
 </div>
-
 @section Scripts
 {
-    <script>
+    <script >
         $(document).ready(function() {
-          $.get('@Url.Action("GetCategories", "Categories")', function(data) {
+            $.get('@Url.Action("GetStocks")', function(data) {
                 $("#result").html(data);
-          })
-        });
-        
-        var deleteCategory = $(".deleteCategory");
-        
-        function openModal(id) {
-            $(".modal").show();
-            $(deleteCategory).attr("id", id);
-        }
-          
-        function closeModal() {
-            $(".modal").hide();
-        }
-        
-        $(deleteCategory).click(function (event) {
-            event.preventDefault();
-            var id = deleteCategory.attr("id");
-            $.ajax({
-                url: '@Url.Action("Delete", "Categories")',
-                type: "Delete",
-                data: {
-                    id: id
-                },
-                success: function(data) {
-                  $(".modal").hide();
-                  $("#result").html(data);
-                }
             })
-        });
+        })
     </script>
 }
