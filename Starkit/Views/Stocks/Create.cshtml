@@ -86,8 +86,13 @@
     </div>
 </div>
 <div id="modal"></div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
 @section Scripts
 {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
@@ -125,6 +130,9 @@
                     $("#addDishes").text("Подарочное блюдо");
                     $(".selectDish").attr("id", "thirdDish")
                 }
+                $(".selectDish").chosen(
+                    // {include_group_label_in_selected:true},
+                    {no_results_text: 'Нет совпадений по запросу'});
             });
         }
         
