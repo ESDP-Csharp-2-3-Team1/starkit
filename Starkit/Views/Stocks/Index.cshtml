@@ -21,7 +21,7 @@
     }
  </style>
 <div class="container" style="width: 90%; margin-bottom: 50px">
-    <div class="modal answer-modal" tabindex="-1" role="dialog">
+    <div class="modal answer-modal" tabindex="-1" role="dialog" id="deleteStock">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body"><h5>Вы уверены?</h5></div>
@@ -53,10 +53,37 @@
 @section Scripts
 {
     <script >
+        var deleteStock = $(".deleteStock");
+        
         $(document).ready(function() {
             $.get('@Url.Action("GetStocks")', function(data) {
                 $("#result").html(data);
             })
+        });
+        
+        function openModal(id) {
+            $("#deleteStock").show();
+            $(deleteStock).attr("id", id);
+        }
+        
+        function closeModal() {
+            $("#deleteStock").hide();
+        }
+        
+        $(deleteStock).click(function(event) {
+            event.preventDefault();
+            var id = deleteStock.attr("id");
+            $.ajax({
+                url: '@Url.Action("Delete")',
+                type: "Delete",
+                data: {
+                    id: id
+                },
+                success: function(data) {
+                    $("#deleteStock").hide();
+                    $("#result").html(data);
+                }
+            });
         })
     </script>
 }

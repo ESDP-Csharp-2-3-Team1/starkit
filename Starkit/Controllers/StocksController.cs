@@ -84,6 +84,18 @@ namespace Starkit.Controllers
         }
 
         [Authorize]
+        [HttpDelete]
+        public async Task<IActionResult> Delete(string id)
+        {
+            Stock stock = new Stock{Id = id};
+            _db.Entry(stock).State = EntityState.Deleted;
+            await _db.SaveChangesAsync();
+            DeleteStockAvatar(stock);
+            List<Stock> stocks = _db.Stocks.Where(s => s.CreatorId == _userManager.GetUserId(User)).ToList();
+            return PartialView("PartilaViews/ListStockPartialView", stocks);
+        }
+
+        [Authorize]
         [HttpGet]
         public IActionResult GetDishes()
         {
