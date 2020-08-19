@@ -899,3 +899,7 @@ body {
 .type{
   text-align: end;
 }
+.chosen-container{
+  width: 100%;
+  margin-top: 5px;
+}
