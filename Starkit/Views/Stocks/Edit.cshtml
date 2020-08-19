@@ -23,16 +23,16 @@
             <div class="form-group row">
                 <label for="" class="col-sm-4 col-form-label createStockLabel">Тип</label><br/>
                 <div class="col-sm-8">
-                    <select class="form-control" asp-for="Type" id="selectType">
+                    <select readonly class="form-control" asp-for="Type" id="selectType">
                         @if (Model.Type == "1+1=3")
                         {
                             <option selected="selected" value="1+1=3">1 + 1 = 3</option>
-                            <opton value="1+1=1">1 + 1 = 1</opton>
+                            <option value="1+1=1">1 + 1 = 1</option>
                         }
                         else
                         {
                             <option value="1+1=3">1 + 1 = 3</option>
-                            <opton selected="selected" value="1+1=1">1 + 1 = 1</opton>
+                            <option selected="selected" value="1+1=1">1 + 1 = 1</option>
                         }
                     </select>
                 </div>
@@ -91,7 +91,7 @@
                 <span class="validationError" asp-validation-for="File"></span>
             </div>
             <div style="text-align: center">
-                <br/><button onclick="send()" type="submit" class="btn btn-dark">Добавить</button>
+                <br/><button onclick="send()" type="submit" class="btn btn-dark">Редактирование</button>
             </div>
             <input type="hidden" asp-for="Id" value="@Model.Id">
         </form>
