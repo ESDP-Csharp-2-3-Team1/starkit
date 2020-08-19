@@ -35,7 +35,8 @@ namespace Starkit.Services
                 {
                     Email = adminEmail,
                     EmailConfirmed = true,
-                    UserName = "Admin"
+                    UserName = "Admin",
+                    Name = "SuperAdmin"
                 };
                 var result = await userManager.CreateAsync(admin, adminPassword);
                 if (result.Succeeded)

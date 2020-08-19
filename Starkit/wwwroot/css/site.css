@@ -877,6 +877,28 @@ body {
   color: #ec4561;
   cursor: pointer;
 }
+.ac-user-info{
+  display: grid;
+  grid-template-columns: 49% 49%;
+  justify-content: space-between;
+}
+.ac-user-info .box-p{
+  font-weight: 600;
+  border-bottom: 1px #c8cccd solid;
+  padding: 8px 0 10px;
+}
+.ac-user-info .name-label{
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+  color: silver;
+}
+.ac-my-tr{
+  display: none;
+}
+.ac-my-tr:hover{
+  background: none!important;
+}
 /*end SuperAdmin => Index*/
 
 
