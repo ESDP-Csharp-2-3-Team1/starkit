@@ -935,9 +935,21 @@ body {
   font-weight: 600;
   padding: 10px;
   border-radius: 5px;
+  outline: none!important;
 }
 .btn-submit-SuperAdmin button:hover{
   background: #237fbb;
+}
+#block-pagination {
+  display: grid;
+  justify-content: center;
+}
+.block-table{
+  min-height: 310px;
+  margin-bottom: 16px;
+}
+.table-superAdmin{
+  margin-bottom: 0!important;
 }
 /*end SuperAdmin => Index*/
 

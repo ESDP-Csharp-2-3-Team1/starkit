@@ -56,6 +56,8 @@ namespace Starkit.Controllers
         {
             if (!User.Identity.IsAuthenticated)
                 return RedirectToAction("Login", "Account");
+            if (User.IsInRole("SuperAdmin"))
+                return RedirectToAction("Index", "SuperAdmin");
             string userId = _userManager.GetUserId(User);
             EditUserViewModel model = new EditUserViewModel()
             {

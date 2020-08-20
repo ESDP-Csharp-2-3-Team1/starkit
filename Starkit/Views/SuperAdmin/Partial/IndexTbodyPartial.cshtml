@@ -6,7 +6,7 @@
 @foreach (var user in Model.Users)
     {
       <tr id="tr-main-info-@user.Id" class="tr-@count">
-        <th scope="row">@count</th>
+        <th scope="row">#@count</th>
        
         <td>@user.CompanyName</td>
         <td>@user.Name @user.SurName</td>
