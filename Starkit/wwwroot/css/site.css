@@ -900,7 +900,12 @@ body {
   color: #007bff;
   cursor: pointer;
 }
-
+.btn-submit-edit{
+    display: none;
+}
+.block-UP-address{
+  display: none;
+}
 /*end SuperAdmin => Index*/
 
 

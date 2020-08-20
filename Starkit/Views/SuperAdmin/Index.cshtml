@@ -73,23 +73,32 @@
 @section Scripts
 {
   <script>
+  
+     
    
-      function ShowBoxTr(userId,countTr) {
+      function ShowBoxTr(userId,edit,countTr) {
+        console.log("asdasdasd")
+        if(edit === 'edit')
+          {
+             $('input').removeAttr('disabled');
+             $('#btn-submit-edit-'+userId).show();
+          }
+          else{
+            $('input').attr('disabled',true);
+            $('#btn-submit-edit-'+userId).hide();
+          }
         let el = document.getElementById('ac-my-tr-'+userId)
         if ( el.style.display === 'none' || el.style.display === '')
           {
               $('#tr-main-info-'+userId).css('background', 'rgba(0,0,0,.05)')
               $('#ac-my-tr-'+userId).show()
-              // for (let i = 1; i <= 5; i++){
-              //   if (Number(i) !== Number(countTr))
-              //   {
-              //     $('.tr-'+countTr).hide();
-              //   }
-              // }
           }
           else{
-            $('#tr-main-info-'+userId).css('background', 'none')
-            $('#ac-my-tr-'+userId).hide()
+            if (edit !== 'edit')
+              {
+                 $('#tr-main-info-'+userId).css('background', 'none')
+                 $('#ac-my-tr-'+userId).hide()
+              }
           }
       }
   
@@ -118,21 +127,19 @@
             }
           })
       }
-       function expandTheBlock(){
-                  var result = $('#regul').val();
+       function expandTheBlock(userId){
+                  var result = $('#regul-'+userId).val();
                   if( result === "0")
                    {
-                      $('#block-UP-address').show();
-                      $('#uk15').text("Скрыть")
-                      $('#regul').val(1)
+                      $('#block-UP-address-'+userId).show();
+                      $('#uk15-'+userId).text("Скрыть")
+                      $('#regul-'+userId).val(1)
                    }
                   else{
-                      $('#block-UP-address').hide();
-                      $('#uk15').text("Показать")
-                      $('#regul').val(0)
-      
+                      $('#block-UP-address-'+userId).hide();
+                      $('#uk15-'+userId).text("Показать")
+                      $('#regul-'+userId).val(0)
                   }
-                  
               }
   </script>
 }

@@ -58,5 +58,67 @@ namespace Starkit.Controllers
             }
             return Json(false);
         }
+        
+        [Authorize(Roles = "SuperAdmin")]
+        [ActionName("Index")]
+        [HttpPost]
+        public async Task<IActionResult> EditRegistrantInfo(SuperAdminIndexViewModel model)
+        {
+            // if (ModelState.IsValid)
+            // {
+                // _db.Users.Update(model.User);
+                User user = await BuildUser(model.User);
+                LegalAddress legalAddress = await BuildLegalAddress(model.User.LegalAddress, model.User.Id);
+                PostalAddress postalAddress = await BuildPostalAddress(model.User.PostalAddress, model.User.Id);
+                _db.LegalAddresses.Update(legalAddress);
+                _db.PostalAddresses.Update(postalAddress);
+                _db.Users.Update(user);
+                await _db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            // }
+            // return NotFound();
+        }
+
+        [NonAction]
+        [Authorize(Roles = "SuperAdmin")]
+        private async Task<PostalAddress> BuildPostalAddress(PostalAddress model, string userId)
+        {
+            PostalAddress postalAddress = await _db.PostalAddresses.FirstOrDefaultAsync(l => l.UserId == userId);
+            postalAddress.Index = model.Index;
+            postalAddress.Country = model.Country;
+            postalAddress.Region = model.Region;
+            postalAddress.City = model.City;
+            postalAddress.Address = model.Address;
+            return postalAddress;
+        }
+
+
+        [NonAction]
+        [Authorize(Roles = "SuperAdmin")]
+        private async Task<LegalAddress> BuildLegalAddress(LegalAddress model, string userId)
+        {
+            LegalAddress legalAddress = await _db.LegalAddresses.FirstOrDefaultAsync(l => l.UserId == userId);
+            legalAddress.Index = model.Index;
+            legalAddress.Country = model.Country;
+            legalAddress.Region = model.Region;
+            legalAddress.City = model.City;
+            legalAddress.Address = model.Address;
+            return legalAddress;
+        }
+
+        [NonAction]
+        [Authorize(Roles = "SuperAdmin")]
+        private async Task<User> BuildUser(User model)
+        {
+            User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == model.Id);
+            user.Name = model.Name;
+            user.SurName = model.SurName;
+            user.IIN = model.IIN;
+            user.CompanyName = model.CompanyName;
+            user.Email = model.Email;
+            user.CityPhone = model.CityPhone;
+            user.PhoneNumber = model.PhoneNumber;
+            return user;
+        }
     }
 }
