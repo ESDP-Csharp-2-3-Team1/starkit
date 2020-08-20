@@ -22,8 +22,8 @@
     }
     </tbody>
   </table>
-  
-  <nav aria-label="Page navigation example">
+  <div id="block-pagination">
+    <nav aria-label="Page navigation example" >
     <ul class="pagination">
      @if (Model.PageInfo.PageNumber > 1)
      {
@@ -67,6 +67,7 @@
       }
     </ul>
   </nav>
+  </div>
 </div>
 
 @section Scripts
@@ -75,6 +76,7 @@
       function ShowBoxTr(userId,edit,countTr) {
         if(edit === 'edit')
           {
+            $('#block-pagination').hide();
              $('input').removeAttr('disabled');
              $('#btn-submit-edit-'+userId).show();
              for (let i = 1; i <= 5; i++){
@@ -94,20 +96,11 @@
           {
               $('#tr-main-info-'+userId).css('background', 'rgba(0,0,0,.05)')
               $('#ac-my-tr-'+userId).show()
-              if (edit === 'edit')
-              {
-                 for (let i = 1; i <= 5; i++){
-                     if (Number(i) !== Number(countTr))
-                     {
-                       console.log(countTr)
-                       $('.tr-'+String(i)).hide();
-                     }
-                 }
-               }
           }
           else{
             if (edit !== 'edit')
               {
+                $('#block-pagination').show();
                  $('#tr-main-info-'+userId).css('background', 'none')
                  $('#ac-my-tr-'+userId).hide()
                   for (let i = 1; i <= 5; i++){
