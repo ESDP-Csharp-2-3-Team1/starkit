@@ -897,13 +897,22 @@ body {
   display: none;
 
 }
-
 .ac-my-tr:hover{
   background: none!important;
 }
 #ac-tbody{
     min-height: 245px!important;
 }
+.ac-show-span{
+  color: #29aafe;
+  font-size: 17px;
+  margin-left: 10px;
+}
+.ac-show-span:hover{
+  color: #007bff;
+  cursor: pointer;
+}
+
 /*end SuperAdmin => Index*/
 
 

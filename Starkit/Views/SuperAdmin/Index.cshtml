@@ -25,14 +25,15 @@
   
   <nav aria-label="Page navigation example">
     <ul class="pagination">
-      <li class="page-item">
-        @{
-          pageNum = Model.PageInfo.PageNumber - 1;
-        }
-        <a class="page-link" asp-action="Index" asp-controller="SuperAdmin" asp-route-page="@pageNum" aria-label="Previous">
-          <span aria-hidden="true">&laquo;</span>
-        </a>
-      </li>
+     @if (Model.PageInfo.PageNumber > 1)
+     {
+       pageNum = Model.PageInfo.PageNumber - 1;
+       <li class="page-item">
+         <a class="page-link" asp-action="Index" asp-controller="SuperAdmin" asp-route-page="@pageNum" aria-label="Previous">
+           <span aria-hidden="true">&laquo;</span>
+         </a>
+       </li>
+     }
       @for (int i = 1; i <= Model.PageInfo.TotalPages; i++)
       {
         @if (i == Model.PageInfo.PageNumber)
@@ -56,14 +57,15 @@
         }
         
       }
-      @{
-                pageNum = Model.PageInfo.PageNumber + 1;
-        }
-      <li class="page-item">
-        <a class="page-link" asp-action="Index" asp-controller="SuperAdmin" asp-route-page="@pageNum" aria-label="Next">
-          <span aria-hidden="true">&raquo;</span>
-        </a>
-      </li>
+      @if (Model.PageInfo.PageNumber < Model.PageInfo.TotalPages)
+      {
+        pageNum = Model.PageInfo.PageNumber + 1;
+        <li class="page-item">
+          <a class="page-link" asp-action="Index" asp-controller="SuperAdmin" asp-route-page="@pageNum" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      }
     </ul>
   </nav>
 </div>
