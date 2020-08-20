@@ -25,7 +25,7 @@
           <span onclick="ShowBoxTr('@user.Id','false','@count')" class="ac-show-span"><i class="fas fa-chevron-down"></i></span>
         </td>
       </tr>
-      <tr class="ac-my-tr" id="ac-my-tr-@user.Id">
+      <tr class="ac-my-tr ac-my-tr-@count" id="ac-my-tr-@user.Id">
         <td colspan="5" class="ac-my-td">
           <form asp-action="Index" asp-controller="SuperAdmin" method="post">
             <div class="ac-user-info">
