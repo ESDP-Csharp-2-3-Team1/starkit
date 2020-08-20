@@ -21,7 +21,7 @@
           }
         </td>
         <td>
-          <a class="ac-linc-edit" >Редактировать</a>
+          <a class="ac-linc-edit" asp-action="Index" asp-controller="Users" asp-route-requestUserId="@user.Id">Редактировать</a>
           <span onclick="ShowBoxTr('@user.Id','@countTd')" class="ac-show-span"><i class="fas fa-chevron-down"></i></span>
         </td>
       </tr>
@@ -29,22 +29,26 @@
       <tr class="ac-my-tr" id="ac-my-tr-@user.Id">
         <td colspan="5" class="ac-my-td">
           <div class="ac-user-info">
-            <div class="ac-info-box1">
-              <p class="name-label">Имя:</p>
-              <p class="box-p">@user.Name</p>
-            </div>
-            <div class="ac-info-box2">
-              <p class="name-label">Название компании:</p>
-              <p class="box-p">@user.CompanyName</p>
-            </div>
-            <div class="ac-info-box3">
-              <p class="name-label">Фамилия:</p>
-              <p class="box-p">@user.SurName</p>
-            </div>
-            <div class="ac-info-box4">
-              <p class="name-label">ИИН:</p>
-              <p class="box-p">@user.IIN</p>
-            </div>
+            @* <div class="ac-info-box1"> *@
+            @*   <p class="name-label">Имя:</p> *@
+            @*   <p class="box-p">@user.Name</p> *@
+            @* </div> *@
+            @* <div class="ac-info-box2"> *@
+            @*   <p class="name-label">Название компании:</p> *@
+            @*   <p class="box-p">@user.CompanyName</p> *@
+            @* </div> *@
+            @* <div class="ac-info-box3"> *@
+            @*   <p class="name-label">Фамилия:</p> *@
+            @*   <p class="box-p">@user.SurName</p> *@
+            @* </div> *@
+            @* <div class="ac-info-box4"> *@
+            @*   <p class="name-label">ИИН:</p> *@
+            @*   <p class="box-p">@user.IIN</p> *@
+            @* </div> *@
+            @{
+              Model.User = user;
+              @(await Html.PartialAsync("Partial/UserInformationPartial",Model))
+            }
           </div>
         </td>
       </tr>

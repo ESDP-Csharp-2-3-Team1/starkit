@@ -17,6 +17,7 @@ namespace Starkit.ViewModels
     public class SuperAdminIndexViewModel
     {
         public List<User> Users { get; set; }
+        public User User { get; set; }
         public SuperAdminIndexPageInfo PageInfo { get; set; }
     }
 }

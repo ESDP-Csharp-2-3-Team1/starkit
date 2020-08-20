@@ -118,5 +118,21 @@
             }
           })
       }
+       function expandTheBlock(){
+                  var result = $('#regul').val();
+                  if( result === "0")
+                   {
+                      $('#block-UP-address').show();
+                      $('#uk15').text("Скрыть")
+                      $('#regul').val(1)
+                   }
+                  else{
+                      $('#block-UP-address').hide();
+                      $('#uk15').text("Показать")
+                      $('#regul').val(0)
+      
+                  }
+                  
+              }
   </script>
 }
