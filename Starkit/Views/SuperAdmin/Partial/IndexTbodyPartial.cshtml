@@ -5,9 +5,9 @@
 
 @foreach (var user in Model.Users)
     {
-      int countTd = 1;
-      <tr  id="tr-main-info-@user.Id" class="tr-@countTd">
-        <th scope="row">@count</th>@{count++;}
+      <tr id="tr-main-info-@user.Id" class="tr-@count">
+        <th scope="row">@count</th>
+       
         <td>@user.CompanyName</td>
         <td>@user.Name @user.SurName</td>
         <td id="ac-box-status">
@@ -15,14 +15,14 @@
           {
             <span class="ac-user-status-unlocked" id="ac-us-@user.Id"><span class="ac-sp-1" id="ac-sp-@user.Id">@user.Status</span> <span title="Изменить статус" class="ac-box-un" id="ac-un-@user.Id" onclick="UpdateRegistrantStatus('@user.Id')"><i class="fas fa-unlock"></i></span></span>
           }
-          @if(user.Status == UserStatus.Locked)
+          @if (user.Status == UserStatus.Locked)
           {
             <span class="ac-user-status-locked" id="ac-us-@user.Id"><span class="ac-sp-1" id="ac-sp-@user.Id">@user.Status</span><span title="Изменить статус" class="ac-box-un" id="ac-un-@user.Id" onclick="UpdateRegistrantStatus('@user.Id')"><i class="fas fa-lock"></i></span></span>
           }
         </td>
         <td>
-          <a class="ac-linc-edit" onclick="ShowBoxTr('@user.Id','edit')">Редактировать</a>
-          <span onclick="ShowBoxTr('@user.Id','false','@countTd')" class="ac-show-span"><i class="fas fa-chevron-down"></i></span>
+          <a class="ac-linc-edit" onclick="ShowBoxTr('@user.Id','edit','@count')">Редактировать</a>
+          <span onclick="ShowBoxTr('@user.Id','false','@count')" class="ac-show-span"><i class="fas fa-chevron-down"></i></span>
         </td>
       </tr>
       <tr class="ac-my-tr" id="ac-my-tr-@user.Id">
@@ -37,4 +37,5 @@
           </form>
         </td>
       </tr>
+      count++;
     }

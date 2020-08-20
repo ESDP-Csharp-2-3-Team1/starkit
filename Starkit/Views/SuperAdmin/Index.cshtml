@@ -55,7 +55,6 @@
             <a asp-action="Index" asp-controller="SuperAdmin" asp-route-page="@i" class="page-link">@i</a>
           </li>
         }
-        
       }
       @if (Model.PageInfo.PageNumber < Model.PageInfo.TotalPages)
       {
@@ -73,15 +72,15 @@
 @section Scripts
 {
   <script>
-  
-     
-   
       function ShowBoxTr(userId,edit,countTr) {
-        console.log("asdasdasd")
         if(edit === 'edit')
           {
              $('input').removeAttr('disabled');
              $('#btn-submit-edit-'+userId).show();
+             for (let i = 1; i <= 5; i++){
+                if (Number(i) !== Number(countTr))
+                      $('.tr-'+String(i)).hide();
+             }
           }
           else{
             $('input').attr('disabled',true);
@@ -92,13 +91,27 @@
           {
               $('#tr-main-info-'+userId).css('background', 'rgba(0,0,0,.05)')
               $('#ac-my-tr-'+userId).show()
+              if (edit === 'edit')
+              {
+                 for (let i = 1; i <= 5; i++){
+                     if (Number(i) !== Number(countTr))
+                     {
+                       console.log(countTr)
+                       $('.tr-'+String(i)).hide();
+                     }
+                 }
+               }
           }
           else{
             if (edit !== 'edit')
               {
                  $('#tr-main-info-'+userId).css('background', 'none')
                  $('#ac-my-tr-'+userId).hide()
+                  for (let i = 1; i <= 5; i++){
+                        $('.tr-'+String(i)).show();
+                  }
               }
+         
           }
       }
   

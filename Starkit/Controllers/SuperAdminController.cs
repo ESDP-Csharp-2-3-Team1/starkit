@@ -91,8 +91,6 @@ namespace Starkit.Controllers
             postalAddress.Address = model.Address;
             return postalAddress;
         }
-
-
         [NonAction]
         [Authorize(Roles = "SuperAdmin")]
         private async Task<LegalAddress> BuildLegalAddress(LegalAddress model, string userId)
@@ -105,7 +103,6 @@ namespace Starkit.Controllers
             legalAddress.Address = model.Address;
             return legalAddress;
         }
-
         [NonAction]
         [Authorize(Roles = "SuperAdmin")]
         private async Task<User> BuildUser(User model)
