@@ -52,21 +52,11 @@ namespace Starkit.Controllers
                 return RedirectToAction("Index");
         }
         
-        public async Task<IActionResult> Index(string? requestUserId = null)
+        public async Task<IActionResult> Index()
         {
             if (!User.Identity.IsAuthenticated)
                 return RedirectToAction("Login", "Account");
-            string userId;
-            if (User.IsInRole("SuperAdmin"))
-            {
-                if (requestUserId != null)
-                    userId = requestUserId;
-                else return NotFound();
-            }
-            else
-               userId = _userManager.GetUserId(User);
-            User user = await _userManager.FindByIdAsync(userId);
-            if (user is null) return NotFound();
+            string userId = _userManager.GetUserId(User);
             EditUserViewModel model = new EditUserViewModel()
             {
                 Id = userId,
@@ -75,7 +65,7 @@ namespace Starkit.Controllers
             };
             ViewBag.LegalAddress = _db.LegalAddresses.FirstOrDefault(l => l.UserId == userId);
             ViewBag.PostalAddress = _db.PostalAddresses.FirstOrDefault(p => p.UserId == userId);
-            ViewBag.User = user;
+            ViewBag.User = await _userManager.FindByIdAsync(userId);
             return View(model);
         }
     }
