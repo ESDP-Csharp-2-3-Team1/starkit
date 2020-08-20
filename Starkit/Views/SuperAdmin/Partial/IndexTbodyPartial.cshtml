@@ -17,12 +17,12 @@
           }
           @if (user.Status == UserStatus.Locked)
           {
-            <span class="ac-user-status-locked" id="ac-us-@user.Id"><span class="ac-sp-1" id="ac-sp-@user.Id">@user.Status</span><span title="Изменить статус" class="ac-box-un" id="ac-un-@user.Id" onclick="UpdateRegistrantStatus('@user.Id')"><i class="fas fa-lock"></i></span></span>
+            <span class="ac-user-status-locked" id="ac-us-@user.Id"><span class="ac-sp-1" id="ac-sp-@user.Id">@user.Status</span><span title="Изменить статус" class="ac-box-un asd8547" id="ac-un-@user.Id" onclick="UpdateRegistrantStatus('@user.Id')"><i class="fas fa-lock"></i></span></span>
           }
         </td>
         <td>
-          <a class="ac-linc-edit" onclick="ShowBoxTr('@user.Id','edit','@count')">Редактировать</a>
-          <span onclick="ShowBoxTr('@user.Id','false','@count')" class="ac-show-span"><i class="fas fa-chevron-down"></i></span>
+          <button class="ac-linc-edit" onclick="ShowBoxTr('@user.Id','edit','@count')">Редактировать</button>
+          <span onclick="ShowBoxTr('@user.Id','false','@count')" class="ac-show-span ac-show-span-@count"><i class="fas fa-chevron-down"></i></span>
         </td>
       </tr>
       <tr class="ac-my-tr ac-my-tr-@count" id="ac-my-tr-@user.Id">

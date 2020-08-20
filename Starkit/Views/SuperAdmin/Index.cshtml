@@ -94,12 +94,14 @@
         let el = document.getElementById('ac-my-tr-'+userId)
         if ( el.style.display === 'none' || el.style.display === '')
           {
+              $('.ac-show-span-'+countTr).html('<i class="fas fa-chevron-up"></i>');
               $('#tr-main-info-'+userId).css('background', 'rgba(0,0,0,.05)')
               $('#ac-my-tr-'+userId).show()
           }
           else{
             if (edit !== 'edit')
               {
+                $('.ac-show-span-'+countTr).html('<i class="fas fa-chevron-down">');
                 $('#block-pagination').show();
                  $('#tr-main-info-'+userId).css('background', 'none')
                  $('#ac-my-tr-'+userId).hide()

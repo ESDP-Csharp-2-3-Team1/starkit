@@ -847,7 +847,6 @@ body {
 .ac-linc-edit{
   background: #29aafe;
   color: white;
-  /*font-weight: 600;*/
   padding: 2px 10px 4px;
   border-radius: 5px;
   text-decoration: none;
@@ -873,11 +872,16 @@ body {
   color: #02a499;
   cursor: pointer;
 }
+.ac-user-status-unlocked .ac-box-un:hover{
+  color: #0e7075;
+}
 .ac-user-status-locked .ac-box-un{
   color: #ec4561;
   cursor: pointer;
 }
-
+.ac-user-status-locked .ac-box-un:hover{
+  color: #c33049;
+}
 .ac-my-tr{
   display: none;
 }
@@ -905,6 +909,35 @@ body {
 }
 .block-UP-address{
   display: none;
+}
+.ac-linc-edit{
+  border: none;
+  padding: 0 10px 2px;
+  outline: none!important;
+
+}
+
+.ac-sp-1:hover{
+  cursor: default;
+}
+.asd8547{
+  padding-left: 5px;
+}
+.btn-submit-SuperAdmin{
+  padding-top: 20px;
+  text-align: end;
+}
+.btn-submit-SuperAdmin button{
+  background: #29aafe;
+  border: none;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 10px;
+  border-radius: 5px;
+}
+.btn-submit-SuperAdmin button:hover{
+  background: #237fbb;
 }
 /*end SuperAdmin => Index*/
 
