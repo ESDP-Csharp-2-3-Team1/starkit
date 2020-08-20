@@ -27,8 +27,8 @@ namespace Starkit.Controllers
 
         // GET
         [Authorize(Roles = "SuperAdmin")]
-        public async Task<IActionResult> Index(int page=1)
-        { 
+        public async Task<IActionResult> Index( int page = 1)
+        {
             string userId = _userManager.GetUserId(User);
            int pageSize = 5; 
            List<User> users = _db.Users.Where(u=>u.Id != userId).Skip((page - 1) * pageSize).Take(pageSize).ToList();
@@ -39,6 +39,7 @@ namespace Starkit.Controllers
            }
            SuperAdminIndexPageInfo pageInfo = new SuperAdminIndexPageInfo { PageNumber=page, PageSize=pageSize, TotalItems=_db.Users.Count()};
            SuperAdminIndexViewModel ivm = new SuperAdminIndexViewModel { PageInfo = pageInfo, Users = users };
+           
            return View(ivm);
                   
         }

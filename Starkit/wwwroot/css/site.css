@@ -901,6 +901,9 @@ body {
 .ac-my-tr:hover{
   background: none!important;
 }
+#ac-tbody{
+    min-height: 245px!important;
+}
 /*end SuperAdmin => Index*/
 
 

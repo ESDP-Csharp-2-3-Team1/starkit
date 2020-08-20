@@ -1,0 +1,69 @@
+﻿@model SuperAdminIndexViewModel
+@{
+  var count = 1;
+}
+
+@foreach (var user in Model.Users)
+    {
+      int countTd = 1;
+      <tr onclick="ShowBoxTr('@user.Id','@countTd')" id="tr-main-info-@user.Id" class="tr-@countTd">
+        <th scope="row">@count</th>@{count++;}
+        <td>@user.CompanyName</td>
+        <td>@user.Name @user.SurName</td>
+        <td id="ac-box-status">
+          @if (user.Status == UserStatus.Unlocked)
+          {
+            <span class="ac-user-status-unlocked" id="ac-us-@user.Id"><span class="ac-sp-1" id="ac-sp-@user.Id">@user.Status</span> <span title="Изменить статус" class="ac-box-un" id="ac-un-@user.Id" onclick="UpdateRegistrantStatus('@user.Id')"><i class="fas fa-unlock"></i></span></span>
+          }
+          @if(user.Status == UserStatus.Locked)
+          {
+            <span class="ac-user-status-locked" id="ac-us-@user.Id"><span class="ac-sp-1" id="ac-sp-@user.Id">@user.Status</span><span title="Изменить статус" class="ac-box-un" id="ac-un-@user.Id" onclick="UpdateRegistrantStatus('@user.Id')"><i class="fas fa-lock"></i></span></span>
+          }
+        </td>
+        <td>
+          <a class="ac-linc-edit" href="">Редактировать</a>
+        </td>
+      </tr>
+      
+      <tr class="ac-my-tr" id="ac-my-tr-@user.Id">
+        <td colspan="5" class="ac-my-td">
+          <div class="ac-user-info">
+            <div class="ac-info-box1">
+              <p class="name-label">Имя:</p>
+              <p class="box-p">@user.Name</p>
+            </div>
+            <div class="ac-info-box2">
+              <p class="name-label">Название компании:</p>
+              <p class="box-p">@user.CompanyName</p>
+            </div>
+            <div class="ac-info-box3">
+              <p class="name-label">Фамилия:</p>
+              <p class="box-p">@user.SurName</p>
+            </div>
+            <div class="ac-info-box4">
+              <p class="name-label">ИИН:</p>
+              <p class="box-p">@user.IIN</p>
+            </div>
+          </div>
+          <h3>Юридический адрес</h3>
+          <div class="ac-user-info">
+            <div class="ac-info-box1">
+              <p class="name-label">Имя:</p>
+              <p class="box-p">@user.Name</p>
+            </div>
+            <div class="ac-info-box2">
+              <p class="name-label">Название компании:</p>
+              <p class="box-p">@user.CompanyName</p>
+            </div>
+            <div class="ac-info-box3">
+              <p class="name-label">Фамилия:</p>
+              <p class="box-p">@user.SurName</p>
+            </div>
+            <div class="ac-info-box4">
+              <p class="name-label">ИИН:</p>
+              <p class="box-p">@user.IIN</p>
+            </div>
+          </div>
+        </td>
+      </tr>
+    }
