@@ -74,6 +74,10 @@
 
 @section Scripts
 {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    
   <script>
       function ShowBoxTr(userId,edit,countTr) {
         if(edit === 'edit')

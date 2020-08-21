@@ -7,6 +7,7 @@
     <div class="ed2-form-input">
         <div class="boxx2">
             <input type="text" class="form-control" asp-for="User.Name" disabled >
+            <span asp-validation-for="User.Name"></span>
         </div>
     </div>
 </div>
@@ -17,6 +18,7 @@
     <div class="ed2-form-input">
         <div class="boxx2">
             <input type="text" class="form-control"  asp-for="User.SurName" disabled>
+            <span asp-validation-for="User.SurName"></span>
         </div>
     </div>
 </div>
@@ -27,6 +29,7 @@
     <div class="ed2-form-input">
         <div class="boxx2">
             <input type="text" class="form-control"  asp-for="User.CompanyName" disabled>
+            <span asp-validation-for="User.CompanyName"></span>
         </div>
     </div>
 </div>
@@ -36,7 +39,8 @@
     </div>
     <div class="ed2-form-input">
         <div class="boxx2">
-            <input type="text" class="form-control"   asp-for="User.IIN" disabled>
+            <input type="text" maxlength="12" class="form-control"   asp-for="User.IIN" disabled>
+            <span asp-validation-for="User.IIN"></span>
         </div>
     </div>
 </div>
@@ -55,7 +59,8 @@
         </div>
         <div class="ed2-form-input">
             <div class="boxx2">
-                <input type="text" class="form-control" asp-for="User.LegalAddress.Index" disabled>
+                <input type="text" maxlength="6" class="form-control" asp-for="User.LegalAddress.Index" disabled>
+                <span asp-validation-for="User.LegalAddress.Index"> </span>
             </div>
         </div>
     </div>
@@ -66,6 +71,7 @@
         <div class="ed2-form-input">
             <div class="boxx2">
                 <input type="text" class="form-control" asp-for="User.LegalAddress.Country" disabled>
+                <span asp-validation-for="User.LegalAddress.Country"></span>
             </div>
         </div>
     </div>
@@ -76,6 +82,7 @@
         <div class="ed2-form-input">
           <div class="boxx2">
             <input type="text" class="form-control " asp-for="User.LegalAddress.Region" disabled>
+             <span asp-validation-for="User.LegalAddress.Region"></span>
           </div>
         </div>
     </div>
@@ -86,6 +93,7 @@
     <div class="ed2-form-input">
         <div class="boxx2">
             <input type="text" class="form-control " asp-for="User.LegalAddress.City" disabled>
+             <span asp-validation-for="User.LegalAddress.City"></span>
         </div>
     </div>
 </div>
@@ -96,6 +104,7 @@
     <div class="ed2-form-input">
         <div class="boxx2">
             <input type="text" class="form-control" asp-for="User.LegalAddress.Address" disabled>
+            <span asp-validation-for="User.LegalAddress.Address"></span>
         </div>
     </div>
 </div>
@@ -107,7 +116,8 @@
     </div>
     <div class="ed2-form-input">
         <div class="boxx2">
-            <input type="text" class="form-control" asp-for="User.PostalAddress.Index" disabled>
+            <input type="text"  maxlength="6" class="form-control" asp-for="User.PostalAddress.Index" disabled>
+            <span asp-validation-for="User.PostalAddress.Index"></span>
         </div>
     </div>
 </div>
@@ -118,6 +128,7 @@
     <div class="ed2-form-input">
         <div class="boxx2">
             <input type="text" class="form-control" asp-for="User.PostalAddress.Country" disabled>
+            <span asp-validation-for="User.PostalAddress.Country"></span>
         </div>
     </div>
 </div>
@@ -127,9 +138,8 @@
     </div>
     <div class="ed2-form-input">
         <div class="boxx2">
-
             <input type="text" class="form-control" asp-for="User.PostalAddress.Region" disabled>
-
+                <span asp-validation-for="User.PostalAddress.Region"></span>
         </div>
     </div>
 </div>
@@ -139,9 +149,8 @@
     </div>
     <div class="ed2-form-input">
         <div class="boxx2">
-
             <input type="text" class="form-control " asp-for="User.PostalAddress.City" disabled>
-
+                <span asp-validation-for="User.PostalAddress.City"></span>
         </div>
     </div>
 </div>
@@ -153,7 +162,8 @@
     <div class="ed2-form-input">
         <div class="boxx2">
             <input type="text" class="form-control" asp-for="User.PostalAddress.Address" disabled>
-        </div>
+            <span asp-validation-for="User.PostalAddress.Address"></span>
+            </div>
     </div>
 </div>
 <hr>
@@ -165,7 +175,8 @@
     </div>
     <div class="ed2-form-input">
         <div class="boxx2 ">
-            <input type="text" class="form-control"    asp-for="User.Email" disabled>
+            <input type="email" class="form-control"    asp-for="User.Email" disabled>
+            <span asp-validation-for="User.Email"></span>
         </div>
     </div>
 </div>
@@ -176,6 +187,7 @@
     <div class="ed2-form-input">
         <div class="boxx2">
             <input type="text" class="form-control"   asp-for="User.PhoneNumber" disabled>
+            <span asp-validation-for="User.PhoneNumber"></span>
         </div>
     </div>
 </div>
@@ -187,6 +199,7 @@
     <div class="ed2-form-input">
         <div class="boxx2">
              <input type="text" class="form-control"   asp-for="User.CityPhone" disabled>
+             <span asp-validation-for="User.CityPhone"></span>
              <p class="ed2p2 btn-submit-edit btn-submit-SuperAdmin" id="btn-submit-edit-@Model.User.Id">
                  <button type="submit">Сохранять изменения</button>
              </p>          
