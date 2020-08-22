@@ -264,5 +264,13 @@ namespace Starkit.Controllers
             dish.Menu = _db.Menu.Where(m => m.CreatorId == _userManager.GetUserId(User)).ToList();
             return PartialView("PartialViews/ModalAddDishToMenuPartialView", dish);
         }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult Details(string id)
+        {
+            Dish dish = _db.Dishes.FirstOrDefault(d => d.Id == id);
+            return PartialView("PartialViews/DetailsDishModalWindowPartialView", dish);
+        }
     }
 }

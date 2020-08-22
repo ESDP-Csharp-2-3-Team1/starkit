@@ -23,11 +23,11 @@
  </style>
 
 <div class="container" style="width: 90%; margin-bottom: 30px">
-    <div style="text-align: right">
+    <div style="text-align: right; height: 40px">
         <img class="fullscreen-icon" id="fullscreen" src="https://img.icons8.com/material-outlined/24/000000/full-screen.png"/>
         <img style="display: none" class="window-icon" id="window" src="https://img.icons8.com/ios-filled/24/000000/normal-screen.png"/>
     </div>
-    <h2 class="text-menu">Список блюд</h2>
+    <h2 style="text-align: center; margin: 10px 0 50px 0">Список блюд</h2>
     <div class="d-flex bd-highlight mb-3">
         <div class="p-2 bd-highlight">
             <label>Категория: </label>
@@ -46,7 +46,7 @@
     </div>
 
     <div id="message" style="color: red">Не выбрано ни одного блюда</div>
-    <div class="modal answer-modal" tabindex="-1" role="dialog">
+    <div class="modal answer-modal" tabindex="-1" role="dialog" id="confirm">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
@@ -63,6 +63,7 @@
     <div id="result">
 
     </div>
+    <div id="details-modal"></div>
 </div>
 <link href="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
 
@@ -81,6 +82,7 @@
         
         function deleteDishes() {
             let arr = getCheckedDishes();
+            console.log(arr);
             $.ajax({
                 url: '@Url.Action("Delete", "Dishes")',
                 type: "Delete",
@@ -100,7 +102,7 @@
             $(".button-hide").hide();
             var checkboxes = $("input:checkbox:checked");
             if (checkboxes.length > 0){
-                $(".modal").show();
+                $("#confirm").show();
                 $("#message").hide();
             }
             else{
@@ -110,6 +112,7 @@
         
         function closeModal() {
             $(".modal").hide();
+            $("body").css("overflow", "auto");
         }
         
         $("#hide").click(function (event) {
@@ -118,7 +121,7 @@
             $(".button-hide").show();
             var checkboxes = $("input:checkbox:checked");
             if (checkboxes.length > 0){
-                $(".modal").show();
+                $("#confirm").show();
                 $("#message").hide();
             }
             else{
@@ -128,6 +131,7 @@
         
         function hideDishes() {
             let arr = getCheckedDishes();
+            console.log(arr);
             $.ajax({
                 url: '@Url.Action("Hide", "Dishes")',
                 type: "Put",
@@ -284,7 +288,7 @@
         function changeMenu(id) {
             $.get(`@Url.Action("GetModalDish")?id=${id}`, function(data) {
               $("#modal-window").html(data);
-              $(".modal").show();
+              $("#modal-menu").show();
               $("#menuSelect").multiselect({
                     nonSelectedText: "не выбрано",
                     allSelectedText: "выбрано все",
@@ -335,5 +339,14 @@
             $("#window").hide();
             $("#fullscreen").show();
          });
+         
+         function detailsDish(id) { 
+            $.get(`@Url.Action("Details")/?id=${id}`, function(data) {
+                $('#details-modal').html(data);
+                $("#modal-details").show();
+                $("#modal-details").css("overflow", "auto");
+                $("body").css("overflow", "hidden");
+            })
+         }
     </script>
 }

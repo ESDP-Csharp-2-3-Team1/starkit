@@ -6,7 +6,7 @@
 <input type="hidden" id="modelSort" value="@Model.SortViewModel.Current">
 <input type="hidden" id="modelPage" value="@Model.PageViewModel.PageNumber">
 
-<div style="overflow-x:auto;">
+<div style="overflow-x:auto; font-size: 14px">
     <table class="table table-bordered">
         <thead>
         <tr>
@@ -24,13 +24,6 @@
                     <img src="https://img.icons8.com/material-sharp/24/000000/sort.png"/>
                 </a>
             </th>
-            <th style="vertical-align: middle; text-align: center" scope="col">
-                Время добавления
-                <a style="cursor: pointer" id="@Model.SortViewModel.AddTimeSort" class="addTimeSort" onclick="addTimeSort('')">
-                    <img src="https://img.icons8.com/material-sharp/24/000000/sort.png"/>
-                </a>
-            </th>
-            <th style="vertical-align: middle; text-align: center" scope="col">Время редактирования</th>
             <th style="vertical-align: middle; text-align: center" scope="col">Видимость</th>
             <th style="vertical-align: middle; text-align: center" scope="col">Действие</th>
         </tr>
@@ -45,10 +38,8 @@
                 <td style="vertical-align: middle; text-align: center">
                     <img src="~/@dish.Avatar" style="width: 50px; height: 50px; border-radius: 40px" alt="">
                 </td>
-                <td style="vertical-align: middle; text-align: center">@dish.Name</td>
+                <td class="link-dish-name" style="vertical-align: middle; text-align: center" onclick="detailsDish('@dish.Id')">@dish.Name</td>
                 <td style="vertical-align: middle; text-align: center">@dish.Cost</td>
-                <td style="vertical-align: middle; text-align: center">@dish.AddTime</td>
-                <td style="vertical-align: middle ; text-align: center">@dish.EditTime</td>
                 <td style="vertical-align: middle ; text-align: center">
                     @if (dish.Visibility)
                     {
