@@ -56,7 +56,7 @@ End with an example of getting some data out of the system or using it for a lit
 
 В качестве базы данных используются PostgreSQL
 
-Для реализации интерфейса в проекте также использованы HTML/CSS, язык JavaScript/JQuery и технология AXAJ.
+Для реализации интерфейса в проекте также использованы HTML/CSS, язык JavaScript/JQuery и технология AJAX.
 
 # Внесение правок
 Здесь должен быть текст.
@@ -66,19 +66,19 @@ End with an example of getting some data out of the system or using it for a lit
 
 # Авторы
 ### Состав команды:
-* Алмат Сейдералы <a href="mailto:seyderaly98@gmail.com">seyderaly98@gmail.com</a>
-* Самат Мұрат <a href="mailto:muratsamat090598@gmail.com">muratsamat090598@gmail.com</a>
-* Самал Жексемалиева <a href="mailto:samal.zhex@gmail.com">samal.zhex@gmail.com</a>
-* Рашит Нуржанов <a href="mailto:rashit.nurzhanov@gmail.com">rashit.nurzhanov@gmail.com</a>
+* <a href="https://hh.kz/resume/43807f53ff040e36910039ed1f524977745261">Алмат Сейдералы</a>
+* <a href="mailto:muratsamat090598@gmail.com">Самат Мұрат</a>
+* <a href="https://www.facebook.com/samal.zhex">Самал Жексемалиева</a>
+* <a href="https://www.instagram.com/rashitnurzhanov/">Рашит Нуржанов</a>
 
 ### Наставник:
-* Майлюбаев Ернар <a href="mailto:mailubai@gmail.com">mailubai@gmail.com</a>
+* Майлюбаев Ернар
 
 ### Заказчик:
-* Старостенко Константин <a href="mailto:starostenko.k@gmail.com">starostenko.k@gmail.com</a>
+* Старостенко Константин
 
 # Лицензия
 Этот проект не лицензируется и доступен в открытом виде.
 
 # Благодарности
-Команда выражает свои благодарности <a href="mailto:mailubai@gmail.com">Майлюбаеву Ернару</a> и <a href="mailto:starostenko.k@gmail.com">Старостенко Константину</a> за вдохновение и мотивацию в реализации проекта.
+Команда выражает свои благодарности Майлюбаеву Ернару и Старостенко Константину за вдохновение и мотивацию в реализации проекта.
