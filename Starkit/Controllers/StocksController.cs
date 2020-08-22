@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Starkit.Models;
 using Starkit.Models.Data;
 using Starkit.Services;
+using Starkit.ViewModels;
 
 namespace Starkit.Controllers
 {
@@ -57,6 +58,13 @@ namespace Starkit.Controllers
 
         [Authorize]
         [HttpGet]
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
@@ -71,9 +79,21 @@ namespace Starkit.Controllers
                 stock.Avatar = Load(stock.Id, stock.File);
                 _db.Entry(stock).State = EntityState.Added;
                 await _db.SaveChangesAsync();
-                return RedirectToAction("Create");
+                return RedirectToAction("Index");
             }
             return View(stock);
+        }
+
+        [Authorize]
+        [HttpDelete]
+        public async Task<IActionResult> Delete(string id)
+        {
+            Stock stock = new Stock{Id = id};
+            _db.Entry(stock).State = EntityState.Deleted;
+            await _db.SaveChangesAsync();
+            DeleteStockAvatar(stock);
+            List<Stock> stocks = _db.Stocks.Where(s => s.CreatorId == _userManager.GetUserId(User)).ToList();
+            return PartialView("PartilaViews/ListStockPartialView", stocks);
         }
 
         [Authorize]
@@ -83,6 +103,70 @@ namespace Starkit.Controllers
             List<Dish> dishes = _db.Dishes.Where(d => d.CreatorId == _userManager.GetUserId(User)).ToList();
             var dishGroup = dishes.GroupBy(d => d.Category);
             return PartialView("PartilaViews/AddDishesToStockModalWindow", dishGroup);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult Edit(string id)
+        {
+            Stock stock = _db.Stocks.FirstOrDefault(s => s.Id == id);
+            EditStockViewModel model = new EditStockViewModel
+            {
+                Id = id,
+                Name = stock.Name,
+                Type = stock.Type,
+                Description = stock.Description,
+                Validity = stock.Validity,
+                At = stock.At,
+                To = stock.To,
+                FirstDishId = stock.FirstDishId,
+                SecondDishId = stock.SecondDishId,
+                ThirdDishId = stock.ThirdDishId
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditStockViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Stock stock = _db.Stocks.FirstOrDefault(s => s.Id == model.Id);
+                stock.Name = model.Name;
+                stock.Type = model.Type;
+                stock.Description = model.Description;
+                stock.Validity = model.Validity;
+                stock.At = model.At;
+                stock.To = model.To;
+                stock.FirstDishId = model.FirstDishId;
+                stock.SecondDishId = model.SecondDishId;
+                stock.ThirdDishId = model.ThirdDishId;
+                stock.EditorId = _userManager.GetUserId(User);
+                if (model.File != null)
+                {
+                    DeleteStockAvatar(stock);
+                    stock.Avatar = Load(model.Id, model.File);
+                }
+                _db.Entry(stock).State = EntityState.Modified;
+                await _db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult Details(string id)
+        {
+            Stock stock = _db.Stocks.FirstOrDefault(s => s.Id == id);
+            return PartialView("PartilaViews/DetailStockPartialView", stock);
+        }
+
+        public IActionResult GetStocks()
+        {
+            List<Stock> stocks = _db.Stocks.Where(s => s.CreatorId == _userManager.GetUserId(User)).ToList();
+            return PartialView("PartilaViews/ListStockPartialView", stocks);
         }
     }
 }

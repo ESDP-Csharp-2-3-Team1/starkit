@@ -126,7 +126,7 @@ body {
  text-align: end;
 }
 
-.text-categories, .text-subcategories{
+.text-menu, .text-categories, .text-subcategories, .text-stocks{
   text-align: center;
   margin: 50px 0 50px 0;
 }
@@ -878,10 +878,10 @@ body {
   margin-right: 20px;
   cursor: pointer;
 }
-.link-menu-name, .link-stock-name, .link-dish-name{
+.link-menu-name, .link-stock-name{
   cursor: pointer;
 }
-.link-menu-name:hover, .link-stock-name:hover, .link-dish-name:hover{
+.link-menu-name:hover, .link-stock-name:hover{
   color: gold;
 }
 .createMenuLabel, .createStockLabel{

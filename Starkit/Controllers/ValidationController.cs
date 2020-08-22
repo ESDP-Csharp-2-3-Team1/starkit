@@ -94,10 +94,10 @@ namespace Starkit.Controllers
                                             || c.Name.ToLower().Trim() == name2.ToLower().Trim()
                                             && c.CreatorId == _userManager.GetUserId(User));   
             }
-
             List<Stock> stocks = _db.Stocks.Where(c => c.Id != id && 
                                                        c.CreatorId == _userManager.GetUserId(User)).ToList();
-            return !stocks.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim());
+            return !stocks.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim() 
+                                    || c.Name.ToLower().Trim() == name2.ToLower().Trim());
         }
         
         public async Task<bool>CheckOldPassword(string oldPassword)

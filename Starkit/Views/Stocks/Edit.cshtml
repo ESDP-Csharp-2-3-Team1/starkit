@@ -1,0 +1,219 @@
+@model EditStockViewModel
+
+@{
+    ViewBag.Title = "Редактирование акций";
+    Layout = "_Layout";
+}
+
+<div class="row" style="margin: 30px 0 80px 0">
+    <div class="col-md-9 mt-5">
+        <h2 class="create-dish">Редактирование акций</h2>
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+            @Html.Hidden("Id", Model.Id)
+            <div class="form-group row">
+                <label for="" class="col-sm-4 col-form-label createStockLabel">Название</label><br/>
+                <div class="col-sm-8">
+                    <input id="name" type="text" asp-for="Name" readonly="readonly" class="form-control" value="@Model.Name">
+                </div>
+                <span class="validationError" asp-validation-for="Name"></span>
+            </div>
+            <p onclick="reset()" class="validationError myLink">
+                Сбросить блюда
+            </p>
+            <div class="form-group row">
+                <label for="" class="col-sm-4 col-form-label createStockLabel">Тип</label><br/>
+                <div class="col-sm-8">
+                    <select readonly class="form-control" asp-for="Type" id="selectType">
+                        @if (Model.Type == "1+1=3")
+                        {
+                            <option selected="selected" value="1+1=3">1 + 1 = 3</option>
+                            <option value="1+1=1">1 + 1 = 1</option>
+                        }
+                        else
+                        {
+                            <option value="1+1=3">1 + 1 = 3</option>
+                            <option selected="selected" value="1+1=1">1 + 1 = 1</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div style="display: none" class="form-group row" id="chooseDishes">
+                <label for="" class="col-sm-4 col-form-label createStockLabel">Выберите блюда</label><br/>
+                <div class="col-sm-8">
+                    <img style="cursor: pointer" onclick="openModal()" src="https://img.icons8.com/android/24/000000/plus.png"/>
+                </div>
+            </div>
+            <input type="hidden" asp-for="FirstDishId" id="firstDish" value="@Model.FirstDishId">
+            <input type="hidden" id="firstDishName">
+            <input type="hidden" asp-for="SecondDishId" id="secondDish" value="@Model.SecondDishId">
+            <input type="hidden" id="secondDishName">
+            <input type="hidden" asp-for="ThirdDishId" id="thirdDish" value="@Model.ThirdDishId">
+            <input type="hidden" id="thirdDishName">
+
+            <div class="form-group row">
+                <label for="" class="col-sm-4 col-form-label createStockLabel">Описание</label><br/>
+                <div class="col-sm-8">
+                    <textarea style="height: 150px; resize: none" asp-for="Description" class="form-control">@Model.Description</textarea>
+                </div>
+                <span class="validationError" asp-validation-for="Description"></span>
+            </div>
+            <div class="form-group row">
+                <label for="" class="col-sm-4 col-form-label createStockLabel">Срок действия</label><br/>
+                <div class="col-sm-1">
+                    <input id="time" style="font-size: 8px; margin-top: 5px" asp-for="Validity" type="radio" class="form-control" value="По времени">
+                </div>
+                <label for="" class="col-sm-3 col-form-label" style="font-weight: 600">По времени</label><br/>
+                <div class="col-sm-1">
+                    <input id="date" style="font-size: 8px; margin-top: 5px" asp-for="Validity" type="radio" class="form-control" value="По дате">
+                </div>
+                <label for="" class="col-sm-3 col-form-label" style="font-weight: 600">По дате</label><br/>
+                <span class="validationError" asp-validation-for="Validity"></span>
+            </div>
+            <div class="form-group row">
+                <label for="" class="col-sm-4 col-form-label createStockLabel">С</label><br/>
+                <div class="col-sm-3">
+                    <input style="font-size: 14px; margin-top: 5px" asp-for="At" type="time" class="form-control dateTime" id="At"
+                               value="@Model.At.ToShortTimeString()">
+                    <span class="validationError" asp-validation-for="At"></span>
+                </div>
+                <label for="" class="col-sm-2 col-form-label createStockLabel">До</label><br/>
+                <div class="col-sm-3">
+                    <input style="font-size: 14px; margin-top: 5px" asp-for="To" type="time" class="form-control dateTime" id="To"
+                               value="@Model.To.ToShortTimeString()">
+                    <span class="validationError" asp-validation-for="To"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-4" style="text-align: end">
+                    <label for="myFIle" style="font-weight: 600" class="chous">Добавить иконку</label>
+                    <input type="file" id="myFIle" class="form-control my" asp-for="File" multiple="multiple"/>
+                </div>
+                <span class="validationError" asp-validation-for="File"></span>
+            </div>
+            <div style="text-align: center">
+                <br/><button onclick="send()" type="submit" class="btn btn-dark">Редактирование</button>
+            </div>
+            <input type="hidden" asp-for="Id" value="@Model.Id">
+        </form>
+    </div>
+</div>
+<div id="modal"></div>
+<input type="hidden" id="validity" value="@Model.Validity">
+<input type="hidden" id="modelAt" value="@Model.At.ToShortDateString()">
+<input type="hidden" id="modelTo" value="@Model.To.ToShortDateString()">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
+@section Scripts
+{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    
+    <script >
+        $('.my').change(function() {
+            if ($(this).val() != '') $(this).prev().text('Выбрано файлов: ' + $(this)[0].files.length);
+            else $(this).prev().text('Выберите файлы');
+        });
+        
+        $(document).ready(function() {
+            if ($("#validity").val() == "По дате"){
+                $(".dateTime").attr("type", "date");
+                var at = $("#modelAt").val();
+                let arrAt = at.split(".");
+                var to = $("#modelTo").val();
+                let arrTo = to.split(".");
+                console.log(at);
+                $("#At").val(`${arrAt[2]}-${arrAt[1]}-${arrAt[0]}`);
+                $("#To").val(`${arrTo[2]}-${arrTo[1]}-${arrTo[0]}`)
+            }
+            
+            $('input[type=radio][name=Validity]').change(function() {
+                if (this.value == "По времени"){
+                    $('.dateTime').attr("type", "time");   
+                }
+                else{
+                    $('.dateTime').attr("type", "date");
+                }
+            });
+        });
+        
+        function openModal(){
+            $.get('@Url.Action("GetDishes")', function(data) {
+                $("#modal").html(data);
+                $(".modal").show();
+                            
+                var firstDish = $("#firstDish").val();
+                var secondDish = $("#secondDish").val();
+                var thirdDish = $("#thirdDish").val();
+                if (firstDish != "" & secondDish == "" && thirdDish == ""){
+                    $("#addDishes").text("Второе блюдо");
+                    $(".selectDish").attr("id", "secondDish")
+                }
+                else if(firstDish != "" & secondDish != "" && thirdDish == ""){
+                    $("#addDishes").text("Подарочное блюдо");
+                    $(".selectDish").attr("id", "thirdDish")
+                }
+                $(".selectDish").chosen(
+                    // {include_group_label_in_selected:true},
+                    {no_results_text: 'Нет совпадений по запросу'});
+                });
+        }
+        
+        function closeModal() {
+            $(".modal").hide();
+        }
+        
+        function saveChange() {
+            var dishNumber = $(".selectDish").attr("id");
+            var name = $("#name");
+            var dish = $(".selectDish").val();
+            var arr = dish.split("&&");
+            var firstDishName = $("#firstDishName");
+            var secondDishName = $("#secondDishName");
+            var thirdDishName = $("#thirdDishName");
+            if ($("#selectType").val() == "1+1=3"){
+                if (dishNumber == "firstDish"){
+                    $("#firstDish").val(arr[0]);
+                    $(firstDishName).val(arr[1]);
+                    $("#selectType").attr("readonly", true);
+                }
+                else if(dishNumber == "secondDish"){
+                    $("#secondDish").val(arr[0]);
+                    $(secondDishName).val(arr[1]);
+                }
+                else{
+                    $("#thirdDish").val(arr[0]);
+                    $(thirdDishName).val(arr[1]);
+                    $("#chooseDishes").hide();
+                            
+                    $(name).val(`${$(firstDishName).val()}+${$(secondDishName).val()}=${arr[1]}`)
+                }    
+            }
+            else{
+                if (dishNumber == "firstDish"){
+                    $("#firstDish").val(arr[0]);
+                    $(firstDishName).val(arr[1]);
+                            
+                    $(name).val(`${firstDishName.val()}+${firstDishName.val()}=${firstDishName.val()}`);
+                            
+                    $("#chooseDishes").hide();
+                    $("#selectType").attr("readonly", true);
+                }    
+            }
+            $(".modal").hide();
+        }
+                
+        function reset() {
+            $("#name").val("");
+            $("#selectType").attr("readonly", false);
+            $("#firstDish").val("");
+            $("#name-error").hide();
+            $("#secondDish").val("");
+            $("#thirdDish").val("");
+            $("#chooseDishes").show();
+        }
+    </script>
+}
