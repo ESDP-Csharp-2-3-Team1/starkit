@@ -74,11 +74,11 @@
         @if (User.Identity.IsAuthenticated)
         {
             <div class="container-edit">
-               @{
-                   await Html.RenderPartialAsync("Partial/_PartialLeftNavbar");
-               }
+                @{
+                    await Html.RenderPartialAsync("Partial/_PartialLeftNavbar");
+                }
                 <div class="edit-block2" style="width: 830px">
-                      @RenderBody()
+                    @RenderBody()
                 </div>
             </div>
         }

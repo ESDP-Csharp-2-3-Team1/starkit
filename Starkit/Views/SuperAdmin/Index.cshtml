@@ -5,6 +5,7 @@
     Layout = "_Layout";
     int pageNum;
 }
+<a asp-action="Register" asp-controller="Account">Добавить</a>
 <div class="admin-container">
   <div class="block-table">
   <table class="table table-hover table-superAdmin">
@@ -74,10 +75,14 @@
 
 @section Scripts
 {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-    
+  @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+  }
+  @User.IsInRole("SuperAdmin"){
+    <script>
+        
+    </script>
+  }
   <script>
       function ShowBoxTr(userId,edit,countTr) {
         if(edit === 'edit')
@@ -122,7 +127,7 @@
       function UpdateRegistrantStatus(userId){
         console.log(userId)
           $.ajax({
-            url: '@Url.Action("UpdateRegistrantStatus","SuperAdmin")?userId=' + userId,
+            url: '@Url.Action("UpdateRegistrantStatus", "SuperAdmin")?userId=' + userId,
             type:"POST",
             success: function(data) {
               if (data === "locked")
