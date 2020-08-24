@@ -78,11 +78,7 @@
   @{
     await Html.RenderPartialAsync("_ValidationScriptsPartial");
   }
-  @User.IsInRole("SuperAdmin"){
-    <script>
-        
-    </script>
-  }
+
   <script>
       function ShowBoxTr(userId,edit,countTr) {
         if(edit === 'edit')

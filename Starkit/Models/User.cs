@@ -18,6 +18,8 @@ namespace Starkit.Models
         public string AvatarPath { get; set; }
         public UserStatus Status { get; set; } = UserStatus.Unlocked;
         public bool IsTermsAccepted { get; set; }
+        public string RestaurantId { get; set; }
+        public Restaurant Restaurant { get; set; }
 
         [NotMapped]
         public LegalAddress LegalAddress { get; set; }

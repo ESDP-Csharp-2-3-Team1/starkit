@@ -7,7 +7,7 @@ namespace Starkit.Models
 {
     public class Restaurant
     {
-        public int Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         public string NameRestaurant { get; set; }
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
