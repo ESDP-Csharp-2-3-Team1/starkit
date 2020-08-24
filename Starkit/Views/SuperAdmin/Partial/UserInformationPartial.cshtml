@@ -1,0 +1,209 @@
+﻿@model SuperAdminIndexViewModel
+<input type="hidden" asp-for="User.Id">
+<div class="form-group  ed2-form-group">
+    <div class="ed2-form-label">
+        <label >Имя:</label>
+    </div>
+    <div class="ed2-form-input">
+        <div class="boxx2">
+            <input type="text" class="form-control" asp-for="User.Name" disabled >
+            <span asp-validation-for="User.Name"></span>
+        </div>
+    </div>
+</div>
+<div class="form-group  ed2-form-group">
+    <div class="ed2-form-label">
+        <label >Фамилия:</label>
+    </div>
+    <div class="ed2-form-input">
+        <div class="boxx2">
+            <input type="text" class="form-control"  asp-for="User.SurName" disabled>
+            <span asp-validation-for="User.SurName"></span>
+        </div>
+    </div>
+</div>
+<div class="form-group  ed2-form-group">
+    <div class="ed2-form-label">
+        <label >Название компании:</label>
+    </div>
+    <div class="ed2-form-input">
+        <div class="boxx2">
+            <input type="text" class="form-control"  asp-for="User.CompanyName" disabled>
+            <span asp-validation-for="User.CompanyName"></span>
+        </div>
+    </div>
+</div>
+<div class="form-group  ed2-form-group">
+    <div class="ed2-form-label">
+        <label >ИИН:</label>
+    </div>
+    <div class="ed2-form-input">
+        <div class="boxx2">
+            <input type="text" maxlength="12" class="form-control"   asp-for="User.IIN" disabled>
+            <span asp-validation-for="User.IIN"></span>
+        </div>
+    </div>
+</div>
+<div class="boxx2 boxx22">
+    <p class="ed2p2 ed2p22">
+        <input id="regul-@Model.User.Id" type="hidden" value="0">
+        <a type="button" onclick="expandTheBlock('@Model.User.Id')"><span id="uk15-@Model.User.Id">Показать</span> юридический & почтовый адрес ↓</a>
+    </p>
+</div>
+<div class="block-UP-address" id="block-UP-address-@Model.User.Id">
+    <h3>Юридический адрес</h3>
+    <hr>
+    <div class="form-group  ed2-form-group">
+        <div class="ed2-form-label">
+            <label >Индекс:</label>
+        </div>
+        <div class="ed2-form-input">
+            <div class="boxx2">
+                <input type="text" maxlength="6" class="form-control" asp-for="User.LegalAddress.Index" disabled>
+                <span asp-validation-for="User.LegalAddress.Index"> </span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group  ed2-form-group">
+        <div class="ed2-form-label">
+            <label >Страна:</label>
+        </div>
+        <div class="ed2-form-input">
+            <div class="boxx2">
+                <input type="text" class="form-control" asp-for="User.LegalAddress.Country" disabled>
+                <span asp-validation-for="User.LegalAddress.Country"></span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group  ed2-form-group">
+        <div class="ed2-form-label">
+            <label >Область:</label>
+        </div>
+        <div class="ed2-form-input">
+          <div class="boxx2">
+            <input type="text" class="form-control " asp-for="User.LegalAddress.Region" disabled>
+             <span asp-validation-for="User.LegalAddress.Region"></span>
+          </div>
+        </div>
+    </div>
+<div class="form-group  ed2-form-group">
+    <div class="ed2-form-label">
+        <label >Город:</label>
+    </div>
+    <div class="ed2-form-input">
+        <div class="boxx2">
+            <input type="text" class="form-control " asp-for="User.LegalAddress.City" disabled>
+             <span asp-validation-for="User.LegalAddress.City"></span>
+        </div>
+    </div>
+</div>
+<div class="form-group  ed2-form-group">
+    <div class="ed2-form-label">
+        <label >Адрес:</label>
+    </div>
+    <div class="ed2-form-input">
+        <div class="boxx2">
+            <input type="text" class="form-control" asp-for="User.LegalAddress.Address" disabled>
+            <span asp-validation-for="User.LegalAddress.Address"></span>
+        </div>
+    </div>
+</div>
+<h3>Почтовый адрес</h3>
+<hr>
+<div class="form-group  ed2-form-group">
+    <div class="ed2-form-label">
+        <label >Индекс:</label>
+    </div>
+    <div class="ed2-form-input">
+        <div class="boxx2">
+            <input type="text"  maxlength="6" class="form-control" asp-for="User.PostalAddress.Index" disabled>
+            <span asp-validation-for="User.PostalAddress.Index"></span>
+        </div>
+    </div>
+</div>
+<div class="form-group  ed2-form-group">
+    <div class="ed2-form-label">
+        <label >Страна:</label>
+    </div>
+    <div class="ed2-form-input">
+        <div class="boxx2">
+            <input type="text" class="form-control" asp-for="User.PostalAddress.Country" disabled>
+            <span asp-validation-for="User.PostalAddress.Country"></span>
+        </div>
+    </div>
+</div>
+<div class="form-group  ed2-form-group">
+    <div class="ed2-form-label">
+        <label >Область:</label>
+    </div>
+    <div class="ed2-form-input">
+        <div class="boxx2">
+            <input type="text" class="form-control" asp-for="User.PostalAddress.Region" disabled>
+                <span asp-validation-for="User.PostalAddress.Region"></span>
+        </div>
+    </div>
+</div>
+<div class="form-group  ed2-form-group">
+    <div class="ed2-form-label">
+        <label >Город:</label>
+    </div>
+    <div class="ed2-form-input">
+        <div class="boxx2">
+            <input type="text" class="form-control " asp-for="User.PostalAddress.City" disabled>
+                <span asp-validation-for="User.PostalAddress.City"></span>
+        </div>
+    </div>
+</div>
+
+<div class="form-group  ed2-form-group">
+    <div class="ed2-form-label">
+        <label >Адрес:</label>
+    </div>
+    <div class="ed2-form-input">
+        <div class="boxx2">
+            <input type="text" class="form-control" asp-for="User.PostalAddress.Address" disabled>
+            <span asp-validation-for="User.PostalAddress.Address"></span>
+            </div>
+    </div>
+</div>
+<hr>
+</div>
+
+<div class="form-group  ed2-form-group">
+    <div class="ed2-form-label">
+        <label >Эл. адрес:</label>
+    </div>
+    <div class="ed2-form-input">
+        <div class="boxx2 ">
+            <input type="email" class="form-control"    asp-for="User.Email" disabled>
+            <span asp-validation-for="User.Email"></span>
+        </div>
+    </div>
+</div>
+<div class="form-group  ed2-form-group">
+    <div class="ed2-form-label">
+        <label >Номер телефона:</label>
+    </div>
+    <div class="ed2-form-input">
+        <div class="boxx2">
+            <input type="text" class="form-control"   asp-for="User.PhoneNumber" disabled>
+            <span asp-validation-for="User.PhoneNumber"></span>
+        </div>
+    </div>
+</div>
+
+<div class="form-group  ed2-form-group">
+    <div class="ed2-form-label">
+        <label >Городской телефон:</label>
+    </div>
+    <div class="ed2-form-input">
+        <div class="boxx2">
+             <input type="text" class="form-control"   asp-for="User.CityPhone" disabled>
+             <span asp-validation-for="User.CityPhone"></span>
+             <p class="ed2p2 btn-submit-edit btn-submit-SuperAdmin" id="btn-submit-edit-@Model.User.Id">
+                 <button type="submit">Сохранять изменения</button>
+             </p>          
+        </div>
+    </div>
+</div>
+

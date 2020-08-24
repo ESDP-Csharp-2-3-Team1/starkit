@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿#nullable enable
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -21,25 +23,7 @@ namespace Starkit.Controllers
             _db = db;
         }
 
-        // GET
-        public async Task<IActionResult> Index()
-        {
-            if (!User.Identity.IsAuthenticated)
-                return RedirectToAction("Login", "Account");
-                    
-            string userId = _userManager.GetUserId(User);
-            EditUserViewModel model = new EditUserViewModel()
-            {
-                Id = userId,
-                LegalAddress = _db.LegalAddresses.FirstOrDefault(l => l.UserId == userId),
-                PostalAddress = _db.PostalAddresses.FirstOrDefault(p => p.UserId == userId)
-            };
-            ViewBag.LegalAddress = _db.LegalAddresses.FirstOrDefault(l => l.UserId == userId);
-            ViewBag.PostalAddress = _db.PostalAddresses.FirstOrDefault(p => p.UserId == userId);
-            ViewBag.User = await _userManager.FindByIdAsync(userId);
-            return View(model);
-        }
-
+        
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> UpdateInfo(string cityphone,string postalCity, string postalRegion, string legalCity, string legalRegion)
@@ -66,6 +50,25 @@ namespace Starkit.Controllers
                 _db.PostalAddresses.Update(postalAddress);
                 await _db.SaveChangesAsync();
                 return RedirectToAction("Index");
+        }
+        
+        public async Task<IActionResult> Index()
+        {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
+            if (User.IsInRole("SuperAdmin"))
+                return RedirectToAction("Index", "SuperAdmin");
+            string userId = _userManager.GetUserId(User);
+            EditUserViewModel model = new EditUserViewModel()
+            {
+                Id = userId,
+                LegalAddress = _db.LegalAddresses.FirstOrDefault(l => l.UserId == userId),
+                PostalAddress = _db.PostalAddresses.FirstOrDefault(p => p.UserId == userId)
+            };
+            ViewBag.LegalAddress = _db.LegalAddresses.FirstOrDefault(l => l.UserId == userId);
+            ViewBag.PostalAddress = _db.PostalAddresses.FirstOrDefault(p => p.UserId == userId);
+            ViewBag.User = await _userManager.FindByIdAsync(userId);
+            return View(model);
         }
     }
 }

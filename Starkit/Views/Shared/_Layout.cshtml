@@ -20,6 +20,7 @@
     <title>@ViewData["Title"] - Starkit</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
     <link rel="stylesheet" href="~/css/site.css"/>
     
 </head>
@@ -73,11 +74,11 @@
         @if (User.Identity.IsAuthenticated)
         {
             <div class="container-edit">
-               @{
-                   await Html.RenderPartialAsync("Partial/_PartialLeftNavbar");
-               }
+                @{
+                    await Html.RenderPartialAsync("Partial/_PartialLeftNavbar");
+                }
                 <div class="edit-block2" style="width: 830px">
-                      @RenderBody()
+                    @RenderBody()
                 </div>
             </div>
         }

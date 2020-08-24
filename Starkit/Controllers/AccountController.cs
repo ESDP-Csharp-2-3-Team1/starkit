@@ -26,7 +26,6 @@ namespace Starkit.Controllers
         public IHostEnvironment _environment { get; set; }
         
         
-
         public AccountController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, SignInManager<User> signInManager, StarkitContext db, IHostEnvironment environment, IRecaptchaService recaptcha)
         {
             _userManager = userManager;
@@ -72,6 +71,9 @@ namespace Starkit.Controllers
                             user.AccessFailedCount = 0;
                             await _userManager.UpdateAsync(user);
                         }
+
+                        if (user.Email == "admin@admin.com")
+                            return RedirectToAction("Index", "SuperAdmin");
                         return RedirectToAction("Index", "Users");
                     }
                     user.AccessFailedCount += 1;
@@ -85,7 +87,7 @@ namespace Starkit.Controllers
         }
         public IActionResult Register()
         {
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated && !User.IsInRole("SuperAdmin"))
                 return RedirectToAction("Index","Users");
             return View();
         }
@@ -102,31 +104,22 @@ namespace Starkit.Controllers
                         "Ошибка проверки reCAPTCHA. Попробуйте еще раз.");
                     return View(model);
                 }
-                User newUser = new User
-                {
-                    UserName =  model.Email,
-                    Name = model.Name,
-                    SurName = model.SurName,
-                    Email = model.Email,
-                    PhoneNumber = model.PhoneNumber,
-                    CityPhone = model.CityPhone,
-                    CompanyName = model.CompanyName,
-                    IIN = model.IIN,
-                    IsTermsAccepted = model.IsTermsAccepted
-                };
 
+                User newUser = CreateNewUser(model);
                 model.PostalAddress.UserId = newUser.Id;
                 model.LegalAddress.UserId = newUser.Id;
 
                 var result = await _userManager.CreateAsync(newUser, model.Password);
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(newUser, "restaurateur");
+                    await _userManager.AddToRoleAsync(newUser, Convert.ToString(Roles.Registrant));
                     await _db.LegalAddresses.AddAsync(model.LegalAddress);
                     await _db.PostalAddresses.AddAsync(model.PostalAddress);
                     await _db.SaveChangesAsync();
-                    await _signInManager.SignInAsync(newUser, false);
                     // await SendConfirmationEmailAsync(newUser.Email);
+                    if (User.IsInRole("SuperAdmin"))
+                        return RedirectToAction("Index", "SuperAdmin");
+                    await _signInManager.SignInAsync(newUser, false);
                     return RedirectToAction("Index", "Users");
                 }
 
@@ -135,6 +128,7 @@ namespace Starkit.Controllers
             }
             return View(model);
         }
+
         
 
         [Authorize]
@@ -294,5 +288,24 @@ namespace Starkit.Controllers
         {
             return View();
         }
+        
+        [NonAction]
+        private static User CreateNewUser(Register model)
+        {
+            User user = new User
+            {
+                UserName =  model.Email,
+                Name = model.Name,
+                SurName = model.SurName,
+                Email = model.Email,
+                PhoneNumber = model.PhoneNumber,
+                CityPhone = model.CityPhone,
+                CompanyName = model.CompanyName,
+                IIN = model.IIN,
+                IsTermsAccepted = model.IsTermsAccepted
+            };
+            return user;
+        }
+
     }
 }
