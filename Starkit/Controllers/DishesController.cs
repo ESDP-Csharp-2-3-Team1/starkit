@@ -37,28 +37,28 @@ namespace Starkit.Controllers
 
         private async Task DeleteDishAvatar(Dish dish)
         {
-            string userId = _userManager.GetUserId(User);
-            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            if (User.IsInRole("SuperAdmin"))
             {
-                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
-                userId = admin.IdOfTheSelectedRestaurateur;
+                string userId = user.IdOfTheSelectedRestaurateur;
+                user = await _userManager.FindByIdAsync(userId);
             }
-            var filePath = _environment.ContentRootPath + $"\\wwwroot\\images\\users\\{userId}\\Dishes\\" + dish.Id;
+            var filePath = _environment.ContentRootPath + $"\\wwwroot\\images\\restaurants\\{user.RestaurantId}\\Dishes\\" + dish.Id;
             if (Directory.Exists(filePath)) System.IO.File.Delete("wwwroot/" + dish.Avatar);
         }
 
-        private string Load(string id, IFormFile file)
+        private async Task<string> Load(string id, IFormFile file)
         {
-            string userId = _userManager.GetUserId(User);
-            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            if (User.IsInRole("SuperAdmin"))
             {
-                User admin = _db.Users.FirstOrDefault(u => u.Id == userId);
-                userId = admin.IdOfTheSelectedRestaurateur;
+                string userId = user.IdOfTheSelectedRestaurateur;
+                user = await _userManager.FindByIdAsync(userId);
             }
-            var path = Path.Combine(_environment.ContentRootPath + $"\\wwwroot\\images\\users\\{userId}\\Dishes\\{id}");
-            var photoPath = $"images/users/{userId}/Dishes/{id}/{file.FileName}";
-            if (!Directory.Exists($"wwwroot/images/users/{userId}/Dishes/{id}"))
-                Directory.CreateDirectory($"wwwroot/images/users/{userId}/Dishes/{id}");
+            var path = Path.Combine(_environment.ContentRootPath + $"\\wwwroot\\images\\restaurants\\{user.RestaurantId}\\Dishes\\{id}");
+            var photoPath = $"images/restaurants/{user.RestaurantId}/Dishes/{id}/{file.FileName}";
+            if (!Directory.Exists($"wwwroot/images/restaurants/{user.RestaurantId}/Dishes/{id}"))
+                Directory.CreateDirectory($"wwwroot/images/restaurants/{user.RestaurantId}/Dishes/{id}");
             _uploadService.Upload(path, file.FileName, file);
             return photoPath;
         }
@@ -66,13 +66,15 @@ namespace Starkit.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            string userId = _userManager.GetUserId(User);
-            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            if (User.IsInRole("SuperAdmin"))
             {
-                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
-                userId = admin.IdOfTheSelectedRestaurateur;
+                string userId = user.IdOfTheSelectedRestaurateur;
+                user = await _userManager.FindByIdAsync(userId);
             }
-            var categories = _db.Categories.Where(c=>c.UserId == userId).ToList();
+            if (user.RestaurantId == null)
+                return RedirectToAction("Register", "Restaurants");
+            var categories = _db.Categories.Where(c=>c.RestaurantId == user.RestaurantId).ToList();
             categories.Insert(0, new Category {Name = "Все", Id = null});
             var selectList = new SelectList(categories, "Id", "Name");
             return View(selectList);
@@ -82,23 +84,25 @@ namespace Starkit.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            string userId = _userManager.GetUserId(User);
-            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            if (User.IsInRole("SuperAdmin"))
             {
-                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
-                userId = admin.IdOfTheSelectedRestaurateur;
+                string userId = user.IdOfTheSelectedRestaurateur;
+                user = await _userManager.FindByIdAsync(userId);
             }
+            if (user.RestaurantId == null)
+                return RedirectToAction("Register", "Restaurants");
             var dish = new Dish
             {
-                Categories = _db.Categories.Where(c=>c.UserId == userId).ToList(),
-                SubCategories = _db.SubCategories.Where(c=>c.Id == userId).ToList()
+                Categories = _db.Categories.Where(c=>c.RestaurantId == user.RestaurantId).ToList(),
+                SubCategories = _db.SubCategories.Where(c=>c.RestaurantId == user.RestaurantId).ToList()
             };
             return View(dish);
         }
 
         [Authorize]
         [HttpGet]
-        public IActionResult GetCreateDish(string id)
+        public async Task<IActionResult> GetSubCategoriesWithCategory(string id)
         {
             Category category =  _db.Categories.FirstOrDefault(c => c.Id == id);
             var dish = new Dish
@@ -114,20 +118,24 @@ namespace Starkit.Controllers
         {
             if (ModelState.IsValid)
             {
-                string userId = _userManager.GetUserId(User);
-                if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+                User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+                if (User.IsInRole("SuperAdmin"))
                 {
-                    User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
-                    userId = admin.IdOfTheSelectedRestaurateur;
+                    user = await _userManager.FindByIdAsync(user.IdOfTheSelectedRestaurateur);
+                    dish.CreatorId = user.Id;
+                    dish.RestaurantId = user.RestaurantId;
                 }
-                dish.CreatorId = userId;
-                dish.Avatar = Load(dish.Id, dish.File);
+                else
+                {
+                    dish.CreatorId = user.Id;
+                    dish.RestaurantId = user.RestaurantId;
+                }
+                dish.Avatar = await Load(dish.Id, dish.File);
                 dish.AddTime = DateTime.Now;
                 _db.Entry(dish).State = EntityState.Added;
                 await _db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-
             return View(dish);
         }
 
@@ -159,6 +167,16 @@ namespace Starkit.Controllers
             if (ModelState.IsValid)
             {
                 var dish = _db.Dishes.FirstOrDefault(d => d.Id == model.Id);
+                User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+                if (User.IsInRole("SuperAdmin"))
+                {
+                    user = await _userManager.FindByIdAsync(user.IdOfTheSelectedRestaurateur);
+                    dish.EditorId = user.Id;
+                }
+                else
+                {
+                    dish.EditorId = user.Id;
+                }
                 dish.Category = model.Category;
                 dish.SubCategory = model.SubCategory;
                 dish.Name = model.Name;
@@ -169,11 +187,10 @@ namespace Starkit.Controllers
                 dish.Vegetarian = model.Vegetarian;
                 dish.Ingredients = model.Ingredients;
                 dish.EditTime = DateTime.Now;
-                dish.EditorId = _userManager.GetUserId(User);
                 if (model.File != null)
                 {
                     await DeleteDishAvatar(dish);
-                    dish.Avatar = Load(model.Id, model.File);
+                    dish.Avatar = await Load(model.Id, model.File);
                 }
 
                 _db.Entry(dish).State = EntityState.Modified;
@@ -186,13 +203,13 @@ namespace Starkit.Controllers
         [Authorize]
         public async Task<IActionResult> GetDishes(string category, string name, int page = 1, SortState sortOrder = SortState.AddTimeAsc)
         {
-            string userId = _userManager.GetUserId(User);
-            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            if (User.IsInRole("SuperAdmin"))
             {
-                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
-                userId = admin.IdOfTheSelectedRestaurateur;
+                string userId = user.IdOfTheSelectedRestaurateur;
+                user = await _userManager.FindByIdAsync(userId);
             }
-            var dishes = _db.Dishes.Where(d => d.CreatorId == userId);
+            var dishes = _db.Dishes.Where(d => d.RestaurantId == user.RestaurantId);
             
             if (category != null)
                 dishes = dishes.Where(d => d.CategoryId == category);
@@ -257,21 +274,20 @@ namespace Starkit.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(string[] ids)
         {
-            string userId = _userManager.GetUserId(User);
-            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            if (User.IsInRole("SuperAdmin"))
             {
-                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
-                userId = admin.IdOfTheSelectedRestaurateur;
+                string userId = user.IdOfTheSelectedRestaurateur;
+                user = await _userManager.FindByIdAsync(userId);
             }
             var dishes = new List<Dish>();
             foreach (var id in ids)
             {
                 dishes.Add(_db.Dishes.FirstOrDefault(d => d.Id == id));
-                var filePath = _environment.ContentRootPath + $"\\wwwroot\\images\\users\\{userId}\\Dishes\\" + id;
+                var filePath = _environment.ContentRootPath + $"\\wwwroot\\images\\restaurants\\{user.RestaurantId}\\Dishes\\" + id;
                 if (Directory.Exists(filePath))
                     Directory.Delete(filePath, true);
             }
-
             if (dishes.Count == 1)
                 _db.Dishes.Remove(dishes[0]);
             else
@@ -302,14 +318,14 @@ namespace Starkit.Controllers
         [Authorize]
         public async Task<IActionResult> GetModalDish(string id)
         {
-            string userId = _userManager.GetUserId(User);
-            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            if (User.IsInRole("SuperAdmin"))
             {
-                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
-                userId = admin.IdOfTheSelectedRestaurateur;
+                string userId = user.IdOfTheSelectedRestaurateur;
+                user = await _userManager.FindByIdAsync(userId);
             }
             Dish dish = _db.Dishes.FirstOrDefault(d => d.Id == id);
-            dish.Menu = _db.Menu.Where(m => m.CreatorId == userId).ToList();
+            dish.Menu = _db.Menu.Where(m => m.RestaurantId == user.RestaurantId).ToList();
             return PartialView("PartialViews/ModalAddDishToMenuPartialView", dish);
         }
 

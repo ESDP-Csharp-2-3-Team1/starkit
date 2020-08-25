@@ -60,14 +60,20 @@ namespace Starkit.Controllers
             return !categories.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim());
         }
         
-        public bool CheckNameDish(string name, string id)
+        public async Task<bool> CheckNameDish(string name, string id)
         {
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            
+            if (User.IsInRole("SuperAdmin"))
+                user = await _userManager.Users.
+                    FirstOrDefaultAsync(u => u.Id == user.IdOfTheSelectedRestaurateur);
+            
             if (id == null)
-                return !_db.Dishes.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim() 
-                                                && c.CreatorId == _userManager.GetUserId(User));
+                return !_db.Dishes.Any(d => d.Name.ToLower().Trim() == name.ToLower().Trim() 
+                                            && d.RestaurantId == user.RestaurantId);
             
             List<Dish> dishes = _db.Dishes.Where(d => d.Id != id && 
-                                                                  d.CreatorId == _userManager.GetUserId(User)).ToList();
+                                                                  d.RestaurantId == user.RestaurantId).ToList();
             return !dishes.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim());
         }
         
