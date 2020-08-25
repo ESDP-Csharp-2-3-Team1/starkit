@@ -51,7 +51,6 @@ namespace Starkit.Controllers
                 Restaurant restaurant = await _db.Restaurants.FirstOrDefaultAsync(r => r.UserId == userId);
                 return View(restaurant);
             }
-
             if (await _db.Restaurants.AnyAsync(r => r.UserId == userId))
                 return RedirectToAction("Index");
             return View();
@@ -74,16 +73,18 @@ namespace Starkit.Controllers
                     model.LogoPath = $"images\\users\\{userId}\\logo\\{model.File.FileName}";
                 }
                 await _db.Restaurants.AddAsync(model);
+                User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                user.RestaurantId = model.Id;
                 await _db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(model);
         }
+        
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Edit(Restaurant model)
         {
-            
             if (ModelState.IsValid)
             {
                 string userId = _userManager.GetUserId(User);

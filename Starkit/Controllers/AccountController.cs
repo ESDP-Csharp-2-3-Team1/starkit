@@ -35,9 +35,8 @@ namespace Starkit.Controllers
             _environment = environment;
             _recaptcha = recaptcha;
         }
-
+        
         // GET
-
         public IActionResult Login()
         {
             if (User.Identity.IsAuthenticated)

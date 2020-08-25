@@ -150,7 +150,6 @@ namespace Starkit.Controllers
                 await _db.SaveChangesAsync();
                 return RedirectToAction("Index", "Dishes");
             }
-
             return View(model);
         }
 
