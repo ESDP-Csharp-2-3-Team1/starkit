@@ -30,6 +30,7 @@ namespace Starkit.Controllers
             return View();
         }
 
+        [Authorize]
         public async Task<IActionResult> GetCategories()
         {
             string userId = _userManager.GetUserId(User);
@@ -50,6 +51,7 @@ namespace Starkit.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create(Category category)
         {
             if (ModelState.IsValid)
@@ -71,13 +73,20 @@ namespace Starkit.Controllers
             return View(category);
         }
 
+        [Authorize]
         [HttpDelete]
         public async Task<IActionResult> Delete(string id)
         {
+            string userId = _userManager.GetUserId(User);
+            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+            {
+                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                userId = admin.IdOfTheSelectedRestaurateur;
+            }
             Category category = new Category{Id = id};
             _db.Entry(category).State = EntityState.Deleted;
             await _db.SaveChangesAsync();
-            List<Category> categories = _db.Categories.Where(c => c.UserId == _userManager.GetUserId(User)).ToList();
+            List<Category> categories = _db.Categories.Where(c => c.UserId == userId).ToList();
             return PartialView("PartialViews/ListCategoryPartialView", categories);
         }
 
@@ -91,6 +100,7 @@ namespace Starkit.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Edit(EditCategoryViewModel model)
         {
             if (ModelState.IsValid)
