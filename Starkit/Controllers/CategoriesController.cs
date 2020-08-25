@@ -25,28 +25,45 @@ namespace Starkit.Controllers
         }
         
         [Authorize]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            if (User.IsInRole("SuperAdmin"))
+            {
+                string userId = user.IdOfTheSelectedRestaurateur;
+                user = await _userManager.FindByIdAsync(userId);
+            }
+            if (user.RestaurantId == null)
+                return RedirectToAction("Register", "Restaurants");
             return View();
         }
 
         [Authorize]
         public async Task<IActionResult> GetCategories()
         {
-            string userId = _userManager.GetUserId(User);
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
             if (User.IsInRole("SuperAdmin"))
             {
-                User user = await _userManager.FindByIdAsync(userId);
-                userId = user.IdOfTheSelectedRestaurateur;
+                string userId = user.IdOfTheSelectedRestaurateur;
+                user = await _userManager.FindByIdAsync(userId);
             }
-            List<Category> categories =_db.Categories.Where(c => c.UserId == userId).ToList();
-            return PartialView("PartialViews/ListCategoryPartialView", categories);
+            Restaurant restaurant = await _db.Restaurants.
+                FirstOrDefaultAsync(r => r.Id == user.RestaurantId);
+            return PartialView("PartialViews/ListCategoryPartialView", restaurant.Categories);
         }
 
         [Authorize]
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            if (User.IsInRole("SuperAdmin"))
+            {
+                string userId = user.IdOfTheSelectedRestaurateur;
+                user = await _userManager.FindByIdAsync(userId);
+            }
+            if (user.RestaurantId == null)
+                return RedirectToAction("Register", "Restaurants");
             return View(new Category());
         }
 
@@ -56,15 +73,19 @@ namespace Starkit.Controllers
         {
             if (ModelState.IsValid)
             {
-                string userId = _userManager.GetUserId(User);
-                if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+                User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+                if (User.IsInRole("SuperAdmin"))
                 {
-                    User admin = await _userManager.FindByIdAsync(userId);
-                    category.UserId = admin.IdOfTheSelectedRestaurateur;
+                    string userId = user.IdOfTheSelectedRestaurateur;
+                    user = await _userManager.FindByIdAsync(userId);
+                    category.UserId = user.Id;
+                    category.RestaurantId = user.RestaurantId;
                 }
                 else
-                    category.UserId = userId;
-                
+                {
+                    category.UserId = user.Id;
+                    category.RestaurantId = user.RestaurantId;
+                }
                 category.CreateTime = DateTime.Now;
                 _db.Entry(category).State = EntityState.Added;
                 await _db.SaveChangesAsync();
@@ -77,17 +98,10 @@ namespace Starkit.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(string id)
         {
-            string userId = _userManager.GetUserId(User);
-            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
-            {
-                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
-                userId = admin.IdOfTheSelectedRestaurateur;
-            }
             Category category = new Category{Id = id};
             _db.Entry(category).State = EntityState.Deleted;
             await _db.SaveChangesAsync();
-            List<Category> categories = _db.Categories.Where(c => c.UserId == userId).ToList();
-            return PartialView("PartialViews/ListCategoryPartialView", categories);
+            return RedirectToAction("GetCategories");
         }
 
         [HttpGet]

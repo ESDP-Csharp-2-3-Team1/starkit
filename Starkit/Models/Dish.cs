@@ -57,5 +57,8 @@ namespace Starkit.Models
         public virtual List<MenuDish> MenuDish { get; set; }
         [NotMapped]
         public List<Menu> Menu { get; set; }
+        
+        public string RestaurantId { get; set; }
+        public virtual Restaurant Restaurant { get; set; }
     }
 }

@@ -50,5 +50,8 @@ namespace Starkit.Models
         
         public string ThirdDishId { get; set; }
         public virtual Dish ThirdDish { get; set; }
+        
+        public string RestaurantId { get; set; }
+        public virtual Restaurant Restaurant { get; set; }
     }
 }
