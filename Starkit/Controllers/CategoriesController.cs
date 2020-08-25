@@ -30,9 +30,15 @@ namespace Starkit.Controllers
             return View();
         }
 
-        public IActionResult GetCategories()
+        public async Task<IActionResult> GetCategories()
         {
-            List<Category> categories =_db.Categories.Where(c => c.UserId == _userManager.GetUserId(User)).ToList();
+            string userId = _userManager.GetUserId(User);
+            if (User.IsInRole("SuperAdmin"))
+            {
+                User user = await _userManager.FindByIdAsync(userId);
+                userId = user.IdOfTheSelectedRestaurateur;
+            }
+            List<Category> categories =_db.Categories.Where(c => c.UserId == userId).ToList();
             return PartialView("PartialViews/ListCategoryPartialView", categories);
         }
 
