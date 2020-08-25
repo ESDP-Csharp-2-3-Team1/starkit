@@ -903,3 +903,43 @@ body {
   width: 100%;
   margin-top: 5px;
 }
+.myNavbar{
+  font-size: 20px;
+  color: black;
+}
+.myNavbar:hover{
+  font-size: 24px;
+}
+.heading-block-business-card{
+  margin-top: 60px;
+  text-align: center;
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.heading-text{
+  margin: 30px 0 0 0;
+}
+.menu-img, .stock-img{
+  width: 100%;
+  height: 70%;
+  border-radius: 150px;
+}
+.dish-img{
+  width: 100%;
+  height: 100%;
+}
+.text-menu-business-card, .text-dish-business-card{
+  text-align: center;
+  margin: 10px 0 10px 0;
+  font-weight: 600;
+}
+.business-card-footer{
+  background-color: white;
+}
+.basket-num{
+  background: #adadad;
+  width: 30px;
+  border-radius: 30px;
+  text-align: center;
+}
