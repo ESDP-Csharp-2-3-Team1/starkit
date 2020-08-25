@@ -22,6 +22,8 @@ namespace Starkit.Models
         [NotMapped]
         public Restaurant Restaurant { get; set; }
         
+        public string IdOfTheSelectedRestaurateur { get; set; }
+
         [NotMapped]
         public LegalAddress LegalAddress { get; set; }
         [NotMapped]

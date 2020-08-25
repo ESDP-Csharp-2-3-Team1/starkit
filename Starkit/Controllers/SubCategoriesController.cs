@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Starkit.Models;
 using Starkit.Models.Data;
+using Starkit.Services;
 using Starkit.ViewModels;
 
 namespace Starkit.Controllers
@@ -24,20 +25,33 @@ namespace Starkit.Controllers
         }
 
         [Authorize]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            string userId = _userManager.GetUserId(User);
+            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+            {
+                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                userId = admin.IdOfTheSelectedRestaurateur;
+            }
             SubCategory subCategory = new SubCategory{Categories = _db.Categories.Where(c => 
-                c.UserId == _userManager.GetUserId(User)).ToList()};
+                c.UserId == userId).ToList()};
             return View(subCategory);
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create(SubCategory subCategory)
         {
             if (ModelState.IsValid)
             {
+                string userId = _userManager.GetUserId(User);
+                if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+                {
+                    User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                    userId = admin.IdOfTheSelectedRestaurateur;
+                }
                 subCategory.CreateTime = DateTime.Now;
-                subCategory.UserId = _userManager.GetUserId(User);
+                subCategory.UserId = userId;
                 _db.Entry(subCategory).State = EntityState.Added;
                 await _db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -46,12 +60,19 @@ namespace Starkit.Controllers
         }
         
         [HttpDelete]
+        [Authorize]
         public async Task<IActionResult> Delete(string id)
         {
+            string userId = _userManager.GetUserId(User);
+            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+            {
+                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                userId = admin.IdOfTheSelectedRestaurateur;
+            }
             SubCategory subCategory = new SubCategory{Id = id};
             _db.Entry(subCategory).State = EntityState.Deleted;
             await _db.SaveChangesAsync();
-            List<SubCategory> subCategories = _db.SubCategories.Where(c => c.UserId == _userManager.GetUserId(User)).ToList();
+            List<SubCategory> subCategories = _db.SubCategories.Where(c => c.UserId == userId).ToList();
             return PartialView("PartialViews/ListSubCategoryPartialView", subCategories);
         }
 
@@ -65,15 +86,22 @@ namespace Starkit.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Edit(EditSubCategoryViewModel model)
         {
             if (ModelState.IsValid)
             {
+                string userId = _userManager.GetUserId(User);
+                if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+                {
+                    User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                    userId = admin.IdOfTheSelectedRestaurateur;
+                }
                 SubCategory subCategory = _db.SubCategories.FirstOrDefault(c => c.Id == model.Id);
                 if (model.Name != subCategory.Name)
                     subCategory.EditedTime = DateTime.Now;
                 subCategory.Name = model.Name;
-                subCategory.UserId = _userManager.GetUserId(User);
+                subCategory.UserId = userId;
                 _db.Entry(subCategory).State = EntityState.Modified;
                 await _db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -87,9 +115,16 @@ namespace Starkit.Controllers
             return View();
         }
 
-        public IActionResult GetSubCategories()
+        [Authorize]
+        public async Task<IActionResult> GetSubCategories()
         {
-            List<SubCategory> subCategories =_db.SubCategories.Where(c => c.UserId == _userManager.GetUserId(User)).ToList();
+            string userId = _userManager.GetUserId(User);
+            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+            {
+                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                userId = admin.IdOfTheSelectedRestaurateur;
+            }
+            List<SubCategory> subCategories =_db.SubCategories.Where(c => c.UserId == userId).ToList();
             return PartialView("PartialViews/ListSubCategoryPartialView", subCategories);
         }
     }
