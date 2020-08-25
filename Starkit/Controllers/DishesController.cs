@@ -171,12 +171,9 @@ namespace Starkit.Controllers
                 if (User.IsInRole("SuperAdmin"))
                 {
                     user = await _userManager.FindByIdAsync(user.IdOfTheSelectedRestaurateur);
-                    dish.EditorId = user.Id;
+                    
                 }
-                else
-                {
-                    dish.EditorId = user.Id;
-                }
+                dish.EditorId = user.Id;
                 dish.Category = model.Category;
                 dish.SubCategory = model.SubCategory;
                 dish.Name = model.Name;
