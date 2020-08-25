@@ -75,7 +75,14 @@
         {
             <div class="container-edit">
                 @{
-                    await Html.RenderPartialAsync("Partial/_PartialLeftNavbar");
+                    if (User.IsInRole("SuperAdmin"))
+                    {
+                        await Html.RenderPartialAsync("Partial/PartialLeftNavbarSuperAdmin");
+                    }
+                    else
+                    {
+                        await Html.RenderPartialAsync("Partial/_PartialLeftNavbar");
+                    }
                 }
                 <div class="edit-block2" style="width: 830px">
                     @RenderBody()
