@@ -76,8 +76,7 @@ namespace Starkit.Controllers
                 User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
                 if (User.IsInRole("SuperAdmin"))
                 {
-                    string userId = user.IdOfTheSelectedRestaurateur;
-                    user = await _userManager.FindByIdAsync(userId);
+                    user = await _userManager.FindByIdAsync(user.IdOfTheSelectedRestaurateur);
                     category.UserId = user.Id;
                     category.RestaurantId = user.RestaurantId;
                 }

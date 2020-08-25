@@ -82,11 +82,20 @@ namespace Starkit.Controllers
             return !menu.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim());
         }
 
-        public bool CheckNameSubCategory(string name)
+        public async Task<bool> CheckNameSubCategory(string name, string id)
         {
-            List<Category> categories = _db.Categories.Where(c => c.UserId == _userManager.GetUserId(User)).ToList();
-            return !_db.Categories.Any(c => c.UserId == _userManager.GetUserId(User) &&
-                                           c.SubCategories.Any(s => s.Name.ToLower().Trim() == name.ToLower().Trim()));
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            if (User.IsInRole("SuperAdmin"))
+                user = await _userManager.Users.
+                    FirstOrDefaultAsync(u => u.Id == user.IdOfTheSelectedRestaurateur);
+            
+            if (id == null)
+                return !_db.SubCategories.Any(sb => sb.Name.ToLower().Trim() == name.ToLower().Trim() 
+                                                && sb.RestaurantId == user.RestaurantId);
+            
+            List<SubCategory> subCategories = _db.SubCategories.Where(sb => sb.Id != id && 
+                                                                            sb.RestaurantId == user.RestaurantId).ToList();
+            return !subCategories.Any(sb => sb.Name.ToLower().Trim() == name.ToLower().Trim());
         }
         
         public bool CheckNameStock(string name, string id)
