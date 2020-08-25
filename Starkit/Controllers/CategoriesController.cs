@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Starkit.Models;
 using Starkit.Models.Data;
+using Starkit.Services;
 using Starkit.ViewModels;
 
 namespace Starkit.Controllers
@@ -47,7 +48,15 @@ namespace Starkit.Controllers
         {
             if (ModelState.IsValid)
             {
-                category.UserId = _userManager.GetUserId(User);
+                string userId = _userManager.GetUserId(User);
+                if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+                {
+                    User admin = await _userManager.FindByIdAsync(userId);
+                    category.UserId = admin.IdOfTheSelectedRestaurateur;
+                }
+                else
+                    category.UserId = userId;
+                
                 category.CreateTime = DateTime.Now;
                 _db.Entry(category).State = EntityState.Added;
                 await _db.SaveChangesAsync();
