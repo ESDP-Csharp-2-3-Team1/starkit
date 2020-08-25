@@ -117,5 +117,19 @@ namespace Starkit.Controllers
             user.PhoneNumber = model.PhoneNumber;
             return user;
         }
+
+        [Authorize(Roles = "SuperAdmin")]
+        public async Task<IActionResult> ChooseRestaurateur(string restaurantId)
+        {
+            if (await _db.Users.AnyAsync(u => u.Id == restaurantId))
+            {
+                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == _userManager.GetUserId(User));
+                admin.IdOfTheSelectedRestaurateur = restaurantId;
+                _db.Users.Update(admin);
+                await _db.SaveChangesAsync();
+                return RedirectToAction("Index","SuperAdmin");
+            }
+            return NotFound();
+        }
     }
 }
