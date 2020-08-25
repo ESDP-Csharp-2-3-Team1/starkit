@@ -166,6 +166,13 @@ namespace Starkit.Controllers
         [Authorize]
         public async Task<IActionResult> Logout()
         {
+            if (User.IsInRole("SuperAdmin"))
+            {
+                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == _userManager.GetUserId(User));
+                admin.IdOfTheSelectedRestaurateur = null;
+                _db.Users.Update(admin);
+                await _db.SaveChangesAsync();
+            }
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login","Account");
         }
