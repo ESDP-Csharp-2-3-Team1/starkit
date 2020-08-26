@@ -163,4 +163,8 @@
       <_ContentIncludedByDefault Remove="wwwroot\images\users\c730d804-5339-4526-8a19-d7d3061be378\logo\Logotip-restorana-Eat-scaled.jpg" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="wwwroot\images\restaurants\e437dda4-583f-473f-a9ae-4aa6a646c65e\Stocks" />
+    </ItemGroup>
+
 </Project>

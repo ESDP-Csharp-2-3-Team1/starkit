@@ -122,7 +122,7 @@ namespace Starkit.Controllers
             _db.Entry(stock).State = EntityState.Deleted;
             await _db.SaveChangesAsync();
             DeleteStockAvatar(stock);
-            return RedirectToAction("Index");
+            return RedirectToAction("GetStocks");
         }
 
         [Authorize]

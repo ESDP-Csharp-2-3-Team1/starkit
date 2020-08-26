@@ -133,7 +133,7 @@ namespace Starkit.Controllers
             _db.Entry(menu).State = EntityState.Deleted;
             await _db.SaveChangesAsync();
             DeleteMenuAvatar(menu);
-            return RedirectToAction("Index");
+            return RedirectToAction("GetMenu");
         }
 
         [HttpGet]
