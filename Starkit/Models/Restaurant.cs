@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using Microsoft.AspNetCore.Http;
 
 namespace Starkit.Models
@@ -36,5 +37,7 @@ namespace Starkit.Models
         public virtual List<Dish> Dishes { get; set; }
         public virtual List<Menu> Menu { get; set; }
         public virtual List<Stock> Stocks { get; set; }
+        [NotMapped]
+        public IEnumerable<IGrouping<Category,Dish>> DishesGroup { get; set; }
     }
 }
