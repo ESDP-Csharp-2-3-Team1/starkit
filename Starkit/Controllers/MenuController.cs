@@ -67,14 +67,26 @@ namespace Starkit.Controllers
             }
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_db.Menu.Where(m => m.CreatorId == _userManager.GetUserId(User)).ToList());
+            string userId = _userManager.GetUserId(User);
+            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+            {
+                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                userId = admin.IdOfTheSelectedRestaurateur;
+            }
+            return View(_db.Menu.Where(m => m.CreatorId == userId).ToList());
         }
         
-        public IActionResult GetMenu()
+        public async Task<IActionResult> GetMenu()
         {
-            List<Menu> menu = _db.Menu.Where(m => m.CreatorId == _userManager.GetUserId(User)).ToList();
+            string userId = _userManager.GetUserId(User);
+            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+            {
+                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                userId = admin.IdOfTheSelectedRestaurateur;
+            }
+            List<Menu> menu = _db.Menu.Where(m => m.CreatorId == userId).ToList();
             return PartialView("PartialViews/ListMenuPartialView", menu);
         }
 
@@ -90,9 +102,15 @@ namespace Starkit.Controllers
         {
             if (ModelState.IsValid)
             {
-                menu.Avatar = menu.Avatar = Load(menu.Id, menu.File);
+                string userId = _userManager.GetUserId(User);
+                if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+                {
+                    User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                    userId = admin.IdOfTheSelectedRestaurateur;
+                }
+                menu.Avatar = menu.Avatar = await Load(menu.Id, menu.File);
                 menu.AddTime = DateTime.Now;
-                menu.CreatorId = _userManager.GetUserId(User);
+                menu.CreatorId = userId;
                 _db.Entry(menu).State = EntityState.Added;
                 await _db.SaveChangesAsync();
                 return RedirectToAction("Index");
