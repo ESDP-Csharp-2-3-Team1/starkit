@@ -121,11 +121,17 @@ namespace Starkit.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(string id)
         {
+            string userId = _userManager.GetUserId(User);
+            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+            {
+                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                userId = admin.IdOfTheSelectedRestaurateur;
+            }
             Menu menu = new Menu{Id = id};
             _db.Entry(menu).State = EntityState.Deleted;
             await _db.SaveChangesAsync();
             DeleteMenuAvatar(menu);
-            List<Menu> listMenu = _db.Menu.Where(c => c.CreatorId == _userManager.GetUserId(User)).ToList();
+            List<Menu> listMenu = _db.Menu.Where(c => c.CreatorId == userId).ToList();
             return PartialView("PartialViews/ListMenuPartialView", listMenu);
         }
 
