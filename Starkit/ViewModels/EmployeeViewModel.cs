@@ -16,7 +16,7 @@ namespace Starkit.ViewModels
         [Required(ErrorMessage = "Это поле необходимо заполнить.")]
         public string Surname { get; set; }
         [Required(ErrorMessage = "Это поле необходимо заполнить.")]
-        public EmployeePosition Position { get; set; }
+        public bool Position { get; set; }
        
         [Required(ErrorMessage = "Это поле необходимо заполнить.")]
         [DataType(DataType.Password)]
@@ -25,6 +25,7 @@ namespace Starkit.ViewModels
         [Required(ErrorMessage = "Это поле необходимо заполнить.")]
         [DataType(DataType.Password)]
         [MinLength(8,ErrorMessage = "Пароль должен содержать не менее 8 символов.")]
+        [Compare("Password",ErrorMessage = "Пароли не совпадают.")]
         public string ConfirmPassword { get; set; }
         
     }

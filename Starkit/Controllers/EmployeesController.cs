@@ -63,8 +63,12 @@ namespace Starkit.Controllers
                         UserName = model.Email,
                         Name = model.Name,
                         SurName = model.Surname,
-                        Position = model.Position,
                         RestaurantId = user.RestaurantId
+                    };
+                    newUser.Position = model.Position switch
+                    {
+                        true => EmployeePosition.ContentManager,
+                        false => EmployeePosition.AdministratorRestaurant
                     };
                     var result = await _userManager.CreateAsync(newUser, model.Password);
                     if (result.Succeeded)
