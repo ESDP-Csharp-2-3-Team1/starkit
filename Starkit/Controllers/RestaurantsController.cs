@@ -50,6 +50,11 @@ namespace Starkit.Controllers
         public async Task<IActionResult> Register(bool edit = false)
         {
             string userId = _userManager.GetUserId(User);
+            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+            {
+                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                userId = admin.IdOfTheSelectedRestaurateur;
+            }
             ViewBag.Edit = false;
             if (edit)
             {
