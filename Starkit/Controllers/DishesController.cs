@@ -158,6 +158,12 @@ namespace Starkit.Controllers
         {
             if (ModelState.IsValid)
             {
+                string userId = _userManager.GetUserId(User);
+                if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+                {
+                    User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                    userId = admin.IdOfTheSelectedRestaurateur;
+                }
                 var dish = _db.Dishes.FirstOrDefault(d => d.Id == model.Id);
                 dish.Category = model.Category;
                 dish.SubCategory = model.SubCategory;
@@ -169,7 +175,7 @@ namespace Starkit.Controllers
                 dish.Vegetarian = model.Vegetarian;
                 dish.Ingredients = model.Ingredients;
                 dish.EditTime = DateTime.Now;
-                dish.EditorId = _userManager.GetUserId(User);
+                dish.EditorId = userId;
                 if (model.File != null)
                 {
                     await DeleteDishAvatar(dish);
