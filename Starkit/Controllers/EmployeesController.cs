@@ -25,8 +25,11 @@ namespace Starkit.Controllers
 
         // GET
         [Authorize]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            string userId = _userManager.GetUserId(User);
+            if (!await _db.Users.AnyAsync(u => u.Id == userId && u.RestaurantId != null))
+                return RedirectToAction("Register", "Restaurants");
             return View();
         }
         
@@ -37,6 +40,9 @@ namespace Starkit.Controllers
             if (ModelState.IsValid)
             {
                 string userId = _userManager.GetUserId(User);
+                if (!await _db.Users.AnyAsync(u => u.Id == userId && u.RestaurantId != null))
+                    return RedirectToAction("Register", "Restaurants");
+                
                 User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
                 if (user != null)
                 {
