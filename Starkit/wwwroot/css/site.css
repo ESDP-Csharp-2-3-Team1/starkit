@@ -1086,3 +1086,26 @@ body {
   border-bottom: 1px #c0c0c0b8 solid;
   padding-bottom: 10px;
 }
+.asd15x8as .form-check{
+  padding: 0;
+}
+.asd15x8as label{
+  margin-left: 20px;
+}
+.employee-create-form-btn{
+  margin-top: 10px;
+  background: #29aafe;
+  border: none;
+  color: white;
+  font-size: 16px;
+  padding: 6px 30px;
+  border-radius: 5px;
+  text-transform: uppercase;
+}
+.employee-create-form-btn:hover {
+  color: white;
+  background: #239cea;
+}
+.asd52zx78A{
+  text-align: end;
+}
