@@ -162,6 +162,13 @@ namespace Starkit.Controllers
         {
             if (ModelState.IsValid)
             {
+                string userId = _userManager.GetUserId(User);
+                if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+                {
+                    User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                    userId = admin.IdOfTheSelectedRestaurateur;
+                }
+                
                 Stock stock = _db.Stocks.FirstOrDefault(s => s.Id == model.Id);
                 stock.Name = model.Name;
                 stock.Type = model.Type;
@@ -172,7 +179,7 @@ namespace Starkit.Controllers
                 stock.FirstDishId = model.FirstDishId;
                 stock.SecondDishId = model.SecondDishId;
                 stock.ThirdDishId = model.ThirdDishId;
-                stock.EditorId = _userManager.GetUserId(User);
+                stock.EditorId = userId;
                 if (model.File != null)
                 {
                     DeleteStockAvatar(stock);
@@ -194,9 +201,15 @@ namespace Starkit.Controllers
             return PartialView("PartilaViews/DetailStockPartialView", stock);
         }
 
-        public IActionResult GetStocks()
+        public async Task<IActionResult> GetStocks()
         {
-            List<Stock> stocks = _db.Stocks.Where(s => s.CreatorId == _userManager.GetUserId(User)).ToList();
+            string  userId = _userManager.GetUserId(User);
+            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+            {
+                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                userId = admin.IdOfTheSelectedRestaurateur;
+            }
+            List<Stock> stocks = _db.Stocks.Where(s => s.CreatorId == userId).ToList();
             return PartialView("PartilaViews/ListStockPartialView", stocks);
         }
     }
