@@ -155,17 +155,23 @@ namespace Starkit.Controllers
         {
             if (ModelState.IsValid)
             {
+                string userId = _userManager.GetUserId(User);
+                if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+                {
+                    User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                    userId = admin.IdOfTheSelectedRestaurateur;
+                }
                 var menu = _db.Menu.FirstOrDefault(m => m.Id == model.Id);
                 menu.Name = model.Name;
                 menu.Type = model.Type;
                 menu.Cost = model.Cost;
                 menu.EditTime = DateTime.Now;
-                menu.EditorId = _userManager.GetUserId(User);
+                menu.EditorId = userId;
                 menu.Description = model.Description;
                 if (model.File != null)
                 {
                     DeleteMenuAvatar(menu);
-                    menu.Avatar = Load(model.Id, model.File);
+                    menu.Avatar = await Load(model.Id, model.File);
                 }
                 
                 _db.Entry(menu).State = EntityState.Modified;
