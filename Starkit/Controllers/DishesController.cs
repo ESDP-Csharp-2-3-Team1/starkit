@@ -122,14 +122,9 @@ namespace Starkit.Controllers
                 if (User.IsInRole("SuperAdmin"))
                 {
                     user = await _userManager.FindByIdAsync(user.IdOfTheSelectedRestaurateur);
-                    dish.CreatorId = user.Id;
-                    dish.RestaurantId = user.RestaurantId;
                 }
-                else
-                {
-                    dish.CreatorId = user.Id;
-                    dish.RestaurantId = user.RestaurantId;
-                }
+                dish.CreatorId = user.Id;
+                dish.RestaurantId = user.RestaurantId;
                 dish.Avatar = await Load(dish.Id, dish.File);
                 dish.AddTime = DateTime.Now;
                 _db.Entry(dish).State = EntityState.Added;

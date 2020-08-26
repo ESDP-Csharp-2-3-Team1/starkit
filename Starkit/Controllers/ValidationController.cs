@@ -110,8 +110,14 @@ namespace Starkit.Controllers
             return !subCategories.Any(sb => sb.Name.ToLower().Trim() == name.ToLower().Trim());
         }
         
-        public bool CheckNameStock(string name, string id)
+        public async Task<bool> CheckNameStock(string name, string id)
         {
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            
+            if (User.IsInRole("SuperAdmin"))
+                user = await _userManager.Users.
+                    FirstOrDefaultAsync(u => u.Id == user.IdOfTheSelectedRestaurateur);
+            
             string[] separator = {"+", "="};
             string[] arrWord = name.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             string name2 = $"{arrWord[1]}+{arrWord[0]}={arrWord[2]}";
@@ -119,10 +125,10 @@ namespace Starkit.Controllers
             {
                 return !_db.Stocks.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim() 
                                             || c.Name.ToLower().Trim() == name2.ToLower().Trim()
-                                            && c.CreatorId == _userManager.GetUserId(User));   
+                                            && c.RestaurantId == user.RestaurantId);   
             }
             List<Stock> stocks = _db.Stocks.Where(c => c.Id != id && 
-                                                       c.CreatorId == _userManager.GetUserId(User)).ToList();
+                                                       c.RestaurantId == user.RestaurantId).ToList();
             return !stocks.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim() 
                                     || c.Name.ToLower().Trim() == name2.ToLower().Trim());
         }

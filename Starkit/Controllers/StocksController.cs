@@ -30,23 +30,33 @@ namespace Starkit.Controllers
             _userManager = userManager;
         }
 
-        private string Load(string id, IFormFile file)
+        private async Task<string> Load(string id, IFormFile file)
         {
-            string userId = _userManager.GetUserId(User);
-            string path = Path.Combine(_environment.ContentRootPath + $"\\wwwroot\\images\\users\\{userId}\\Stocks\\{id}");
-            string photoPath = $"images/users/{userId}/Stocks/{id}/{file.FileName}";
-            if (!Directory.Exists($"wwwroot/images/users/{userId}/Stocks/{id}"))
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            if (User.IsInRole("SuperAdmin"))
             {
-                Directory.CreateDirectory($"wwwroot/images/users/{userId}/Stocks/{id}");
+                string userId = user.IdOfTheSelectedRestaurateur;
+                user = await _userManager.FindByIdAsync(userId);
+            }
+            string path = Path.Combine(_environment.ContentRootPath + $"\\wwwroot\\images\\restaurants\\{user.RestaurantId}\\Stocks\\{id}");
+            string photoPath = $"images/restaurants/{user.RestaurantId}/Stocks/{id}/{file.FileName}";
+            if (!Directory.Exists($"wwwroot/images/restaurants/{user.RestaurantId}/Stocks/{id}"))
+            {
+                Directory.CreateDirectory($"wwwroot/images/restaurants/{user.RestaurantId}/Stocks/{id}");
             }
             _uploadService.Upload(path, file.FileName, file);
             return photoPath;
         }
         
-        private void DeleteStockAvatar(Stock stock)
+        private async Task DeleteStockAvatar(Stock stock)
         {
-            string userId = _userManager.GetUserId(User);
-            string filePath = _environment.ContentRootPath + $"\\wwwroot\\images\\users\\{userId}\\Stocks\\" + stock.Id; 
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            if (User.IsInRole("SuperAdmin"))
+            {
+                string userId = user.IdOfTheSelectedRestaurateur;
+                user = await _userManager.FindByIdAsync(userId);
+            }
+            string filePath = _environment.ContentRootPath + $"\\wwwroot\\images\\restaurants\\{user.RestaurantId}\\Stocks\\" + stock.Id; 
             if (Directory.Exists(filePath))
             {
                 if (stock.Avatar == null)
@@ -58,15 +68,31 @@ namespace Starkit.Controllers
 
         [Authorize]
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            if (User.IsInRole("SuperAdmin"))
+            {
+                string userId = user.IdOfTheSelectedRestaurateur;
+                user = await _userManager.FindByIdAsync(userId);
+            }
+            if (user.RestaurantId == null)
+                return RedirectToAction("Register", "Restaurants");
             return View();
         }
 
         [Authorize]
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            if (User.IsInRole("SuperAdmin"))
+            {
+                string userId = user.IdOfTheSelectedRestaurateur;
+                user = await _userManager.FindByIdAsync(userId);
+            }
+            if (user.RestaurantId == null)
+                return RedirectToAction("Register", "Restaurants");
             return View();
         }
 
@@ -75,8 +101,12 @@ namespace Starkit.Controllers
         {
             if (ModelState.IsValid)
             {
-                stock.CreatorId = _userManager.GetUserId(User);
-                stock.Avatar = Load(stock.Id, stock.File);
+                User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+                if (User.IsInRole("SuperAdmin"))
+                    user = await _userManager.FindByIdAsync(user.IdOfTheSelectedRestaurateur);
+                stock.CreatorId = user.Id;
+                stock.RestaurantId = user.RestaurantId;
+                stock.Avatar = await Load(stock.Id, stock.File);
                 _db.Entry(stock).State = EntityState.Added;
                 await _db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -92,15 +122,17 @@ namespace Starkit.Controllers
             _db.Entry(stock).State = EntityState.Deleted;
             await _db.SaveChangesAsync();
             DeleteStockAvatar(stock);
-            List<Stock> stocks = _db.Stocks.Where(s => s.CreatorId == _userManager.GetUserId(User)).ToList();
-            return PartialView("PartilaViews/ListStockPartialView", stocks);
+            return RedirectToAction("Index");
         }
 
         [Authorize]
         [HttpGet]
-        public IActionResult GetDishes()
+        public async Task<IActionResult> GetDishes()
         {
-            List<Dish> dishes = _db.Dishes.Where(d => d.CreatorId == _userManager.GetUserId(User)).ToList();
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            if (User.IsInRole("SuperAdmin"))
+                user = await _userManager.FindByIdAsync(user.IdOfTheSelectedRestaurateur);
+            List<Dish> dishes = _db.Dishes.Where(d => d.RestaurantId == user.RestaurantId).ToList();
             var dishGroup = dishes.GroupBy(d => d.Category);
             return PartialView("PartilaViews/AddDishesToStockModalWindow", dishGroup);
         }
@@ -131,6 +163,11 @@ namespace Starkit.Controllers
         {
             if (ModelState.IsValid)
             {
+                User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+                if (User.IsInRole("SuperAdmin"))
+                {
+                    user = await _userManager.FindByIdAsync(user.IdOfTheSelectedRestaurateur);
+                }
                 Stock stock = _db.Stocks.FirstOrDefault(s => s.Id == model.Id);
                 stock.Name = model.Name;
                 stock.Type = model.Type;
@@ -141,11 +178,11 @@ namespace Starkit.Controllers
                 stock.FirstDishId = model.FirstDishId;
                 stock.SecondDishId = model.SecondDishId;
                 stock.ThirdDishId = model.ThirdDishId;
-                stock.EditorId = _userManager.GetUserId(User);
+                stock.EditorId = user.Id;
                 if (model.File != null)
                 {
                     DeleteStockAvatar(stock);
-                    stock.Avatar = Load(model.Id, model.File);
+                    stock.Avatar = await Load(model.Id, model.File);
                 }
                 _db.Entry(stock).State = EntityState.Modified;
                 await _db.SaveChangesAsync();
@@ -163,9 +200,12 @@ namespace Starkit.Controllers
             return PartialView("PartilaViews/DetailStockPartialView", stock);
         }
 
-        public IActionResult GetStocks()
+        public async Task<IActionResult> GetStocks()
         {
-            List<Stock> stocks = _db.Stocks.Where(s => s.CreatorId == _userManager.GetUserId(User)).ToList();
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            if (User.IsInRole("SuperAdmin"))
+                user = await _userManager.FindByIdAsync(user.IdOfTheSelectedRestaurateur);
+            List<Stock> stocks = _db.Stocks.Where(s => s.RestaurantId == user.RestaurantId).ToList();
             return PartialView("PartilaViews/ListStockPartialView", stocks);
         }
     }

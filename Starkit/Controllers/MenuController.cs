@@ -114,19 +114,11 @@ namespace Starkit.Controllers
             {
                 User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
                 if (User.IsInRole("SuperAdmin"))
-                {
                     user = await _userManager.FindByIdAsync(user.IdOfTheSelectedRestaurateur);
-                    menu.CreatorId = user.Id;
-                    menu.RestaurantId = user.RestaurantId;
-                }
-                else
-                {
-                    menu.CreatorId = user.Id;
-                    menu.RestaurantId = user.RestaurantId;
-                }
                 menu.Avatar = menu.Avatar = await Load(menu.Id, menu.File);
                 menu.AddTime = DateTime.Now;
-                menu.CreatorId = _userManager.GetUserId(User);
+                menu.CreatorId = user.Id;
+                menu.RestaurantId = user.RestaurantId;
                 _db.Entry(menu).State = EntityState.Added;
                 await _db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -141,8 +133,7 @@ namespace Starkit.Controllers
             _db.Entry(menu).State = EntityState.Deleted;
             await _db.SaveChangesAsync();
             DeleteMenuAvatar(menu);
-            List<Menu> listMenu = _db.Menu.Where(c => c.CreatorId == _userManager.GetUserId(User)).ToList();
-            return PartialView("PartialViews/ListMenuPartialView", listMenu);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
