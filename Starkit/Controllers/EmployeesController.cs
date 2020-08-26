@@ -28,6 +28,11 @@ namespace Starkit.Controllers
         public async Task<IActionResult> Create()
         {
             string userId = _userManager.GetUserId(User);
+            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+            {
+                User admin = await _userManager.FindByIdAsync(userId);
+                userId = admin.IdOfTheSelectedRestaurateur;
+            }
             if (!await _db.Users.AnyAsync(u => u.Id == userId && u.RestaurantId != null))
                 return RedirectToAction("Register", "Restaurants");
             return View();
@@ -40,6 +45,12 @@ namespace Starkit.Controllers
             if (ModelState.IsValid)
             {
                 string userId = _userManager.GetUserId(User);
+                if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+                {
+                    User admin = await _userManager.FindByIdAsync(userId);
+                    userId = admin.IdOfTheSelectedRestaurateur;
+                }
+                
                 if (!await _db.Users.AnyAsync(u => u.Id == userId && u.RestaurantId != null))
                     return RedirectToAction("Register", "Restaurants");
                 
