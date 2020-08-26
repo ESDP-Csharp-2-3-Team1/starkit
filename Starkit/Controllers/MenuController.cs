@@ -31,22 +31,32 @@ namespace Starkit.Controllers
             _userManager = userManager;
         }
 
-        private string Load(string id, IFormFile file)
+        private async Task<string> Load(string id, IFormFile file)
         {
             string userId = _userManager.GetUserId(User);
+            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+            {
+                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                userId = admin.IdOfTheSelectedRestaurateur;
+            }
             string path = Path.Combine(_environment.ContentRootPath + $"\\wwwroot\\images\\users\\{userId}\\Menu\\{id}");
             string photoPath = $"images/users/{userId}/Menu/{id}/{file.FileName}";
             if (!Directory.Exists($"wwwroot/images/users/{userId}/Menu/{id}"))
             {
                 Directory.CreateDirectory($"wwwroot/images/users/{userId}/Menu/{id}");
             }
-            _uploadService.Upload(path, file.FileName, file);
+            await _uploadService.Upload(path, file.FileName, file);
             return photoPath;
         }
         
-        private void DeleteMenuAvatar(Menu menu)
+        private async void DeleteMenuAvatar(Menu menu)
         {
             string userId = _userManager.GetUserId(User);
+            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+            {
+                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                userId = admin.IdOfTheSelectedRestaurateur;
+            }
             string filePath = _environment.ContentRootPath + $"\\wwwroot\\images\\users\\{userId}\\Menu\\" + menu.Id; 
             if (Directory.Exists(filePath))
             {
