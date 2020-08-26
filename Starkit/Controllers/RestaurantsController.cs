@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -34,6 +35,11 @@ namespace Starkit.Controllers
         public async Task<IActionResult> Index()
         {
             string userId = _userManager.GetUserId(User);
+            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+            {
+                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                userId = admin.IdOfTheSelectedRestaurateur;
+            }
             Restaurant restaurant = await _db.Restaurants.FirstOrDefaultAsync(r => r.UserId == userId);
             if (restaurant is null)
                 return RedirectToAction("Register");
