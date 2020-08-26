@@ -6,6 +6,7 @@
 }
 <div class="employee-create-container">
     <h2>Регистрация нового сотрудника </h2>
+    <div asp-validation-summary="ModelOnly" style="text-align: center"></div>
     <form asp-action="Create" asp-controller="Employees" method="post">
         @{
             await Html.RenderPartialAsync("Partial/EmployeeRegisterFormPartial");
@@ -13,3 +14,10 @@
     </form>
     
 </div>
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    
+}
