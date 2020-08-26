@@ -15,7 +15,6 @@ namespace Starkit.Services
     }
     public static class RoleInitializer
     {
-        
         public static async Task Initialize(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
             
