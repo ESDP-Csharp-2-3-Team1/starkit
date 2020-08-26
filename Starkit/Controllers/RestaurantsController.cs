@@ -74,6 +74,11 @@ namespace Starkit.Controllers
             if (ModelState.IsValid)
             {
                 string userId = _userManager.GetUserId(User);
+                if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+                {
+                    User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                    userId = admin.IdOfTheSelectedRestaurateur;
+                }
                 model.UserId = userId;
                 if (model.File != null)
                 {
@@ -99,6 +104,11 @@ namespace Starkit.Controllers
             if (ModelState.IsValid)
             {
                 string userId = _userManager.GetUserId(User);
+                if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+                {
+                    User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                    userId = admin.IdOfTheSelectedRestaurateur;
+                }
                 model.UserId = userId;
                 Restaurant restaurant = await _db.Restaurants.FirstOrDefaultAsync(r => r.UserId == userId);
                 if (model.File != null)
