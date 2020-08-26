@@ -5,72 +5,92 @@
     Layout = "_Layout";
     int pageNum;
 }
-<a asp-action="Register" asp-controller="Account">Добавить</a>
+<style>
+    #dropdown0{
+        display: block;
+    }
+    #dropdown0-li-1{
+          margin-left: 15px;
+            background: #9ad9ea;
+    }
+    #dropdown0-li-1 a{
+                color: #262626;
+                font-weight: 600;
+                border-left: 2px solid #41728b;
+    }
+    #dropdown0-li-1 a:hover{
+        color: #262626;
+    }
+</style>
+
 <div class="admin-container">
   <div class="block-table">
-  <table class="table table-hover table-superAdmin">
-    <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Организация </th>
-      <th scope="col">Владелец </th>
-      <th scope="col">Статус</th>
-      <th></th>
-    </tr>
-    </thead>
-    <tbody id="ac-tbody">
-    @{
-      await Html.RenderPartialAsync("Partial/IndexTbodyPartial");
-    }
-    </tbody>
-  </table>
+    <table class="table table-hover table-superAdmin">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Организация </th>
+        <th scope="col">Владелец </th>
+        <th scope="col">Статус</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody id="ac-tbody">
+      @{
+        await Html.RenderPartialAsync("Partial/IndexTbodyPartial");
+      }
+      </tbody>
+    </table>
   </div>
+  @if(Model.PageInfo.TotalItems > 5)
+  {
   <div id="block-pagination">
     <nav aria-label="Page navigation example" >
-    <ul class="pagination">
-     @if (Model.PageInfo.PageNumber > 1)
-     {
-       pageNum = Model.PageInfo.PageNumber - 1;
-       <li class="page-item">
-         <a class="page-link" asp-action="Index" asp-controller="SuperAdmin" asp-route-page="@pageNum" aria-label="Previous">
-           <span aria-hidden="true">&laquo;</span>
-         </a>
-       </li>
-     }
-      @for (int i = 1; i <= Model.PageInfo.TotalPages; i++)
-      {
-        @if (i == Model.PageInfo.PageNumber)
+      <ul class="pagination">
+        @if (Model.PageInfo.PageNumber > 1)
         {
+          pageNum = Model.PageInfo.PageNumber - 1;
           <li class="page-item">
-            <a style="background: #e9ecef;" class="page-link">@i</a>
+            <a class="page-link" asp-action="Index" asp-controller="SuperAdmin" asp-route-page="@pageNum" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
           </li>
         }
-        else if(i > 5)
+        @for (int i = 1; i <= Model.PageInfo.TotalPages; i++)
         {
-          i = Model.PageInfo.TotalPages;
+          @if (i == Model.PageInfo.PageNumber)
+          {
+            <li class="page-item">
+              <a style="background: #e9ecef;" class="page-link">@i</a>
+            </li>
+          }
+          else if(i > 5)
+          {
+            i = Model.PageInfo.TotalPages;
+            <li class="page-item">
+              <a asp-action="Index" asp-controller="SuperAdmin" asp-route-page="@i" class="page-link">...@Model.PageInfo.TotalPages</a>
+            </li>
+          }
+          else
+          {
+            <li class="page-item">
+              <a asp-action="Index" asp-controller="SuperAdmin" asp-route-page="@i" class="page-link">@i</a>
+            </li>
+          }
+        }
+        @if (Model.PageInfo.PageNumber < Model.PageInfo.TotalPages)
+        {
+          pageNum = Model.PageInfo.PageNumber + 1;
           <li class="page-item">
-            <a asp-action="Index" asp-controller="SuperAdmin" asp-route-page="@i" class="page-link">...@Model.PageInfo.TotalPages</a>
+            <a class="page-link" asp-action="Index" asp-controller="SuperAdmin" asp-route-page="@pageNum" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
           </li>
         }
-        else
-        {
-          <li class="page-item">
-            <a asp-action="Index" asp-controller="SuperAdmin" asp-route-page="@i" class="page-link">@i</a>
-          </li>
-        }
-      }
-      @if (Model.PageInfo.PageNumber < Model.PageInfo.TotalPages)
-      {
-        pageNum = Model.PageInfo.PageNumber + 1;
-        <li class="page-item">
-          <a class="page-link" asp-action="Index" asp-controller="SuperAdmin" asp-route-page="@pageNum" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      }
-    </ul>
-  </nav>
+      </ul>
+    </nav>
   </div>
+  }
 </div>
 
 @section Scripts

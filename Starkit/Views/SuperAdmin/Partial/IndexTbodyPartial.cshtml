@@ -22,9 +22,16 @@
           }
         </td>
         <td>
-          <button class="ac-linc-edit" onclick="ShowBoxTr('@user.Id','edit','@count')">Редактировать</button>          
-          <a class="ac-linc-edit" asp-action="ChooseRestaurateur" asp-controller="SuperAdmin" asp-route-restaurantId="@user.Id">Выбрать</a>
-          <span onclick="ShowBoxTr('@user.Id','false','@count')" class="ac-show-span ac-show-span-@count"><i class="fas fa-chevron-down"></i></span>
+          <button class="ac-linc-edit" onclick="ShowBoxTr('@user.Id','edit','@count')">Редактировать</button> 
+          @if (ViewBag.SuperAdmin == user.Id)
+          {
+            <a class="ac-linc-edit ac-linc-edit-btn-156asd" asp-action="DeselectRestaurateur" asp-controller="SuperAdmin" asp-route-restaurantId="@user.Id">Отменить</a>
+          }
+          else
+          {
+            <a class="ac-linc-edit " asp-action="ChooseRestaurateur" asp-controller="SuperAdmin" asp-route-restaurantId="@user.Id">Выбрать</a>
+          }
+            <span onclick="ShowBoxTr('@user.Id','false','@count')" class="ac-show-span ac-show-span-@count"><i class="fas fa-chevron-down"></i></span>
         </td>
       </tr>
       <tr class="ac-my-tr ac-my-tr-@count" id="ac-my-tr-@user.Id">

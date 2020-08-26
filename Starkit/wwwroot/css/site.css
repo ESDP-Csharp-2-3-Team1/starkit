@@ -952,6 +952,18 @@ body {
   margin-bottom: 0!important;
 }
 /*end SuperAdmin => Index*/
+#dropdown0{
+  display: none;
+}
+#drop-btn-superAdmin{
+  color: white;
+}
+.ac-linc-edit-btn-156asd{
+  background: #fb4152;
+}
+.ac-linc-edit-btn-156asd:hover{
+  background: #f1172b;
+}
 
 
 

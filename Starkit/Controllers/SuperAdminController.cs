@@ -37,9 +37,10 @@ namespace Starkit.Controllers
                users[i].PostalAddress = await _db.PostalAddresses.FirstOrDefaultAsync(p => p.UserId == users[i].Id);
                users[i].LegalAddress = await _db.LegalAddresses.FirstOrDefaultAsync(u => u.UserId == users[i].Id);
            }
-           SuperAdminIndexPageInfo pageInfo = new SuperAdminIndexPageInfo { PageNumber=page, PageSize=pageSize, TotalItems=_db.Users.Count()};
+           SuperAdminIndexPageInfo pageInfo = new SuperAdminIndexPageInfo { PageNumber=page, PageSize=pageSize, TotalItems = _db.Users.Count() - 1};
            SuperAdminIndexViewModel ivm = new SuperAdminIndexViewModel { PageInfo = pageInfo, Users = users };
-           
+           User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId && u.IdOfTheSelectedRestaurateur != null);
+           ViewBag.SuperAdmin = admin == null ? "null" : admin.IdOfTheSelectedRestaurateur;
            return View(ivm);
                   
         }
@@ -125,6 +126,20 @@ namespace Starkit.Controllers
             {
                 User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == _userManager.GetUserId(User));
                 admin.IdOfTheSelectedRestaurateur = restaurantId;
+                _db.Users.Update(admin);
+                await _db.SaveChangesAsync();
+                return RedirectToAction("Index","SuperAdmin");
+            }
+            return NotFound();
+        }
+
+        [Authorize(Roles = "SuperAdmin")]
+        public async Task<IActionResult> DeselectRestaurateur(string restaurantId)
+        {
+            if (await _db.Users.AnyAsync(u => u.Id == restaurantId))
+            {
+                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == _userManager.GetUserId(User));
+                admin.IdOfTheSelectedRestaurateur = null;
                 _db.Users.Update(admin);
                 await _db.SaveChangesAsync();
                 return RedirectToAction("Index","SuperAdmin");
