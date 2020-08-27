@@ -43,48 +43,81 @@ namespace Starkit.Controllers
             return true;
         }
 
-        public bool CheckNameCategory(string name, string id)
+        public async Task<bool> CheckNameCategory(string name, string id)
         {
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            
+            if (User.IsInRole("SuperAdmin"))
+                user = await _userManager.Users.
+                    FirstOrDefaultAsync(u => u.Id == user.IdOfTheSelectedRestaurateur);
+            
             if (id == null)
                 return !_db.Categories.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim() 
-                                                && c.UserId == _userManager.GetUserId(User));
+                                                && c.RestaurantId == user.RestaurantId);
             
             List<Category> categories = _db.Categories.Where(c => c.Id != id && 
-                                                                  c.UserId == _userManager.GetUserId(User)).ToList();
+                                                                  c.RestaurantId == user.RestaurantId).ToList();
             return !categories.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim());
         }
         
-        public bool CheckNameDish(string name, string id)
+        public async Task<bool> CheckNameDish(string name, string id)
         {
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            
+            if (User.IsInRole("SuperAdmin"))
+                user = await _userManager.Users.
+                    FirstOrDefaultAsync(u => u.Id == user.IdOfTheSelectedRestaurateur);
+            
             if (id == null)
-                return !_db.Dishes.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim() 
-                                                && c.CreatorId == _userManager.GetUserId(User));
+                return !_db.Dishes.Any(d => d.Name.ToLower().Trim() == name.ToLower().Trim() 
+                                            && d.RestaurantId == user.RestaurantId);
             
             List<Dish> dishes = _db.Dishes.Where(d => d.Id != id && 
-                                                                  d.CreatorId == _userManager.GetUserId(User)).ToList();
+                                                                  d.RestaurantId == user.RestaurantId).ToList();
             return !dishes.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim());
         }
         
-        public bool CheckNameMenu(string name, string id)
+        public async Task<bool> CheckNameMenu(string name, string id)
         {
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            
+            if (User.IsInRole("SuperAdmin"))
+                user = await _userManager.Users.
+                    FirstOrDefaultAsync(u => u.Id == user.IdOfTheSelectedRestaurateur);
+            
             if (id == null)
                 return !_db.Menu.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim() 
-                                            && c.CreatorId == _userManager.GetUserId(User));
+                                            && c.RestaurantId == user.RestaurantId);
             
             List<Menu> menu = _db.Menu.Where(d => d.Id != id && 
-                                                      d.CreatorId == _userManager.GetUserId(User)).ToList();
+                                                      d.RestaurantId == user.RestaurantId).ToList();
             return !menu.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim());
         }
 
-        public bool CheckNameSubCategory(string name)
+        public async Task<bool> CheckNameSubCategory(string name, string id)
         {
-            List<Category> categories = _db.Categories.Where(c => c.UserId == _userManager.GetUserId(User)).ToList();
-            return !_db.Categories.Any(c => c.UserId == _userManager.GetUserId(User) &&
-                                           c.SubCategories.Any(s => s.Name.ToLower().Trim() == name.ToLower().Trim()));
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            if (User.IsInRole("SuperAdmin"))
+                user = await _userManager.Users.
+                    FirstOrDefaultAsync(u => u.Id == user.IdOfTheSelectedRestaurateur);
+            
+            if (id == null)
+                return !_db.SubCategories.Any(sb => sb.Name.ToLower().Trim() == name.ToLower().Trim() 
+                                                && sb.RestaurantId == user.RestaurantId);
+            
+            List<SubCategory> subCategories = _db.SubCategories.Where(sb => sb.Id != id && 
+                                                                            sb.RestaurantId == user.RestaurantId).ToList();
+            return !subCategories.Any(sb => sb.Name.ToLower().Trim() == name.ToLower().Trim());
         }
         
-        public bool CheckNameStock(string name, string id)
+        public async Task<bool> CheckNameStock(string name, string id)
         {
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            
+            if (User.IsInRole("SuperAdmin"))
+                user = await _userManager.Users.
+                    FirstOrDefaultAsync(u => u.Id == user.IdOfTheSelectedRestaurateur);
+            
             string[] separator = {"+", "="};
             string[] arrWord = name.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             string name2 = $"{arrWord[1]}+{arrWord[0]}={arrWord[2]}";
@@ -92,10 +125,10 @@ namespace Starkit.Controllers
             {
                 return !_db.Stocks.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim() 
                                             || c.Name.ToLower().Trim() == name2.ToLower().Trim()
-                                            && c.CreatorId == _userManager.GetUserId(User));   
+                                            && c.RestaurantId == user.RestaurantId);   
             }
             List<Stock> stocks = _db.Stocks.Where(c => c.Id != id && 
-                                                       c.CreatorId == _userManager.GetUserId(User)).ToList();
+                                                       c.RestaurantId == user.RestaurantId).ToList();
             return !stocks.Any(c => c.Name.ToLower().Trim() == name.ToLower().Trim() 
                                     || c.Name.ToLower().Trim() == name2.ToLower().Trim());
         }

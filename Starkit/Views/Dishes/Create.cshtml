@@ -117,7 +117,7 @@
         
         function getCreateDish() {
             var category = $("#category").val();
-            $.get(`@Url.Action("GetCreateDish")/${category}`, function(data) {
+            $.get(`@Url.Action("GetSubCategoriesWithCategory")/${category}`, function(data) {
                 $("#result").html(data);
             });
         }

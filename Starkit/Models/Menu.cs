@@ -41,5 +41,8 @@ namespace Starkit.Models
         public string Type { get; set; }
         
         public virtual List<MenuDish> MenuDishes  { get; set; }
+        
+        public string RestaurantId { get; set; }
+        public virtual Restaurant Restaurant { get; set; }
     }
 }

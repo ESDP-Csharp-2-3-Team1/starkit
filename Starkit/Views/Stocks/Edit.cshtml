@@ -17,13 +17,15 @@
                 </div>
                 <span class="validationError" asp-validation-for="Name"></span>
             </div>
-            <p onclick="reset()" class="validationError myLink">
-                Сбросить блюда
-            </p>
+            <div style="text-align: right; margin: 0 0 10px 0">
+                <p style="display:inline-block;" onclick="reset()" class="validationError myLink">
+                    Сбросить блюда
+                </p>
+            </div>
             <div class="form-group row">
                 <label for="" class="col-sm-4 col-form-label createStockLabel">Тип</label><br/>
                 <div class="col-sm-8">
-                    <select readonly class="form-control" asp-for="Type" id="selectType">
+                    <select disabled class="form-control" id="selectType">
                         @if (Model.Type == "1+1=3")
                         {
                             <option selected="selected" value="1+1=3">1 + 1 = 3</option>
@@ -36,6 +38,7 @@
                         }
                     </select>
                 </div>
+                <input type="hidden" asp-for="Type" id="select">
             </div>
             <div style="display: none" class="form-group row" id="chooseDishes">
                 <label for="" class="col-sm-4 col-form-label createStockLabel">Выберите блюда</label><br/>
@@ -178,7 +181,7 @@
                 if (dishNumber == "firstDish"){
                     $("#firstDish").val(arr[0]);
                     $(firstDishName).val(arr[1]);
-                    $("#selectType").attr("readonly", true);
+                    $("#selectType").attr("disabled", true);
                 }
                 else if(dishNumber == "secondDish"){
                     $("#secondDish").val(arr[0]);
@@ -200,7 +203,7 @@
                     $(name).val(`${firstDishName.val()}+${firstDishName.val()}=${firstDishName.val()}`);
                             
                     $("#chooseDishes").hide();
-                    $("#selectType").attr("readonly", true);
+                    $("#selectType").attr("disabled", true);
                 }    
             }
             $(".modal").hide();
@@ -208,12 +211,21 @@
                 
         function reset() {
             $("#name").val("");
-            $("#selectType").attr("readonly", false);
+            $("#selectType").attr("disabled", false);
             $("#firstDish").val("");
             $("#name-error").hide();
             $("#secondDish").val("");
             $("#thirdDish").val("");
             $("#chooseDishes").show();
         }
+        
+        $(function (){
+            var select_val = $("#selectType option:selected").val();
+            $("#select").val(select_val);  
+        });
+                
+        $("#selectType").change(function (){
+            $("#select").val($("#selectType").val());
+        });
     </script>
 }

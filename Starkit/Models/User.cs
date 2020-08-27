@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
 namespace Starkit.Models
@@ -19,8 +20,7 @@ namespace Starkit.Models
         public UserStatus Status { get; set; } = UserStatus.Unlocked;
         public bool IsTermsAccepted { get; set; }
         public string RestaurantId { get; set; }
-        [NotMapped]
-        public Restaurant Restaurant { get; set; }
+        public virtual Restaurant Restaurant { get; set; }
         
         public string IdOfTheSelectedRestaurateur { get; set; }
 

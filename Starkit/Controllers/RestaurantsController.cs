@@ -82,11 +82,11 @@ namespace Starkit.Controllers
                 model.UserId = userId;
                 if (model.File != null)
                 {
-                    string directoryPath = Path.Combine(_environment.ContentRootPath,$"wwwroot\\images\\users\\{userId}\\logo");
+                    string directoryPath = Path.Combine(_environment.ContentRootPath,$"wwwroot\\images\\restaurants\\{model.Id}\\logo");
                     if (!Directory.Exists(directoryPath))
                         Directory.CreateDirectory(directoryPath);
                     await _uploadService.Upload(directoryPath,model.File.FileName,model.File);
-                    model.LogoPath = $"images\\users\\{userId}\\logo\\{model.File.FileName}";
+                    model.LogoPath = $"images\\restaurants\\{model.Id}\\logo\\{model.File.FileName}";
                 }
                 await _db.Restaurants.AddAsync(model);
                 User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
@@ -113,11 +113,12 @@ namespace Starkit.Controllers
                 Restaurant restaurant = await _db.Restaurants.FirstOrDefaultAsync(r => r.UserId == userId);
                 if (model.File != null)
                 {
-                    string directoryPath = Path.Combine(_environment.ContentRootPath,$"wwwroot\\images\\users\\{userId}\\logo");
-                    if (!Directory.Exists(directoryPath))
+                    string directoryPath = Path.Combine(_environment.ContentRootPath,$"wwwroot\\images\\restaurants\\{restaurant.Id}\\logo");
+                    if (Directory.Exists(directoryPath)) System.IO.File.Delete("wwwroot/" + restaurant.LogoPath);
+                    else
                         Directory.CreateDirectory(directoryPath);
                     await _uploadService.Upload(directoryPath,model.File.FileName,model.File);
-                    restaurant.LogoPath = $"images\\users\\{userId}\\logo\\{model.File.FileName}";
+                    restaurant.LogoPath = $"images\\restaurants\\{restaurant.Id}\\logo\\{model.File.FileName}";
                 }
                 restaurant.NameRestaurant = model.NameRestaurant;
                 restaurant.PhoneNumber = model.PhoneNumber;

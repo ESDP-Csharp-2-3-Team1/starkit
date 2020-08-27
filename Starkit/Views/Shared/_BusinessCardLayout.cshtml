@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css"/>
 </head>
-<body style="background-color: #fdfdfd; font-family: cursive">
+<body style="background-color: #fdfdfd;">
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
         <div class="container">
@@ -18,7 +18,7 @@
             <div class="navbar-collapse collapse d-sm-inline-flex">
                 <ul class="navbar-nav flex-grow-1 justify-content-end">
                     <li class="nav-item mr-4">
-                        <p>+7 777 777 77 77</p>
+                        <p class="contact-number">@Model.PhoneNumber</p>
                     </li>
                     <li class="nav-item">
                         <p class="basket-num">5</p>
@@ -41,10 +41,8 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark myNavbar" href="#">Меню</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark">
-                            <img src="https://img.icons8.com/dusk/36/000000/mcdonalds.png"/>
-                        </a>
+                    <li class="nav-item" style="width: 50px">
+                        <img style="width: 100%; height: 100%" id="nav-logo" src="~/@Model.LogoPath"/>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark myNavbar" href="#">Акций</a>
@@ -57,7 +55,7 @@
         </div>
     </nav>
 </header>
-<div class="container" style="margin-bottom: 180px;">
+<div class="container" style="margin-bottom: 70px;">
     <main role="main">
         @RenderBody()
     </main>
@@ -66,7 +64,7 @@
 <footer class="border-top footer text-muted business-card-footer">
     <div class="container" style="display: flex; justify-content: space-between; height: 70px">
         <p>&copy; 2020 Все права защищены</p>
-        <p>+7 777 777 77 77</p>
+        <p class="contact-number">@Model.PhoneNumber</p>
     </div>
 </footer>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>

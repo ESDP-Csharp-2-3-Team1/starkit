@@ -33,31 +33,31 @@ namespace Starkit.Controllers
 
         private async Task<string> Load(string id, IFormFile file)
         {
-            string userId = _userManager.GetUserId(User);
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
             if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
             {
-                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
-                userId = admin.IdOfTheSelectedRestaurateur;
+                string userId = user.IdOfTheSelectedRestaurateur;
+                user = await _userManager.FindByIdAsync(userId);
             }
-            string path = Path.Combine(_environment.ContentRootPath + $"\\wwwroot\\images\\users\\{userId}\\Menu\\{id}");
-            string photoPath = $"images/users/{userId}/Menu/{id}/{file.FileName}";
-            if (!Directory.Exists($"wwwroot/images/users/{userId}/Menu/{id}"))
+            string path = Path.Combine(_environment.ContentRootPath + $"\\wwwroot\\images\\restaurants\\{user.RestaurantId}\\Menu\\{id}");
+            string photoPath = $"images/restaurants/{user.RestaurantId}/Menu/{id}/{file.FileName}";
+            if (!Directory.Exists($"wwwroot/images/restaurants/{user.RestaurantId}/Menu/{id}"))
             {
-                Directory.CreateDirectory($"wwwroot/images/users/{userId}/Menu/{id}");
+                Directory.CreateDirectory($"wwwroot/images/restaurants/{user.RestaurantId}/Menu/{id}");
             }
             await _uploadService.Upload(path, file.FileName, file);
             return photoPath;
         }
         
-        private async void DeleteMenuAvatar(Menu menu)
+        private async Task DeleteMenuAvatar(Menu menu)
         {
-            string userId = _userManager.GetUserId(User);
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
             if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
             {
-                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
-                userId = admin.IdOfTheSelectedRestaurateur;
+                string userId = user.IdOfTheSelectedRestaurateur;
+                user = await _userManager.FindByIdAsync(userId);
             }
-            string filePath = _environment.ContentRootPath + $"\\wwwroot\\images\\users\\{userId}\\Menu\\" + menu.Id; 
+            string filePath = _environment.ContentRootPath + $"\\wwwroot\\images\\restaurants\\{user.RestaurantId}\\Menu\\" + menu.Id; 
             if (Directory.Exists(filePath))
             {
                 if (menu.Avatar == null)
@@ -69,24 +69,26 @@ namespace Starkit.Controllers
 
         public async Task<IActionResult> Index()
         {
-            string userId = _userManager.GetUserId(User);
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
             if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
             {
-                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
-                userId = admin.IdOfTheSelectedRestaurateur;
+                string userId = user.IdOfTheSelectedRestaurateur;
+                user = await _userManager.FindByIdAsync(userId);
             }
-            return View(_db.Menu.Where(m => m.CreatorId == userId).ToList());
+            if (user.RestaurantId == null)
+                return RedirectToAction("Register", "Restaurants");
+            return View();
         }
         
         public async Task<IActionResult> GetMenu()
         {
-            string userId = _userManager.GetUserId(User);
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
             if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
             {
-                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
-                userId = admin.IdOfTheSelectedRestaurateur;
+                string userId = user.IdOfTheSelectedRestaurateur;
+                user = await _userManager.FindByIdAsync(userId);
             }
-            List<Menu> menu = _db.Menu.Where(m => m.CreatorId == userId).ToList();
+            List<Menu> menu = _db.Menu.Where(m => m.RestaurantId == user.RestaurantId).ToList();
             return PartialView("PartialViews/ListMenuPartialView", menu);
         }
 
@@ -94,6 +96,14 @@ namespace Starkit.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+            {
+                string userId = user.IdOfTheSelectedRestaurateur;
+                user = await _userManager.FindByIdAsync(userId);
+            }
+            if (user.RestaurantId == null)
+                return RedirectToAction("Register", "Restaurants");
             return View();
         }
         
@@ -102,15 +112,13 @@ namespace Starkit.Controllers
         {
             if (ModelState.IsValid)
             {
-                string userId = _userManager.GetUserId(User);
+                User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
                 if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
-                {
-                    User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
-                    userId = admin.IdOfTheSelectedRestaurateur;
-                }
+                    user = await _userManager.FindByIdAsync(user.IdOfTheSelectedRestaurateur);
                 menu.Avatar = menu.Avatar = await Load(menu.Id, menu.File);
                 menu.AddTime = DateTime.Now;
-                menu.CreatorId = userId;
+                menu.CreatorId = user.Id;
+                menu.RestaurantId = user.RestaurantId;
                 _db.Entry(menu).State = EntityState.Added;
                 await _db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -121,18 +129,11 @@ namespace Starkit.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(string id)
         {
-            string userId = _userManager.GetUserId(User);
-            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
-            {
-                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
-                userId = admin.IdOfTheSelectedRestaurateur;
-            }
             Menu menu = new Menu{Id = id};
             _db.Entry(menu).State = EntityState.Deleted;
             await _db.SaveChangesAsync();
             DeleteMenuAvatar(menu);
-            List<Menu> listMenu = _db.Menu.Where(c => c.CreatorId == userId).ToList();
-            return PartialView("PartialViews/ListMenuPartialView", listMenu);
+            return RedirectToAction("GetMenu");
         }
 
         [HttpGet]
@@ -155,22 +156,19 @@ namespace Starkit.Controllers
         {
             if (ModelState.IsValid)
             {
-                string userId = _userManager.GetUserId(User);
+                User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
                 if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
-                {
-                    User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
-                    userId = admin.IdOfTheSelectedRestaurateur;
-                }
+                    user = await _userManager.FindByIdAsync(user.IdOfTheSelectedRestaurateur);
                 var menu = _db.Menu.FirstOrDefault(m => m.Id == model.Id);
                 menu.Name = model.Name;
                 menu.Type = model.Type;
                 menu.Cost = model.Cost;
                 menu.EditTime = DateTime.Now;
-                menu.EditorId = userId;
+                menu.EditorId = user.Id;
                 menu.Description = model.Description;
                 if (model.File != null)
                 {
-                    DeleteMenuAvatar(menu);
+                    await DeleteMenuAvatar(menu);
                     menu.Avatar = await Load(model.Id, model.File);
                 }
                 
