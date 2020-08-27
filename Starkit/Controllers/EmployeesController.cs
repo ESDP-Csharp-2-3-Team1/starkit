@@ -28,7 +28,7 @@ namespace Starkit.Controllers
         // GET
         [Authorize]
         public async Task<IActionResult> Index( int page = 1)
-        { 
+        {
             string userId = _userManager.GetUserId(User);
             User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
             int pageSize = 5; 
@@ -116,9 +116,10 @@ namespace Starkit.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Edit(EmployeeViewModel model)
+        // Функционал требует доработки. Осталось реализовать валидацию Email-а и интеграцию ajax. (Пароль)
+        public async Task<IActionResult> Edit(EmployeeViewModel model) 
         {
-            if (ModelState.IsValid || model.ConfirmPassword == null && model.Password == null)
+            if (ModelState.IsValid || model.ConfirmPassword == null && model.Password == null) // Осталось доработать валидацию по ключам password= false остальные true
             {
                 User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == model.Id);
                 user.Name = model.Name;
@@ -133,7 +134,7 @@ namespace Starkit.Controllers
                 await _db.SaveChangesAsync();
                 return RedirectToAction("Index","Employees");
             }
-            return NotFound();
+            return RedirectToAction("Index","Employees"); // Доработать код ошибки после интеграции ajax
         }
     }
 }
