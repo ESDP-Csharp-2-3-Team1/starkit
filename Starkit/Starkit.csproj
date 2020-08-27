@@ -161,10 +161,14 @@
       <_ContentIncludedByDefault Remove="wwwroot\images\users\6cee9cbe-5387-42b9-ac7f-0de99c1c497b\logo\KFC_logo.svg.png" />
       <_ContentIncludedByDefault Remove="wwwroot\images\users\96824341-8fa3-4625-98ac-e72ff2cba8df\logo\Logotip-restorana-Eat-scaled.jpg" />
       <_ContentIncludedByDefault Remove="wwwroot\images\users\c730d804-5339-4526-8a19-d7d3061be378\logo\Logotip-restorana-Eat-scaled.jpg" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="wwwroot\images\restaurants\e437dda4-583f-473f-a9ae-4aa6a646c65e\Stocks" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\restaurants\e437dda4-583f-473f-a9ae-4aa6a646c65e\Dishes\89d5ba61-0a6f-43b5-8662-145824d32422\main.575x440s.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\restaurants\e437dda4-583f-473f-a9ae-4aa6a646c65e\Dishes\9ed361c9-a1e2-433d-b46b-bdc38381b812\Без названия (4).jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\restaurants\e437dda4-583f-473f-a9ae-4aa6a646c65e\Dishes\c562731d-1da0-4db4-9cc3-c23323c4dfc5\Без названия (3).jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\restaurants\e437dda4-583f-473f-a9ae-4aa6a646c65e\Dishes\f5e58b7c-f507-42f3-a114-6158f0a3c43a\9d09874691_350crop.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\restaurants\e437dda4-583f-473f-a9ae-4aa6a646c65e\Menu\ef6f1da1-07af-478b-8d6e-57ce074495d0\kombo-3-tvister.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\restaurants\e437dda4-583f-473f-a9ae-4aa6a646c65e\Stocks\392f5ab6-61c0-420c-b1a6-e793be94d07f\kombo-3-tvister.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\restaurants\e437dda4-583f-473f-a9ae-4aa6a646c65e\Stocks\d349a7d4-5d8e-42a7-b0aa-cb1ad178c911\kombo-3-tvister.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\users\f1e8cf3d-bf8d-4027-9c13-c426838d117b\logo\Logotip-restorana-Eat-scaled.jpg" />
     </ItemGroup>
 
 </Project>
