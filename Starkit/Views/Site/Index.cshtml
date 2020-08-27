@@ -22,7 +22,7 @@
     </div>
     <hr>
     <div style="text-align: center; margin-top: 30px;">
-        <h2>Меню</h2>
+        <h2>Сеты</h2>
     </div>
     <div class="row mt-5">
         @foreach (var menu in Model.Menu)
@@ -42,7 +42,7 @@
         <div class="row mt-5">
             @foreach (var dish in g)
             {
-                <div class="col-sm-4 mb-3" style="text-align: center">
+                <div class="col-sm-3 mb-3" style="text-align: center; height: 265px">
                     <img class="dish-img" src="~/@dish.Avatar" alt="">
                     <p class="text-dish-business-card">@dish.Name</p>
                     <div style="text-align: center">
