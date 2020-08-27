@@ -100,7 +100,7 @@ namespace Starkit.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "SuperAdmin")]
+        [Authorize]
         public async Task<IActionResult> UpdateRegistrantStatus(string userId)
         {
             User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
