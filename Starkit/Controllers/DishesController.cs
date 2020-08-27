@@ -177,7 +177,7 @@ namespace Starkit.Controllers
                 if (model.File != null)
                 {
                     await DeleteDishAvatar(dish);
-                    dish.Avatar = Load(model.Id, model.File);
+                    dish.Avatar = await Load(model.Id, model.File);
                 }
 
                 _db.Entry(dish).State = EntityState.Modified;
