@@ -34,7 +34,7 @@
         {
           pageNum = Model.PageInfo.PageNumber - 1;
           <li class="page-item">
-            <a class="page-link" asp-action="Index" asp-controller="SuperAdmin" asp-route-page="@pageNum" aria-label="Previous">
+            <a class="page-link" asp-action="Index" asp-controller="Employees" asp-route-page="@pageNum" aria-label="Previous">
               <span aria-hidden="true">&laquo;</span>
             </a>
           </li>
@@ -51,13 +51,13 @@
           {
             i = Model.PageInfo.TotalPages;
             <li class="page-item">
-              <a asp-action="Index" asp-controller="SuperAdmin" asp-route-page="@i" class="page-link">...@Model.PageInfo.TotalPages</a>
+              <a asp-action="Index" asp-controller="Employees" asp-route-page="@i" class="page-link">...@Model.PageInfo.TotalPages</a>
             </li>
           }
           else
           {
             <li class="page-item">
-              <a asp-action="Index" asp-controller="SuperAdmin" asp-route-page="@i" class="page-link">@i</a>
+              <a asp-action="Index" asp-controller="Employees" asp-route-page="@i" class="page-link">@i</a>
             </li>
           }
         }
@@ -65,7 +65,7 @@
         {
           pageNum = Model.PageInfo.PageNumber + 1;
           <li class="page-item">
-            <a class="page-link" asp-action="Index" asp-controller="SuperAdmin" asp-route-page="@pageNum" aria-label="Next">
+            <a class="page-link" asp-action="Index" asp-controller="Employees" asp-route-page="@pageNum" aria-label="Next">
               <span aria-hidden="true">&raquo;</span>
             </a>
           </li>

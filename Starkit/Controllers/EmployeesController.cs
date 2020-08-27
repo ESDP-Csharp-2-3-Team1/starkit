@@ -33,7 +33,7 @@ namespace Starkit.Controllers
             User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
             int pageSize = 5; 
             List<User> users = _db.Users.Where(u=>u.RestaurantId == user.RestaurantId && u.Position == EmployeePosition.AdministratorRestaurant || u.Position == EmployeePosition.ContentManager ).Skip((page - 1) * pageSize).Take(pageSize).ToList();
-            SuperAdminIndexPageInfo pageInfo = new SuperAdminIndexPageInfo { PageNumber=page, PageSize=pageSize, TotalItems = _db.Users.Count() - 1};
+            SuperAdminIndexPageInfo pageInfo = new SuperAdminIndexPageInfo { PageNumber=page, PageSize=pageSize, TotalItems = _db.Users.Count(u=>u.RestaurantId == user.RestaurantId && u.Position == EmployeePosition.AdministratorRestaurant || u.Position == EmployeePosition.ContentManager)};
             SuperAdminIndexViewModel ivm = new SuperAdminIndexViewModel { PageInfo = pageInfo, Users = users };
             return View(ivm);
                   
