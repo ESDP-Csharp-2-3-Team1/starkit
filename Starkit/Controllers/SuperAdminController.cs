@@ -31,7 +31,7 @@ namespace Starkit.Controllers
         { 
             string userId = _userManager.GetUserId(User);
            int pageSize = 5; 
-           List<User> users = _db.Users.Where(u=>u.Id != userId).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+           List<User> users = _db.Users.Where(u=>u.Id != userId && u.Position == EmployeePosition.Registrant).Skip((page - 1) * pageSize).Take(pageSize).ToList();
            for (int i = 0; i < users.Count; i++)
            {
                users[i].PostalAddress = await _db.PostalAddresses.FirstOrDefaultAsync(p => p.UserId == users[i].Id);

@@ -1,0 +1,175 @@
+﻿@model EmployeeIndexViewModel
+
+@{
+    ViewBag.Title = "Список сотрудников";
+    Layout = "_Layout";
+    int pageNum;
+}
+<style>
+    #dropdown2{
+        display: block;
+    }
+    #dropdown2-li-4{
+          margin-left: 15px;
+            background: #9ad9ea;
+    }
+    #dropdown2-li-4 a{
+                color: #262626;
+                font-weight: 600;
+                border-left: 2px solid #41728b;
+    }
+    #dropdown2-li-4 a:hover{
+        color: #262626;
+    }
+ </style>
+@if (Model.Users.Count > 0)
+{
+  <div class="admin-container">
+    <div class="block-table">
+      <table class="table table-hover table-superAdmin">
+        <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Сотрудник</th>
+          <th scope="col">Должность</th>
+          <th scope="col">Статус</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody id="ac-tbody">
+        @{
+          await Html.RenderPartialAsync("Partial/IndexTbodyPartial");
+        }
+        </tbody>
+      </table>
+    </div>
+    @if (Model.PageInfo.TotalItems > 5)
+    {
+      <div id="block-pagination">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            @if (Model.PageInfo.PageNumber > 1)
+            {
+              pageNum = Model.PageInfo.PageNumber - 1;
+              <li class="page-item">
+                <a class="page-link" asp-action="Index" asp-controller="Employees" asp-route-page="@pageNum" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+            }
+            @for (int i = 1; i <= Model.PageInfo.TotalPages; i++)
+            {
+              @if (i == Model.PageInfo.PageNumber)
+              {
+                <li class="page-item">
+                  <a style="background: #e9ecef;" class="page-link">@i</a>
+                </li>
+              }
+              else if (i > 5)
+              {
+                i = Model.PageInfo.TotalPages;
+                <li class="page-item">
+                  <a asp-action="Index" asp-controller="Employees" asp-route-page="@i" class="page-link">...@Model.PageInfo.TotalPages</a>
+                </li>
+              }
+              else
+              {
+                <li class="page-item">
+                  <a asp-action="Index" asp-controller="Employees" asp-route-page="@i" class="page-link">@i</a>
+                </li>
+              }
+            }
+            @if (Model.PageInfo.PageNumber < Model.PageInfo.TotalPages)
+            {
+              pageNum = Model.PageInfo.PageNumber + 1;
+              <li class="page-item">
+                <a class="page-link" asp-action="Index" asp-controller="Employees" asp-route-page="@pageNum" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            }
+          </ul>
+        </nav>
+      </div>
+    }
+  </div>
+}
+else
+{
+  <h4 style="text-align: center; margin-top: 50px">Список сотрудников пуст</h4>
+}
+
+
+@section Scripts
+{
+  @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+  }
+
+  <script>
+      function ShowBoxTr(userId,edit,countTr) {
+        if(edit === 'edit')
+          {
+            $('#block-pagination').hide();
+             $('input').removeAttr('disabled');
+             $('#btn-submit-edit-'+userId).show();
+             for (let i = 1; i <= 5; i++){
+                if (Number(i) !== Number(countTr))
+                  {
+                      $('.ac-my-tr-'+String(i)).hide();
+                      $('.tr-'+String(i)).hide();
+                  }
+             }
+          }
+          else{
+            $('input').attr('disabled',true);
+            $('#btn-submit-edit-'+userId).hide();
+          }
+        let el = document.getElementById('ac-my-tr-'+userId)
+        if ( el.style.display === 'none' || el.style.display === '')
+          {
+              $('.ac-show-span-'+countTr).html('<i class="fas fa-chevron-up"></i>');
+              $('#tr-main-info-'+userId).css('background', 'rgba(0,0,0,.05)')
+              $('#ac-my-tr-'+userId).show()
+          }
+          else{
+            if (edit !== 'edit')
+              {
+                $('.ac-show-span-'+countTr).html('<i class="fas fa-chevron-down">');
+                $('#block-pagination').show();
+                 $('#tr-main-info-'+userId).css('background', 'none')
+                 $('#ac-my-tr-'+userId).hide()
+                  for (let i = 1; i <= 5; i++){
+                        $('.tr-'+String(i)).show();
+                  }
+              }
+          }
+      }
+  
+      function UpdateRegistrantStatus(userId){
+        console.log(userId)
+          $.ajax({
+            url: '@Url.Action("UpdateRegistrantStatus", "Employees")?userId=' + userId,
+            type:"POST",
+            success: function(data) {
+              if (data === "locked")
+                {
+                  console.log(data)
+                  $('#ac-us-'+userId).attr("class","ac-user-status-locked");
+                  $('#ac-sp-'+userId).text('Locked');
+                  $('#ac-un-'+userId).html('<i class="fas fa-lock"></i>');
+                }
+                else if(data === "unlocked")
+                {
+                   $('#ac-us-'+userId).attr("class","ac-user-status-unlocked");
+                   $('#ac-sp-'+userId).text('Unlocked');
+                   $('#ac-un-'+userId).html('<i class="fas fa-unlock"></i>');
+                }
+                else if(data === false){
+                  alert("Что-то пошло не так попробуйте обновить страницу.")
+                }
+            }
+          })
+      }
+  </script>
+}

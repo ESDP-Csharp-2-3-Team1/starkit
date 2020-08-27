@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
+using Starkit.ViewModels;
 
 namespace Starkit.Models
 {
@@ -8,6 +8,12 @@ namespace Starkit.Models
     {
         Locked,
         Unlocked
+    }
+    public enum EmployeePosition
+    {
+        Registrant,
+        ContentManager,
+        AdministratorRestaurant
     }
     public class User : IdentityUser
     {
@@ -20,10 +26,12 @@ namespace Starkit.Models
         public UserStatus Status { get; set; } = UserStatus.Unlocked;
         public bool IsTermsAccepted { get; set; }
         public string RestaurantId { get; set; }
-        public virtual Restaurant Restaurant { get; set; }
-        
         public string IdOfTheSelectedRestaurateur { get; set; }
-
+        public EmployeePosition Position { get; set; } = EmployeePosition.Registrant;
+        
+        
+        [NotMapped]
+        public Restaurant Restaurant { get; set; }
         [NotMapped]
         public LegalAddress LegalAddress { get; set; }
         [NotMapped]

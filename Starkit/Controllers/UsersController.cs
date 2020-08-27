@@ -14,8 +14,8 @@ namespace Starkit.Controllers
 {
     public class UsersController : Controller
     {
-        public UserManager<User> _userManager { get; set; }
-        public StarkitContext _db { get; set; }
+        private UserManager<User> _userManager { get; set; }
+        private StarkitContext _db { get; set; }
 
         public UsersController(UserManager<User> userManager, StarkitContext db)
         {

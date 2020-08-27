@@ -1,0 +1,92 @@
+﻿@model EmployeeViewModel
+
+<div class="form-group  ed2-form-group">
+    <div class="ed2-form-label">
+        <label asp-for="Name">Имя:</label>
+        <span title="Обязательное поле" class="form-required">*</span>
+    </div>
+    <div class="ed2-form-input">
+        <div class="boxx2">
+            <input type="text" class="form-control" asp-for="Name">
+            <span asp-validation-for="Name"></span>
+        </div>
+    </div>
+</div>
+<div class="form-group  ed2-form-group">
+    <div class="ed2-form-label">
+        <label asp-for="Surname">Фамилия:</label>
+        <span title="Обязательное поле" class="form-required">*</span>
+    </div>
+    <div class="ed2-form-input">
+        <div class="boxx2">
+            <input type="text" class="form-control" asp-for="Surname">
+            <span asp-validation-for="Surname"></span>
+        </div>
+    </div>
+</div>
+<div class="form-group  ed2-form-group">
+    <div class="ed2-form-label">
+        <label asp-for="Position">Должность:</label>
+                <span title="Обязательное поле" class="form-required">*</span>
+    </div>
+    <div class="ed2-form-input">
+        <div class="boxx2 asd15x8as">
+            <div class="form-check">
+                <input value="@true" asp-for="Position" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"  checked>
+                <label class="form-check-label" for="exampleRadios1">
+                    Контент-менеджер
+                </label>
+            </div>
+            <div class="form-check">
+              <input value="@false" asp-for="Position" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2"  checked>
+              <label class="form-check-label" for="exampleRadios1">
+                Администратор
+              </label>
+            </div>
+            <span asp-validation-for="Position"></span>
+        </div>
+    </div>
+</div>
+<div class="form-group  ed2-form-group">
+    <div class="ed2-form-label">
+        <label asp-for="Email">Email:</label>
+        <span title="Обязательное поле" class="form-required">*</span>
+    </div>
+    <div class="ed2-form-input">
+        <div class="boxx2">
+            <input class="form-control" asp-for="Email">
+            <span asp-validation-for="Email"></span>
+        </div>
+    </div>
+</div>
+
+<div class="form-group  ed2-form-group">
+    <div class="ed2-form-label">
+        <label asp-for="Password">Пароль:</label>
+                <span title="Обязательное поле" class="form-required">*</span>
+    </div>
+    <div class="ed2-form-input ">
+        <div class="boxx2">
+            <input  class="form-control" asp-for="Password">
+            <span asp-validation-for="Password"></span>
+        </div>
+    </div>
+</div>
+<div class="form-group  ed2-form-group">
+    <div class="ed2-form-label asd457sa24">
+        <label asp-for="ConfirmPassword">Подтвердите пароль:</label>
+        <span title="Обязательное поле" class="form-required">*</span>
+    </div>
+    <div class="ed2-form-input">
+        <div class="boxx2">
+            <input  class="form-control" asp-for="ConfirmPassword">
+            <span asp-validation-for="ConfirmPassword"></span>
+            <p class="ed2p1">
+                Пароль должен содержать не менее 8 символов из них 1 прописную 1 строчную буквы и 1 цифру.
+            </p>
+            <p class="ed2p2 asd52zx78A">
+                <button type="submit" class="btn employee-create-form-btn">Зарегистрировать</button>
+            </p>
+        </div>
+    </div>
+</div>

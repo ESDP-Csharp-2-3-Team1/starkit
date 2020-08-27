@@ -15,11 +15,10 @@ namespace Starkit.Services
     }
     public static class RoleInitializer
     {
-        
         public static async Task Initialize(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
             
-            var roles = new[] { Roles.SuperAdmin,Roles.Registrant};
+            var roles = new[] { Roles.SuperAdmin,Roles.Registrant,Roles.ContentManager,Roles.AdministratorRestaurant};
             foreach (var value in roles)
             {
                 string role = Convert.ToString(value);
