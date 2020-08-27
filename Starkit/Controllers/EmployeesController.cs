@@ -34,7 +34,7 @@ namespace Starkit.Controllers
             int pageSize = 5; 
             List<User> users = _db.Users.Where(u=>u.RestaurantId == user.RestaurantId && u.Position == EmployeePosition.AdministratorRestaurant || u.Position == EmployeePosition.ContentManager ).Skip((page - 1) * pageSize).Take(pageSize).ToList();
             SuperAdminIndexPageInfo pageInfo = new SuperAdminIndexPageInfo { PageNumber=page, PageSize=pageSize, TotalItems = _db.Users.Count(u=>u.RestaurantId == user.RestaurantId && u.Position == EmployeePosition.AdministratorRestaurant || u.Position == EmployeePosition.ContentManager)};
-            SuperAdminIndexViewModel ivm = new SuperAdminIndexViewModel { PageInfo = pageInfo, Users = users };
+            EmployeeIndexViewModel ivm = new EmployeeIndexViewModel{ PageInfo = pageInfo, Users = users };
             return View(ivm);
                   
         }
@@ -112,6 +112,28 @@ namespace Starkit.Controllers
                 return Json(Convert.ToString(user.Status)?.ToLower());
             }
             return Json(false);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Edit(EmployeeViewModel model)
+        {
+            if (ModelState.IsValid || model.ConfirmPassword == null && model.Password == null)
+            {
+                User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == model.Id);
+                user.Name = model.Name;
+                user.SurName = model.Surname;
+                user.Email = model.Email;
+                user.Position = model.Position switch
+                {
+                    true => EmployeePosition.ContentManager,
+                    false => EmployeePosition.AdministratorRestaurant
+                };
+                _db.Users.Update(user);
+                await _db.SaveChangesAsync();
+                return RedirectToAction("Index","Employees");
+            }
+            return NotFound();
         }
     }
 }

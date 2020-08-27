@@ -1,62 +1,64 @@
-﻿@model SuperAdminIndexViewModel
-
-
+﻿@model EmployeeViewModel
+<input type="hidden" asp-for="Id">
 <div class="form-group  ed2-form-group">
     <div class="ed2-form-label">
-        <label asp-for="User.Name">Имя:</label>
+        <label asp-for="Name">Имя:</label>
         <span title="Обязательное поле" class="form-required">*</span>
     </div>
     <div class="ed2-form-input">
         <div class="boxx2">
-            <input type="text" class="form-control" asp-for="User.Name">
-            <span asp-validation-for="User.Name"></span>
+            <input type="text" class="form-control" asp-for="Name">
+            <span asp-validation-for="Name"></span>
         </div>
     </div>
 </div>
 <div class="form-group  ed2-form-group">
     <div class="ed2-form-label">
-        <label asp-for="User.Position">Должность:</label>
+        <label asp-for="Position">Должность:</label>
                 <span title="Обязательное поле" class="form-required">*</span>
     </div>
     <div class="ed2-form-input">
         <div class="boxx2 asd15x8as">
             <div class="form-check">
-                <input value="@true" asp-for="User.Position" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" disabled checked>
+                <input value="@true" asp-for="Position" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" disabled checked>
                 <label class="form-check-label" for="exampleRadios1">
                     Контент-менеджер
                 </label>
             </div>
             <div class="form-check">
-              <input value="@false" asp-for="User.Position" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" disabled checked>
+              <input value="@false" asp-for="Position" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" disabled checked>
               <label class="form-check-label" for="exampleRadios1">
                 Администратор
               </label>
             </div>
-            <span asp-validation-for="User.Position"></span>
+            <span asp-validation-for="Position"></span>
+        </div>
+    </div> 
+</div>
+<div class="form-group  ed2-form-group">
+    <div class="ed2-form-label">
+        <label asp-for="Surname">Фамилия:</label>
+        <span title="Обязательное поле" class="form-required">*</span>
+    </div>
+    <div class="ed2-form-input">
+        <div class="boxx2">
+            <input type="text" class="form-control" asp-for="Surname">
+            <span asp-validation-for="Surname"></span>
         </div>
     </div>
 </div>
 <div class="form-group  ed2-form-group">
     <div class="ed2-form-label">
-        <label asp-for="User.SurName">Фамилия:</label>
+        <label asp-for="Email">Email:</label>
         <span title="Обязательное поле" class="form-required">*</span>
     </div>
     <div class="ed2-form-input">
         <div class="boxx2">
-            <input type="text" class="form-control" asp-for="User.SurName">
-            <span asp-validation-for="User.SurName"></span>
-        </div>
-    </div>
-</div>
-<div class="form-group  ed2-form-group">
-    <div class="ed2-form-label">
-        <label asp-for="User.Email">Email:</label>
-        <span title="Обязательное поле" class="form-required">*</span>
-    </div>
-    <div class="ed2-form-input">
-        <div class="boxx2">
-            <input class="form-control" asp-for="User.Email">
-            <span asp-validation-for="User.Email"></span>
+            <input class="form-control" asp-for="Email">
+            <span asp-validation-for="Email"></span>
+             <p class="ed2p2 btn-submit-edit btn-submit-SuperAdmin" id="btn-submit-edit-@Model.Id">
+             <button type="submit">Сохранять изменения</button>
+            </p>
         </div>
     </div>
 </div>

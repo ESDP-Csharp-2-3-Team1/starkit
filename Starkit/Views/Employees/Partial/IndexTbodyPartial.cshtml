@@ -1,4 +1,4 @@
-﻿@model SuperAdminIndexViewModel
+﻿@model EmployeeIndexViewModel
 @{
   var count = 1;
   var counttr = 5 * Model.PageInfo.PageNumber - 4;
@@ -27,11 +27,10 @@
       </tr>
       <tr class="ac-my-tr ac-my-tr-@count" id="ac-my-tr-@user.Id">
         <td colspan="5" class="ac-my-td">
-           <form asp-action="Index" asp-controller="SuperAdmin" method="post">
+           <form asp-action="Edit" asp-controller="Employees" method="post">
              <div class="ac-user-info">
                @{
-                 Model.User = user;
-                 @await Html.PartialAsync("Partial/EmployeeInformationPartial",Model)
+                 @await Html.PartialAsync("Partial/EmployeeInformationPartial", new EmployeeViewModel{Id = user.Id,Name = user.Name,Surname = user.SurName, Position = Convert.ToString(user.Position)?.ToLower() == "contentmanager",Email = user.Email})
                }
              </div>
            </form>

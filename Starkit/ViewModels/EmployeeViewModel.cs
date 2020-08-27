@@ -7,6 +7,7 @@ namespace Starkit.ViewModels
 {
     public class EmployeeViewModel
     {
+        public string Id { get; set; }
         [Required(ErrorMessage = "Это поле необходимо заполнить.")]
         [EmailAddress(ErrorMessage = "Пожалуйста, введите действительный адрес электронной почты.")]
         [Remote("CheckEmail","Validation",ErrorMessage = "Данный электронный адрес используется другим аккаунтом.")]
