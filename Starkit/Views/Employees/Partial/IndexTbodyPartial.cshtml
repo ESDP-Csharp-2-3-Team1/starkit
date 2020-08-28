@@ -9,7 +9,8 @@
       <tr id="tr-main-info-@user.Id" class="tr-@count">
         <th scope="row">#@counttr</th>
         <td>@user.Name @user.SurName</td>
-        <td>@user.Position</td>
+        @{ var position = user.Position == EmployeePosition.ContentManager ? "Менеджер" : "Администратор";}
+        <td>@position</td>
         <td id="ac-box-status">
           @if (user.Status == UserStatus.Unlocked)
           {
