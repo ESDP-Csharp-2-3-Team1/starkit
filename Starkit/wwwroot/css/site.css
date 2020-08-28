@@ -1058,16 +1058,17 @@ body {
 }
 .stock-img{
   width: 100%;
-  height: 100%;
+  height: 80%;
 }
 .dish-img{
   width: 90%;
   height: 70%;
 }
-.text-menu-business-card, .text-dish-business-card{
+.text-menu-business-card, .text-dish-business-card, .text-stock-business-card{
   text-align: center;
   margin: 10px 0 10px 0;
   font-weight: 600;
+  font-size: 13px;
 }
 .business-card-footer{
   background-color: white;
