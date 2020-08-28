@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Starkit.Models;
 using Starkit.Models.Data;
+using Starkit.Services;
 using Starkit.ViewModels;
 
 namespace Starkit.Controllers
@@ -23,6 +24,7 @@ namespace Starkit.Controllers
             _db = db;
         }
 
+       
         
         [Authorize]
         [HttpPost]
@@ -51,13 +53,11 @@ namespace Starkit.Controllers
                 await _db.SaveChangesAsync();
                 return RedirectToAction("Index");
         }
-        
+
+        [Authorize]
         public async Task<IActionResult> Index()
         {
-            if (!User.Identity.IsAuthenticated)
-                return RedirectToAction("Login", "Account");
-            if (User.IsInRole("SuperAdmin"))
-                return RedirectToAction("Index", "SuperAdmin");
+            
             string userId = _userManager.GetUserId(User);
             EditUserViewModel model = new EditUserViewModel()
             {

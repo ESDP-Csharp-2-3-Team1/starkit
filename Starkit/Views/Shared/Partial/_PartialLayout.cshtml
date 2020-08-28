@@ -9,8 +9,16 @@
                     <a class="nav-link text-white" asp-area="">FAQ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" asp-action="Index" asp-controller="Users">Личный кабинет</a>
-                </li>
+                    @if (User.IsInRole(Convert.ToString(Roles.Registrant)))
+                    {
+                        <a class="nav-link text-white" asp-action="Index" asp-controller="Users">Личный кабинет</a>
+                    }
+                    else
+                    {
+                        <a class="nav-link text-white" >Личный кабинет</a>
+
+                    }
+                                                                                                    </li>
             </ul>
             </div>
     </div>
