@@ -30,6 +30,11 @@ namespace Starkit.Controllers
         public async Task<IActionResult> Index( int page = 1)
         {
             string userId = _userManager.GetUserId(User);
+            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+            {
+                User admin = await _userManager.FindByIdAsync(userId);
+                userId = admin.IdOfTheSelectedRestaurateur;
+            }
             User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
             int pageSize = 5; 
             List<User> users = _db.Users.Where(u=>u.RestaurantId == user.RestaurantId && u.Position == EmployeePosition.AdministratorRestaurant || u.Position == EmployeePosition.ContentManager ).Skip((page - 1) * pageSize).Take(pageSize).ToList();
@@ -90,7 +95,7 @@ namespace Starkit.Controllers
                     if (result.Succeeded)
                     {
                         await _userManager.AddToRoleAsync(newUser, Convert.ToString(newUser.Position));
-                        return RedirectToAction("Index", "Users");
+                        return RedirectToAction("Index", "Employees");
                     }
                     foreach (var error in result.Errors)
                         ModelState.AddModelError(String.Empty, error.Description);
