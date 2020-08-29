@@ -13,12 +13,11 @@ using Starkit.ViewModels;
 
 namespace Starkit.Controllers
 {
+    [Authorize(Roles = "SuperAdmin")]
     public class SuperAdminController : Controller
     {
         private StarkitContext _db { get; set; }
-
         private UserManager<User> _userManager { get; set; }
-
         public SuperAdminController(StarkitContext db, UserManager<User> userManager)
         {
             _db = db;
@@ -26,7 +25,7 @@ namespace Starkit.Controllers
         }
 
         // GET
-        [Authorize(Roles = "SuperAdmin")]
+        
         public async Task<IActionResult> Index( int page = 1)
         { 
             string userId = _userManager.GetUserId(User);
@@ -46,7 +45,7 @@ namespace Starkit.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "SuperAdmin")]
+       
         public async Task<IActionResult> UpdateRegistrantStatus(string userId)
         {
             User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
@@ -60,7 +59,6 @@ namespace Starkit.Controllers
             return Json(false);
         }
         
-        [Authorize(Roles = "SuperAdmin")]
         [ActionName("Index")]
         [HttpPost]
         public async Task<IActionResult> EditRegistrantInfo(SuperAdminIndexViewModel model)
@@ -81,7 +79,7 @@ namespace Starkit.Controllers
         }
 
         [NonAction]
-        [Authorize(Roles = "SuperAdmin")]
+        
         private async Task<PostalAddress> BuildPostalAddress(PostalAddress model, string userId)
         {
             PostalAddress postalAddress = await _db.PostalAddresses.FirstOrDefaultAsync(l => l.UserId == userId);
@@ -93,7 +91,7 @@ namespace Starkit.Controllers
             return postalAddress;
         }
         [NonAction]
-        [Authorize(Roles = "SuperAdmin")]
+        
         private async Task<LegalAddress> BuildLegalAddress(LegalAddress model, string userId)
         {
             LegalAddress legalAddress = await _db.LegalAddresses.FirstOrDefaultAsync(l => l.UserId == userId);
@@ -105,7 +103,7 @@ namespace Starkit.Controllers
             return legalAddress;
         }
         [NonAction]
-        [Authorize(Roles = "SuperAdmin")]
+        
         private async Task<User> BuildUser(User model)
         {
             User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == model.Id);
@@ -119,7 +117,7 @@ namespace Starkit.Controllers
             return user;
         }
 
-        [Authorize(Roles = "SuperAdmin")]
+        
         public async Task<IActionResult> ChooseRestaurateur(string restaurantId)
         {
             if (await _db.Users.AnyAsync(u => u.Id == restaurantId))
@@ -133,7 +131,7 @@ namespace Starkit.Controllers
             return NotFound();
         }
 
-        [Authorize(Roles = "SuperAdmin")]
+        
         public async Task<IActionResult> DeselectRestaurateur(string restaurantId)
         {
             if (await _db.Users.AnyAsync(u => u.Id == restaurantId))
