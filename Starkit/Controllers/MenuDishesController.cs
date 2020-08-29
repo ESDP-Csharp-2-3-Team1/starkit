@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Starkit.Models;
@@ -16,7 +17,8 @@ namespace Starkit.Controllers
         {
             _db = db;
         }
-
+        
+        [Authorize(Roles = "SuperAdmin,Registrant")]
         [HttpPost]
         public async Task<IActionResult> Create(string dishId, List<string> menuIds)
         {
