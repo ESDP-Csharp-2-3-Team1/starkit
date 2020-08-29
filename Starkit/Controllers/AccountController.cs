@@ -70,10 +70,7 @@ namespace Starkit.Controllers
                             user.AccessFailedCount = 0;
                             await _userManager.UpdateAsync(user);
                         }
-
-                        if (user.Email == "admin@admin.com")
-                            return RedirectToAction("Index", "SuperAdmin");
-                        return RedirectToAction("Index", "Users");
+                        return RedirectToAction("Initial", "Account");
                     }
                     user.AccessFailedCount += 1;
                     await _userManager.UpdateAsync(user);
@@ -86,8 +83,8 @@ namespace Starkit.Controllers
         }
         public IActionResult Register()
         {
-            if (User.Identity.IsAuthenticated && !User.IsInRole("SuperAdmin"))
-                return RedirectToAction("Index","Users");
+            if (User.Identity.IsAuthenticated)
+                return RedirectToAction("Initial","Account");
             return View();
         }
         
