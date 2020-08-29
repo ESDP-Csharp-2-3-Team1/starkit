@@ -67,6 +67,7 @@ namespace Starkit.Controllers
             }
         }
 
+        [Authorize(Roles = "SuperAdmin,Registrant,ContentManager")]
         public async Task<IActionResult> Index()
         {
             User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
@@ -80,6 +81,7 @@ namespace Starkit.Controllers
             return View();
         }
         
+        [Authorize(Roles = "SuperAdmin,Registrant,ContentManager")]
         public async Task<IActionResult> GetMenu()
         {
             User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));

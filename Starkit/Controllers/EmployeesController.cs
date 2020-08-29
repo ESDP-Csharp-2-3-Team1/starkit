@@ -27,7 +27,6 @@ namespace Starkit.Controllers
 
 
         // GET
-        [Authorize]
         public async Task<IActionResult> Index( int page = 1)
         {
             string userId = _userManager.GetUserId(User);
@@ -60,7 +59,7 @@ namespace Starkit.Controllers
         }
         
         [HttpPost]
-        [Authorize]
+   
         public async Task<IActionResult> Create(EmployeeViewModel model)
         {
             if (ModelState.IsValid)
@@ -106,7 +105,7 @@ namespace Starkit.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+       
         public async Task<IActionResult> UpdateRegistrantStatus(string userId)
         {
             User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
@@ -121,7 +120,7 @@ namespace Starkit.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        
         // Функционал требует доработки. Осталось реализовать валидацию Email-а и интеграцию ajax. (Пароль)
         public async Task<IActionResult> Edit(EmployeeViewModel model) 
         {
