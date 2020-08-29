@@ -13,6 +13,7 @@ using Starkit.ViewModels;
 
 namespace Starkit.Controllers
 {
+    [Authorize(Roles = "Registrant")]
     public class UsersController : Controller
     {
         private UserManager<User> _userManager { get; set; }
@@ -23,8 +24,7 @@ namespace Starkit.Controllers
             _userManager = userManager;
             _db = db;
         }
-
-      
+        
         
         [Authorize]
         [HttpPost]
@@ -57,7 +57,6 @@ namespace Starkit.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            
             string userId = _userManager.GetUserId(User);
             EditUserViewModel model = new EditUserViewModel()
             {
