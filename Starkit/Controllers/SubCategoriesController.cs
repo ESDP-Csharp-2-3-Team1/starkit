@@ -13,6 +13,7 @@ using Starkit.ViewModels;
 
 namespace Starkit.Controllers
 {
+    [Authorize(Roles = "SuperAdmin,Registrant,ContentManager")]
     public class SubCategoriesController : Controller
     {
         private StarkitContext _db;
