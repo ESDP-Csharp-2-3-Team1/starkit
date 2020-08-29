@@ -24,7 +24,7 @@ namespace Starkit.Controllers
             _userManager = userManager;
         }
         
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin,Registrant,ContentManager")]
         public async Task<IActionResult> Index()
         {
             User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
@@ -37,8 +37,9 @@ namespace Starkit.Controllers
                 return RedirectToAction("Register", "Restaurants");
             return View();
         }
-
-        [Authorize]
+        
+        [Authorize(Roles = "SuperAdmin,Registrant,ContentManager")]
+       
         public async Task<IActionResult> GetCategories()
         {
             User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
@@ -52,7 +53,7 @@ namespace Starkit.Controllers
             return PartialView("PartialViews/ListCategoryPartialView", restaurant.Categories);
         }
 
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin,Registrant,ContentManager")]
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -68,7 +69,7 @@ namespace Starkit.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin,Registrant,ContentManager")]
         public async Task<IActionResult> Create(Category category)
         {
             if (ModelState.IsValid)
@@ -93,7 +94,7 @@ namespace Starkit.Controllers
             return View(category);
         }
 
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin,Registrant,ContentManager")]
         [HttpDelete]
         public async Task<IActionResult> Delete(string id)
         {
@@ -104,7 +105,7 @@ namespace Starkit.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin,Registrant,ContentManager")]
         public IActionResult Edit(string id)
         {
             Category category = _db.Categories.FirstOrDefault(c => c.Id == id);
@@ -113,7 +114,7 @@ namespace Starkit.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin,Registrant,ContentManager")]
         public async Task<IActionResult> Edit(EditCategoryViewModel model)
         {
             if (ModelState.IsValid)

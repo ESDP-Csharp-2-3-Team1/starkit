@@ -80,7 +80,7 @@ namespace Starkit
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Users}/{action=Initial}/{id?}");
+                    pattern: "{controller=Account}/{action=Initial}/{id?}");
             });
         }
     }

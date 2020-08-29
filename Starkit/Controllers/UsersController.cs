@@ -24,16 +24,7 @@ namespace Starkit.Controllers
             _db = db;
         }
 
-        public IActionResult Initial()
-        {
-            if (!User.Identity.IsAuthenticated)
-                return RedirectToAction("Login", "Account");
-            if (User.IsInRole(Convert.ToString(Roles.Registrant)))
-                return RedirectToAction("Index", "Users");
-            if(User.IsInRole(Convert.ToString(Roles.ContentManager)))
-                return RedirectToAction("Index", "Dishes");
-            return RedirectToAction("Index", "SuperAdmin");
-        }
+      
         
         [Authorize]
         [HttpPost]
