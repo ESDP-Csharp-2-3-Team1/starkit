@@ -13,6 +13,7 @@ using Starkit.ViewModels;
 
 namespace Starkit.Controllers
 {
+    [Authorize(Roles = "SuperAdmin,Registrant")]
     public class EmployeesController : Controller
     {
         private UserManager<User> _userManager { get; set; }
