@@ -14,6 +14,7 @@ using Starkit.Services;
 
 namespace Starkit.Controllers
 {
+    [Authorize(Roles = "SuperAdmin,Registrant")]
     public class RestaurantsController : Controller
     {
         private StarkitContext _db { get; set; }
