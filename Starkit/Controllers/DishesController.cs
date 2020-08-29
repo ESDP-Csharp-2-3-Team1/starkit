@@ -35,6 +35,7 @@ namespace Starkit.Controllers
 
         private UserManager<User> _userManager { get; }
 
+        [Authorize(Roles = "SuperAdmin,Registrant,ContentManager")]
         private async Task DeleteDishAvatar(Dish dish)
         {
             User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
@@ -47,6 +48,7 @@ namespace Starkit.Controllers
             if (Directory.Exists(filePath)) System.IO.File.Delete("wwwroot/" + dish.Avatar);
         }
 
+        [Authorize(Roles = "SuperAdmin,Registrant,ContentManager")]
         private async Task<string> Load(string id, IFormFile file)
         {
             User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
@@ -63,7 +65,7 @@ namespace Starkit.Controllers
             return photoPath;
         }
 
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin,Registrant,ContentManager")]
         public async Task<IActionResult> Index()
         {
             User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
@@ -80,7 +82,7 @@ namespace Starkit.Controllers
             return View(selectList);
         }
 
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin,Registrant,ContentManager")]
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -100,9 +102,9 @@ namespace Starkit.Controllers
             return View(dish);
         }
 
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin,Registrant,ContentManager")]
         [HttpGet]
-        public async Task<IActionResult> GetSubCategoriesWithCategory(string id)
+        public IActionResult GetSubCategoriesWithCategory(string id)
         {
             Category category =  _db.Categories.FirstOrDefault(c => c.Id == id);
             var dish = new Dish
@@ -112,7 +114,7 @@ namespace Starkit.Controllers
             return PartialView("PartialViews/SubcategoryOptions", dish);
         }
 
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin,Registrant,ContentManager")]
         [HttpPost]
         public async Task<IActionResult> Create(Dish dish)
         {
@@ -135,7 +137,7 @@ namespace Starkit.Controllers
             return View(dish);
         }
 
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin,Registrant,ContentManager")]
         [HttpGet]
         public IActionResult Edit(string id)
         {
@@ -157,7 +159,7 @@ namespace Starkit.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin,Registrant,ContentManager")]
         public async Task<IActionResult> Edit(EditDishViewModel model)
         {
             if (ModelState.IsValid)
@@ -187,7 +189,7 @@ namespace Starkit.Controllers
             return View(model);
         }
 
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin,Registrant,ContentManager")]
         public async Task<IActionResult> GetDishes(string category, string name, int page = 1, SortState sortOrder = SortState.AddTimeAsc)
         {
             string userId = _userManager.GetUserId(User);
@@ -257,7 +259,7 @@ namespace Starkit.Controllers
             return PartialView("PartialViews/LIstDishPartialView", viewModel);
         }
 
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin,Registrant,ContentManager")]
         [HttpDelete]
         public async Task<IActionResult> Delete(string[] ids)
         {
@@ -285,7 +287,7 @@ namespace Starkit.Controllers
         }
 
         [HttpPut]
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin,Registrant,ContentManager")]
         public async Task<IActionResult> Hide(List<string> ids)
         {
             var dish = new Dish();
@@ -303,7 +305,7 @@ namespace Starkit.Controllers
             return Json(true);
         }
 
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin,Registrant,ContentManager")]
         public async Task<IActionResult> GetModalDish(string id)
         {
             User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
@@ -317,7 +319,7 @@ namespace Starkit.Controllers
             return PartialView("PartialViews/ModalAddDishToMenuPartialView", dish);
         }
 
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin,Registrant,ContentManager")]
         [HttpGet]
         public IActionResult Details(string id)
         {
