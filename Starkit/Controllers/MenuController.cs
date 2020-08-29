@@ -31,6 +31,7 @@ namespace Starkit.Controllers
             _userManager = userManager;
         }
 
+        [Authorize(Roles = "SuperAdmin,Registrant,ContentManager")]
         private async Task<string> Load(string id, IFormFile file)
         {
             User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
@@ -49,6 +50,7 @@ namespace Starkit.Controllers
             return photoPath;
         }
         
+        [Authorize(Roles = "SuperAdmin,Registrant,ContentManager")]
         private async Task DeleteMenuAvatar(Menu menu)
         {
             User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
@@ -94,7 +96,8 @@ namespace Starkit.Controllers
             return PartialView("PartialViews/ListMenuPartialView", menu);
         }
 
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin,Registrant")]
+
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -109,6 +112,7 @@ namespace Starkit.Controllers
             return View();
         }
         
+        [Authorize(Roles = "SuperAdmin,Registrant")]
         [HttpPost]
         public async Task<IActionResult> Create(Menu menu)
         {
@@ -128,17 +132,19 @@ namespace Starkit.Controllers
             return View(menu);
         }
         
+        [Authorize(Roles = "SuperAdmin,Registrant")]
         [HttpDelete]
         public async Task<IActionResult> Delete(string id)
         {
             Menu menu = new Menu{Id = id};
             _db.Entry(menu).State = EntityState.Deleted;
             await _db.SaveChangesAsync();
-            DeleteMenuAvatar(menu);
+            await DeleteMenuAvatar(menu);
             return RedirectToAction("GetMenu");
         }
 
         [HttpGet]
+        [Authorize(Roles = "SuperAdmin,Registrant")]
         public IActionResult Edit(string id)
         {
             Menu menu = _db.Menu.FirstOrDefault(m => m.Id == id);
@@ -154,6 +160,7 @@ namespace Starkit.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "SuperAdmin,Registrant")]
         public async Task<IActionResult> Edit(EditMenuViewModel model)
         {
             if (ModelState.IsValid)
@@ -181,7 +188,8 @@ namespace Starkit.Controllers
 
             return View();
         }
-
+        
+        [Authorize(Roles = "SuperAdmin,Registrant,ContentManager")]
         [HttpGet]
         public IActionResult Details(string id)
         {
