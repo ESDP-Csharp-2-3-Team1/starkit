@@ -78,7 +78,7 @@ End with an example of getting some data out of the system or using it for a lit
 * Старостенко Константин
 
 # Лицензия
-Этот проект не лицензируется и доступен в открытом виде.
+См. условия лицензирования в <a href="https://github.com/ESDP-Csharp-2-3-Team1/starkit/blob/master/LICENSE">LICENSE</a>.
 
 # Благодарности
 Команда выражает свои благодарности Майлюбаеву Ернару и Старостенко Константину за вдохновение и мотивацию в реализации проекта.
