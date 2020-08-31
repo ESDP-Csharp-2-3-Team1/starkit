@@ -47,8 +47,10 @@
                     <img class="dish-img" src="~/@dish.Avatar" alt="">
                     <p class="text-dish-business-card">@dish.Name</p>
                     <div style="text-align: center">
-                        <input type="number" min="0" style="width: 50px">
-                        <button type="button" class="btn btn-light">Заказать</button>
+                        <form asp-controller="Cart" asp-action="Buy" asp-route-id="@dish.Id">
+                            <input type="number" name="quantity" min="0" style="width: 50px">
+                            <button type="submit" class="btn btn-light">Заказать</button>
+                        </form>
                     </div>
                 </div>   
             }
@@ -60,5 +62,9 @@
 @section Scripts
 {
     <script>
+        $(document).ready(function (){
+           $(".contact-number").text($("#contact-number").val());
+           $("#nav-logo").attr("src", $("#logo").val());
+        });
     </script>
 }

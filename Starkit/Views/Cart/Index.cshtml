@@ -1,0 +1,37 @@
+﻿@model object
+
+@{
+    ViewBag.Title = "Корзина";
+    Layout = "_BusinessCardLayout";
+}
+
+<h3 class="text-cart">Корзина</h3>
+<table class="table">
+    <tr>
+        <th>Наименования</th>
+        <th>Картинка</th>
+        <th>Цена</th>
+        <th>Действие</th>
+        <th>Количество</th>
+        <th>Общая стоимость</th>
+    </tr>
+    @foreach (var item in ViewBag.cart)
+    {
+        <tr>
+            <td>@item.Dish.Name</td>
+            <td><img src="~/@item.Dish.Avatar" width="60" /> </td>
+            <td>@item.Dish.Cost</td>
+            <td><a asp-controller="cart" asp-action="remove" asp-route-id="@item.Dish.Id">Убрать</a></td>
+            <td>@item.Quantity</td>
+            <td>@(item.Dish.Cost * item.Quantity)</td>
+        </tr>
+    }
+    <tr>
+        <td align="right" colspan="5">Сумма</td>
+        <td>
+            @ViewBag.total
+        </td>
+    </tr>
+</table>
+<br>
+<a asp-controller="Site" asp-action="index">Назад</a>
