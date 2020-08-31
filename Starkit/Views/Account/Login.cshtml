@@ -42,11 +42,14 @@
              </label>
          </div>
          
-         <div id="recaptcha-block" class="d-none">
+         <div id="captcha-block" class="d-none">
              <div class="input-group">
                  <div class="input-group-prepend">
                      <img id="img-captcha" src="~/get-captcha-image" />
                  </div>
+                 <div class="input-group-prepend">
+                      <i class="fas fa-redo refresh"></i>
+                  </div>
                  <input type="text" class="form-control captcha-code" placeholder="Введите код с картинки" asp-for="CaptchaCode" maxlength="4" />
                  <span asp-validation-for="CaptchaCode" class="text-danger"></span>
              </div>
@@ -113,12 +116,21 @@
                 success: function(data) {
                     if (data >= 3)
                         {
-                             $('#recaptcha-block').removeClass('d-none');
+                             $('#captcha-block').removeClass('d-none');
                         }
                 }
             })
          
         })
+        
+        $(".refresh").click(function () {
+            resetCaptchaImage();
+        });
+        
+        function resetCaptchaImage() {
+            d = new Date();
+            $("#img-captcha").attr("src", "/get-captcha-image?" + d.getTime());
+        }
 </script>
   
 }

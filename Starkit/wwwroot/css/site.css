@@ -1116,3 +1116,9 @@ body {
   margin-left: 20px;
   border-bottom: 1px solid #f2f2f2!important;
 }
+
+.refresh{
+  align-self: center;
+  margin-left: 10px;
+  color: grey;
+}
