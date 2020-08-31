@@ -1073,12 +1073,6 @@ body {
 .business-card-footer{
   background-color: white;
 }
-.basket-num{
-  background: #adadad;
-  width: 30px;
-  border-radius: 30px;
-  text-align: center;
-}
 .asd457sa24{
   padding-left: 20px;
 }
@@ -1117,5 +1111,5 @@ body {
 }
 .cart-cell{
   text-align: center;
-  vertical-align: middle;
+  vertical-align: middle!important;
 }

@@ -19,6 +19,8 @@ namespace Starkit.Controllers
         public IActionResult Index()
         {
             var cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+            if (cart == null)
+                cart = new List<Item>();
             ViewBag.cart = cart;
             ViewBag.total = cart.Sum(item => item.Dish.Cost * item.Quantity);
             return View();
