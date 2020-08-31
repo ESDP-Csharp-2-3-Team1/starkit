@@ -1,0 +1,12 @@
+﻿@model List<Table>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>title</h2>
+@foreach (var t in Model)
+{
+    <p>t.Id</p>
+}
