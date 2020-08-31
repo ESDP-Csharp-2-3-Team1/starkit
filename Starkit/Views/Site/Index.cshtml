@@ -48,7 +48,7 @@
                     <p class="text-dish-business-card">@dish.Name</p>
                     <div style="text-align: center">
                         <form asp-controller="Cart" asp-action="Buy" asp-route-id="@dish.Id">
-                            <input type="number" name="quantity" min="0" style="width: 50px">
+                            <input type="number" name="quantity" min="1" style="width: 50px">
                             <button type="submit" class="btn btn-light">Заказать</button>
                         </form>
                     </div>

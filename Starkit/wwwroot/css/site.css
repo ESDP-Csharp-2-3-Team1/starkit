@@ -1111,3 +1111,11 @@ body {
 .asd52zx78A{
   text-align: end;
 }
+.text-cart{
+  text-align: center;
+  margin: 50px 0 50px 0;
+}
+.cart-cell{
+  text-align: center;
+  vertical-align: middle;
+}
