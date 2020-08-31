@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -47,18 +48,19 @@ namespace Starkit.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(Login model)
         {
+            int fails = Convert.ToInt32(HttpContext.Session.GetInt32("fails"));
             if (ModelState.IsValid)
             {
                 User user = await _db.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
                 if (user != null)
                 {
-                    if (user.AccessFailedCount >= 3)
+                    if (user.AccessFailedCount >= 3 || fails >= 3)
                     {
-                        var captchaResponse = await _recaptcha.Validate(Request.Form);
-                        if (!captchaResponse.Success)
+                        var captchaResponse =  Captcha.ValidateCaptchaCode(model.CaptchaCode, HttpContext);
+                        if (!captchaResponse)
                         {
-                            ModelState.AddModelError("reCaptchaError", 
-                                "Ошибка проверки reCAPTCHA. Попробуйте еще раз.");
+                            ModelState.AddModelError("", 
+                                "Неверная попытка входа в систему");
                             return View(model);
                         }
                     }
@@ -68,17 +70,22 @@ namespace Starkit.Controllers
                         if (user.AccessFailedCount != 0)
                         {
                             user.AccessFailedCount = 0;
+                            fails = 0;
                             await _userManager.UpdateAsync(user);
                         }
                         return RedirectToAction("Initial", "Account");
                     }
                     user.AccessFailedCount += 1;
+                    fails += 1;
+                    HttpContext.Session.SetInt32("fails", fails);
                     await _userManager.UpdateAsync(user);
                     ModelState.AddModelError("", "Неверная попытка входа в систему");
                     return View();
                 }
                 ModelState.AddModelError("","Неверная попытка входа в систему");
             }
+            fails += 1;
+            HttpContext.Session.SetInt32("fails", fails);
             return View(model);
         }
         public IActionResult Register()
@@ -205,9 +212,14 @@ namespace Starkit.Controllers
                 User user = await _userManager.FindByEmailAsync(email);
                 if (user != null)
                     return Json(user.AccessFailedCount);
+                var fails = Convert.ToInt32(HttpContext.Session.GetInt32("fails"));
+                return Json(fails);
             }
+
             return NoContent();
+
         }
+        
         
         [HttpGet]
         public IActionResult ForgotPassword()
@@ -318,6 +330,18 @@ namespace Starkit.Controllers
             if(User.IsInRole(Convert.ToString(Roles.ContentManager)))
                 return RedirectToAction("Index", "Dishes");
             return RedirectToAction("Index", "SuperAdmin");
+        }
+        
+        [Route("get-captcha-image")]
+        public IActionResult GetCaptchaImage()
+        {
+            int width = 100;
+            int height = 36;
+            var captchaCode = Captcha.GenerateCaptchaCode();
+            var result = Captcha.GenerateCaptchaImage(width, height, captchaCode);
+            HttpContext.Session.SetString("CaptchaCode", result.CaptchaCode);
+            Stream s = new MemoryStream(result.CaptchaByteData);
+            return new FileStreamResult(s, "image/png");
         }
 
     }

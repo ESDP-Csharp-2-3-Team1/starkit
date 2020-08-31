@@ -1,4 +1,7 @@
 ﻿@using Microsoft.Extensions.Options
+@using System.Net.Http
+@using MailKit
+@using Microsoft.AspNetCore.Http
 @model Login
 @inject IOptions<AppOptions> AppOptions
 
@@ -38,12 +41,20 @@
                  Запомнить меня
              </label>
          </div>
-         <div id="recaptcha-block" class="d-none">
-             <div class="g-recaptcha" data-sitekey="@AppOptions.Value.ReCaptcha.SiteKey"></div>
+         
+         <div id="captcha-block" class="d-none">
+             <div class="input-group">
+                 <div class="input-group-prepend">
+                     <img id="img-captcha" src="~/get-captcha-image" />
+                 </div>
+                 <div class="input-group-prepend">
+                      <i class="fas fa-redo refresh"></i>
+                  </div>
+                 <input type="text" class="form-control captcha-code" placeholder="Введите код с картинки" asp-for="CaptchaCode" maxlength="4" />
+                 <span asp-validation-for="CaptchaCode" class="text-danger"></span>
+             </div>
          </div>
-         <div class="block-message-error-recaptcha">
-             @Html.ValidationMessage("ReCaptchaError", new { @class = "text-danger" })
-         </div>
+         
          <button class="btn btn-primary btn-block" id="login-btn" type="submit">ВОЙТИ НА САЙТ</button>
          <div class="login-footer">
              <h6>или войдите с помощью</h6>
@@ -97,7 +108,7 @@
                 }
                 return false;
             });
-        $('.login-block').keyup(function() {
+        $(document).ready(function() {
             $.ajax({
                 url: '@Url.Action("FindUserByEmail", "Account")',
                 type: 'GET',
@@ -105,12 +116,21 @@
                 success: function(data) {
                     if (data >= 3)
                         {
-                             $('#recaptcha-block').removeClass('d-none');
+                             $('#captcha-block').removeClass('d-none');
                         }
                 }
             })
          
         })
+        
+        $(".refresh").click(function () {
+            resetCaptchaImage();
+        });
+        
+        function resetCaptchaImage() {
+            d = new Date();
+            $("#img-captcha").attr("src", "/get-captcha-image?" + d.getTime());
+        }
 </script>
   
 }
