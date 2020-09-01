@@ -32,16 +32,16 @@
            }) 
         });
         
-        function down(id, qty){
+        function down(id, qty, name){
             if (qty > 0){
-                $.get(`@Url.Action("ChangeQuantity")?id=${id}&quantity=${qty}`, function (data){
+                $.get(`@Url.Action("ChangeQuantity")?id=${id}&quantity=${qty}&name=${name}`, function (data){
                     $("#result").html(data);
                 })   
             }
         }
         
-        function up(id, qty){
-            $.get(`@Url.Action("ChangeQuantity")?id=${id}&quantity=${qty}`, function (data){
+        function up(id, qty, name){
+            $.get(`@Url.Action("ChangeQuantity")?id=${id}&quantity=${qty}&name=${name}`, function (data){
                 $("#result").html(data);
             })
         }

@@ -15,9 +15,16 @@
     <div class="row" style="margin: 50px 0 0 0;">
         @foreach (var stock in Model.Stocks)
         {
-            <div class="col-sm-2 mb-3">
+            <div class="col-sm-3 mb-3">
                 <img class="stock-img" src="~/@stock.Avatar" alt="">
                 <p class="text-stock-business-card">@stock.Name</p>
+                <div style="text-align: center">
+                    <form class="buy" id="@stock.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@stock.Id" asp-route-name="stock">
+                        <input id="qty-@stock.Id" type="number" name="quantity" min="1" style="width: 50px">
+                        <button type="submit" class="btn btn-light">В корзину</button>
+                        <p style="margin: 10px 0 10px 0" id="message-@stock.Id"></p>
+                    </form>
+                </div>
             </div>  
         }
     </div>
@@ -28,9 +35,16 @@
     <div class="row mt-5">
         @foreach (var menu in Model.Menu)
         {
-            <div class="col-sm-2 mb-3">
+            <div class="col-sm-3 mb-3">
                 <img class="menu-img" src="~/@menu.Avatar" alt="">
                 <p class="text-menu-business-card">@menu.Name</p>
+                <div style="text-align: center">
+                    <form class="buy" id="@menu.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@menu.Id" asp-route-name="menu">
+                        <input id="qty-@menu.Id" type="number" name="quantity" min="1" style="width: 50px">
+                        <button type="submit" class="btn btn-light">В корзину</button>
+                        <p style="margin: 10px 0 10px 0" id="message-@menu.Id"></p>
+                    </form>
+                </div>
             </div>
         }
     </div>
@@ -47,9 +61,9 @@
                     <img class="dish-img" src="~/@dish.Avatar" alt="">
                     <p class="text-dish-business-card">@dish.Name</p>
                     <div style="text-align: center">
-                        <form class="buy" id="@dish.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@dish.Id">
+                        <form class="buy" id="@dish.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@dish.Id" asp-route-name="dish">
                             <input id="qty-@dish.Id" type="number" name="quantity" min="1" style="width: 50px">
-                            <button type="submit" class="btn btn-light">Добавить в корзину</button>
+                            <button type="submit" class="btn btn-light">В корзину</button>
                             <p style="margin: 10px 0 10px 0" id="message-@dish.Id"></p>
                         </form>
                     </div>

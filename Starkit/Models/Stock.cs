@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Org.BouncyCastle.Asn1.Cms;
 
 namespace Starkit.Models
@@ -33,25 +34,32 @@ namespace Starkit.Models
         public string Avatar { get; set; }
         
         [NotMapped]
+        [System.Text.Json.Serialization.JsonIgnore]
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         public IFormFile File { get; set; }
         
         public string CreatorId { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual User Creator { get; set; }
         
         public string EditorId { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual User Editor { get; set; }
 
         public string FirstDishId { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual Dish FirstDish { get; set; }
         
         public string SecondDishId { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual Dish SecondDish { get; set; }
         
         public string ThirdDishId { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual Dish ThirdDish { get; set; }
         
         public string RestaurantId { get; set; }
+        [JsonIgnore]
         public virtual Restaurant Restaurant { get; set; }
     }
 }
