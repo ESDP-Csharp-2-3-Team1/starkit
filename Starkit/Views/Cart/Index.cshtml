@@ -8,6 +8,7 @@
 <h3 class="text-cart">Корзина</h3>
 <div style="overflow-x: auto">
     <table class="table table-bordered">
+        <thead>
         <tr>
             <th class="cart-cell">Наименования</th>
             <th class="cart-cell">Картинка</th>
@@ -16,24 +17,33 @@
             <th class="cart-cell">Количество</th>
             <th class="cart-cell">Общая стоимость</th>
         </tr>
-        @foreach (var item in ViewBag.cart)
-        {
-            <tr>
-                <td class="cart-cell">@item.Dish.Name</td>
-                <td class="cart-cell"><img src="~/@item.Dish.Avatar" width="60" /> </td>
-                <td class="cart-cell">@item.Dish.Cost</td>
-                <td class="cart-cell"><a asp-controller="cart" asp-action="remove" asp-route-id="@item.Dish.Id">Убрать</a></td>
-                <td class="cart-cell">@item.Quantity</td>
-                <td class="cart-cell">@(item.Dish.Cost * item.Quantity)</td>
-            </tr>
-        }
-        <tr>
-            <td style="vertical-align: middle" align="right" colspan="5">Сумма</td>
-            <td style="vertical-align: middle">
-                @ViewBag.total
-            </td>
-        </tr>
+        </thead>
+        <tbody id="result"></tbody>
     </table>
 </div>
 <br>
 <a asp-controller="Site" asp-action="index">Назад</a>
+@section Scripts
+{
+    <script >
+        $(document).ready(function (){
+           $.get('@Url.Action("GetContentCard")', function (data){
+               $("#result").html(data);
+           }) 
+        });
+        
+        function down(id, qty){
+            if (qty > 0){
+                $.get(`@Url.Action("ChangeQuantity")?id=${id}&quantity=${qty}`, function (data){
+                    $("#result").html(data);
+                })   
+            }
+        }
+        
+        function up(id, qty){
+            $.get(`@Url.Action("ChangeQuantity")?id=${id}&quantity=${qty}`, function (data){
+                $("#result").html(data);
+            })
+        }
+    </script>
+}

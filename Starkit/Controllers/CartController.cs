@@ -18,11 +18,6 @@ namespace Starkit.Controllers
         
         public IActionResult Index()
         {
-            var cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
-            if (cart == null)
-                cart = new List<Item>();
-            ViewBag.cart = cart;
-            ViewBag.total = cart.Sum(item => item.Dish.Cost * item.Quantity);
             return View();
         }
         
@@ -72,6 +67,25 @@ namespace Starkit.Controllers
                 }
             }
             return -1;
+        }
+
+        public IActionResult ChangeQuantity(string id, int quantity)
+        {
+            List<Item> cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+            int index = isExist(id);
+            cart[index].Quantity = quantity;
+            SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+            return RedirectToAction("GetContentCard");
+        }
+
+        public IActionResult GetContentCard()
+        {
+            var cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+            if (cart == null)
+                cart = new List<Item>();
+            ViewBag.cart = cart;
+            ViewBag.total = cart.Sum(item => item.Dish.Cost * item.Quantity);
+            return PartialView("PartialView/CartContentPartialView");
         }
     }
 }
