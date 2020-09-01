@@ -1,13 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Starkit.Models;
+using Starkit.Models.Data;
 using Starkit.Services;
 
 namespace Starkit.Controllers
 {
     public class OrdersController : Controller
     {
+        private StarkitContext _db;
+
+        public OrdersController(StarkitContext db)
+        {
+            _db = db;
+        }
+
         public IActionResult Add()
         {
             List<Item> cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
@@ -26,9 +35,36 @@ namespace Starkit.Controllers
                 List<Item> cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
                 foreach (var item in cart)
                 {
-                    
+                    if (item.Dish != null)
+                    {
+                        OrdersDishes ordersDishes = new OrdersDishes
+                        {
+                            OrderId = order.Id,
+                            DishId = item.Dish.Id,
+                            Quantity = item.Quantity,
+                        };
+                        order.RestaurantId = item.Dish.RestaurantId;
+                        _db.Entry(ordersDishes).State = EntityState.Added;
+                    }
+                    else if (item.Menu != null)
+                    {
+                        OrdersMenu ordersMenu = new OrdersMenu
+                        {
+                            OrderId = order.Id,
+                            MenuId = item.Menu.Id,
+                            Quantity = item.Quantity
+                        };
+                        _db.Entry(ordersMenu).State = EntityState.Added;
+                        order.RestaurantId = item.Menu.RestaurantId;
+                    }
+                    else if (item.Stock != null)
+                    {
+                        
+                    }
                 }
-                return Json(false);   
+                _db.Entry(order).State = EntityState.Added;
+                await _db.SaveChangesAsync();
+                return Json(true);   
             }
             return PartialView("PartialViews/ToOrderModalWindowPartialView", order);
         }

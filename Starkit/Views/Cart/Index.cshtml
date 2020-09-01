@@ -109,8 +109,18 @@
                 method: method,
                 data: data,
                 success: function (result){
-                    $("#details").html(result);
-                    $("#toOrder").show();
+                    if (result != true){
+                        $("#details").html(result);
+                        $("#toOrder").show();   
+                    }
+                    else{
+                        $("#toOrder").hide();
+                        var message = $("#message");
+                        $(message).text("Заказ успешно оформлен");
+                        $(message).css("color", "green");
+                        $(message).show();
+                        setTime($(message));
+                    }
                 }
             });
         }
