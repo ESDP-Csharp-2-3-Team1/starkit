@@ -21,8 +21,12 @@
         <tbody id="result"></tbody>
     </table>
 </div>
+<div id="dish-details"></div>
 <br>
-<a asp-controller="Site" asp-action="index">Назад</a>
+<div style="display: flex; justify-content: space-between">
+    <a asp-controller="Site" asp-action="index">Назад</a>
+    <a href="#">Оформить заказ</a>
+</div>
 @section Scripts
 {
     <script >
@@ -44,6 +48,20 @@
             $.get(`@Url.Action("ChangeQuantity")?id=${id}&quantity=${qty}&name=${name}`, function (data){
                 $("#result").html(data);
             })
+        }
+        
+        function dishDetails(id){
+            $.get(`@Url.Action("Details", "Dishes")/?id=${id}`, function(data) {
+                $('#dish-details').html(data);
+                $("#modal-details").show();
+                $("#modal-details").css("overflow", "auto");
+                $("body").css("overflow", "hidden");
+            })
+        }
+        
+        function closeModal() {
+            $(".modal").hide();
+            $("body").css("overflow", "auto");
         }
     </script>
 }
