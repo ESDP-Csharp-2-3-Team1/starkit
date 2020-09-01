@@ -44,7 +44,7 @@ namespace Starkit.Controllers
                 }
                 SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
             }
-            return RedirectToAction("Index");
+            return Ok();
         }
         
         public IActionResult Remove(string id)

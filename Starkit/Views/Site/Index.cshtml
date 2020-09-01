@@ -47,9 +47,10 @@
                     <img class="dish-img" src="~/@dish.Avatar" alt="">
                     <p class="text-dish-business-card">@dish.Name</p>
                     <div style="text-align: center">
-                        <form asp-controller="Cart" asp-action="Buy" asp-route-id="@dish.Id">
-                            <input type="number" name="quantity" min="1" style="width: 50px">
-                            <button type="submit" class="btn btn-light">Заказать</button>
+                        <form class="buy" id="@dish.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@dish.Id">
+                            <input id="qty-@dish.Id" type="number" name="quantity" min="1" style="width: 50px">
+                            <button type="submit" class="btn btn-light">Добавить в корзину</button>
+                            <p style="margin: 10px 0 10px 0" id="message-@dish.Id"></p>
                         </form>
                     </div>
                 </div>   
@@ -66,5 +67,40 @@
            $(".contact-number").text($("#contact-number").val());
            $("#nav-logo").attr("src", $("#logo").val());
         });
+        
+        $(".buy").submit(function (event){
+            event.preventDefault();
+            var form = $(this);
+            var id = $(form).attr("id");
+            var url = $(form).attr("action");
+            var data = $(form).serialize();
+            var message = $(`#message-${id}`);
+            if ($(`#qty-${id}`).val() != ""){
+                $.ajax({
+                    url: url,
+                    data : data,
+                    statusCode: {
+                        200: function (){
+                            $(message).css("color", "black");
+                            $(message).show();
+                            $(message).text("Товар добавлен в корзину");
+                            setTime(id); 
+                        }
+                    }
+                });   
+            }
+            else{
+                $(message).show();
+                $(message).css("color", "red");
+                $(message).text("Не указано количество");
+                setTime(id); 
+            }
+        })
+        
+        function setTime(id){
+            setTimeout(function (){
+                $(`#message-${id}`).hide();
+            }, 3000);
+        }
     </script>
 }
