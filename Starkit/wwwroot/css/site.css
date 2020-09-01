@@ -1113,3 +1113,7 @@ body {
   text-align: center;
   vertical-align: middle!important;
 }
+.toOrder-form-input{
+  text-align: right;
+  font-weight: 500;
+}

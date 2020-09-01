@@ -21,11 +21,12 @@
         <tbody id="result"></tbody>
     </table>
 </div>
+<div id="message" style="display: none"></div>
 <div id="details"></div>
 <br>
 <div style="display: flex; justify-content: space-between">
     <a asp-controller="Site" asp-action="index">Назад</a>
-    <a href="#">Оформить заказ</a>
+    <a href="#" onclick="toOrder('')">Оформить заказ</a>
 </div>
 @section Scripts
 {
@@ -80,6 +81,44 @@
                 $("#modal-details").css("overflow", "auto");
                 $("body").css("overflow", "hidden");
             })
+        }
+        
+        function toOrder(){
+            $.get('@Url.Action("Add", "Orders")', function (data){
+                if (data == false){
+                    var message = $("#message");
+                    $(message).text("Нет блюд в корзине");
+                    $(message).css("color", "red");
+                    $(message).show();
+                    setTime($(message));
+                }
+                $("#details").html(data);
+                $("#toOrder").show();
+                $("#toOrder").css("overflow", "auto");
+                $("body").css("overflow", "hidden");
+            });
+        }
+        
+        function toOrderSubmit(){
+            var form = $("#form-toOrder");
+            var data = $(form).serialize();
+            var url = $(form).attr("action");
+            var method = $(form).attr("method");
+            $.ajax({
+                url: url,
+                method: method,
+                data: data,
+                success: function (result){
+                    $("#details").html(result);
+                    $("#toOrder").show();
+                }
+            });
+        }
+        
+        function setTime(message){
+            setTimeout(function (){
+                $(message).hide();
+            }, 3000)
         }
     </script>
 }

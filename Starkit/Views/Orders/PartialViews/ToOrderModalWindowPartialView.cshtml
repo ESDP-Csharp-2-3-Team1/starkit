@@ -1,0 +1,45 @@
+﻿@model Order
+
+<div class="modal answer-modal" tabindex="-1" role="dialog" id="toOrder">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 style="margin-right: auto; margin-left: auto;">Оформление заказа</h2>
+            </div>
+            <div class="modal-body" style="margin-top: 20px">
+                <div class="row">
+                    <div class="col-sm-10" style="text-align: center">
+                        <form id="form-toOrder" asp-action="Add" asp-controller="Orders" method="post">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label toOrder-form-input">Имя</label><br/>
+                                <div class="col-sm-9">
+                                    <input type="text" asp-for="Name" class="form-control">
+                                </div>
+                                <span class="validationError" asp-validation-for="Name"></span>
+                            </div>
+                            <br/>
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label toOrder-form-input">Адрес</label><br/>
+                                <div class="col-sm-9">
+                                    <input type="text" asp-for="Address" class="form-control">
+                                </div>
+                                <span class="validationError" asp-validation-for="Address"></span>
+                            </div>
+                            <br/>
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label toOrder-form-input">Номер телефона</label><br/>
+                                <div class="col-sm-9">
+                                    <input type="text" asp-for="ContactNumber" class="form-control">
+                                </div>
+                                <span class="validationError" asp-validation-for="ContactNumber"></span>
+                            </div>
+                            <br/>
+                            <button type="button" class="btn btn-success" onclick="toOrderSubmit()">Оформить заказ</button>
+                            <button type="button" class="btn btn-danger" onclick="closeModal()">Закрыть</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
