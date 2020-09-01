@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Starkit.Models
 {
-    public enum State
+    public enum TableState
     {
         Available,
         Booked
@@ -27,7 +27,7 @@ namespace Starkit.Models
         [NotMapped]
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         public IFormFile File { get; set; }
-        public State State { get; set; } = State.Available;
+        public TableState State { get; set; } = TableState.Available;
         public string Desc { get; set; }
         public Location Location { get; set; } = Location.Regular;
         public bool IsSmoking { get; set; } = false;
