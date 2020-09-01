@@ -22,7 +22,7 @@
     if (item.Menu != null)
     {
         <tr>
-            <td class="cart-cell link-menu-name">@item.Menu.Name</td>
+            <td class="cart-cell link-menu-name" onclick="menuDetails('@item.Menu.Id')">@item.Menu.Name</td>
             <td class="cart-cell">
                 <img src="~/@item.Menu.Avatar" width="60"/>
             </td>
@@ -41,7 +41,7 @@
     if (item.Stock != null)
     {
         <tr>
-            <td class="cart-cell link-stock-name">@item.Stock.Name</td>
+            <td class="cart-cell link-stock-name" onclick="stockDetails('@item.Stock.Id')">@item.Stock.Name</td>
             <td class="cart-cell">
                 <img src="~/@item.Stock.Avatar" width="60"/>
             </td>

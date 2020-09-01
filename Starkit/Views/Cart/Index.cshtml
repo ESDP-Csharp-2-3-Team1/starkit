@@ -21,7 +21,7 @@
         <tbody id="result"></tbody>
     </table>
 </div>
-<div id="dish-details"></div>
+<div id="details"></div>
 <br>
 <div style="display: flex; justify-content: space-between">
     <a asp-controller="Site" asp-action="index">Назад</a>
@@ -52,7 +52,7 @@
         
         function dishDetails(id){
             $.get(`@Url.Action("Details", "Dishes")/?id=${id}`, function(data) {
-                $('#dish-details').html(data);
+                $('#details').html(data);
                 $("#modal-details").show();
                 $("#modal-details").css("overflow", "auto");
                 $("body").css("overflow", "hidden");
@@ -62,6 +62,24 @@
         function closeModal() {
             $(".modal").hide();
             $("body").css("overflow", "auto");
+        }
+        
+        function menuDetails(id) {
+            $.get(`@Url.Action("Details", "Menu")?id=${id}`, function(data) {
+                $("#details").html(data);
+                $("#modal-details").show();
+                $("#modal-details").css("overflow", "auto");
+                $("body").css("overflow", "hidden");
+            });
+        }
+        
+        function stockDetails(id) {
+            $.get(`@Url.Action("Details", "Stocks")?id=${id}`, function(data) {
+                $("#details").html(data);
+                $("#modal-details").show();
+                $("#modal-details").css("overflow", "auto");
+                $("body").css("overflow", "hidden");
+            })
         }
     </script>
 }
