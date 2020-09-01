@@ -87,5 +87,14 @@ namespace Starkit.Controllers
             ViewBag.total = cart.Sum(item => item.Dish.Cost * item.Quantity);
             return PartialView("PartialView/CartContentPartialView");
         }
+
+        public IActionResult GetTotal()
+        {
+            var cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+            if (cart == null)
+                cart = new List<Item>();
+            var total = cart.Sum(item => item.Dish.Cost * item.Quantity);
+            return Json(total);
+        }
     }
 }

@@ -66,6 +66,7 @@
         $(document).ready(function (){
            $(".contact-number").text($("#contact-number").val());
            $("#nav-logo").attr("src", $("#logo").val());
+           getTotal();
         });
         
         $(".buy").submit(function (event){
@@ -85,6 +86,7 @@
                             $(message).show();
                             $(message).text("Товар добавлен в корзину");
                             setTime(id); 
+                            getTotal();
                         }
                     }
                 });   
@@ -95,12 +97,18 @@
                 $(message).text("Не указано количество");
                 setTime(id); 
             }
-        })
+        });
         
         function setTime(id){
             setTimeout(function (){
                 $(`#message-${id}`).hide();
             }, 3000);
+        };
+        
+        function getTotal(){
+           $.get('@Url.Action("GetTotal", "Cart")', function (data){              
+                $("#total").text(data);
+           }) 
         }
     </script>
 }
