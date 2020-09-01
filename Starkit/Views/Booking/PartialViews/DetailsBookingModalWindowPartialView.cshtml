@@ -1,0 +1,31 @@
+﻿@model Booking
+
+<div class="modal answer-modal" tabindex="-1" role="dialog" xmlns="http://www.w3.org/1999/html" id="modal-details">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5></h5>
+            </div>
+            <div class="modal-body">
+                <p style="margin-top: 20px"><span style="font-weight: 700">Name </span>- @Model.ClientName</p>
+                <p style="margin-top: 20px"><span style="font-weight: 700">Surname </span>- @Model.ClientSurname</p>
+                <p><span style="font-weight: 700">Time </span>- @Model.Date @Model.BookFrom @Model.BookTo</p>
+                <p><span style="font-weight: 700">Описание </span>- @Model.Comment</p>
+                <p><span style="font-weight: 700">Phone </span>- @Model.PhoneNumber</p>
+                <p><span style="font-weight: 700">Pax </span>- @Model.Pax</p>
+                @if (Model.Email != null)
+                {
+                    <p><span style="font-weight: 700">Редактировал блюдо </span>- @Model.Email</p>
+                }
+                @foreach (var t in Model.BookingTables)
+                {
+                    <p><span style="font-weight: 700">Tables </span>@t.Table.Id</p>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+

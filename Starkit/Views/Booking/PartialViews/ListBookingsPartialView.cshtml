@@ -1,0 +1,98 @@
+﻿@model IndexViewModel
+
+@addTagHelper *, Starkit
+<input type="hidden" id="modelCategory" value="@Model.FilterViewModel.SelectedCategory">
+<input type="hidden" id="modelName" value="@Model.FilterViewModel.SelectedName">
+<input type="hidden" id="modelSort" value="@Model.SortViewModel.Current">
+<input type="hidden" id="modelPage" value="@Model.PageViewModel.PageNumber">
+
+<div style="overflow-x:auto; font-size: 14px">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th></th>
+            <th style="vertical-align: middle; text-align: center" scope="col">Изображение</th>
+            <th style="vertical-align: middle; text-align: center" scope="col">
+                Наименование
+                <a style="cursor: pointer" id="@Model.SortViewModel.NameSort" class="nameSort" onclick="nameSort('')">
+                    <img src="https://img.icons8.com/material-sharp/24/000000/sort.png"/>
+                </a>
+            </th>
+            <th style="vertical-align: middle; text-align: center" scope="col">
+                Стоимость
+                <a style="cursor: pointer" id="@Model.SortViewModel.CostSort" class="costSort" onclick="costSort('')">
+                    <img src="https://img.icons8.com/material-sharp/24/000000/sort.png"/>
+                </a>
+            </th>
+            <th style="vertical-align: middle; text-align: center" scope="col">Статус</th>
+            <th style="vertical-align: middle; text-align: center" scope="col">Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var booking in Model.Bookings)
+        {
+            <tr>
+                <td id="checkbox-td" style="vertical-align: middle; text-align: center">
+                    <input type="checkbox" value="true" id="@booking.Id">
+                </td>
+                <td class="link-dish-name" style="vertical-align: middle; text-align: center" onclick="detailsDish('@booking.Id')">@booking.ClientName @booking.ClientSurname</td>
+                <td style="vertical-align: middle; text-align: center">@booking.Date @booking.</td>
+                <td style="vertical-align: middle ; text-align: center">@booking.State</td>
+                <td style="vertical-align: middle; text-align: center">
+                    <a style="margin-bottom: 10px" asp-action="Edit" asp-controller="Booking" asp-route-id="@booking.Id">
+                        <img src="https://img.icons8.com/ios-glyphs/24/000000/edit.png"/>
+                    </a>
+                    <img src="https://img.icons8.com/ios-filled/24/000000/sidebar-menu.png" onclick="changeMenu('@booking.Id')"
+                         style="cursor: pointer"/>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+<div id="modal-window"></div>
+
+<div>
+<ul class="pagination">
+    <li class="page-item">
+        <a class="page-link" href="#@(Model.PageViewModel.PageNumber - 1)" aria-label="Previous"
+           onclick="previousPage('@(Model.PageViewModel.PageNumber - 1)',
+                                    '@(Model.FilterViewModel.SelectedName)',
+                                    '@(Model.FilterViewModel.SelectedCategory)',
+                                    '@(Model.SortViewModel.Current)')"><span aria-hidden="true">&laquo;</span></a>
+    </li>
+    @for (int itmp = 1; itmp < Model.PageViewModel.TotalPages + 1; itmp++)
+    {
+        @if (Model.PageViewModel.PageNumber == itmp)
+        {
+            <li class="page-item active">
+                <a class="page-link" href="#@itmp" id="page@itmp"
+                   onclick="clickedPage(
+                       '@itmp',
+                       '@(Model.FilterViewModel.SelectedName)',
+                       '@(Model.FilterViewModel.SelectedCategory)',
+                       '@(Model.SortViewModel.Current)')">@itmp.ToString()</a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item">
+                <a class="page-link" href="#@itmp" id="page@itmp"
+                   onclick="clickedPage(
+                   '@itmp',
+                   '@(Model.FilterViewModel.SelectedName)',
+                   '@(Model.FilterViewModel.SelectedCategory)',
+                   '@(Model.SortViewModel.Current)')">@itmp.ToString()</a>
+            </li>
+        }
+    }
+    <li class="page-item">
+        <a class="page-link" href="#@(Model.PageViewModel.PageNumber + 1)" aria-label="Next"
+           onclick="nextPage('@(Model.PageViewModel.PageNumber + 1)',
+                           '@(Model.FilterViewModel.SelectedName)',
+                           '@(Model.FilterViewModel.SelectedCategory)',
+                           '@(Model.SortViewModel.Current)')"><span aria-hidden="true">&raquo;</span></a>
+    </li>
+</ul>
+</div>
+

@@ -7,7 +7,11 @@ namespace Starkit.Models
     public enum BookingStatus
     {
         Pending,
-        Approved
+        Approved,
+        Done,
+        Cancelled,
+        NoShow,
+        Late
     }
     public class Booking
     {

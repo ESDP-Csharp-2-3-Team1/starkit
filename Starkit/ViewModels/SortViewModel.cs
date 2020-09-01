@@ -11,7 +11,13 @@
         CategoryAsc,
         CategoryDesc,
         CalorieAsc,
-        CalorieDesc
+        CalorieDesc,
+        DateAsc,
+        DateDesc,
+        TimeAsc,
+        TimeDesc,
+        PaxAsc,
+        PaxDesc
     }
     public class SortViewModel
     {

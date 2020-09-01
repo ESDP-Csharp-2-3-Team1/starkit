@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Http;
@@ -41,5 +42,7 @@ namespace Starkit.Models
         public virtual User Editor { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public DateTime EditedDate { get; set; }
+        public virtual List<BookingTable> BookingTables { get; set; }
+        public virtual List<Booking> Bookings { get; set; }
     }
 }
