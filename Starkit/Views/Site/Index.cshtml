@@ -16,7 +16,7 @@
         @foreach (var stock in Model.Stocks)
         {
             <div class="col-sm-3 mb-3">
-                <img class="stock-img" src="~/@stock.Avatar" alt="">
+                <img class="stock-img" onclick="stockDetails('@stock.Id')" src="~/@stock.Avatar" alt="">
                 <p class="text-stock-business-card">@stock.Name</p>
                 <div style="text-align: center">
                     <form class="buy" id="@stock.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@stock.Id" asp-route-name="stock">
@@ -36,7 +36,7 @@
         @foreach (var menu in Model.Menu)
         {
             <div class="col-sm-3 mb-3">
-                <img class="menu-img" src="~/@menu.Avatar" alt="">
+                <img class="menu-img" onclick="menuDetails('@menu.Id')" src="~/@menu.Avatar" alt="">
                 <p class="text-menu-business-card">@menu.Name</p>
                 <div style="text-align: center">
                     <form class="buy" id="@menu.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@menu.Id" asp-route-name="menu">
@@ -58,7 +58,7 @@
             @foreach (var dish in g)
             {
                 <div class="col-sm-3 mb-3" style="text-align: center; height: 265px">
-                    <img class="dish-img" src="~/@dish.Avatar" alt="">
+                    <img class="dish-img" onclick="dishDetails('@dish.Id')" src="~/@dish.Avatar" alt="">
                     <p class="text-dish-business-card">@dish.Name</p>
                     <div style="text-align: center">
                         <form class="buy" id="@dish.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@dish.Id" asp-route-name="dish">
@@ -71,6 +71,7 @@
             }
         </div>
     }
+    <div id="details"></div>
     <input type="hidden" id="contact-number" value="@Model.PhoneNumber">
     <input type="hidden" id="logo" value="../@Model.LogoPath">
 </div>
@@ -123,6 +124,38 @@
            $.get('@Url.Action("GetTotal", "Cart")', function (data){              
                 $("#total").text(data);
            }) 
+        }
+        
+        function dishDetails(id){
+            $.get(`@Url.Action("Details", "Dishes")/?id=${id}`, function(data) {
+                $('#details').html(data);
+                $("#modal-details").show();
+                $("#modal-details").css("overflow", "auto");
+                $("body").css("overflow", "hidden");
+            })
+        }
+        
+        function closeModal() {
+            $(".modal").hide();
+            $("body").css("overflow", "auto");
+        }
+        
+        function menuDetails(id) {
+            $.get(`@Url.Action("Details", "Menu")?id=${id}`, function(data) {
+                $("#details").html(data);
+                $("#modal-details").show();
+                $("#modal-details").css("overflow", "auto");
+                $("body").css("overflow", "hidden");
+            });
+        }
+        
+        function stockDetails(id) {
+            $.get(`@Url.Action("Details", "Stocks")?id=${id}`, function(data) {
+                $("#details").html(data);
+                $("#modal-details").show();
+                $("#modal-details").css("overflow", "auto");
+                $("body").css("overflow", "hidden");
+            })
         }
     </script>
 }

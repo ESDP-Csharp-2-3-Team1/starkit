@@ -51,38 +51,6 @@
             })
         }
         
-        function dishDetails(id){
-            $.get(`@Url.Action("Details", "Dishes")/?id=${id}`, function(data) {
-                $('#details').html(data);
-                $("#modal-details").show();
-                $("#modal-details").css("overflow", "auto");
-                $("body").css("overflow", "hidden");
-            })
-        }
-        
-        function closeModal() {
-            $(".modal").hide();
-            $("body").css("overflow", "auto");
-        }
-        
-        function menuDetails(id) {
-            $.get(`@Url.Action("Details", "Menu")?id=${id}`, function(data) {
-                $("#details").html(data);
-                $("#modal-details").show();
-                $("#modal-details").css("overflow", "auto");
-                $("body").css("overflow", "hidden");
-            });
-        }
-        
-        function stockDetails(id) {
-            $.get(`@Url.Action("Details", "Stocks")?id=${id}`, function(data) {
-                $("#details").html(data);
-                $("#modal-details").show();
-                $("#modal-details").css("overflow", "auto");
-                $("body").css("overflow", "hidden");
-            })
-        }
-        
         function toOrder(){
             $.get('@Url.Action("Add", "Orders")', function (data){
                 if (data == false){
