@@ -15,38 +15,84 @@
     <div class="row" style="margin: 50px 0 0 0;">
         @foreach (var stock in Model.Stocks)
         {
-            if (stock.SecondDish != null && stock.ThirdDish != null)
+            if (stock.Validity == "По времени")
             {
-                if (stock.FirstDish.Visibility != false && stock.SecondDish.Visibility != false && stock.ThirdDish.Visibility != false)
+                if (stock.At.TimeOfDay <= DateTime.Now.TimeOfDay && stock.To.TimeOfDay >= DateTime.Now.TimeOfDay)
                 {
-                    <div class="col-sm-3 mb-3">
-                        <img class="stock-img" onclick="stockDetails('@stock.Id')" src="~/@stock.Avatar" alt="">
-                        <p class="text-stock-business-card">@stock.Name</p>
-                        <div style="text-align: center">
-                            <form class="buy" id="@stock.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@stock.Id" asp-route-name="stock">
-                                <input id="qty-@stock.Id" type="number" name="quantity" min="1" style="width: 50px">
-                                <button type="submit" class="btn btn-light">В корзину</button>
-                                <p style="margin: 10px 0 10px 0" id="message-@stock.Id"></p>
-                            </form>
-                        </div>
-                    </div>      
+                    if (stock.SecondDish != null && stock.ThirdDish != null)
+                    {
+                        if (stock.FirstDish.Visibility != false && stock.SecondDish.Visibility != false && stock.ThirdDish.Visibility != false)
+                        {
+                            <div class="col-sm-3 mb-3">
+                                <img class="stock-img" onclick="stockDetails('@stock.Id')" src="~/@stock.Avatar" alt="">
+                                <p class="text-stock-business-card">@stock.Name</p>
+                                <div style="text-align: center">
+                                    <form class="buy" id="@stock.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@stock.Id" asp-route-name="stock">
+                                        <input id="qty-@stock.Id" type="number" name="quantity" min="1" style="width: 50px">
+                                        <button type="submit" class="btn btn-light">В корзину</button>
+                                        <p style="margin: 10px 0 10px 0" id="message-@stock.Id"></p>
+                                    </form>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        if (stock.FirstDish.Visibility != false)
+                        {
+                            <div class="col-sm-3 mb-3">
+                                <img class="stock-img" onclick="stockDetails('@stock.Id')" src="~/@stock.Avatar" alt="">
+                                <p class="text-stock-business-card">@stock.Name</p>
+                                <div style="text-align: center">
+                                    <form class="buy" id="@stock.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@stock.Id" asp-route-name="stock">
+                                        <input id="qty-@stock.Id" type="number" name="quantity" min="1" style="width: 50px">
+                                        <button type="submit" class="btn btn-light">В корзину</button>
+                                        <p style="margin: 10px 0 10px 0" id="message-@stock.Id"></p>
+                                    </form>
+                                </div>
+                            </div>
+                        }
+                    }
                 }
             }
             else
             {
-                if (stock.FirstDish.Visibility != false)
+                if (stock.At < DateTime.Now && stock.To > DateTime.Now)
                 {
-                    <div class="col-sm-3 mb-3">
-                        <img class="stock-img" onclick="stockDetails('@stock.Id')" src="~/@stock.Avatar" alt="">
-                        <p class="text-stock-business-card">@stock.Name</p>
-                        <div style="text-align: center">
-                            <form class="buy" id="@stock.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@stock.Id" asp-route-name="stock">
-                                <input id="qty-@stock.Id" type="number" name="quantity" min="1" style="width: 50px">
-                                <button type="submit" class="btn btn-light">В корзину</button>
-                                <p style="margin: 10px 0 10px 0" id="message-@stock.Id"></p>
-                            </form>
-                        </div>
-                    </div>
+                    if (stock.SecondDish != null && stock.ThirdDish != null)
+                    {
+                        if (stock.FirstDish.Visibility != false && stock.SecondDish.Visibility != false && stock.ThirdDish.Visibility != false)
+                        {
+                            <div class="col-sm-3 mb-3">
+                                <img class="stock-img" onclick="stockDetails('@stock.Id')" src="~/@stock.Avatar" alt="">
+                                <p class="text-stock-business-card">@stock.Name</p>
+                                <div style="text-align: center">
+                                    <form class="buy" id="@stock.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@stock.Id" asp-route-name="stock">
+                                        <input id="qty-@stock.Id" type="number" name="quantity" min="1" style="width: 50px">
+                                        <button type="submit" class="btn btn-light">В корзину</button>
+                                        <p style="margin: 10px 0 10px 0" id="message-@stock.Id"></p>
+                                    </form>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        if (stock.FirstDish.Visibility != false)
+                        {
+                            <div class="col-sm-3 mb-3">
+                                <img class="stock-img" onclick="stockDetails('@stock.Id')" src="~/@stock.Avatar" alt="">
+                                <p class="text-stock-business-card">@stock.Name</p>
+                                <div style="text-align: center">
+                                    <form class="buy" id="@stock.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@stock.Id" asp-route-name="stock">
+                                        <input id="qty-@stock.Id" type="number" name="quantity" min="1" style="width: 50px">
+                                        <button type="submit" class="btn btn-light">В корзину</button>
+                                        <p style="margin: 10px 0 10px 0" id="message-@stock.Id"></p>
+                                    </form>
+                                </div>
+                            </div>
+                        }
+                    }
                 }
             }
         }
