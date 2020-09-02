@@ -34,7 +34,7 @@
         $(document).ready(function (){
            $.get('@Url.Action("GetContentCard")', function (data){
                $("#result").html(data);
-           }) 
+           });
         });
         
         function down(id, qty, name){
@@ -62,6 +62,7 @@
                 }
                 $("#details").html(data);
                 $("#toOrder").show();
+                $("#phoneNumber").mask("+7 (999) 999-9999");
                 $("#toOrder").css("overflow", "auto");
                 $("body").css("overflow", "hidden");
             });
@@ -80,6 +81,7 @@
                     if (result != true){
                         $("#details").html(result);
                         $("#toOrder").show();   
+                        $("#phoneNumber").mask("+7 (999) 999-9999");
                     }
                     else{
                         $("#toOrder").hide();
@@ -97,6 +99,11 @@
             setTimeout(function (){
                 $(message).hide();
             }, 3000)
+        }
+        
+        function closeModal() {
+            $(".modal").hide();
+            $("body").css("overflow", "auto");
         }
     </script>
 }

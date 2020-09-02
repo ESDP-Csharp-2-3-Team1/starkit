@@ -29,7 +29,7 @@
                             <div class="form-group row">
                                 <label for="" class="col-sm-3 col-form-label toOrder-form-input">Номер телефона</label><br/>
                                 <div class="col-sm-9">
-                                    <input type="text" asp-for="ContactNumber" class="form-control">
+                                    <input type="text" class="form-control" id="phoneNumber" asp-for="ContactNumber" placeholder="+7 (___) ___-____">
                                 </div>
                                 <span class="validationError" asp-validation-for="ContactNumber"></span>
                             </div>
