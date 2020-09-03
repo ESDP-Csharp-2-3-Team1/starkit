@@ -15,7 +15,7 @@
             <th class="cart-cell">Цена</th>
             <th class="cart-cell">Действие</th>
             <th class="cart-cell">Количество</th>
-            <th class="cart-cell">Общая стоимость</th>
+            <th class="cart-cell">Сумма</th>
         </tr>
         </thead>
         <tbody id="result"></tbody>
@@ -26,7 +26,7 @@
 <br>
 <div style="display: flex; justify-content: space-between">
     <a asp-controller="Site" asp-action="index">Назад</a>
-    <a href="#" onclick="toOrder('')">Оформить заказ</a>
+    <button style="cursor: pointer" type="button" class="btn btn-primary" onclick="toOrder('')">Оформить заказ</button>
 </div>
 @section Scripts
 {
