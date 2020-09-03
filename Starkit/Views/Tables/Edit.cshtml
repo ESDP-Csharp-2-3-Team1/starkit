@@ -1,0 +1,90 @@
+﻿@model EditTableViewModel
+
+@{
+    ViewBag.Title = "Редактирования стола";
+    Layout = "_Layout";
+}
+
+<div class="row" style="margin: 30px 0 80px 0">
+    <div class="col-md-9 mt-5">
+        <h2 class="create-category">Редактирование стола</h2>
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+            @Html.Hidden("Id", Model.Id)
+            <div class="form-group row">
+                <label for="" class="col-sm-4 col-form-label createMenuLabel">Количество мест</label><br/>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" asp-for="Capacity" value="@Model.Capacity">
+                </div>
+                <span class="validationError" asp-validation-for="Capacity"></span>
+            </div>
+            <div class="form-group row">
+                <label for="" class="col-sm-1 col-form-label type">Тихо</label><br/>
+                <div class="col-sm-1">
+                    <input style="font-size: 8px; margin-top: 5px" asp-for="IsQuiet" type="checkbox" class="form-control" value="true">
+                </div>
+                <label for="" class="col-sm-1 col-form-label type">Для курящих</label><br/>
+                <div class="col-sm-1">
+                    <input style="font-size: 8px; margin-top: 5px" asp-for="IsSmoking" type="checkbox" class="form-control" value="true">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="" class="col-sm-4 col-form-label createMenuLabel">Описание</label><br/>
+                <div class="col-sm-8">
+                    <textarea style="height: 150px; resize: none" asp-for="Desc" class="form-control">
+                        @Model.Desc
+                    </textarea>
+                </div>
+                <span class="validationError" asp-validation-for="Desc"></span>
+            </div>
+            <div class="form-group row" id="cost" style="display: none">
+                <label for="" class="col-sm-4 col-form-label createMenuLabel">Этаж</label><br/>
+                <div class="col-sm-8">
+                    <input id="inputCost" type="text" class="form-control" asp-for="Floor" value="@Model.Floor">
+                </div>
+                <span class="validationError" asp-validation-for="Floor"></span>
+            </div>
+            <div class="form-group row">
+                <label for="" class="col-sm-4 col-form-label createMenuLabel">Изображение</label><br/>
+                <div class="col-sm-4" style="text-align: end">
+                    <label for="myFIle" style="font-weight: 600" class="chous">Выберите файл</label>
+                    <input type="file" id="myFIle" class="form-control my" asp-for="File" multiple="multiple"/>
+                </div>
+                <span class="validationError" asp-validation-for="File"></span>
+            </div>
+            <input type="hidden" asp-for="Id" value="@Model.Id">
+            <div style="text-align: center">
+                <br/><button type="submit" class="btn btn-dark">Редактировать</button>
+            </div>
+        </form>
+        <input type="hidden" value="@Model.IsQuiet" id="isQuiet">
+        <input type="hidden" value="@Model.IsSmoking" id="isSmoking">
+    </div>
+</div>
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script >
+        $('.my').change(function() {
+            if ($(this).val() != '') $(this).prev().text('Выбрано файлов: ' + $(this)[0].files.length);
+                else $(this).prev().text('Выберите файлы');
+            });
+                
+            $(document).ready(function() {
+                var val = $("#modelCost").val();
+                var isQuiet = $("#isQuiet").val();
+                if (type === true){
+                    $("#list").prop("checked", true);
+                }
+                else{
+                    $("#combo").prop("checked", true);
+                    $("#cost").show();
+                }
+                
+                
+        })
+    </script>
+}
+
+
