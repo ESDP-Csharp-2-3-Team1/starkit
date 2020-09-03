@@ -61,5 +61,7 @@ namespace Starkit.Models
         public string RestaurantId { get; set; }
         [JsonIgnore]
         public virtual Restaurant Restaurant { get; set; }
+
+        public decimal Cost { get; set; }
     }
 }
