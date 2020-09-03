@@ -78,16 +78,18 @@
                 method: method,
                 data: data,
                 success: function (result){
-                    if (result != true){
+                    if (result != +result){
                         $("#details").html(result);
                         $("#toOrder").show();   
                         $("#phoneNumber").mask("+7 (999) 999-9999");
+                        $("#toOrder").css("overflow", "auto");
+                        $("body").css("overflow", "hidden");
                     }
                     else{
                         $("#toOrder").hide();
                         $("body").css("overflow", "auto");
                         var message = $("#message");
-                        $(message).text("Ваш заказ в оброботке. С вами свяжутся в ближайшее время");
+                        $(message).text(`Ваш заказ в оброботке. Номер вашего заказа №${result}. С вами свяжутся в ближайшее время`);
                         $(message).css("color", "green");
                         $(message).show();
                         setTime($(message));

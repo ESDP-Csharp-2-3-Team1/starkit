@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -33,7 +34,12 @@ namespace Starkit.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (_db.Orders.Any())
+                    order.OrderNum = _db.Orders.ToList().Last().OrderNum + 1;
+                else
+                    order.OrderNum = 1;
                 order.OrderTime = DateTime.Now;
+                order.Status = Status.Новая;
                 List<Item> cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
                 foreach (var item in cart)
                 {
@@ -66,7 +72,7 @@ namespace Starkit.Controllers
                 }
                 _db.Entry(order).State = EntityState.Added;
                 await _db.SaveChangesAsync();
-                return Json(true);   
+                return Json(order.OrderNum);   
             }
             return PartialView("PartialViews/ToOrderModalWindowPartialView", order);
         }

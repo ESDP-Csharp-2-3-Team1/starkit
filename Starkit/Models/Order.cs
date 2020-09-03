@@ -3,6 +3,19 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Starkit.Models
 {
+    public enum DeliveryMethod
+    {
+        Самовывоз,
+        Доставка
+    }
+    public enum Status    
+    {
+        Новая,
+        Подтвержден,
+        Отказ,
+        Доставке,
+        Доставлен
+    }
     public class Order
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -16,6 +29,12 @@ namespace Starkit.Models
         public string Comment { get; set; }
 
         public DateTime OrderTime { get; set; }
+        
+        public DeliveryMethod DeliveryMethod { get; set; }
+        
+        public Status Status { get; set; }
+
+        public int OrderNum { get; set; }
 
         public string RestaurantId { get; set; }
         public virtual Restaurant Restaurant { get; set; }
