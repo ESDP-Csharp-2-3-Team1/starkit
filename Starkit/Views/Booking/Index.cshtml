@@ -28,22 +28,14 @@
         <img class="fullscreen-icon" id="fullscreen" src="https://img.icons8.com/material-outlined/24/000000/full-screen.png"/>
         <img style="display: none" class="window-icon" id="window" src="https://img.icons8.com/ios-filled/24/000000/normal-screen.png"/>
     </div>
-    <h2 style="text-align: center; margin: 10px 0 50px 0">Список блюд</h2>
+    <h2 style="text-align: center; margin: 10px 0 50px 0">Список бронирования столов</h2>
+    
     <div class="d-flex bd-highlight mb-3">
+        
         <div class="p-2 bd-highlight">
-            <label>Категория: </label>
-            <select id="filterCategory" class="form-control"></select>
+            <p id="changeStates" style="cursor: pointer; margin-top: 30px;">Изменить статус</p>
         </div>
-        <div class="p-2 bd-highlight">
-            <label>Имя: </label>
-            <input id="searchName" name="name" class="form-control"/>
-        </div>
-        <div class="p-2 bd-highlight">
-            <img src="https://img.icons8.com/wired/36/000000/delete-forever.png" id="delete" style="cursor: pointer; margin-top: 30px;"/>
-        </div>
-        <div class="p-2 bd-highlight">
-            <img src="https://img.icons8.com/material-rounded/36/000000/hide.png" id="hide" style="cursor: pointer; margin-top: 30px"/>
-        </div>
+        
     </div>
 
     <div id="message" style="color: red">Не выбрано ни одного блюда</div>
@@ -51,11 +43,17 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <h5>Вы уверены?</h5>
+                    <h5>Изменить статус</h5>
+                    <label for="" class="col-sm-4 col-form-label" style="font-weight: 400">Выберите</label><br/>
+                    <select name="state" id="stateModal">
+                        @foreach (var s in Enum.GetValues(typeof(BookingStatus)))
+                        {
+                            <option class="stateValue" value="@s">@s</option>
+                        }
+                    </select>
                 </div>
                 <div class="modal-footer">
-                    <button onclick="deleteDishes()" type="button" class="btn btn-primary button-delete">Удалить</button>
-                    <button onclick="hideDishes()" type="button" class="btn btn-primary button-hide">Скрыть/Отображать</button>
+                    <button onclick="changeBookingsState()" type="button" class="btn btn-primary button-change">Изменить</button>
                     <button type="button" class="btn btn-secondary" onclick="closeModal()">Закрыть</button>
                 </div>
             </div>
@@ -81,26 +79,24 @@
           })
         });
         
-        function deleteDishes() {
-            let arr = getCheckedDishes();
-            console.log(arr);
+        function changeBookingsState() {
+            let arr = getCheckedBookings();
             $.ajax({
-                url: '@Url.Action("Delete", "Booking")',
-                type: "Delete",
-                data: {ids:arr},
+                url: '@Url.Action("ChangeBookingsState", "Booking")',
+                type: "POST",
+                data: {ids:arr, state: $('#stateModal').val()},
                 success: function (data) {
-                    if (data == true){
+                    if (data === true){
                         $(".modal").hide();
-                        getDishes();
+                        getBookings();
                     }
                 }
             });   
         }
             
-        $("#delete").click(function (event) {
+        $("#changeStates").click(function (event) {
             event.preventDefault();
-            $(".button-delete").show();
-            $(".button-hide").hide();
+            $(".button-change").show();
             var checkboxes = $("input:checkbox:checked");
             if (checkboxes.length > 0){
                 $("#confirm").show();
@@ -116,45 +112,15 @@
             $("body").css("overflow", "auto");
         }
         
-        $("#hide").click(function (event) {
-            event.preventDefault();
-            $(".button-delete").hide();
-            $(".button-hide").show();
-            var checkboxes = $("input:checkbox:checked");
-            if (checkboxes.length > 0){
-                $("#confirm").show();
-                $("#message").hide();
-            }
-            else{
-                $("#message").show();
-            }
-        });
+       
         
-        $("#filterCategory").change(function() {
-          var filter = $("#filterCategory").val();
-          var search = $("#searchName").val();
-          $.ajax({
+        $("#searchName").keyup(function() {
+            var search = $("#searchName").val();
+            $.ajax({
                 url: '@Url.Action("GetBookings")',
                 type: "GET",
                 data: {
                     name: search,
-                    category: filter,
-                    sortOrder: sort
-                }
-          }).done(function(data) {
-            $("#result").html(data);
-          });
-        });
-        
-        $("#searchName").keyup(function() {
-            var filter = $("#filterCategory").val();
-            var search = $("#searchName").val();
-            $.ajax({
-                url: '@Url.Action("GetBookings")
-                type: "GET",
-                data: {
-                    name: search,
-                    category: filter,
                     sortOrder: sort
                 }
             }).done(function(data) {
@@ -162,30 +128,23 @@
             });
         });
         
-        function nameSort(){
+        function dateSort(){
             var sortParam = $(".nameSort").attr('id');
             sort(sortParam);
         }
         
-        function costSort() {
-            var sortParam = $(".nameSort").attr('id');
-            sort(sortParam);
-        }
-        
-        function addTimeSort() {
+        function paxSort() {
             var sortParam = $(".nameSort").attr('id');
             sort(sortParam);
         }
         
         function sort(sortParam){
-            var filter = $("#filterCategory").val();
             var search = $("#searchName").val();
             $.ajax({
             url: '@Url.Action("GetBookings")',
                 type: "GET",
                 data: {
                     name: search,
-                    category: filter,
                     sortOrder: sortParam
                 }
             }).done(function(data) {
@@ -193,12 +152,11 @@
             })
         }
         
-        function previousPage(page, name, category, sortOrder) {
+        function previousPage(page, name, sortOrder) {
             $.ajax({
                 url: '@Url.Action("GetBookings", "Booking")',
                 type: "GET",
                 data: {
-                    category: category,
                     name: name,
                     page: page,
                     sortOrder: sortOrder
@@ -209,12 +167,11 @@
             })
         }
         
-        function nextPage(page, name, category, sortOrder) {
+        function nextPage(page, name, sortOrder) {
             $.ajax({
                 url: '@Url.Action("GetBookings", "Booking")',
                 type: "GET",
                 data: {
-                    category: category,
                     name: name,
                     page: page,
                     sortOrder: sortOrder
@@ -230,7 +187,6 @@
                 url: '@Url.Action("GetBookings", "Booking")',
                 type: "GET",
                 data: {
-                    category: $("#modelCategory").val(),
                     name: $("#modelName").val(),
                     page: $("#modelPage").val(),
                     sortOrder: $("#modelSort").val()        
@@ -241,7 +197,7 @@
             });
         }
         
-        function clickedPage(page, name, category, sortOrder) {
+        function clickedPage(page, name, sortOrder) {
             const active_page = page;
             var item = document.getElementsByClassName("page-item active");
             $(item[0]).toggleClass("active");
@@ -249,7 +205,6 @@
                 url: '@Url.Action("GetBookings", "Booking")',
                 type: "GET",
                 data: {
-                    category: category,
                     name: name,
                     page: page,
                     sortOrder: sortOrder
@@ -261,7 +216,7 @@
             $("#page" + active_page).toggleClass("active");
         }
         
-        function getCheckedDishes() {
+        function getCheckedBookings() {
             var checkboxes = $("input:checkbox:checked");
             let arr = [];
             $.each(checkboxes, function (index, value) {
@@ -289,13 +244,25 @@
             $("#fullscreen").show();
          });
          
-         function detailsDish(id) { 
+         function detailsBooking(id) { 
             $.get(`@Url.Action("Details")/?id=${id}`, function(data) {
                 $('#details-modal').html(data);
                 $("#modal-details").show();
                 $("#modal-details").css("overflow", "auto");
                 $("body").css("overflow", "hidden");
             })
+         }
+         
+         function changeState(id){
+             $.ajax({
+                 url: '@Url.Action("ChangeState", "Booking")',
+                 type: "POST",
+                 data: {
+                     id: id, 
+                     state: $('#state').val(),       
+                 }
+                
+             });
          }
     </script>
 }
