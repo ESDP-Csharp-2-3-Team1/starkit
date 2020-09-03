@@ -18,6 +18,7 @@ namespace Starkit.ViewModels
         [DataType(DataType.Time)]
         public DateTime BookTo { get; set; }
         public virtual List<BookingTable> BookingTables { get; set; }
+        public virtual List<Table> Tables { get; set; }
         [Required]
         public string ClientName { get; set; }
         [Required]
@@ -33,5 +34,6 @@ namespace Starkit.ViewModels
         public virtual User User { get; set; }
         public BookingStatus State { get; set; } = BookingStatus.Pending;
         public string Comment { get; set; }
+        
     }
 }

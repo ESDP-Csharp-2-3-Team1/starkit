@@ -20,11 +20,11 @@
             <div class="form-group row">
                 <label for="" class="col-sm-1 col-form-label type">Тихо</label><br/>
                 <div class="col-sm-1">
-                    <input style="font-size: 8px; margin-top: 5px" asp-for="IsQuiet" type="checkbox" class="form-control" value="Тихо">
+                    <input style="font-size: 8px; margin-top: 5px" asp-for="IsQuiet" type="checkbox" class="form-control" value="true">
                 </div>
                 <label for="" class="col-sm-1 col-form-label type">Для курящих</label><br/>
                 <div class="col-sm-1">
-                    <input style="font-size: 8px; margin-top: 5px" asp-for="IsSmoking" type="checkbox" class="form-control" value="Можно курить">
+                    <input style="font-size: 8px; margin-top: 5px" asp-for="IsSmoking" type="checkbox" class="form-control" value="true">
                 </div>
             </div>
             <div class="form-group row">
@@ -44,9 +44,10 @@
                 <span class="validationError" asp-validation-for="Floor"></span>
             </div>
             <div class="form-group row">
+                <label for="" class="col-sm-4 col-form-label createMenuLabel">Изображение</label><br/>
                 <div class="col-sm-4" style="text-align: end">
                     <label for="myFIle" style="font-weight: 600" class="chous">Выберите файл</label>
-                    <input type="file"  id="myFIle" class="form-control my" asp-for="File" multiple="multiple"/>
+                    <input type="file" id="myFIle" class="form-control my" asp-for="File" multiple="multiple"/>
                 </div>
                 <span class="validationError" asp-validation-for="File"></span>
             </div>

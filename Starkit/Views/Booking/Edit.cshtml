@@ -1,8 +1,96 @@
 ﻿@model EditBookingViewModel
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Редактирования бронирования";
     Layout = "_Layout";
 }
 
-<h2>title</h2>
+<div class="row" style="margin: 30px 0 80px 0">
+    <div class="col-md-9 mt-5">
+        <h2 class="create-category">Редактирование стола</h2>
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+            @Html.Hidden("Id", Model.Id)
+            <div class="form-group row">
+                <label for="" class="col-sm-4 col-form-label createMenuLabel">Номер стола</label><br/>
+                <div class="col-sm-8">
+                    <select name="tableId">
+                        @foreach (var t in Model.Tables)
+                        {
+                            foreach (var bt in Model.BookingTables)
+                            {
+                                if (t.Id == bt.TableId)
+                                {
+                                    <option selected value="@t.Id">@t.Id</option>
+                                }
+                                else
+                                {
+                                    <option value="@t.Id">@t.Id</option>
+                                }
+                            }
+                        }
+                    </select>
+                </div>
+                <span class="validationError"></span>
+            </div>
+            <div class="form-group row">
+                <label for="" class="col-sm-4 col-form-label createMenuLabel">Имя Фамилия</label><br/>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" asp-for="ClientName" value="@Model.ClientName">
+                </div>
+                <span class="validationError" asp-validation-for="ClientName"></span>
+            </div>
+            <div class="form-group row">
+                <label for="" class="col-sm-4 col-form-label createMenuLabel">Дата и время</label><br/>
+                <div class="col-sm-4">
+                    <input style="font-size: 8px; margin-top: 5px" asp-for="Date" type="datetime-local" class="form-control" value="@Model.Date">
+                </div>
+                <span class="validationError" asp-validation-for="Date"></span>
+            </div>
+            <div class="form-group row">
+                <label for="" class="col-sm-4 col-form-label createMenuLabel">Комментарии</label><br/>
+                <div class="col-sm-8">
+                    <textarea style="height: 150px; resize: none" asp-for="Comment" class="form-control">@Model.Comment</textarea>
+                </div>
+                <span class="validationError" asp-validation-for="Comment"></span>
+            </div>
+            <div class="form-group row">
+                <label for="" class="col-sm-4 col-form-label createMenuLabel">Количество гостей</label><br/>
+                <div class="col-sm-8">
+                    <input id="inputCost" type="number" class="form-control" asp-for="Pax" value="@Model.Pax">
+                </div>
+                <span class="validationError" asp-validation-for="Pax"></span>
+            </div>
+            <div class="form-group row">
+                <label for="" class="col-sm-4 col-form-label createMenuLabel">Номер телефона</label><br/>
+                <div class="col-sm-8">
+                    <input id="inputCost" type="text" class="form-control" asp-for="PhoneNumber" value="@Model.PhoneNumber">
+                </div>
+                <span class="validationError" asp-validation-for="PhoneNumber"></span>
+            </div>
+            <div class="form-group row">
+                <label for="" class="col-sm-4 col-form-label createMenuLabel">Email</label><br/>
+                <div class="col-sm-8">
+                    <input id="inputCost" type="text" class="form-control" asp-for="Email" value="@Model.Email">
+                </div>
+                <span class="validationError" asp-validation-for="Email"></span>
+            </div>
+
+            <div style="text-align: center">
+                <br/><button type="submit" class="btn btn-dark">Изменить</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        
+    </script>
+}
+
+
+

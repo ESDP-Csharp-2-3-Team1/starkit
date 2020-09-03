@@ -12,12 +12,12 @@ namespace Starkit.ViewModels
         public int Capacity { get; set; }
         public string IconUrl { get; set; }
         public IFormFile File { get; set; }
-        public TableState State { get; set; } = TableState.Available;
+        public TableState State { get; set; }
         public string Desc { get; set; }
-        public Location Location { get; set; } = Location.Regular;
-        public bool IsSmoking { get; set; } = false;
-        public bool IsQuiet { get; set; } = true;
-        public int Floor { get; set; } = 1;
+        public Location Location { get; set; }
+        public bool IsSmoking { get; set; }
+        public bool IsQuiet { get; set; }
+        public int Floor { get; set; }
         public string EditorId { get; set; }
         public virtual User Editor { get; set; }
         public DateTime EditedDate { get; set; }
