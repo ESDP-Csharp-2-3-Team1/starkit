@@ -7,19 +7,18 @@
                 <h5></h5>
             </div>
             <div class="modal-body">
-                <p style="margin-top: 20px"><span style="font-weight: 700">Name </span>- @Model.ClientName</p>
-                <p style="margin-top: 20px"><span style="font-weight: 700">Surname </span>- @Model.ClientSurname</p>
-                <p><span style="font-weight: 700">Time </span>- @Model.Date @Model.BookFrom @Model.BookTo</p>
-                <p><span style="font-weight: 700">Описание </span>- @Model.Comment</p>
-                <p><span style="font-weight: 700">Phone </span>- @Model.PhoneNumber</p>
-                <p><span style="font-weight: 700">Pax </span>- @Model.Pax</p>
+                <p style="margin-top: 20px"><span style="font-weight: 700">ФИО Клиента </span>- @Model.ClientName</p>
+                <p><span style="font-weight: 700">Дата и время </span>- @Model.DateTime</p>
+                <p><span style="font-weight: 700">Комментарии </span>- @Model.Comment</p>
+                <p><span style="font-weight: 700">Номер телефона </span>- @Model.PhoneNumber</p>
+                <p><span style="font-weight: 700">Кол-во гостей </span>- @Model.Pax</p>
                 @if (Model.Email != null)
                 {
-                    <p><span style="font-weight: 700">Редактировал блюдо </span>- @Model.Email</p>
+                    <p><span style="font-weight: 700">Email</span>- @Model.Email</p>
                 }
                 @foreach (var t in Model.BookingTables)
                 {
-                    <p><span style="font-weight: 700">Tables </span>@t.Table.Id</p>
+                    <p><span style="font-weight: 700">Стол</span>№@t.Table.Id</p>
                 }
             </div>
             <div class="modal-footer">

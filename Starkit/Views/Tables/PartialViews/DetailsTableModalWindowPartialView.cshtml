@@ -1,0 +1,40 @@
+﻿@model Table
+
+<div class="modal answer-modal" tabindex="-1" role="dialog" xmlns="http://www.w3.org/1999/html" id="modal-details">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Стол №@Model.Id</h5>
+            </div>
+            <div class="modal-body">
+                <img src="~/@Model.IconUrl" alt="" style="width: 100%">
+                <p style="margin-top: 20px"><span style="font-weight: 700">Дата создания </span>- @Model.CreatedDate.ToShortDateString()</p>
+                @if (Model.EditedDate != null)
+                {
+                    <p><span style="font-weight: 700">Дата редактирования </span>- @Model.EditedDate.ToShortDateString()</p>
+                }
+                <p><span style="font-weight: 700">Кол-во мест </span>- @Model.Capacity</p>
+                <p><span style="font-weight: 700">Описание </span>- @Model.Desc</p>
+                <p><span style="font-weight: 700">Этаж </span>- @Model.Floor</p>
+                <p><span style="font-weight: 700">Расположение </span>- @Model.Location</p>
+                @if (Model.IsQuiet)
+                {
+                    <p><span style="font-weight: 700">Тихое место </span>- @Model.IsQuiet</p>
+                }
+                @if (Model.BookingTables.Count != 0)
+                {
+                    <p style="font-weight: 700">Бронирование</p>
+                    <ul>
+                        @foreach (var b in Model.BookingTables)
+                        {
+                            <li>@b.Booking.DateTime</li>
+                        }
+                    </ul>   
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
