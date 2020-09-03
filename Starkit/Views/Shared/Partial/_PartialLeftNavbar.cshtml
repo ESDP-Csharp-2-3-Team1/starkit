@@ -38,17 +38,21 @@
                 <li class="link-1" id="dropdown1-li-1"><a asp-action="Create" asp-controller="Menu">Добавить меню</a></li>
                 <li class="link-1" id="dropdown1-li-2"><a asp-action="Create" asp-controller="Stocks">Добавить акцию</a></li>
             }
-                <li class="link-1" id="dropdown1-li-3"><a asp-action="Create" asp-controller="Dishes">Добавить блюдо</a></li>
-                <li class="link-1" id="dropdown1-li-4"><a asp-action="Create" asp-controller="Categories">Добавить категорию</a></li>
-                <li class="link-1" id="dropdown1-li-5"><a asp-action="Create" asp-controller="SubCategories">Добавить подкатегорию</a></li>
+            <li class="link-1" id="dropdown1-li-3"><a asp-action="Create" asp-controller="Dishes">Добавить блюдо</a></li>
+            <li class="link-1" id="dropdown1-li-4"><a asp-action="Create" asp-controller="Categories">Добавить категорию</a></li>
+            <li class="link-1" id="dropdown1-li-5"><a asp-action="Create" asp-controller="SubCategories">Добавить подкатегорию</a></li>
+            <li class="link-1" id="dropdown1-li-6"><a asp-action="Create" asp-controller="Tables">Добавить столик</a></li>
+            <li class="link-1" id="dropdown1-li-7"><a asp-action="Create" asp-controller="Booking">Добавить бронирование</a></li>
             @if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)) || User.IsInRole(Convert.ToString(Roles.Registrant)))
             {
-                <li class="link-1" id="dropdown1-li-7"><a asp-action="Index" asp-controller="Stocks">Список акций</a></li>
+                <li class="link-1" id="dropdown1-li-8"><a asp-action="Index" asp-controller="Stocks">Список акций</a></li>
             }
-            <li class="link-1" id="dropdown1-li-6"><a asp-action="Index" asp-controller="Menu">Список меню</a></li>
-            <li class="link-1" id="dropdown1-li-8"><a asp-action="Index" asp-controller="Dishes">Список блюд</a></li>
-            <li class="link-1" id="dropdown1-li-9"><a asp-action="Index" asp-controller="Categories">Список категорий</a></li>
-                <li class="link-1" id="dropdown1-li-10"><a asp-action="Index" asp-controller="SubCategories">Список подкатегорий</a></li>
+            <li class="link-1" id="dropdown1-li-9"><a asp-action="Index" asp-controller="Menu">Список меню</a></li>
+            <li class="link-1" id="dropdown1-li-10"><a asp-action="Index" asp-controller="Dishes">Список блюд</a></li>
+            <li class="link-1" id="dropdown1-li-11"><a asp-action="Index" asp-controller="Categories">Список категорий</a></li>
+            <li class="link-1" id="dropdown1-li-12"><a asp-action="Index" asp-controller="SubCategories">Список подкатегорий</a></li>
+            <li class="link-1" id="dropdown1-li-13"><a asp-action="Index" asp-controller="Tables">Список столов</a></li>
+            <li class="link-1" id="dropdown1-li-14"><a asp-action="Index" asp-controller="Booking">Список брони</a></li>
             </div>
         </div>
 
