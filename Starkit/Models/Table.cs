@@ -44,5 +44,6 @@ namespace Starkit.Models
         public DateTime EditedDate { get; set; }
         public virtual List<BookingTable> BookingTables { get; set; }
         public virtual List<Booking> Bookings { get; set; }
+        public bool isDeleted { get; set; }
     }
 }

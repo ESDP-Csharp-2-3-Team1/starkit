@@ -7,6 +7,7 @@ namespace Starkit.ViewModels
     {
         public IEnumerable<Dish> Dishes { get; set; }
         public IEnumerable<Booking> Bookings { get; set; }
+        public IEnumerable<Table> Tables { get; set; }
         public PageViewModel PageViewModel { get; set; }
         public FilterViewModel FilterViewModel { get; set; }
         public SortViewModel SortViewModel { get; set; }

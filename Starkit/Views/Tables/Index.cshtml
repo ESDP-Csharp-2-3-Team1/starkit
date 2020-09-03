@@ -1,12 +1,287 @@
 ﻿@model List<Table>
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Управление столиками";
     Layout = "_Layout";
 }
 
-<h2>title</h2>
-@foreach (var t in Model)
+<style>
+    #dropdown1{
+        display: block;
+    }
+    #dropdown1-li-8{
+          margin-left: 15px;
+            background: #9ad9ea;
+    }
+    #dropdown1-li-8 a{
+                color: #262626;
+                font-weight: 600;
+                border-left: 2px solid #41728b;
+    }
+    #dropdown1-li-8 a:hover{
+        color: #262626;
+    }
+ </style>
+
+<div class="container" style="width: 90%; margin-bottom: 30px">
+    <div style="text-align: right; height: 40px">
+        <img class="fullscreen-icon" id="fullscreen" src="https://img.icons8.com/material-outlined/24/000000/full-screen.png"/>
+        <img style="display: none" class="window-icon" id="window" src="https://img.icons8.com/ios-filled/24/000000/normal-screen.png"/>
+    </div>
+    <h2 style="text-align: center; margin: 10px 0 50px 0">Список столиков</h2>
+    <div class="d-flex bd-highlight mb-3">
+        <div class="p-2 bd-highlight">
+            <label>Расположение: </label>
+            <select id="filterLocation" class="form-control">
+                @foreach (var location in Enum.GetValues(typeof(TableState)))
+                {
+                    <option value="@location">@location</option>
+                }
+            </select>
+        </div>
+        <div class="p-2 bd-highlight">
+            <label>Номер стола </label>
+            <input id="searchId" name="id" class="form-control"/>
+        </div>
+
+        <div class="p-2 bd-highlight">
+            <img src="https://img.icons8.com/wired/36/000000/delete-forever.png" id="delete" style="cursor: pointer; margin-top: 30px;"/>
+        </div>
+    </div>
+
+    <div id="message" style="color: red">Не выбрано ни одного стола</div>
+    <div class="modal answer-modal" tabindex="-1" role="dialog" id="confirm">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h5>Вы уверены?</h5>
+                </div>
+                <div class="modal-footer">
+                    <button onclick="deleteTables()" type="button" class="btn btn-primary button-delete">Удалить</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="result">
+
+    </div>
+    <div id="details-modal"></div>
+</div>
+<link href="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
+
+@section Scripts
 {
-    <p>t.Id</p>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+    <script src="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/js/bootstrap-multiselect.js" type="text/javascript"></script>
+    <script>
+    
+   
+        $(document).ready(function() {
+          $.get('@Url.Action("GetTables", "Tables")', function(data) {
+             $("#result").html(data);
+          })
+        });
+        
+        function deleteTables() {
+            let arr = getCheckedTables();
+            console.log(arr);
+            $.ajax({
+                url: '@Url.Action("Delete", "Tables")',
+                type: "Delete",
+                data: {ids:arr},
+                success: function (data) {
+                    if (data == true){
+                        $(".modal").hide();
+                        getTables();
+                    }
+                }
+            });   
+        }
+            
+        $("#delete").click(function (event) {
+            event.preventDefault();
+            $(".button-delete").show();
+            $(".button-hide").hide();
+            var checkboxes = $("input:checkbox:checked");
+            if (checkboxes.length > 0){
+                $("#confirm").show();
+                $("#message").hide();
+            }
+            else{
+                $("#message").show();
+            }
+        });
+        
+        function closeModal() {
+            $(".modal").hide();
+            $("body").css("overflow", "auto");
+        }
+        
+        
+        $("#filterLocation").change(function() {
+          var filter = $("#filterLocation").val();
+          var search = $("#searchId").val();
+          $.ajax({
+                url: '@Url.Action("GetTables")',
+                type: "GET",
+                data: {
+                    name: search,
+                    category: filter,
+                    sortOrder: sort
+                }
+          }).done(function(data) {
+            $("#result").html(data);
+          });
+        });
+        
+        $("#searchId").keyup(function() {
+            var filter = $("#filterLocation").val();
+            var search = $("#searchId").val();
+            $.ajax({
+                url: '@Url.Action("GetTables")',
+                type: "GET",
+                data: {
+                    name: search,
+                    category: filter,
+                    sortOrder: sort
+                }
+            }).done(function(data) {
+                $("#result").html(data);
+            });
+        });
+        
+        function idSort(){
+            var sortParam = $(".nameSort").attr('id');
+            sort(sortParam);
+        }
+        
+        function paxSort() {
+            var sortParam = $(".nameSort").attr('id');
+            sort(sortParam);
+        }
+        
+        function sort(sortParam){
+            var filter = $("#filterLocation").val();
+            var search = $("#searchId").val();
+            $.ajax({
+            url: '@Url.Action("GetTables")',
+                type: "GET",
+                data: {
+                    id: search,
+                    location: filter,
+                    sortOrder: sortParam
+                }
+            }).done(function(data) {
+                $("#result").html(data);
+            })
+        }
+        
+        function previousPage(page, id, location, sortOrder) {
+            $.ajax({
+                url: '@Url.Action("GetTables", "Tables")',
+                type: "GET",
+                data: {
+                    location: location,
+                    id: id,
+                    page: page,
+                    sortOrder: sortOrder
+                },
+                success: function(data) {
+                    $("#result").html(data);
+                }
+            })
+        }
+        
+        function nextPage(page, id, location, sortOrder) {
+            $.ajax({
+                url: '@Url.Action("GetTables", "Tables")',
+                type: "GET",
+                data: {
+                    location: location,
+                    id: id,
+                    page: page,
+                    sortOrder: sortOrder
+                },
+                success: function(data) {
+                    $("#result").html(data);
+                }
+            })
+        }
+        
+        function getTables(){
+            $.ajax({
+                url: '@Url.Action("GetTables", "Tables")',
+                type: "GET",
+                data: {
+                    location: $("#modelLocation").val(),
+                    id: $("#modelId").val(),
+                    page: $("#modelPage").val(),
+                    sortOrder: $("#modelSort").val()        
+                },
+                success: function(data) {
+                    $("#result").html(data);  
+                }
+            });
+        }
+        
+        function clickedPage(page, id, location, sortOrder) {
+            const active_page = page;
+            var item = document.getElementsByClassName("page-item active");
+            $(item[0]).toggleClass("active");
+            $.ajax({
+                url: '@Url.Action("GetTables", "Tables")',
+                type: "GET",
+                data: {
+                    location: location,
+                    id: id,
+                    page: page,
+                    sortOrder: sortOrder
+                },
+                success: function(data) {
+                    $("#result").html(data);
+                }
+            })
+            $("#page" + active_page).toggleClass("active");
+        }
+        
+        function getCheckedTables() {
+            var checkboxes = $("input:checkbox:checked");
+            let arr = [];
+            $.each(checkboxes, function (index, value) {
+                arr.push(value.id);
+            });
+            return arr;
+        }
+        
+        
+        $("#fullscreen").click(function(event) {
+            event.preventDefault();
+            $(".edit-block1").css("display", "none");
+            $(".edit-block2").css("width", "100%");
+            $(".container-edit").css("grid-template-columns", '100%');
+            $("#fullscreen").hide();
+            $("#window").show()
+        });
+        
+         $("#window").click(function(event) {
+            event.preventDefault();
+            $(".edit-block1").css("display", "block");
+            $(".edit-block2").css("width", "830px");
+            $(".container-edit").css("grid-template-columns", '280px auto');
+            $("#window").hide();
+            $("#fullscreen").show();
+         });
+         
+         function detailsTable(id) { 
+            $.get(`@Url.Action("Details")/?id=${id}`, function(data) {
+                $('#details-modal').html(data);
+                $("#modal-details").show();
+                $("#modal-details").css("overflow", "auto");
+                $("body").css("overflow", "hidden");
+            })
+         }
+    </script>
 }

@@ -7,55 +7,40 @@
         <thead>
         <tr>
             <th></th>
-            <th style="vertical-align: middle; text-align: center" scope="col">Номер стола</th>
+            <th style="vertical-align: middle; text-align: center" scope="col">Изображение</th>
             <th style="vertical-align: middle; text-align: center" scope="col">
-                Дата и время
-                <a style="cursor: pointer" id="@Model.SortViewModel.DateSort" class="nameSort" onclick="dateSort('')">
+                № стола
+                 <a style="cursor: pointer" id="@Model.SortViewModel.IdSort" class="nameSort" onclick="idSort('')">
                     <img src="https://img.icons8.com/material-sharp/24/000000/sort.png"/>
-                </a>
+                </a>x
             </th>
             <th style="vertical-align: middle; text-align: center" scope="col">
-                Кол-во гостей
+                Кол-во мест
                 <a style="cursor: pointer" id="@Model.SortViewModel.PaxSort" class="nameSort" onclick="paxSort('')">
                     <img src="https://img.icons8.com/material-sharp/24/000000/sort.png"/>
                 </a>
             </th>
-            <th style="vertical-align: middle; text-align: center" scope="col">Статус</th>
+            <th style="vertical-align: middle; text-align: center" scope="col">Расположение</th>
             <th style="vertical-align: middle; text-align: center" scope="col">Действие</th>
         </tr>
         </thead>
         <tbody>
-        @foreach (var booking in Model.Bookings)
+        @foreach (var table in Model.Tables)
         {
-            <tr id="booking-@booking.Id">
+            <tr>
                 <td id="checkbox-td" style="vertical-align: middle; text-align: center">
-                    <input type="checkbox" value="true" id="@booking.Id">
+                    <input type="checkbox" value="true" id="@table.Id">
                 </td>
                 <td style="vertical-align: middle; text-align: center">
-                    @foreach (var t in booking.BookingTables)
-                    {
-                        @t.TableId<br>
-                    }
+                    <img src="~/@table.IconUrl" style="width: 50px; height: 50px; border-radius: 40px" alt="">
                 </td>
-                <td class="link-dish-name" style="vertical-align: middle; text-align: center" onclick="detailsBooking('@booking.Id')"> @booking.DateTime</td>
-                <td style="vertical-align: middle; text-align: center">@booking.Pax</td>
-                <td style="vertical-align: middle ; text-align: center" onclick="changeState('@booking.Id')">
-                    <select name="state" id="state">
-                        @foreach (var s in Enum.GetValues(typeof(BookingStatus)))
-                        {
-                            if (s.ToString() == booking.State.ToString())
-                            {
-                                <option class="stateValue" selected value="@s">@s</option>
-                            }
-                            else
-                            {
-                                <option class="stateValue" value="@s">@s</option>
-                            }
-                        }
-                    </select>
+                <td class="link-dish-name" style="vertical-align: middle; text-align: center" onclick="detailsTable('@table.Id')">@table.Id</td>
+                <td style="vertical-align: middle; text-align: center">@table.Capacity</td>
+                <td style="vertical-align: middle ; text-align: center">
+                    @table.Location
                 </td>
                 <td style="vertical-align: middle; text-align: center">
-                    <a style="margin-bottom: 10px" asp-action="Edit" asp-controller="Booking" asp-route-id="@booking.Id">
+                    <a style="margin-bottom: 10px" asp-action="Edit" asp-controller="Tables" asp-route-id="@table.Id">
                         <img src="https://img.icons8.com/ios-glyphs/24/000000/edit.png"/>
                     </a>
                 </td>
@@ -71,6 +56,7 @@
     <li class="page-item">
         <a class="page-link" href="#@(Model.PageViewModel.PageNumber - 1)" aria-label="Previous"
            onclick="previousPage('@(Model.PageViewModel.PageNumber - 1)',
+                           
                                     '@(Model.SortViewModel.Current)')"><span aria-hidden="true">&laquo;</span></a>
     </li>
     @for (int itmp = 1; itmp < Model.PageViewModel.TotalPages + 1; itmp++)
@@ -99,8 +85,8 @@
     <li class="page-item">
         <a class="page-link" href="#@(Model.PageViewModel.PageNumber + 1)" aria-label="Next"
            onclick="nextPage('@(Model.PageViewModel.PageNumber + 1)',
+                           
                            '@(Model.SortViewModel.Current)')"><span aria-hidden="true">&raquo;</span></a>
     </li>
 </ul>
 </div>
-

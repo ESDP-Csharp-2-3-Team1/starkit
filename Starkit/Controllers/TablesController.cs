@@ -22,6 +22,7 @@ namespace Starkit.Controllers
         private UserManager<User> _userManager;
         private IHostEnvironment _environment;
         private UploadService _uploadService;
+        private int pageSize = 5;
 
         public TablesController(StarkitContext db, UserManager<User> userManager, IHostEnvironment environment, UploadService uploadService)
         {
@@ -68,6 +69,8 @@ namespace Starkit.Controllers
             }
         }
         // GET
+        [Authorize(Roles = "SuperAdmin,Registrant")]
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
@@ -77,7 +80,7 @@ namespace Starkit.Controllers
                 user = await _userManager.FindByIdAsync(userId);
             }
 
-            List<Table> tables = _db.Tables.Where(t => t.RestaurantId == user.RestaurantId).ToList();
+            var tables = _db.Tables.Where(t => t.RestaurantId == user.RestaurantId).ToList();
             return View(tables);
         }
 
@@ -97,7 +100,7 @@ namespace Starkit.Controllers
             return View();
         }
         
-        [Authorize(Roles = "SuperAdmin,Registrant")]
+        [Authorize(Roles = "SuperAdmin, Registrant")]
         [HttpPost]
         public async Task<IActionResult> Create(Table table)
         {
@@ -117,16 +120,6 @@ namespace Starkit.Controllers
             return View(table);
         }
         
-        [Authorize(Roles = "SuperAdmin,Registrant")]
-        [HttpDelete]
-        public async Task<IActionResult> Delete(int id)
-        {
-            Table table = new Table{Id = id};
-            _db.Entry(table).State = EntityState.Deleted;
-            await _db.SaveChangesAsync();
-            await DeleteTableIcon(table);
-            return RedirectToAction("Index");
-        }
 
         [HttpGet]
         [Authorize(Roles = "SuperAdmin,Registrant")]
@@ -188,6 +181,89 @@ namespace Starkit.Controllers
             }
 
             return View();
+        }
+        
+        public async Task<IActionResult> GetTables(int id, int page = 1, SortState sortOrder = SortState.AddTimeAsc)
+        { 
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+            {
+                string userId = user.IdOfTheSelectedRestaurateur;
+                user = await _userManager.FindByIdAsync(userId);
+            }
+            
+            var tables = _db.Tables.Where(t => t.RestaurantId == user.RestaurantId);
+
+            switch (sortOrder)
+            {
+                case SortState.IdDesc:
+                    tables = tables.OrderByDescending(b => b.Id);
+                    break;
+                case SortState.PaxAsc:
+                    tables = tables.OrderBy(b => b.Capacity);
+                    break;
+                case SortState.PaxDesc:
+                    tables = tables.OrderByDescending(b => b.Capacity);
+                    break;
+                default:
+                    tables = tables.OrderBy(b => b.Id);
+                    break;
+            }
+
+            var count = await tables.CountAsync();
+            var items = await tables.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+
+            if (items.Count == 0 && page != 1)
+            {
+                page = page - 1;
+                items = await tables.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            }
+
+            var viewModel = new IndexViewModel
+            {
+                PageViewModel = new PageViewModel(count, page, pageSize),
+                SortViewModel = new SortViewModel(sortOrder),
+                Tables = items
+            };
+
+            return PartialView("PartialViews/LIstTablesPartialView", viewModel);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int[] ids)
+        {
+            string userId = _userManager.GetUserId(User);
+            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+            {
+                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                userId = admin.IdOfTheSelectedRestaurateur;
+            }
+            var tables = new List<Table>();
+            foreach (var id in ids)
+            {
+                tables.Add(_db.Tables.FirstOrDefault(b => b.Id == id));
+            }
+
+            foreach (var table in tables)
+            {
+                table.isDeleted = true;
+            }
+
+            if (tables.Count == 1)
+                _db.Tables.Update(tables[0]);
+            else
+                _db.Tables.UpdateRange(tables);
+            await _db.SaveChangesAsync();
+            return Json(true);
+        }
+        
+
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+            Table table = _db.Tables.FirstOrDefault(b => b.Id == id);
+            return PartialView("PartialViews/DetailsTableModalWindowPartialView", table);
+
         }
         
     }

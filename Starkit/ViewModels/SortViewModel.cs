@@ -17,7 +17,9 @@
         TimeAsc,
         TimeDesc,
         PaxAsc,
-        PaxDesc
+        PaxDesc,
+        IdAsc,
+        IdDesc
     }
     public class SortViewModel
     {
@@ -27,6 +29,10 @@
         public SortState CategorySort { get; set; }
         public SortState CalorieSort { get; set; }
         public SortState Current { get; set; }
+        public SortState DateSort { get; set; }
+        public SortState TimeSort { get; set; }
+        public SortState PaxSort { get; set; }
+        public SortState IdSort { get; set; }
 
         public SortViewModel(SortState sortOrder)
         {
@@ -35,6 +41,10 @@
             AddTimeSort = sortOrder == SortState.AddTimeAsc ? SortState.AddTimeDesc : SortState.AddTimeAsc;
             CategorySort = sortOrder == SortState.CategoryAsc ? SortState.CategoryDesc : SortState.CategoryAsc;
             CalorieSort = sortOrder == SortState.CalorieAsc ? SortState.CalorieDesc : SortState.CalorieAsc;
+            DateSort = sortOrder == SortState.DateAsc ? SortState.DateDesc : SortState.DateAsc;
+            TimeSort = sortOrder == SortState.TimeAsc ? SortState.TimeDesc : SortState.TimeAsc;
+            PaxSort = sortOrder == SortState.PaxAsc ? SortState.PaxDesc : SortState.PaxAsc;
+            IdSort = sortOrder == SortState.IdAsc ? SortState.IdDesc : SortState.IdAsc;
             Current = sortOrder;
         }
     }
