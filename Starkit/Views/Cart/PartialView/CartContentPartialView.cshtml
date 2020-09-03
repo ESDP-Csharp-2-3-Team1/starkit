@@ -45,7 +45,7 @@
             <td class="cart-cell">
                 <img class="img-cart" src="~/@item.Stock.Avatar" width="60"/>
             </td>
-            <td class="cart-cell"></td>
+            <td class="cart-cell">@item.Stock.Cost</td>
             <td class="cart-cell">
                 <a asp-controller="cart" asp-action="remove" asp-route-id="@item.Stock.Id" asp-route-name="stock">Убрать</a>
             </td>
@@ -54,7 +54,7 @@
                 @item.Quantity
                 <img style="cursor: pointer" onclick="down('@item.Stock.Id', '@(item.Quantity - 1)', 'stock')" src="https://img.icons8.com/material-two-tone/24/000000/down--v1.png"/>
             </td>
-            <td class="cart-cell"></td>
+            <td class="cart-cell">@(item.Stock.Cost * item.Quantity)</td>
         </tr>
     }
 }

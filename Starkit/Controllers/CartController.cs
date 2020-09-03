@@ -163,6 +163,12 @@ namespace Starkit.Controllers
                 foreach (var item in items)
                     total += item.Menu.Cost * item.Quantity;
             }
+            if (cart.Any(item => item.Stock != null))
+            {
+                items = cart.Where(c => c.Stock != null);
+                foreach (var item in items)
+                    total += item.Stock.Cost * item.Quantity;
+            }
             ViewBag.total = total;
             return PartialView("PartialView/CartContentPartialView");
         }
@@ -185,6 +191,12 @@ namespace Starkit.Controllers
                 items = cart.Where(c => c.Menu != null);
                 foreach (var item in items)
                     total += item.Menu.Cost * item.Quantity;
+            }
+            if (cart.Any(item => item.Stock != null))
+            {
+                items = cart.Where(c => c.Stock != null);
+                foreach (var item in items)
+                    total += item.Stock.Cost * item.Quantity;
             }
             return Json(total);
         }

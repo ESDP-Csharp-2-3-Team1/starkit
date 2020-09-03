@@ -37,5 +37,7 @@ namespace Starkit.ViewModels
         public string SecondDishId { get; set; }
 
         public string ThirdDishId { get; set; }
+        
+        public decimal Cost { get; set; }
     }
 }

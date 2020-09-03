@@ -46,12 +46,22 @@
                     <img style="cursor: pointer" onclick="openModal()" src="https://img.icons8.com/android/24/000000/plus.png"/>
                 </div>
             </div>
+            
             <input type="hidden" asp-for="FirstDishId" id="firstDish" value="@Model.FirstDishId">
             <input type="hidden" id="firstDishName">
+            <input type="hidden" id="firstDishCost">
             <input type="hidden" asp-for="SecondDishId" id="secondDish" value="@Model.SecondDishId">
             <input type="hidden" id="secondDishName">
+            <input type="hidden" id="secondDishCost">
             <input type="hidden" asp-for="ThirdDishId" id="thirdDish" value="@Model.ThirdDishId">
             <input type="hidden" id="thirdDishName">
+            
+            <div class="form-group row">
+                <label for="" class="col-sm-4 col-form-label createStockLabel">Стоимость</label><br/>
+                <div class="col-sm-8">
+                    <input class="form-control" type="text" readonly asp-for="Cost" id="cost" value="@Model.Cost">
+                </div>
+            </div>
 
             <div class="form-group row">
                 <label for="" class="col-sm-4 col-form-label createStockLabel">Описание</label><br/>
@@ -177,30 +187,37 @@
             var firstDishName = $("#firstDishName");
             var secondDishName = $("#secondDishName");
             var thirdDishName = $("#thirdDishName");
+            var firstDishCost = $("#firstDishCost");
+            var secondDishCost = $("#secondDishCost");
             if ($("#selectType").val() == "1+1=3"){
                 if (dishNumber == "firstDish"){
                     $("#firstDish").val(arr[0]);
                     $(firstDishName).val(arr[1]);
+                    $(firstDishCost).val(arr[2]);
                     $("#selectType").attr("disabled", true);
                 }
                 else if(dishNumber == "secondDish"){
                     $("#secondDish").val(arr[0]);
                     $(secondDishName).val(arr[1]);
+                    $(secondDishCost).val(arr[2]);
                 }
                 else{
                     $("#thirdDish").val(arr[0]);
                     $(thirdDishName).val(arr[1]);
                     $("#chooseDishes").hide();
                             
-                    $(name).val(`${$(firstDishName).val()}+${$(secondDishName).val()}=${arr[1]}`)
+                    $(name).val(`${$(firstDishName).val()}+${$(secondDishName).val()}=${arr[1]}`);
+                    $(cost).val(`${+firstDishCost.val() + (+secondDishCost.val())}`);
                 }    
             }
             else{
                 if (dishNumber == "firstDish"){
                     $("#firstDish").val(arr[0]);
                     $(firstDishName).val(arr[1]);
+                    $(firstDishCost).val(arr[2])
                             
                     $(name).val(`${firstDishName.val()}+${firstDishName.val()}=${firstDishName.val()}`);
+                    $(cost).val(firstDishCost.val());
                             
                     $("#chooseDishes").hide();
                     $("#selectType").attr("disabled", true);
@@ -211,12 +228,16 @@
                 
         function reset() {
             $("#name").val("");
+            $("#cost").val("");
             $("#selectType").attr("disabled", false);
             $("#firstDish").val("");
             $("#name-error").hide();
             $("#secondDish").val("");
             $("#thirdDish").val("");
             $("#chooseDishes").show();
+            $("#firstDishCost").val("");
+            $("#secondDishCost").val("");
+                       
         }
         
         $(function (){
