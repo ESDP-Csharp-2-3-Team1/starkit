@@ -1,0 +1,51 @@
+@{
+    ViewBag.Title = "Заказы";
+    Layout = "_Layout";
+}
+
+<style>
+    #dropdown1{
+        display: block;
+    }
+    #dropdown1-li-11{
+          margin-left: 15px;
+            background: #9ad9ea;
+    }
+    #dropdown1-li-11 a{
+                color: #262626;
+                font-weight: 600;
+                border-left: 2px solid #41728b;
+    }
+    #dropdown1-li-11 a:hover{
+        color: #262626;
+    }
+ </style>
+
+<div class="container" style="width: 90%; margin-bottom: 50px">
+    <h2 class="text-orders">Список заказов</h2>
+    <div style="overflow-x:auto; font-size: 14px">
+      <table class="table table-bordered">
+          <thead>
+          <tr>
+              <th class="table-orders-index">Номер заказа</th>
+              <th class="table-orders-index">Номер телефона</th>
+              <th class="table-orders-index">Имя заказчика</th>
+              <th class="table-orders-index">Адрес</th>
+              <th class="table-orders-index">Время заказа</th>
+              <th class="table-orders-index">Статус</th>
+          </tr>
+          </thead>
+          <tbody id="result"></tbody>
+      </table>  
+    </div>
+</div>
+@section Scripts
+{
+    <script>
+        $(document).ready(function (){
+            $.get('@Url.Action("GetOrders")', function (data){
+                $("#result").html(data);
+            });
+        })
+    </script>
+}

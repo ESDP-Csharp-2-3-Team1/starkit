@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Starkit.Models;
@@ -13,10 +15,30 @@ namespace Starkit.Controllers
     public class OrdersController : Controller
     {
         private StarkitContext _db;
+        private UserManager<User> _userManager;
 
-        public OrdersController(StarkitContext db)
+        public OrdersController(StarkitContext db, UserManager<User> userManager)
         {
             _db = db;
+            _userManager = userManager;
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return View();
+        }
+        
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetOrders()
+        {
+            User user = await _userManager.GetUserAsync(User);
+            Restaurant restaurant = _db.Restaurants.FirstOrDefault(r => r.Id == user.RestaurantId);
+            if (restaurant != null)
+                return PartialView("PartialViews/ListOrderPartialView", restaurant.Orders);
+            return NotFound();
         }
 
         public IActionResult Add()
@@ -28,7 +50,7 @@ namespace Starkit.Controllers
                 return PartialView("PartialViews/ToOrderModalWindowPartialView", new Order());
             return Json(false);
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> Add(Order order)
         {
