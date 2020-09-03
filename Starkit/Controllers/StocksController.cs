@@ -148,6 +148,7 @@ namespace Starkit.Controllers
                 Id = id,
                 Name = stock.Name,
                 Type = stock.Type,
+                Cost = stock.Cost,
                 Description = stock.Description,
                 Validity = stock.Validity,
                 At = stock.At,
@@ -171,6 +172,7 @@ namespace Starkit.Controllers
                 stock.Name = model.Name;
                 stock.Type = model.Type;
                 stock.Description = model.Description;
+                stock.Cost = model.Cost;
                 stock.Validity = model.Validity;
                 stock.At = model.At;
                 stock.To = model.To;
