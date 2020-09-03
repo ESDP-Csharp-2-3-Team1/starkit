@@ -85,8 +85,9 @@
                     }
                     else{
                         $("#toOrder").hide();
+                        $("body").css("overflow", "auto");
                         var message = $("#message");
-                        $(message).text("Заказ успешно оформлен");
+                        $(message).text("Ваш заказ в оброботке. С вами свяжутся в ближайшее время");
                         $(message).css("color", "green");
                         $(message).show();
                         setTime($(message));

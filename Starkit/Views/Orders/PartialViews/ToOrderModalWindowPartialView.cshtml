@@ -33,6 +33,12 @@
                                 </div>
                                 <span class="validationError" asp-validation-for="ContactNumber"></span>
                             </div>
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label toOrder-form-input">Коментарий</label><br/>
+                                <div class="col-sm-9">
+                                    <textarea class="form-control" asp-for="Comment" style="height: 150px; resize: none"></textarea>
+                                </div>
+                            </div>
                             <br/>
                             <button type="button" class="btn btn-success" onclick="toOrderSubmit()">Оформить заказ</button>
                             <button type="button" class="btn btn-danger" onclick="closeModal()">Закрыть</button>
