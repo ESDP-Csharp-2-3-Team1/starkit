@@ -18,10 +18,17 @@
             <div class="navbar-collapse collapse d-sm-inline-flex">
                 <ul class="navbar-nav flex-grow-1 justify-content-end">
                     <li class="nav-item mr-4">
-                        <p class="contact-number">@Model.PhoneNumber</p>
+                        <p class="contact-number"></p>
+                    </li>
+                    <li class="nav-item mr-2">
+                        <p class="basket">
+                            <a asp-controller="Cart" asp-action="Index">
+                                <img src="https://img.icons8.com/metro/26/000000/shopping-cart-loaded.png"/>
+                            </a>
+                        </p>
                     </li>
                     <li class="nav-item">
-                        <p class="basket-num">5</p>
+                        <p id="total"></p>
                     </li>
                 </ul>
             </div>
@@ -42,7 +49,7 @@
                         <a class="nav-link text-dark myNavbar" href="#">Меню</a>
                     </li>
                     <li class="nav-item" style="width: 50px">
-                        <img style="width: 100%; height: 100%" id="nav-logo" src="~/@Model.LogoPath"/>
+                        <img style="width: 100%; height: 100%" id="nav-logo" src=""/>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark myNavbar" href="#">Акций</a>
@@ -55,7 +62,7 @@
         </div>
     </nav>
 </header>
-<div class="container" style="margin-bottom: 70px;">
+<div class="container" style="margin-bottom: 120px;">
     <main role="main">
         @RenderBody()
     </main>
@@ -64,12 +71,13 @@
 <footer class="border-top footer text-muted business-card-footer">
     <div class="container" style="display: flex; justify-content: space-between; height: 70px">
         <p>&copy; 2020 Все права защищены</p>
-        <p class="contact-number">@Model.PhoneNumber</p>
+        <p class="contact-number"></p>
     </div>
 </footer>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/js/jquery.maskedinput.min.js"></script>
 @RenderSection("Scripts", required: false)
 </body>
 </html>

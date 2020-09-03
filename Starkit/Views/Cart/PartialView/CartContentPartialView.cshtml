@@ -1,0 +1,66 @@
+﻿@foreach (var item in ViewBag.cart)
+{
+    if (item.Dish != null)
+    {
+        <tr>
+            <td class="cart-cell">@item.Dish.Name</td>
+            <td class="cart-cell">
+                <img class="img-cart" src="~/@item.Dish.Avatar" width="60"/>
+            </td>
+            <td class="cart-cell">@item.Dish.Cost</td>
+            <td class="cart-cell">
+                <a asp-controller="cart" asp-action="remove" asp-route-id="@item.Dish.Id" asp-route-name="dish">Убрать</a>
+            </td>
+            <td class="cart-cell" id="qty-@item.Dish.Id">
+                <img style="cursor: pointer" onclick="up('@item.Dish.Id', '@(item.Quantity + 1)', 'dish')" src="https://img.icons8.com/material-two-tone/24/000000/up.png"/>
+                @item.Quantity
+                <img style="cursor: pointer" onclick="down('@item.Dish.Id', '@(item.Quantity - 1)', 'dish')" src="https://img.icons8.com/material-two-tone/24/000000/down--v1.png"/>
+            </td>
+            <td class="cart-cell">@(item.Dish.Cost * item.Quantity)</td>
+        </tr>   
+    }
+    if (item.Menu != null)
+    {
+        <tr>
+            <td class="cart-cell">@item.Menu.Name</td>
+            <td class="cart-cell">
+                <img class="img-cart" src="~/@item.Menu.Avatar" width="60"/>
+            </td>
+            <td class="cart-cell">@item.Menu.Cost</td>
+            <td class="cart-cell">
+                <a asp-controller="cart" asp-action="remove" asp-route-id="@item.Menu.Id" asp-route-name="menu">Убрать</a>
+            </td>
+            <td class="cart-cell" id="qty-@item.Menu.Id">
+                <img style="cursor: pointer" onclick="up('@item.Menu.Id', '@(item.Quantity + 1)', 'menu')" src="https://img.icons8.com/material-two-tone/24/000000/up.png"/>
+                @item.Quantity
+                <img style="cursor: pointer" onclick="down('@item.Menu.Id', '@(item.Quantity - 1)', 'menu')" src="https://img.icons8.com/material-two-tone/24/000000/down--v1.png"/>
+            </td>
+            <td class="cart-cell">@(item.Menu.Cost * item.Quantity)</td>
+        </tr>   
+    }
+    if (item.Stock != null)
+    {
+        <tr>
+            <td class="cart-cell">@item.Stock.Name</td>
+            <td class="cart-cell">
+                <img class="img-cart" src="~/@item.Stock.Avatar" width="60"/>
+            </td>
+            <td class="cart-cell"></td>
+            <td class="cart-cell">
+                <a asp-controller="cart" asp-action="remove" asp-route-id="@item.Stock.Id" asp-route-name="stock">Убрать</a>
+            </td>
+            <td class="cart-cell" id="qty-@item.Stock.Id">
+                <img style="cursor: pointer" onclick="up('@item.Stock.Id', '@(item.Quantity + 1)', 'stock')" src="https://img.icons8.com/material-two-tone/24/000000/up.png"/>
+                @item.Quantity
+                <img style="cursor: pointer" onclick="down('@item.Stock.Id', '@(item.Quantity - 1)', 'stock')" src="https://img.icons8.com/material-two-tone/24/000000/down--v1.png"/>
+            </td>
+            <td class="cart-cell"></td>
+        </tr>
+    }
+}
+<tr>
+    <td style="vertical-align: middle" align="right" colspan="5">Общая стоимость</td>
+    <td style="vertical-align: middle">
+        @ViewBag.total
+    </td>
+</tr>
