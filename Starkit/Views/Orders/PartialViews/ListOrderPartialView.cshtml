@@ -11,6 +11,10 @@
             <td class="table-orders-index">@order.Address</td>
             <td class="table-orders-index">@order.OrderTime</td>
             <td class="table-orders-index">@order.Status</td>
+            <td class="table-orders-index">
+                <img class="icons-orders-index" src="https://img.icons8.com/ios/24/000000/zoom-in.png"/>
+                <img onclick="deleteOrder('@order.Id')" class="icons-orders-index" src="https://img.icons8.com/wired/24/000000/delete-forever.png"/>
+            </td>
         </tr>   
     }
 }

@@ -1116,6 +1116,9 @@ body {
   height: 50px;
 }
 .table-orders-index{
-  vertical-align: middle;
+  vertical-align: middle!important;
   text-align: center;
+}
+.icons-orders-index{
+  cursor: pointer;
 }

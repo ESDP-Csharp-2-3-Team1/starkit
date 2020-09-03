@@ -37,7 +37,7 @@ namespace Starkit.Controllers
             User user = await _userManager.GetUserAsync(User);
             Restaurant restaurant = _db.Restaurants.FirstOrDefault(r => r.Id == user.RestaurantId);
             if (restaurant != null)
-                return PartialView("PartialViews/ListOrderPartialView", restaurant.Orders);
+                return PartialView("PartialViews/ListOrderPartialView", restaurant.Orders.OrderBy(o => o.OrderTime).ToList());
             return NotFound();
         }
 
@@ -107,6 +107,15 @@ namespace Starkit.Controllers
                 return Json(order.OrderNum);   
             }
             return PartialView("PartialViews/ToOrderModalWindowPartialView", order);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(string id)
+        {
+            Order order = new Order{Id = id};
+            _db.Entry(order).State = EntityState.Deleted;
+            await _db.SaveChangesAsync();
+            return RedirectToAction("GetOrders");
         }
     }
 }
