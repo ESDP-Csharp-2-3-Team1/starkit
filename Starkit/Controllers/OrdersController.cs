@@ -51,8 +51,9 @@ namespace Starkit.Controllers
                             DishId = item.Dish.Id,
                             Quantity = item.Quantity,
                         };
-                        order.RestaurantId = item.Dish.RestaurantId;
                         _db.Entry(ordersDishes).State = EntityState.Added;
+                        if (order.RestaurantId == null)
+                            order.RestaurantId = item.Dish.RestaurantId;
                     }
                     else if (item.Menu != null)
                     {
@@ -63,11 +64,20 @@ namespace Starkit.Controllers
                             Quantity = item.Quantity
                         };
                         _db.Entry(ordersMenu).State = EntityState.Added;
-                        order.RestaurantId = item.Menu.RestaurantId;
+                        if (order.RestaurantId == null)
+                            order.RestaurantId = item.Menu.RestaurantId;
                     }
                     else if (item.Stock != null)
                     {
-                        
+                        OrdersStocks ordersStocks = new OrdersStocks
+                        {
+                            OrderId = order.Id,
+                            StockId = item.Stock.Id,
+                            Quantity = item.Quantity
+                        };
+                        _db.Entry(ordersStocks).State = EntityState.Added;
+                        if (order.RestaurantId == null)
+                            order.RestaurantId = item.Stock.RestaurantId;
                     }
                 }
                 _db.Entry(order).State = EntityState.Added;
