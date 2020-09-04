@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Starkit.Models;
 using Starkit.Models.Data;
 using Starkit.Services;
@@ -16,6 +19,7 @@ namespace Starkit.Controllers
     {
         private StarkitContext _db;
         private UserManager<User> _userManager;
+        private string _path = "items.json";
 
         public OrdersController(StarkitContext db, UserManager<User> userManager)
         {
@@ -116,6 +120,70 @@ namespace Starkit.Controllers
             _db.Entry(order).State = EntityState.Deleted;
             await _db.SaveChangesAsync();
             return RedirectToAction("GetOrders");
+        }
+
+        public IActionResult Details(string id)
+        {
+            List<Item> items = new List<Item>();
+            Order order = _db.Orders.FirstOrDefault(o => o.Id == id);
+            if (order.OrdersDishes.Any())
+                foreach (var orderDish in order.OrdersDishes)
+                    items.Add(new Item{Dish = orderDish.Dish, Quantity = orderDish.Quantity});
+            if (order.OrdersMenu.Any())
+                foreach (var orderMenu in order.OrdersMenu)
+                    items.Add(new Item{Menu = orderMenu.Menu, Quantity = orderMenu.Quantity});
+            if (order.OrdersStocks.Any())
+                foreach (var orderStock in order.OrdersStocks)
+                    items.Add(new Item{Stock = orderStock.Stock, Quantity = orderStock.Quantity});
+            var json = JsonConvert.SerializeObject(items, Formatting.Indented);
+            System.IO.File.WriteAllText(_path, json);
+            return View(order);
+        }
+
+        public IActionResult ChangeQuantity(string id, int quantity)
+        {
+            string json = System.IO.File.ReadAllText(_path);
+            List<Item> items = JsonConvert.DeserializeObject<List<Item>>(json);
+            items.FirstOrDefault(i => i.Id == id).Quantity = quantity;
+            json = JsonConvert.SerializeObject(items, Formatting.Indented);
+            System.IO.File.WriteAllText(_path, json);
+            return RedirectToAction("GetContentOrder");
+        }
+
+        public async Task<IActionResult> GetContentOrder()
+        {
+            string json = System.IO.File.ReadAllText(_path);
+            List<Item> items = JsonConvert.DeserializeObject<List<Item>>(json);
+            IEnumerable<Item> buf = new List<Item>();
+            decimal total = 0;
+            if (items.Any(item => item.Dish != null))
+            {
+                buf = items.Where(c => c.Dish != null);
+                total += buf.Sum(i => i.Dish.Cost * i.Quantity);
+            }
+            if (items.Any(item => item.Menu != null))
+            {
+                buf = items.Where(c => c.Menu != null);
+                total += buf.Sum(i => i.Menu.Cost * i.Quantity);
+            }
+            if (items.Any(item => item.Stock != null))
+            {
+                buf = items.Where(c => c.Stock != null);
+                total += buf.Sum(i => i.Stock.Cost * i.Quantity);
+            }
+            ViewBag.total = total;
+            return PartialView("PartialViews/ContentCartPartialView", items);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteItem(string id)
+        {
+            string json = System.IO.File.ReadAllText(_path);
+            List<Item> items = JsonConvert.DeserializeObject<List<Item>>(json);
+            items.Remove(items.FirstOrDefault(i => i.Id == id));
+            json = JsonConvert.SerializeObject(items, Formatting.Indented);
+            System.IO.File.WriteAllText(_path, json);
+            return RedirectToAction("GetContentOrder");
         }
     }
 }

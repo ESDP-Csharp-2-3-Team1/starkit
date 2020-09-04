@@ -1,0 +1,61 @@
+@model Order
+
+@{
+    ViewBag.Title = $"Заказ №{Model.OrderNum}";
+    Layout = "_Layout";
+}
+
+<div class="container" style="width: 90%; margin-bottom: 50px">
+    <h2 class="text-orders">Заказ №@Model.OrderNum</h2>
+    <div style="overflow-x: auto; font-size: 14px">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th class="cart-cell">Наименования</th>
+                <th class="cart-cell">Картинка</th>
+                <th class="cart-cell">Цена</th>
+                <th class="cart-cell">Действие</th>
+                <th class="cart-cell">Количество</th>
+                <th class="cart-cell">Сумма</th>
+            </tr>
+            </thead>
+            <tbody id="result">
+            
+            </tbody>
+        </table>
+    </div>
+    <div style="text-align: end; display: none" id="save">
+        <button type="button" class="btn btn-secondary">Сохранить изменения</button>
+    </div>
+</div>
+@section Scripts
+{
+    <script>
+            $(document).ready(function (){
+               $.get('@Url.Action("GetContentOrder")', function (data){
+                  $("#result").html(data); 
+               });
+            });
+    
+            function down(id, qty){
+                if (qty > 0){
+                    $.get(`@Url.Action("ChangeQuantity")?id=${id}&quantity=${qty}&name=${name}`, function (data){
+                        $("#result").html(data);
+                    })   
+                }
+            }
+            
+            function up(id, qty){
+                $.get(`@Url.Action("ChangeQuantity")?id=${id}&quantity=${qty}&name=${name}`, function (data){
+                    $("#result").html(data);
+                })
+            }
+            
+            function deleteItem(id){
+                $.get(`@Url.Action("DeleteItem")?id=${id}`, function (data){
+                   $("#result").html(data); 
+                }); 
+            }
+    </script>
+}
+

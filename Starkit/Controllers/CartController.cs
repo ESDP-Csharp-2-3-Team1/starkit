@@ -154,20 +154,17 @@ namespace Starkit.Controllers
             if (cart.Any(item => item.Dish != null))
             {
                 items = cart.Where(c => c.Dish != null);
-                foreach (var item in items)
-                    total += item.Dish.Cost * item.Quantity;
+                total += items.Sum(i => i.Dish.Cost * i.Quantity);
             }
             if (cart.Any(item => item.Menu != null))
             {
                 items = cart.Where(c => c.Menu != null);
-                foreach (var item in items)
-                    total += item.Menu.Cost * item.Quantity;
+                total += items.Sum(i => i.Menu.Cost * i.Quantity);
             }
             if (cart.Any(item => item.Stock != null))
             {
                 items = cart.Where(c => c.Stock != null);
-                foreach (var item in items)
-                    total += item.Stock.Cost * item.Quantity;
+                total += items.Sum(i => i.Stock.Cost * i.Quantity);
             }
             ViewBag.total = total;
             return PartialView("PartialView/CartContentPartialView");
@@ -183,20 +180,17 @@ namespace Starkit.Controllers
             if (cart.Any(item => item.Dish != null))
             {
                 items = cart.Where(c => c.Dish != null);
-                foreach (var item in items)
-                    total += item.Dish.Cost * item.Quantity;
+                total += items.Sum(i => i.Dish.Cost * i.Quantity);
             }
             if (cart.Any(item => item.Menu != null))
             {
                 items = cart.Where(c => c.Menu != null);
-                foreach (var item in items)
-                    total += item.Menu.Cost * item.Quantity;
+                total += items.Sum(i => i.Menu.Cost * i.Quantity);
             }
             if (cart.Any(item => item.Stock != null))
             {
                 items = cart.Where(c => c.Stock != null);
-                foreach (var item in items)
-                    total += item.Stock.Cost * item.Quantity;
+                total += items.Sum(i => i.Stock.Cost * i.Quantity);
             }
             return Json(total);
         }

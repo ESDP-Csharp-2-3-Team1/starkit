@@ -1,0 +1,71 @@
+@model List<Item>
+
+@if (Model.Count != 0)
+{
+    @foreach (var item in Model)
+    {
+        if (item.Dish != null)
+        {
+            <tr>
+                <td class="cart-cell">@item.Dish.Name</td>
+                <td class="cart-cell">
+                    <img class="img-cart" src="~/@item.Dish.Avatar" width="60"/>
+                </td>
+                <td class="cart-cell">@item.Dish.Cost</td>
+                <td class="cart-cell">
+                    <a href="#" onclick="deleteItem('@item.Id')">Убрать</a>
+                </td>
+                <td class="cart-cell" id="qty-@item.Dish.Id">
+                    <img style="cursor: pointer" onclick="up('@item.Id', '@(item.Quantity + 1)')" src="https://img.icons8.com/material-two-tone/24/000000/up.png"/>
+                    @item.Quantity
+                    <img style="cursor: pointer" onclick="down('@item.Id', '@(item.Quantity - 1)')" src="https://img.icons8.com/material-two-tone/24/000000/down--v1.png"/>
+                </td>
+                <td class="cart-cell">@(item.Dish.Cost * item.Quantity)</td>
+            </tr>
+        }
+        else if (item.Menu != null)
+        {
+            <tr>
+                <td class="cart-cell">@item.Menu.Name</td>
+                <td class="cart-cell">
+                    <img class="img-cart" src="~/@item.Menu.Avatar" width="60"/>
+                </td>
+                <td class="cart-cell">@item.Menu.Cost</td>
+                <td class="cart-cell">
+                     <a href="#" onclick="deleteItem('@item.Id')">Убрать</a>
+                </td>
+                <td class="cart-cell" id="qty-@item.Menu.Id">
+                    <img style="cursor: pointer" onclick="up('@item.Id', '@(item.Quantity + 1)')" src="https://img.icons8.com/material-two-tone/24/000000/up.png"/>
+                    @item.Quantity
+                    <img style="cursor: pointer" onclick="down('@item.Id', '@(item.Quantity - 1)')" src="https://img.icons8.com/material-two-tone/24/000000/down--v1.png"/>
+                </td>
+                <td class="cart-cell">@(item.Menu.Cost * item.Quantity)</td>
+            </tr>
+        }
+        else if(item.Stock != null)
+        {
+            <tr>
+                <td class="cart-cell">@item.Stock.Name</td>
+                <td class="cart-cell">
+                    <img class="img-cart" src="~/@item.Stock.Avatar" width="60"/>
+                </td>
+                <td class="cart-cell">@item.Stock.Cost</td>
+                <td class="cart-cell">
+                    <a href="#" onclick="deleteItem('@item.Id')">Убрать</a>
+                </td>
+                <td class="cart-cell" id="qty-@item.Stock.Id">
+                    <img style="cursor: pointer" onclick="up('@item.Id', '@(item.Quantity + 1)')" src="https://img.icons8.com/material-two-tone/24/000000/up.png"/>
+                    @item.Quantity
+                    <img style="cursor: pointer" onclick="down('@item.Id', '@(item.Quantity - 1)')" src="https://img.icons8.com/material-two-tone/24/000000/down--v1.png"/>
+                </td>
+                <td class="cart-cell">@(item.Stock.Cost * item.Quantity)</td>
+            </tr>
+        }
+    }
+}
+<tr>
+    <td style="vertical-align: middle" align="right" colspan="5">Общая стоимость</td>
+    <td style="vertical-align: middle">
+        @ViewBag.total
+    </td>
+</tr>
