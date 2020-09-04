@@ -274,6 +274,43 @@ namespace Starkit.Controllers
             return Json(false);
         }
         
+        public IActionResult Book(int id)
+        {
+            Table table = _db.Tables.FirstOrDefault(t => t.Id == id);
+            BookingTable bookingTable = new BookingTable()
+            {
+                TableId = table.Id
+            };
+            return PartialView("PartialViews/BookTableModalPartialView", bookingTable);
+        }
+        [HttpPost]
+        public IActionResult Book(BookingTable bookingTable, int tableId)
+        {
+            if (ModelState.IsValid)
+            {
+                Table table = _db.Tables.FirstOrDefault(t => t.Id == tableId);
+            
+                Booking booking = new Booking()
+                {
+                    ClientName = bookingTable.Booking.ClientName,
+                    DateTime = bookingTable.Booking.DateTime,
+                    Comment = bookingTable.Booking.Comment,
+                    RestaurantId = table.RestaurantId,
+                    Pax = bookingTable.Booking.Pax,
+                    PhoneNumber = bookingTable.Booking.PhoneNumber,
+                    Email = bookingTable.Booking.Email,
+                };
+                _db.Entry(booking).State = EntityState.Added;
+                bookingTable.BookingId = booking.Id;
+                _db.Entry(bookingTable).State = EntityState.Added;
+                _db.SaveChanges();
+                return Json(true);
+            }
+
+            return Json(false);
+
+        }
+        
     }
 
 }

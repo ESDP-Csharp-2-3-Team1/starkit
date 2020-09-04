@@ -37,6 +37,8 @@ namespace Starkit.Models
         public virtual List<Dish> Dishes { get; set; }
         public virtual List<Menu> Menu { get; set; }
         public virtual List<Stock> Stocks { get; set; }
+        public virtual List<Table> Tables { get; set; }
+        
         [NotMapped]
         public IEnumerable<IGrouping<Category,Dish>> DishesGroup { get; set; }
     }

@@ -149,6 +149,31 @@
     <div id="details"></div>
     <input type="hidden" id="contact-number" value="@Model.PhoneNumber">
     <input type="hidden" id="logo" value="../@Model.LogoPath">
+    
+    <h5>Забронировать столик</h5>
+    <p>Условия бронирования</p>
+    <div class="row" style="margin: 50px 0 0 0;">
+        @foreach (var table in Model.Tables)
+        {
+            if (!table.isDeleted)
+            {
+                <div class="card m-2" style="width: 18rem;">
+                    <img src="~/@table.IconUrl" onclick="tablesDetails('@table.Id')" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Стол № @table.Id</h5>
+                        <p class="card-text">На @table.Capacity гостей</p>
+                        <p class="card-text">@table.Floor Этаж</p>
+                        <a href="#" class="btn btn-primary" onclick="tableBooking(@table.Id)">Забронировать </a>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+    <div id="modal-book"></div>
+            
+    <div>
+    
+    </div>
 </div>
 @section Scripts
 {
@@ -230,7 +255,26 @@
                 $("#modal-details").show();
                 $("#modal-details").css("overflow", "auto");
                 $("body").css("overflow", "hidden");
-            })
+            });
         }
+       
+        
+        function tablesDetails(id) {
+                    $.get(`@Url.Action("Details", "Tables")?id=${id}`, function(data) {
+                        $("#details").html(data);
+                        $("#modal-details").show();
+                        $("#modal-details").css("overflow", "auto");
+                        $("body").css("overflow", "hidden");
+                    })
+                }
+                function tableBooking(id) {
+                    $.get(`@Url.Action("Book", "Booking")?id=${id}`, function(data) {
+                        $("#details").html(data);
+                        $("#modal-details").show();
+                        $("#modal-details").css("overflow", "auto");
+                        $("body").css("overflow", "hidden");
+                    })
+                }
+               
     </script>
 }
