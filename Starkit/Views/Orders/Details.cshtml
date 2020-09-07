@@ -6,6 +6,17 @@
 }
 
 <div class="container" style="width: 90%; margin-bottom: 50px">
+    <div class="modal answer-modal" tabindex="-1" role="dialog" id="saveChange">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body"><h5>Вы уверены?</h5></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary saveContent">Сохранить</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Закрыть</button> 
+                </div>
+            </div>
+        </div>
+    </div>
     <h2 class="text-orders">Заказ №@Model.OrderNum</h2>
     <div style="overflow-x: auto; font-size: 14px">
         <table class="table table-bordered">
@@ -20,12 +31,14 @@
             </tr>
             </thead>
             <tbody id="result">
-            
+
             </tbody>
         </table>
     </div>
-    <div style="text-align: end; display: none" id="save">
-        <button type="button" class="btn btn-secondary">Сохранить изменения</button>
+    <div id="message"></div>
+    <div style="display: flex; justify-content: space-between">
+        <a asp-action="Index">Назад</a>
+        <a href="#" onclick="openModalSave('')">Сохранить изменения</a>
     </div>
 </div>
 @section Scripts
@@ -55,6 +68,36 @@
                 $.get(`@Url.Action("DeleteItem")?id=${id}`, function (data){
                    $("#result").html(data); 
                 }); 
+            }
+            
+            function closeModal(){
+                $(".modal").hide();
+                $("body").css("overflow", "auto");
+            }
+            
+            $(".saveContent").click(function (){
+               $.post('@Url.Action("SaveChange")', function (data){
+                   if (data == false){
+                       $.get('@Url.Action("Index")', function (data){
+                           $("body").html(data);
+                           $(".modal").hide();
+                       })
+                   }
+                   else {
+                       var message = $("#message")
+                       closeModal();
+                       $(message).text("Изменения сохранились успешно");
+                       $(message).css("color", "green");
+                       $(message).show();
+                       setTimeout(function (){
+                           $(message).hide();
+                       }, 3000)
+                   }
+               });
+            });
+            
+            function openModalSave(){
+                $("#saveChange").show();
             }
     </script>
 }
