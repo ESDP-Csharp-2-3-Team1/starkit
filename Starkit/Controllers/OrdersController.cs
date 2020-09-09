@@ -143,15 +143,15 @@ namespace Starkit.Controllers
         {
             List<Item> items = new List<Item>();
             Order order = _db.Orders.FirstOrDefault(o => o.Id == id);
-            if (order.OrdersDishes.Any())
-                foreach (var orderDish in order.OrdersDishes)
-                    items.Add(new Item{Dish = orderDish.Dish, Quantity = orderDish.Quantity});
-            if (order.OrdersMenu.Any())
-                foreach (var orderMenu in order.OrdersMenu)
-                    items.Add(new Item{Menu = orderMenu.Menu, Quantity = orderMenu.Quantity});
-            if (order.OrdersStocks.Any())
-                foreach (var orderStock in order.OrdersStocks)
-                    items.Add(new Item{Stock = orderStock.Stock, Quantity = orderStock.Quantity});
+            if (order.OrdersProducts.Any(o => o.DishId != null))
+                foreach (var orderDish in order.OrdersProducts.Where(o => o.DishId != null))
+                    items.Add(new Item{Id = orderDish.Id,Dish = orderDish.Dish, Quantity = orderDish.Quantity});
+            if (order.OrdersProducts.Any(o => o.MenuId != null))
+                foreach (var orderMenu in order.OrdersProducts.Where(o => o.MenuId != null))
+                    items.Add(new Item{Id = orderMenu.Id, Menu = orderMenu.Menu, Quantity = orderMenu.Quantity});
+            if (order.OrdersProducts.Any(o => o.StockId != null))
+                foreach (var orderStock in order.OrdersProducts.Where(o => o.StockId != null))
+                    items.Add(new Item{Id = orderStock.Id, Stock = orderStock.Stock, Quantity = orderStock.Quantity});
             var json = JsonConvert.SerializeObject(items, Formatting.Indented);
             var orderIdJson = JsonConvert.SerializeObject(order.Id);
             System.IO.File.WriteAllText(_path, json);
@@ -213,48 +213,16 @@ namespace Starkit.Controllers
             string orderIdJson = System.IO.File.ReadAllText(_orderIdPath);
             string orderId = JsonConvert.DeserializeObject<string>(orderIdJson);
             Order order = _db.Orders.FirstOrDefault(o => o.Id == orderId);
-            order.OrdersDishes.Clear();
-            order.OrdersMenu.Clear();
-            order.OrdersStocks.Clear();
-            _db.OrdersDishes.RemoveRange(_db.OrdersDishes.Where(od => od.OrderId == null));
-            _db.OrdersMenu.RemoveRange(_db.OrdersMenu.Where(om => om.OrderId == null));
-            _db.OrdersStocks.RemoveRange(_db.OrdersStocks.Where(os => os.OrderId == null));
             if (items.Count != 0)
             {
-                foreach (var item in items)
-                {
-                    if (item.Dish != null)
+                foreach (var orderProduct in order.OrdersProducts)
+                    if (items.Any(i => i.Id == orderProduct.Id))
                     {
-                        OrdersDishes ordersDishes = new OrdersDishes
-                        {
-                            OrderId = order.Id,
-                            DishId = item.Dish.Id,
-                            Quantity = item.Quantity,
-                        };
-                        _db.Entry(ordersDishes).State = EntityState.Added;
+                        orderProduct.Quantity = items.FirstOrDefault(i => i.Id == orderProduct.Id).Quantity;
+                        _db.Entry(orderProduct).State = EntityState.Modified;
                     }
-                    else if (item.Menu != null)
-                    {
-                        OrdersMenu ordersMenu = new OrdersMenu
-                        {
-                            OrderId = order.Id,
-                            MenuId = item.Menu.Id,
-                            Quantity = item.Quantity
-                        };
-                        _db.Entry(ordersMenu).State = EntityState.Added;
-                    }
-                    else if (item.Stock != null)
-                    {
-                        OrdersStocks ordersStocks = new OrdersStocks
-                        {
-                            OrderId = order.Id,
-                            StockId = item.Stock.Id,
-                            Quantity = item.Quantity
-                        };
-                        _db.Entry(ordersStocks).State = EntityState.Added;
-                    }
-                }
-                _db.Entry(order).State = EntityState.Modified;
+                    else
+                        _db.Entry(orderProduct).State = EntityState.Deleted;
                 await _db.SaveChangesAsync();
             }
             else
