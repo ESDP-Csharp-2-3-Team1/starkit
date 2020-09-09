@@ -45,6 +45,24 @@
                                 </div>
                             </div>
                             <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label toOrder-form-input">Метод оплаты</label><br/>
+                                <div class="col-sm-9">
+                                    <select class="form-control" asp-for="PaymentMethod">
+                                        @foreach (var pay in Enum.GetValues(typeof(PaymentMethod)))
+                                        {
+                                            if (pay.Equals(PaymentMethod.Картой))
+                                            {
+                                                <option disabled value="@pay">С картой</option>    
+                                            }
+                                            else
+                                            {
+                                                <option value="@pay">@pay</option>   
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
                                 <label for="" class="col-sm-3 col-form-label toOrder-form-input">Коментарий</label><br/>
                                 <div class="col-sm-9">
                                     <textarea class="form-control" asp-for="Comment" style="height: 150px; resize: none"></textarea>

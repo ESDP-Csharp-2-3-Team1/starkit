@@ -17,6 +17,12 @@ namespace Starkit.Models
         Доставке,
         Доставлен
     }
+
+    public enum PaymentMethod
+    {
+        Наличными,
+        Картой
+    }
     public class Order
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -36,6 +42,8 @@ namespace Starkit.Models
         public Status Status { get; set; }
 
         public int OrderNum { get; set; }
+
+        public PaymentMethod PaymentMethod { get; set; }
 
         public string RestaurantId { get; set; }
         public virtual Restaurant Restaurant { get; set; }
