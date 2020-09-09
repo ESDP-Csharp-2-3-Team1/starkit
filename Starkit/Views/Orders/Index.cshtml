@@ -1,0 +1,89 @@
+@{
+    ViewBag.Title = "Заказы";
+    Layout = "_Layout";
+}
+
+<style>
+    #dropdown1{
+        display: block;
+    }
+    #dropdown1-li-11{
+          margin-left: 15px;
+            background: #9ad9ea;
+    }
+    #dropdown1-li-11 a{
+                color: #262626;
+                font-weight: 600;
+                border-left: 2px solid #41728b;
+    }
+    #dropdown1-li-11 a:hover{
+        color: #262626;
+    }
+ </style>
+
+<div class="container" style="width: 90%; margin-bottom: 50px">
+    <div class="modal answer-modal" tabindex="-1" role="dialog" id="deleteOrder">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body"><h5>Вы уверены?</h5></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary deleteOrder">Удалить</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Закрыть</button> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <h2 class="text-orders">Список заказов</h2>
+    <div style="overflow-x:auto; font-size: 14px">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th class="table-orders-index">Номер заказа</th>
+                <th class="table-orders-index">Номер телефона</th>
+                <th class="table-orders-index">Имя заказчика</th>
+                <th class="table-orders-index">Адрес</th>
+                <th class="table-orders-index">Время заказа</th>
+                <th class="table-orders-index">Статус</th>
+                <th class="table-orders-index">Способ доставки</th>
+                <th class="table-orders-index">Действие</th>
+            </tr>
+            </thead>
+            <tbody id="result"></tbody>
+        </table>
+    </div>
+</div>
+@section Scripts
+{
+    <script>
+        $(document).ready(function (){
+            $.get('@Url.Action("GetOrders")', function (data){
+                $("#result").html(data);
+            });
+        })
+        
+        var confirmButton = $(".deleteOrder");
+        
+        function deleteOrder(id){
+            $("#deleteOrder").show();
+            $(confirmButton).attr("id", id);
+        }
+        
+        function closeModal(){
+            $(".modal").hide();
+            $("body").css("overflow", "auto");
+        }
+        
+        $(confirmButton).click(function (){
+            var id = $(this).attr("id");
+            $.ajax({
+                url: '@Url.Action("Delete")',
+                method: "DELETE",
+                data: {id : id},
+                success: function (data){
+                    $("#result").html(data);
+                    closeModal();
+                }
+            });
+        })
+    </script>
+}

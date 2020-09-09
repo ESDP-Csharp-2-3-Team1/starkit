@@ -1,0 +1,104 @@
+@model Order
+
+@{
+    ViewBag.Title = $"Заказ №{Model.OrderNum}";
+    Layout = "_Layout";
+}
+
+<div class="container" style="width: 90%; margin-bottom: 50px">
+    <div class="modal answer-modal" tabindex="-1" role="dialog" id="saveChange">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body"><h5>Вы уверены?</h5></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary saveContent">Сохранить</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Закрыть</button> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <h2 class="text-orders">Заказ №@Model.OrderNum</h2>
+    <div style="overflow-x: auto; font-size: 14px">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th class="cart-cell">Наименования</th>
+                <th class="cart-cell">Картинка</th>
+                <th class="cart-cell">Цена</th>
+                <th class="cart-cell">Действие</th>
+                <th class="cart-cell">Количество</th>
+                <th class="cart-cell">Сумма</th>
+            </tr>
+            </thead>
+            <tbody id="result">
+
+            </tbody>
+        </table>
+    </div>
+    <div id="message"></div>
+    <div style="display: flex; justify-content: space-between">
+        <a asp-action="Index">Назад</a>
+        <a href="#" onclick="openModalSave('')">Сохранить изменения</a>
+    </div>
+</div>
+@section Scripts
+{
+    <script>
+            $(document).ready(function (){
+               $.get('@Url.Action("GetContentOrder")', function (data){
+                  $("#result").html(data); 
+               });
+            });
+    
+            function down(id, qty){
+                if (qty > 0){
+                    $.get(`@Url.Action("ChangeQuantity")?id=${id}&quantity=${qty}&name=${name}`, function (data){
+                        $("#result").html(data);
+                    })   
+                }
+            }
+            
+            function up(id, qty){
+                $.get(`@Url.Action("ChangeQuantity")?id=${id}&quantity=${qty}&name=${name}`, function (data){
+                    $("#result").html(data);
+                })
+            }
+            
+            function deleteItem(id){
+                $.get(`@Url.Action("DeleteItem")?id=${id}`, function (data){
+                   $("#result").html(data); 
+                }); 
+            }
+            
+            function closeModal(){
+                $(".modal").hide();
+                $("body").css("overflow", "auto");
+            }
+            
+            $(".saveContent").click(function (){
+               $.post('@Url.Action("SaveChange")', function (data){
+                   if (data == false){
+                       $.get('@Url.Action("Index")', function (data){
+                           $("body").html(data);
+                           $(".modal").hide();
+                       })
+                   }
+                   else {
+                       var message = $("#message")
+                       closeModal();
+                       $(message).text("Изменения сохранились успешно");
+                       $(message).css("color", "green");
+                       $(message).show();
+                       setTimeout(function (){
+                           $(message).hide();
+                       }, 3000)
+                   }
+               });
+            });
+            
+            function openModalSave(){
+                $("#saveChange").show();
+            }
+    </script>
+}
+

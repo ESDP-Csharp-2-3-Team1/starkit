@@ -126,7 +126,7 @@ body {
  text-align: end;
 }
 
-.text-menu, .text-categories, .text-subcategories, .text-stocks{
+.text-menu, .text-categories, .text-subcategories, .text-stocks, .text-orders{
   text-align: center;
   margin: 50px 0 50px 0;
 }
@@ -1114,4 +1114,11 @@ body {
   border-radius: 50px;
   width: 50px;
   height: 50px;
+}
+.table-orders-index{
+  vertical-align: middle!important;
+  text-align: center;
+}
+.icons-orders-index{
+  cursor: pointer;
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Starkit.Models
@@ -38,5 +39,9 @@ namespace Starkit.Models
 
         public string RestaurantId { get; set; }
         public virtual Restaurant Restaurant { get; set; }
+
+        public virtual List<OrdersDishes> OrdersDishes { get; set; }
+        public virtual List<OrdersMenu> OrdersMenu { get; set; }
+        public virtual List<OrdersStocks> OrdersStocks { get; set; }
     }
 }
