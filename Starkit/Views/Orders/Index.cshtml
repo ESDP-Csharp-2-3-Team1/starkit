@@ -43,13 +43,14 @@
                 <th class="table-orders-index">Время заказа</th>
                 <th class="table-orders-index">Адрес</th>
                 <th class="table-orders-index">Статус</th>
+                <th class="table-orders-index">Действие</th>
             </tr>
             </thead>
             <tbody id="result"></tbody>
         </table>
     </div>
 </div>
-<div id="details-modal"></div>
+<div id="modal"></div>
 @section Scripts
 {
     <script>
@@ -87,10 +88,38 @@
         
         function detailsModal(id){
             $.get(`@Url.Action("DetailsModal")?id=${id}`, function (data){
-                $("#details-modal").html(data);
+                $("#modal").html(data);
                 $("#modal-details").show();
                 $("#modal-details").css("overflow", "auto");
                 $("body").css("overflow", "hidden");
+            });
+        }
+        
+        function getStatuses(id){
+            $.get(`@Url.Action("GetStatuses")?id=${id}`, function (data){
+               $("#modal").html(data);
+               $("#modal-status").show();
+               $("#modal-status").css("overflow", "auto");
+               $("body").css("overflow", "hidden");
+               $(".status").attr("id", id);
+            });
+        }
+        
+        function changeStatus(){
+            var select = $(".status");
+            var id = $(select).attr("id");
+            var status = $(select).val();
+            $.ajax({
+                url: '@Url.Action("ChangeStatus")',
+                method: "PUT",
+                data: {
+                    id: id, 
+                    status: status
+                },
+                success: function (data){
+                    $("#result").html(data);
+                    closeModal();
+                }
             });
         }
     </script>

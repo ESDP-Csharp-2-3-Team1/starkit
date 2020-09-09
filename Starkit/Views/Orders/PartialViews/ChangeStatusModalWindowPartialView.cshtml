@@ -1,0 +1,41 @@
+<div class="modal answer-modal" tabindex="-1" role="dialog" xmlns="http://www.w3.org/1999/html" id="modal-status">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Изменить статус</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-10" style="text-align: center">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label toOrder-form-input">Статус</label><br/>
+                            <div class="col-sm-9">
+                                <select class="form-control status">
+                                    @foreach (var status in Enum.GetValues(typeof(Status)))
+                                    {
+                                        if (!status.Equals(Status.Новая))
+                                        {
+                                            if (status.Equals(Status.Доставке))
+                                            {
+                                                <option value="@status">В доставке</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@status">@status</option>   
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="changeStatus()">Сохранить</button>
+                <button type="button" class="btn btn-primary" onclick="closeModal()">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+

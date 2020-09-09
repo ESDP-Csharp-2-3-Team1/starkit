@@ -4,19 +4,22 @@
 {
     @foreach (var order in Model)
     {
-        <tr onclick="detailsModal('@order.Id')" style="cursor: pointer">
-            <td class="table-orders-index">@order.OrderNum</td>
-            <td class="table-orders-index">@order.Name</td>
-            <td nowrap="nowrap" class="table-orders-index">@order.OrderTime</td>
-            <td nowrap="nowrap" class="table-orders-index">@order.Address</td>
+        <tr>
+            <td onclick="detailsModal('@order.Id')" style="cursor: pointer" class="table-orders-index">@order.OrderNum</td>
+            <td onclick="detailsModal('@order.Id')" style="cursor: pointer" class="table-orders-index">@order.Name</td>
+            <td onclick="detailsModal('@order.Id')" style="cursor: pointer" nowrap="nowrap" class="table-orders-index">@order.OrderTime</td>
+            <td onclick="detailsModal('@order.Id')" style="cursor: pointer" nowrap="nowrap" class="table-orders-index">@order.Address</td>
             @if (order.Status == Status.Доставке)
             {
-                <td class="table-orders-index">В доставке</td>   
+                <td onclick="detailsModal('@order.Id')" style="cursor: pointer" class="table-orders-index">В доставке</td>   
             }
             else
             {
-                <td class="table-orders-index">@order.Status</td>   
+                <td onclick="detailsModal('@order.Id')" style="cursor: pointer" class="table-orders-index">@order.Status</td>   
             }
+            <td class="table-orders-index">
+                <button onclick="getStatuses('@order.Id')" type="button" class="btn btn-outline-primary">Изменить статус</button>
+            </td>
         </tr>   
     }
 }

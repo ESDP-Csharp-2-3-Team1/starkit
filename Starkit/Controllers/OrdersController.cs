@@ -219,7 +219,6 @@ namespace Starkit.Controllers
                     if (items.Any(i => i.Id == orderProduct.Id))
                     {
                         orderProduct.Quantity = items.FirstOrDefault(i => i.Id == orderProduct.Id).Quantity;
-                        _db.Entry(orderProduct).State = EntityState.Modified;
                     }
                     else
                         _db.Entry(orderProduct).State = EntityState.Deleted;
@@ -238,6 +237,20 @@ namespace Starkit.Controllers
         {
             return PartialView("PartialViews/DetailsOrderModalPartialView", 
                 _db.Orders.FirstOrDefault(o => o.Id == id));
+        }
+
+        public IActionResult GetStatuses()
+        {
+            return PartialView("PartialViews/ChangeStatusModalWindowPartialView");
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> ChangeStatus(string id, Status status)
+        {
+            Order order = _db.Orders.FirstOrDefault(o => o.Id == id);
+            order.Status = status;
+            await _db.SaveChangesAsync();
+            return RedirectToAction("GetOrders");
         }
     }
 }
