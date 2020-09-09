@@ -69,52 +69,60 @@ namespace Starkit.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_db.Orders.Any())
-                    order.OrderNum = _db.Orders.ToList().Last().OrderNum + 1;
-                else
-                    order.OrderNum = 1;
-                order.OrderTime = DateTime.Now;
-                order.Status = Status.Новая;
+                string restaurantId = null;
                 List<Item> cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
                 foreach (var item in cart)
                 {
                     if (item.Dish != null)
                     {
-                        OrdersDishes ordersDishes = new OrdersDishes
+                        OrderProduct orderProduct = new OrderProduct
                         {
                             OrderId = order.Id,
                             DishId = item.Dish.Id,
                             Quantity = item.Quantity,
                         };
-                        _db.Entry(ordersDishes).State = EntityState.Added;
+                        _db.Entry(orderProduct).State = EntityState.Added;
                         if (order.RestaurantId == null)
                             order.RestaurantId = item.Dish.RestaurantId;
+                        if (restaurantId == null)
+                            restaurantId = item.Dish.RestaurantId;
                     }
                     else if (item.Menu != null)
                     {
-                        OrdersMenu ordersMenu = new OrdersMenu
+                        OrderProduct orderProduct = new OrderProduct
                         {
                             OrderId = order.Id,
                             MenuId = item.Menu.Id,
                             Quantity = item.Quantity
                         };
-                        _db.Entry(ordersMenu).State = EntityState.Added;
+                        _db.Entry(orderProduct).State = EntityState.Added;
                         if (order.RestaurantId == null)
                             order.RestaurantId = item.Menu.RestaurantId;
+                        if (restaurantId == null)
+                            restaurantId = item.Menu.RestaurantId;
                     }
                     else if (item.Stock != null)
                     {
-                        OrdersStocks ordersStocks = new OrdersStocks
+                        OrderProduct orderProduct = new OrderProduct
                         {
                             OrderId = order.Id,
                             StockId = item.Stock.Id,
                             Quantity = item.Quantity
                         };
-                        _db.Entry(ordersStocks).State = EntityState.Added;
+                        _db.Entry(orderProduct).State = EntityState.Added;
                         if (order.RestaurantId == null)
                             order.RestaurantId = item.Stock.RestaurantId;
+                        if (restaurantId == null)
+                            restaurantId = item.Stock.RestaurantId;
                     }
                 }
+                Restaurant restaurant = _db.Restaurants.FirstOrDefault(r => r.Id == restaurantId);
+                if (restaurant.Orders.Count == 0)
+                    order.OrderNum = 1;
+                else
+                    order.OrderNum = restaurant.Orders.Last().OrderNum + 1;
+                order.OrderTime = DateTime.Now;
+                order.Status = Status.Новая;
                 _db.Entry(order).State = EntityState.Added;
                 await _db.SaveChangesAsync();
                 return Json(order.OrderNum);   
