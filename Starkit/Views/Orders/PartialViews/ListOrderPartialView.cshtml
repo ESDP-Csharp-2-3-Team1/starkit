@@ -4,12 +4,11 @@
 {
     @foreach (var order in Model)
     {
-        <tr>
+        <tr onclick="order.Id" style="cursor: pointer">
             <td class="table-orders-index">@order.OrderNum</td>
-            <td class="table-orders-index">@order.ContactNumber</td>
             <td class="table-orders-index">@order.Name</td>
-            <td class="table-orders-index">@order.Address</td>
-            <td class="table-orders-index">@order.OrderTime</td>
+            <td nowrap="nowrap" class="table-orders-index">@order.OrderTime</td>
+            <td nowrap="nowrap" class="table-orders-index">@order.Address</td>
             @if (order.Status == Status.Доставке)
             {
                 <td class="table-orders-index">В доставке</td>   
@@ -18,13 +17,6 @@
             {
                 <td class="table-orders-index">@order.Status</td>   
             }
-            <td class="table-orders-index">@order.DeliveryMethod</td>
-            <td class="table-orders-index">
-                <a asp-action="Details" asp-route-id="@order.Id">
-                    <img src="https://img.icons8.com/ios/24/000000/zoom-in.png"/>
-                </a>
-                <img onclick="deleteOrder('@order.Id')" class="icons-orders-index" src="https://img.icons8.com/wired/24/000000/delete-forever.png"/>
-            </td>
         </tr>   
     }
 }
