@@ -21,6 +21,9 @@ namespace Starkit.Models.Data
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<BookingTable> BookingTables { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<OrdersDishes> OrdersDishes { get; set; }
+        public DbSet<OrdersMenu> OrdersMenu { get; set; }
+        public DbSet<OrdersStocks> OrdersStocks { get; set; }
         public StarkitContext(DbContextOptions<StarkitContext> options) : base(options) {}
     }
 }

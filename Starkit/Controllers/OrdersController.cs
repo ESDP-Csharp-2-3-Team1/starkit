@@ -43,7 +43,7 @@ namespace Starkit.Controllers
             return View();
         }
         
-        [HttpGet]
+        
         [Authorize]
         public async Task<IActionResult> GetOrders()
         {
