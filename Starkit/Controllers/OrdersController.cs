@@ -233,5 +233,11 @@ namespace Starkit.Controllers
             }
             return Json(true);
         }
+
+        public IActionResult DetailsModal(string id)
+        {
+            return PartialView("PartialViews/DetailsOrderModalPartialView", 
+                _db.Orders.FirstOrDefault(o => o.Id == id));
+        }
     }
 }

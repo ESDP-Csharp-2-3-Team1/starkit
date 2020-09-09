@@ -1,0 +1,58 @@
+@model Order
+
+<div class="modal answer-modal" tabindex="-1" role="dialog" xmlns="http://www.w3.org/1999/html" id="modal-details">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Заказ №@Model.OrderNum</h5>
+            </div>
+            <div class="modal-body">
+                <p style="margin-top: 20px"><span style="font-weight: 700">Имя </span>- @Model.Name</p>
+                <p style="margin-top: 20px"><span style="font-weight: 700">Контактный номер </span>- @Model.ContactNumber</p>
+                <p style="margin-top: 20px"><span style="font-weight: 700">Адрес </span>- @Model.Address</p>
+                <p style="margin-top: 20px"><span style="font-weight: 700">Комментарий </span>- @Model.Comment</p>
+                <p style="margin-top: 20px"><span style="font-weight: 700">Время заказа </span>- @Model.OrderTime</p>
+                <p style="margin-top: 20px"><span style="font-weight: 700">Метод доставки </span>- @Model.DeliveryMethod</p>
+                <p style="margin-top: 20px"><span style="font-weight: 700">Метод оплаты </span>- @Model.PaymentMethod</p>
+                @if (Model.Status == Status.Доставке)
+                {
+                    <p style="margin-top: 20px"><span style="font-weight: 700">Статус </span>- В доставке</p>
+                }
+                else
+                {
+                    <p style="margin-top: 20px"><span style="font-weight: 700">Статус </span>- @Model.Status</p>   
+                }
+                <p style="font-weight: 700">Состав меню</p>
+                <ul>
+                    @foreach (var orderProduct in Model.OrdersProducts)
+                    {
+                        if (orderProduct.Dish != null)
+                        {
+                            <li>@orderProduct.Dish.Name - @orderProduct.Quantity штук</li>
+                        }
+                        else if (orderProduct.Menu != null)
+                        {
+                            <li>@orderProduct.Menu.Name - @orderProduct.Quantity штук</li>    
+                        }
+                        else if (orderProduct.Stock != null)
+                        {
+                            <li>@orderProduct.Stock.Name - @orderProduct.Quantity штук</li>    
+                        }
+                    }
+                </ul>
+                <div style="text-align: center; margin-top: 20px;">
+                    <img onclick="deleteOrder('@Model.Id')" class="icons-orders-index" src="https://img.icons8.com/wired/48/000000/delete-forever.png"/>
+                    @if (Model.PaymentMethod == PaymentMethod.Наличными && Model.Status == Status.Новая)
+                    {
+                        <a asp-action="Details" asp-route-id="@Model.Id">
+                            <img src="https://img.icons8.com/metro/48/000000/edit.png"/>
+                        </a>   
+                    }
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>

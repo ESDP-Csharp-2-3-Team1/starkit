@@ -49,6 +49,7 @@
         </table>
     </div>
 </div>
+<div id="details-modal"></div>
 @section Scripts
 {
     <script>
@@ -61,6 +62,7 @@
         var confirmButton = $(".deleteOrder");
         
         function deleteOrder(id){
+            $("#modal-details").hide();
             $("#deleteOrder").show();
             $(confirmButton).attr("id", id);
         }
@@ -81,6 +83,15 @@
                     closeModal();
                 }
             });
-        })
+        });
+        
+        function detailsModal(id){
+            $.get(`@Url.Action("DetailsModal")?id=${id}`, function (data){
+                $("#details-modal").html(data);
+                $("#modal-details").show();
+                $("#modal-details").css("overflow", "auto");
+                $("body").css("overflow", "hidden");
+            });
+        }
     </script>
 }

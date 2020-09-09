@@ -4,7 +4,7 @@
 {
     @foreach (var order in Model)
     {
-        <tr onclick="order.Id" style="cursor: pointer">
+        <tr onclick="detailsModal('@order.Id')" style="cursor: pointer">
             <td class="table-orders-index">@order.OrderNum</td>
             <td class="table-orders-index">@order.Name</td>
             <td nowrap="nowrap" class="table-orders-index">@order.OrderTime</td>
