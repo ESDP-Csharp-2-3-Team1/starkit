@@ -1,4 +1,4 @@
-﻿@model Restaurant 
+﻿@model Restaurant
 
 @{
     ViewBag.Title = "Сайт визитка";
@@ -163,25 +163,28 @@
                         <h5 class="card-title">Стол № @table.Id</h5>
                         <p class="card-text">На @table.Capacity гостей</p>
                         <p class="card-text">@table.Floor Этаж</p>
-                        <a href="#" class="btn btn-primary" onclick="tableBooking(@table.Id)">Забронировать </a>
+                        <button class="btn btn-primary" type="button" onclick="tableBooking(@table.Id)">Забронировать </button>
                     </div>
                 </div>
             }
         }
     </div>
-    <div id="modal-book"></div>
-            
+
     <div>
     
     </div>
 </div>
 @section Scripts
 {
+    @{ 
+         await Html.RenderPartialAsync("_ValidationScriptsPartial");
+     }
     <script>
         $(document).ready(function (){
            $(".contact-number").text($("#contact-number").val());
            $("#nav-logo").attr("src", $("#logo").val());
            getTotal();
+          
         });
         
         $(".buy").submit(function (event){
@@ -218,7 +221,7 @@
             setTimeout(function (){
                 $(`#message-${id}`).hide();
             }, 3000);
-        };
+        }
         
         function getTotal(){
            $.get('@Url.Action("GetTotal", "Cart")', function (data){              
@@ -260,21 +263,76 @@
        
         
         function tablesDetails(id) {
-                    $.get(`@Url.Action("Details", "Tables")?id=${id}`, function(data) {
-                        $("#details").html(data);
-                        $("#modal-details").show();
-                        $("#modal-details").css("overflow", "auto");
-                        $("body").css("overflow", "hidden");
-                    })
-                }
-                function tableBooking(id) {
-                    $.get(`@Url.Action("Book", "Booking")?id=${id}`, function(data) {
-                        $("#details").html(data);
-                        $("#modal-details").show();
-                        $("#modal-details").css("overflow", "auto");
-                        $("body").css("overflow", "hidden");
-                    })
-                }
+            $.get(`@Url.Action("Details", "Tables")?id=${id}`, function(data) {
+                $("#details").html(data);
+                $("#modal-details").show();
+                $("#modal-details").css("overflow", "auto");
+                $("body").css("overflow", "hidden");
+            })
+        }
+        function tableBooking(id) {
+            $.get(`@Url.Action("Book", "Booking")?id=${id}`, function(data) {
+                $("#details").html(data);
+                $("#modal-details").show();
+                $("#modal-details").css("overflow", "auto");
+                $('.timepicker').timepicker({ 
+                    'timeFormat': 'H:i',
+                    'scrollDefault': 'now',
+                    'minTime': '10:00',
+                    'maxTime': '22:00',
+                   
+                });
+                
                
+                $('input[type=radio][name=Date]').change(function() {
+                    
+                    if(this.value == "custom")
+                    {
+                       $("#customDate").removeClass('d-none');
+                       $('#customDate').datepicker(
+                           {
+                           language:'ru'
+                           }
+                       );
+                    }
+                    else
+                    {
+                         $("#customDate").addClass('d-none');
+                    }
+                })         
+                $("body").css("overflow", "hidden");
+            })
+        }
+                
+        function Book(){
+            
+            $.ajax({
+            url: '@Url.Action("Book", "Booking")',
+            type: 'POST',
+            data: { tableId:$('#tableId').val(),
+                    date:$('input[type=radio][name=Date]:checked').val(),
+                    timeFrom:$('#Booking_BookFrom').val(), 
+                    timeTo:$('#Booking_BookTo').val(), 
+                    pax:$('#Booking_Pax').val(), 
+                    clientName:$('#Booking_ClientName').val(), 
+                    comment:$('#Booking_Comment').val(), 
+                    phone:$('#Booking_PhoneNumber').val(), 
+                    email:$('#Booking_Email').val(),
+                    customDate: $('#customDate').val()
+                    },
+            success: function(data){
+                $('#book').addClass('d-none');
+                if (data)
+                    {
+                        $('.modal-body').html('Спасибо! Ваша заявка принята. Наш менеджер перезвонит Вам для подтверждения брони.')
+                    }
+                else{
+                        $('.modal-body').html('Что-то пошло не так. Попробуйте еще раз.')
+                    }
+                }
+            })
+            
+        }
+        
     </script>
 }

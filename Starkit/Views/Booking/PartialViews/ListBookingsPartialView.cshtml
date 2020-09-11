@@ -37,7 +37,7 @@
                         @t.TableId<br>
                     }
                 </td>
-                <td class="link-dish-name" style="vertical-align: middle; text-align: center" onclick="detailsBooking('@booking.Id')"> @booking.DateTime</td>
+                <td class="link-dish-name" style="vertical-align: middle; text-align: center" onclick="detailsBooking('@booking.Id')"> @booking.Date @booking.BookFrom - @booking.BookTo</td>
                 <td style="vertical-align: middle; text-align: center">@booking.Pax</td>
                 <td style="vertical-align: middle ; text-align: center" onclick="changeState('@booking.Id')">
                     <select name="state" id="state">

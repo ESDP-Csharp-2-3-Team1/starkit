@@ -1,62 +1,94 @@
-﻿@model BookingTable
+﻿@model CreateBookingViewModel
 <div class="modal answer-modal" tabindex="-1" role="dialog" xmlns="http://www.w3.org/1999/html" id="modal-details">
 <div class="modal-dialog" role="document">
     <div class="modal-content">
         <div class="modal-header">
-            <h2 class="create-dish">Бронирование стола</h2>
+            <h2 >Бронирование стола</h2>
         </div>
         <div class="modal-body">
-            <form asp-action="Book" asp-controller="Booking" method="post" asp-route-tableId="@Model.TableId">
+            <form method="post" class="form-book">
+                <input type="hidden" value="@Model.TableId" id="tableId" asp-for="@Model.TableId">
+                <div class="form-group row">
+                    <div class="col-sm-9 text-center m-auto">
+                        <div class="book-date">
+                            <input type="radio" asp-for="Date" class="chooseDate" id="date-today"  value="today">
+                            <label for="date-today">Сегодня</label>
+                            <input type="radio" asp-for="Date" class="choseDate" id="date-tomorrow" value="tomorrow">
+                            <label for="date-tomorrow">Завтра</label>
+                            <input type="radio" asp-for="Date" value="custom" id="custom" class="chooseDate">
+                            <label for="custom">Выбрать дату</label>
+                        </div>
+                    </div><br>
+                    <span class="validationError" asp-validation-for="Date"></span>
+                    
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-5">
+                        <input type="text" name="customDate" class="form-control d-none" id="customDate">
+                    </div>
+                    
+                </div>
+                <div class="form-group row justify-content-sm-start">
+                    <label for="" class="col-sm-3 col-form-label createMenuLabel">Время от</label><br/>
+                    <div class="col-sm-3">
+                        <input asp-for="@Model.Booking.BookFrom" class="form-control timepicker" type="text" name="timeFrom"/>
+                    </div>
+                    <span class="validationError" asp-validation-for="@Model.Booking.BookFrom"></span>
+                </div>
+                <div class="form-group row">
+                    <label for="" class="col-sm-3 col-form-label createMenuLabel">Время до</label><br/>
+                    <div class="col-sm-5">
+                        <input asp-for="@Model.Booking.BookTo" class="form-control timepicker" type="text" name="timeTo">
+                    </div>
+                    <span class="validationError" asp-validation-for="@Model.Booking.BookTo"></span>
+                </div>
+               
                 <div class="form-group row">
                     <label for="" class="col-sm-5 col-form-label createMenuLabel">Ваше имя</label><br/>
                     <div class="col-sm-5">
-                        <input type="text" class="form-control" asp-for="Booking.ClientName">
+                        <input type="text" class="form-control" asp-for="@Model.Booking.ClientName">
                     </div>
-                    <span class="validationError" asp-validation-for="Booking.ClientName"></span>
+                    <span class="validationError" asp-validation-for="@Model.Booking.ClientName"></span>
                 </div>
-                <div class="form-group row">
-                    <label for="" class="col-sm-5 col-form-label createMenuLabel">Выберите дату и время</label><br/>
-                    <div class="col-sm-5">
-                        <input style="font-size: 8px; margin-top: 5px" asp-for="Booking.DateTime" type="datetime-local" class="form-control" value="@DateTime.Now">
-                    </div>
-                    <span class="validationError" asp-validation-for="Booking.DateTime"></span>
-                </div>
+
                 <div class="form-group row">
                     <label for="" class="col-sm-5 col-form-label createMenuLabel">Комментарии</label><br/>
                     <div class="col-sm-5">
-                        <textarea style="height: 150px; resize: none" asp-for="Booking.Comment" class="form-control"></textarea>
+                        <textarea style="height: 150px; resize: none" asp-for="@Model.Booking.Comment" class="form-control"></textarea>
                     </div>
-                    <span class="validationError" asp-validation-for="Booking.Comment"></span>
+                    <span class="validationError" asp-validation-for="@Model.Booking.Comment"></span>
                 </div>
                 <div class="form-group row">
                     <label for="" class="col-sm-5 col-form-label createMenuLabel">Кол-во гостей</label><br/>
                     <div class="col-sm-5">
-                        <input type="number" class="form-control" asp-for="Booking.Pax">
+                        <input type="number" class="form-control" asp-for="@Model.Booking.Pax">
                     </div>
-                    <span class="validationError" asp-validation-for="Booking.Pax"></span>
+                    <span class="validationError" asp-validation-for="@Model.Booking.Pax"></span>
                 </div>
                 <div class="form-group row">
                     <label for="" class="col-sm-5 col-form-label createMenuLabel">Номер телефона</label><br/>
                     <div class="col-sm-5">
-                        <input type="text" class="form-control" asp-for="Booking.PhoneNumber">
+                        <input type="text" class="form-control" asp-for="@Model.Booking.PhoneNumber">
                     </div>
-                    <span class="validationError" asp-validation-for="Booking.PhoneNumber"></span>
+                    <span class="validationError" asp-validation-for="@Model.Booking.PhoneNumber"></span>
                 </div>
                 <div class="form-group row">
                     <label for="" class="col-sm-5 col-form-label createMenuLabel">Email</label><br/>
                     <div class="col-sm-5">
-                        <input id="inputCost" type="text" class="form-control" asp-for="Booking.Email">
+                        <input type="text" class="form-control" asp-for="@Model.Booking.Email">
                     </div>
-                    <span class="validationError" asp-validation-for="Booking.Email"></span>
+                    <span class="validationError" asp-validation-for="@Model.Booking.Email"></span>
                 </div>
 
                 
-                <div style="text-align: center" class="d-flex justify-content-center mb-3">
-                    <br/><button type="submit" class="btn btn-dark">Забронировать</button>
-                    <button type="button" class="btn btn-secondary ml-3" onclick="closeModal()">Закрыть</button>
-                </div>
             </form>
         </div>
-    </div>
+        <div class="modal-footer">
+            <div style="text-align: center" class="d-flex justify-content-center mb-3">
+                <br/><button type="button" class="btn btn-dark" onclick="Book()" id="book">Забронировать</button>
+                <button type="button" class="btn btn-secondary ml-3" onclick="closeModal()">Закрыть</button>
+            </div>
+        </div>
+        </div>
 </div>
 </div>

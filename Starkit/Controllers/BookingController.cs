@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using Starkit.Models;
 using Starkit.Models.Data;
 using Starkit.Services;
@@ -102,7 +104,7 @@ namespace Starkit.Controllers
                 EditBookingViewModel model = new EditBookingViewModel
                 {
                     Id = booking.Id,
-                    Date = booking.DateTime,
+                    Date = booking.Date,
                     Comment = booking.Comment,
                     ClientName = booking.ClientName,
                     PhoneNumber = booking.PhoneNumber,
@@ -141,7 +143,7 @@ namespace Starkit.Controllers
                         };
                         _db.Entry(bookingTable).State = EntityState.Added;
                     }
-                    booking.DateTime = model.Date;
+                    booking.Date = model.Date;
                     booking.Comment = model.Comment;
                     booking.ClientName = model.ClientName;
                     booking.PhoneNumber = model.PhoneNumber;
@@ -179,10 +181,10 @@ namespace Starkit.Controllers
                     bookings = bookings.OrderByDescending(b => b.ClientName);
                     break;
                 case SortState.DateAsc:
-                    bookings = bookings.OrderBy(b => b.DateTime);
+                    bookings = bookings.OrderBy(b => b.Date);
                     break;
                 case SortState.DateDesc:
-                    bookings = bookings.OrderByDescending(b => b.DateTime);
+                    bookings = bookings.OrderByDescending(b => b.Date);
                     break;
                 case SortState.PaxAsc:
                     bookings = bookings.OrderBy(b => b.Pax);
@@ -276,32 +278,51 @@ namespace Starkit.Controllers
         
         public IActionResult Book(int id)
         {
-            Table table = _db.Tables.FirstOrDefault(t => t.Id == id);
-            BookingTable bookingTable = new BookingTable()
+            CreateBookingViewModel bookingTable = new CreateBookingViewModel()
             {
-                TableId = table.Id
+                TableId = id
             };
             return PartialView("PartialViews/BookTableModalPartialView", bookingTable);
         }
         [HttpPost]
-        public IActionResult Book(BookingTable bookingTable, int tableId)
+        public IActionResult Book(int tableId, string date, string customDate, string timeFrom, string timeTo, int pax, string clientName, string comment, string phone, string email)
         {
             if (ModelState.IsValid)
             {
                 Table table = _db.Tables.FirstOrDefault(t => t.Id == tableId);
-            
                 Booking booking = new Booking()
                 {
-                    ClientName = bookingTable.Booking.ClientName,
-                    DateTime = bookingTable.Booking.DateTime,
-                    Comment = bookingTable.Booking.Comment,
+                    ClientName = clientName,
+                    BookFrom = timeFrom,
+                    BookTo = timeTo,
+                    Comment = comment,
                     RestaurantId = table.RestaurantId,
-                    Pax = bookingTable.Booking.Pax,
-                    PhoneNumber = bookingTable.Booking.PhoneNumber,
-                    Email = bookingTable.Booking.Email,
+                    Pax = pax,
+                    PhoneNumber = phone,
+                    Email = email,
                 };
+                if (date == "today")
+                {
+                    booking.Date = DateTime.Today.ToShortDateString();
+                }
+                else if (date == "tomorrow")
+                {
+                    booking.Date = DateTime.Today.AddDays(1).ToShortDateString();
+                }
+                else if (date == "custom")
+                {
+                    booking.Date = customDate;
+                }
+                else
+                {
+                    return Json(false);
+                }
                 _db.Entry(booking).State = EntityState.Added;
-                bookingTable.BookingId = booking.Id;
+                BookingTable bookingTable = new BookingTable()
+                {
+                    BookingId = booking.Id,
+                    TableId = tableId 
+                };
                 _db.Entry(bookingTable).State = EntityState.Added;
                 _db.SaveChanges();
                 return Json(true);
@@ -310,6 +331,8 @@ namespace Starkit.Controllers
             return Json(false);
 
         }
+        
+        
         
     }
 
