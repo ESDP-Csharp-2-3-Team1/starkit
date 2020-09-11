@@ -183,7 +183,7 @@ namespace Starkit.Controllers
             return View();
         }
         
-        public async Task<IActionResult> GetTables(int id, int page = 1, SortState sortOrder = SortState.AddTimeAsc)
+        public async Task<IActionResult> GetTables(int id, string location, int page = 1, SortState sortOrder = SortState.AddTimeAsc)
         { 
             User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
             if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
@@ -193,6 +193,19 @@ namespace Starkit.Controllers
             }
             
             var tables = _db.Tables.Where(t => t.RestaurantId == user.RestaurantId);
+            
+            if (location != null)
+            {
+               var l = (Location) Enum.Parse(typeof(Location), location, true);
+               tables = tables.Where(d => d.Location == l);
+            }
+
+            if (id != 0)
+            {
+                tables = tables.Where(d => d.Id == id);
+            }
+                
+            
 
             switch (sortOrder)
             {

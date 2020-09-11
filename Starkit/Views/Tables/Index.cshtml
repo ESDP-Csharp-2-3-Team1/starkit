@@ -9,16 +9,16 @@
     #dropdown1{
         display: block;
     }
-    #dropdown1-li-8{
+    #dropdown1-li-11{
           margin-left: 15px;
             background: #9ad9ea;
     }
-    #dropdown1-li-8 a{
+    #dropdown1-li-11 a{
                 color: #262626;
                 font-weight: 600;
                 border-left: 2px solid #41728b;
     }
-    #dropdown1-li-8 a:hover{
+    #dropdown1-li-11 a:hover{
         color: #262626;
     }
  </style>
@@ -30,10 +30,13 @@
     </div>
     <h2 style="text-align: center; margin: 10px 0 50px 0">Список столиков</h2>
     <div class="d-flex bd-highlight mb-3">
+        <div class="p-2 bd-highlight align-self-center">
+            <a asp-action="Create" asp-controller="Tables" class="btn btn-light btn-outline-dark">Добавить стол</a>
+        </div>
         <div class="p-2 bd-highlight">
             <label>Расположение: </label>
             <select id="filterLocation" class="form-control">
-                @foreach (var location in Enum.GetValues(typeof(TableState)))
+                @foreach (var location in Enum.GetValues(typeof(Location)))
                 {
                     <option value="@location">@location</option>
                 }
@@ -122,14 +125,15 @@
         
         
         $("#filterLocation").change(function() {
-          var filter = $("#filterLocation").val();
+          var filter = $("#filterLocation option:selected").val();
+          
           var search = $("#searchId").val();
           $.ajax({
                 url: '@Url.Action("GetTables")',
                 type: "GET",
                 data: {
-                    name: search,
-                    category: filter,
+                    id: search,
+                    location: filter,
                     sortOrder: sort
                 }
           }).done(function(data) {
@@ -138,14 +142,14 @@
         });
         
         $("#searchId").keyup(function() {
-            var filter = $("#filterLocation").val();
+            var filter = $("#filterLocation option:selected").val();
             var search = $("#searchId").val();
             $.ajax({
                 url: '@Url.Action("GetTables")',
                 type: "GET",
                 data: {
-                    name: search,
-                    category: filter,
+                    id: search,
+                    location: filter,
                     sortOrder: sort
                 }
             }).done(function(data) {
@@ -276,7 +280,7 @@
          });
          
          function detailsTable(id) { 
-            $.get(`@Url.Action("Details")/?id=${id}`, function(data) {
+            $.get(`@Url.Action("Details", "Tables")/?id=${id}`, function(data) {
                 $('#details-modal').html(data);
                 $("#modal-details").show();
                 $("#modal-details").css("overflow", "auto");

@@ -13,6 +13,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="jquery-timepicker-jt" Version="1.11.15" />
       <PackageReference Include="MailKit" Version="2.8.0" />
       <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.6" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.6" />
@@ -194,6 +195,13 @@
       <_ContentIncludedByDefault Remove="wwwroot\images\restaurants\e437dda4-583f-473f-a9ae-4aa6a646c65e\Stocks\392f5ab6-61c0-420c-b1a6-e793be94d07f\kombo-3-tvister.png" />
       <_ContentIncludedByDefault Remove="wwwroot\images\restaurants\e437dda4-583f-473f-a9ae-4aa6a646c65e\Stocks\d349a7d4-5d8e-42a7-b0aa-cb1ad178c911\kombo-3-tvister.png" />
       <_ContentIncludedByDefault Remove="wwwroot\images\users\f1e8cf3d-bf8d-4027-9c13-c426838d117b\logo\Logotip-restorana-Eat-scaled.jpg" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\images\Tables" />
+      <Folder Include="wwwroot\lib\datepicker\css" />
+      <Folder Include="wwwroot\lib\datepicker\js" />
+      <Folder Include="wwwroot\lib\timepicker" />
     </ItemGroup>
 
 </Project>

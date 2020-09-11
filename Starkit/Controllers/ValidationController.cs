@@ -144,5 +144,48 @@ namespace Starkit.Controllers
         {
             return oldPassword != newPassword;
         }
+
+        public bool CheckTableCapacity(int tableId, int pax)
+        {
+            Table table = _db.Tables.FirstOrDefault(t => t.Id == tableId);
+            if (table.Capacity < pax)
+                return false;
+            return true;
+        }
+
+        public bool CheckTableAvailability(int id, string date, string bookFrom)
+        {
+            var timeFrom = Convert.ToInt32(bookFrom);
+            Table table = _db.Tables.FirstOrDefault(t => t.Id == id);
+            List<BookingTable> bookingTable = _db.BookingTables.Where(bt => bt.TableId == table.Id).ToList();
+            List<Booking> bookings = new List<Booking>();
+            foreach (var bt in bookingTable)
+            {
+                bookings.Add(_db.Bookings.FirstOrDefault(b => b.Id == bt.BookingId));
+            }
+
+            foreach (var b in bookings)
+            {
+                var time = Convert.ToInt32(b.BookFrom);
+                if (b.Date == date && time <= timeFrom)
+                {
+                    return false;
+                }
+                
+            }
+
+            return true;
+        }
+
+        public bool CheckTime(string bookFrom, string bookTo)
+        {
+            var timeFrom = Convert.ToInt32(bookFrom.Split(":")[0]);
+            var timeTo = Convert.ToInt32(bookTo.Split(":")[0]);
+            if (timeFrom > timeTo)
+            {
+                return false;
+            }
+            return timeFrom + 1 <= timeTo;
+        }
     }
 }

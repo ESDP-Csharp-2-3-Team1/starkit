@@ -19,6 +19,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"] - Starkit</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/lib/timepicker/css/jquery.timepicker.min.css"/>
+    <link rel="stylesheet" href="~/lib/datepicker/dist/css/datepicker.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
     <link rel="stylesheet" href="~/css/site.css"/>
@@ -41,6 +43,10 @@
                    
                     @if (User.Identity.IsAuthenticated)
                     {
+                        <li class="nav-item">
+                            <a class="link2" asp-controller="Site" asp-action="Index">Сайт</a>
+                        </li>
+                        <span class="space">/</span>
                         <li class="nav-item">
                             <a class="link2" asp-controller="Users" asp-action="Index">@name</a>
                         </li>
@@ -95,7 +101,9 @@
     </div>
 </footer>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/timepicker/js/jquery.timepicker.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/datepicker/dist/js/datepicker.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
 <script src="~/js/jquery.maskedinput.min.js"></script>
 <script src="~/js/dropdown.js"></script>

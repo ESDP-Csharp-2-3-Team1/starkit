@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Starkit.Models
 {
@@ -17,14 +19,19 @@ namespace Starkit.Models
     public class Booking
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
-        [Required] 
-        public DateTime DateTime { get; set; }
+        public string Date { get; set; }
+        [Required(ErrorMessage = "Выберите время")]
+        public string BookFrom { get; set; }
+        [Required(ErrorMessage = "Выберите время")]
+        [Remote("CheckTime", "Validation", ErrorMessage = "Ошибка ввода", AdditionalFields = "BookFrom")]
+        public string BookTo { get; set; }
         public virtual List<BookingTable> BookingTables { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         public string ClientName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
+        [Remote("CheckTableCapacity", "Validation", ErrorMessage = "Недостаточно мест, выберите другой столик или забронируйте еще один", AdditionalFields = "TableId")]
         public int Pax { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [DataType(DataType.PhoneNumber)]
         public string PhoneNumber { get; set; }
         [DataType(DataType.EmailAddress)]
@@ -39,5 +46,6 @@ namespace Starkit.Models
         public DateTime EditedDate { get; set; }
         public BookingStatus State { get; set; } = BookingStatus.Pending;
         public string Comment { get; set; }
+        public int TableId { get; set; }
     }
 }
