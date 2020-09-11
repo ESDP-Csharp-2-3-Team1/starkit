@@ -46,6 +46,5 @@ namespace Starkit.Models
         public DateTime EditedDate { get; set; }
         public BookingStatus State { get; set; } = BookingStatus.Pending;
         public string Comment { get; set; }
-        public int TableId { get; set; }
     }
 }

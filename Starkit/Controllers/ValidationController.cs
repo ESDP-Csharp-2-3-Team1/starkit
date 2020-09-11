@@ -155,7 +155,7 @@ namespace Starkit.Controllers
 
         public bool CheckTableAvailability(int id, string date, string bookFrom)
         {
-            var timeFrom = Convert.ToInt32(bookFrom);
+            var timeFrom = Convert.ToInt32(bookFrom.Split(":")[0]);
             Table table = _db.Tables.FirstOrDefault(t => t.Id == id);
             List<BookingTable> bookingTable = _db.BookingTables.Where(bt => bt.TableId == table.Id).ToList();
             List<Booking> bookings = new List<Booking>();
@@ -166,8 +166,8 @@ namespace Starkit.Controllers
 
             foreach (var b in bookings)
             {
-                var time = Convert.ToInt32(b.BookFrom);
-                if (b.Date == date && time <= timeFrom)
+                var time = Convert.ToInt32(b.BookFrom.Split(":")[0]);
+                if (b.Date == date && time + 1 >= timeFrom)
                 {
                     return false;
                 }

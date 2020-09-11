@@ -150,8 +150,9 @@
     <input type="hidden" id="contact-number" value="@Model.PhoneNumber">
     <input type="hidden" id="logo" value="../@Model.LogoPath">
     
-    <h5>Забронировать столик</h5>
-    <p>Условия бронирования</p>
+    <h5 class="text-center">Забронировать столик</h5>
+    <p class="text-center">Условия бронирования</p>
+    <p class="text-center">@Model.BookingTerms</p>
     <div class="row" style="margin: 50px 0 0 0;">
         @foreach (var table in Model.Tables)
         {
@@ -183,7 +184,9 @@
         $(document).ready(function (){
            $(".contact-number").text($("#contact-number").val());
            $("#nav-logo").attr("src", $("#logo").val());
+           $('#PhoneNumber').mask("+7 (999) 999-9999");
            getTotal();
+           
           
         });
         
@@ -311,13 +314,13 @@
             type: 'POST',
             data: { tableId:$('#tableId').val(),
                     date:$('input[type=radio][name=Date]:checked').val(),
-                    timeFrom:$('#Booking_BookFrom').val(), 
-                    timeTo:$('#Booking_BookTo').val(), 
-                    pax:$('#Booking_Pax').val(), 
-                    clientName:$('#Booking_ClientName').val(), 
-                    comment:$('#Booking_Comment').val(), 
-                    phone:$('#Booking_PhoneNumber').val(), 
-                    email:$('#Booking_Email').val(),
+                    timeFrom:$('#BookFrom').val(), 
+                    timeTo:$('#BookTo').val(), 
+                    pax:$('#Pax').val(), 
+                    clientName:$('#ClientName').val(), 
+                    comment:$('#Comment').val(), 
+                    phone:$('#PhoneNumber').val(), 
+                    email:$('#Email').val(),
                     customDate: $('#customDate').val()
                     },
             success: function(data){
