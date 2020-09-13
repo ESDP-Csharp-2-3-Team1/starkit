@@ -6,13 +6,13 @@
             <h2 >Бронирование стола</h2>
         </div>
         <div class="modal-body">
-            <form method="post" class="form-book" id="partial-form">
+            <form method="post" asp-action="Book" class="form-book" id="partial-form">
                 
-                <input type="hidden" value="@Model.TableId" id="tableId" asp-for="@Model.TableId">
+                <input type="hidden" value="@Model.TableId" asp-for="@Model.TableId">
                 <input type="hidden" value="@Model.Date" id="bookingDate" asp-for="@Model.Date">
                 <input type="hidden" value="@Model.CustomDate" id="bookingCustomDate" asp-for="@Model.CustomDate">
-                <input type="hidden" value="@Model.BookFrom" id="bookingFrom">
-                <input type="hidden" value="@Model.BookTo" id="bookingTo">
+                <input type="hidden" value="@Model.BookFrom" asp-for="BookFrom">
+                <input type="hidden" value="@Model.BookTo" asp-for="BookTo">
 
                 <div class="form-group row">
                     <label for="" class="col-sm-5 col-form-label createMenuLabel">Ваше имя</label><br/>

@@ -291,54 +291,54 @@ namespace Starkit.Controllers
             return PartialView("PartialViews/BookTableModalPartialView", bookingTable);
         }
         [HttpPost]
-        public IActionResult Book(int tableId, string date, string customDate, string timeFrom, string timeTo, 
-            int pax, string clientName, string comment, string phone, string email)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Book(CreateBookingViewModel model)
         {
             if (ModelState.IsValid)
             {
-                Table table = _db.Tables.FirstOrDefault(t => t.Id == tableId);
+                Table table = _db.Tables.FirstOrDefault(t => t.Id == model.TableId);
                 Booking booking = new Booking()
                 {
-                    ClientName = clientName,
-                    BookFrom = timeFrom,
-                    BookTo = timeTo,
-                    Comment = comment,
+                    ClientName = model.ClientName,
+                    BookFrom = model.BookFrom,
+                    BookTo = model.BookTo,
+                    Comment = model.Comment,
                     RestaurantId = table.RestaurantId,
-                    Pax = pax,
-                    PhoneNumber = phone,
-                    Email = email,
+                    Pax = model.Pax,
+                    PhoneNumber = model.PhoneNumber,
+                    Email = model.Email,
                 };
-                if (date == "today")
+                if (model.Date == "today")
                 {
                     booking.Date = DateTime.Today.ToShortDateString();
                 }
-                else if (date == "tomorrow")
+                else if (model.Date == "tomorrow")
                 {
                     booking.Date = DateTime.Today.AddDays(1).ToShortDateString();
                 }
-                else if (date == "custom")
+                else if (model.Date == "custom")
                 {
-                    booking.Date = customDate;
+                    booking.Date = model.CustomDate;
                 }
                 else
                 {
-                    return Json(false);
+                    
+                    return PartialView("PartialViews/BookTableModalPartialView", model);
                 }
                 _db.Entry(booking).State = EntityState.Added;
                 BookingTable bookingTable = new BookingTable()
                 {
                     BookingId = booking.Id,
-                    TableId = tableId 
+                    TableId = model.TableId 
                 };
                 _db.Entry(bookingTable).State = EntityState.Added;
-                _db.SaveChanges();
-                return Json(true);
+                await _db.SaveChangesAsync();
+                return Json(new{status = "success"});
             }
             
-            return Json(false);
+            return PartialView("PartialViews/BookTableModalPartialView", model);
 
         }
-        
         
         public List<int> CheckTableAvailability(string date, string customDate, string timeFrom, string timeTo)
         {
