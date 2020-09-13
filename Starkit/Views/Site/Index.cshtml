@@ -146,46 +146,85 @@
             }
         </div>
     }
-    <div id="details"></div>
-    <input type="hidden" id="contact-number" value="@Model.PhoneNumber">
-    <input type="hidden" id="logo" value="../@Model.LogoPath">
-    
-    <h5 class="text-center">Забронировать столик</h5>
-    <p class="text-center">Условия бронирования</p>
-    <p class="text-center">@Model.BookingTerms</p>
-    <div class="row" style="margin: 50px 0 0 0;">
-        @foreach (var table in Model.Tables)
-        {
-            if (!table.isDeleted)
-            {
-                <div class="card m-2" style="width: 18rem;">
-                    <img src="~/@table.IconUrl" onclick="tablesDetails('@table.Id')" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Стол № @table.Id</h5>
-                        <p class="card-text">На @table.Capacity гостей</p>
-                        <p class="card-text">@table.Floor Этаж</p>
-                        <button class="btn btn-primary" type="button" onclick="tableBooking(@table.Id)">Забронировать </button>
-                    </div>
-                </div>
-            }
-        }
-    </div>
+<div id="details"></div>
+<input type="hidden" id="contact-number" value="@Model.PhoneNumber">
+<input type="hidden" id="logo" value="../@Model.LogoPath">
 
-    <div>
-    
+<h5 class="text-center">Забронировать столик</h5>
+<p class="text-center">Условия бронирования</p>
+<p class="text-center">@Model.BookingTerms</p>
+<form class="check-book">
+    <div class="form-group row">
+        <div class="col-sm-9 text-center m-auto">
+            <div class="book-date">
+                <input type="radio" class="chooseDate checkDate" id="date-today" value="today" name="date">
+                <label for="date-today">Сегодня</label>
+                <input type="radio" class="choseDate checkDate" id="date-tomorrow" value="tomorrow" name="date">
+                <label for="date-tomorrow">Завтра</label>
+                <input type="radio" value="custom" id="custom" class="chooseDate checkDate" name="date">
+                <label for="custom">Выбрать дату</label>
+            </div>
+        </div>
     </div>
+    <div class="form-group row">
+        <div class="col-sm-5">
+            <input type="text" name="customDate" class="form-control d-none" id="customDate" placeholder="01.01.2020" value="01.01.2020">
+        </div>
+    </div>
+    <div class="form-group row justify-content-sm-start">
+        <label for="" class="col-sm-5 col-form-label createMenuLabel">Время от</label><br/>
+        <div class="col-sm-5">
+            <input class="form-control check-time timepicker" id="timeFrom" type="text" name="timeFrom"/>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="" class="col-sm-5 col-form-label createMenuLabel">Время до</label><br/>
+        <div class="col-sm-5">
+            <input class="form-control check-time timepicker" id="timeTo" type="text" name="timeTo">
+        </div>
+    </div>
+</form>
+<div class="row" style="margin: 50px 0 0 0;" id="tables-list">
+    @foreach (var table in Model.Tables)
+    {
+        if (!table.isDeleted)
+        {
+            <div class="card m-2" style="width: 18rem;" id="table-@table.Id">
+                <img src="~/@table.IconUrl" onclick="tablesDetails('@table.Id')" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Стол № @table.Id</h5>
+                    <p class="card-text">На @table.Capacity гостей</p>
+                    <p class="card-text">@table.Floor Этаж</p>
+                    <p class="text-success tableState" id="available-@table.Id">Available</p>
+                    <button class="btn btn-primary" type="button" onclick="tableBooking(@table.Id)">Забронировать </button>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<div>
+
+</div>
 </div>
 @section Scripts
 {
-    @{ 
-         await Html.RenderPartialAsync("_ValidationScriptsPartial");
-     }
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
     <script>
         $(document).ready(function (){
            $(".contact-number").text($("#contact-number").val());
            $("#nav-logo").attr("src", $("#logo").val());
            $('#PhoneNumber').mask("+7 (999) 999-9999");
            getTotal();
+            $('.timepicker').timepicker({ 
+               'timeFormat': 'H:i',
+               'scrollDefault': 'now',
+               'minTime': '10:00',
+               'maxTime': '22:00',
+              
+           });
            
           
         });
@@ -274,37 +313,22 @@
             })
         }
         function tableBooking(id) {
-            $.get(`@Url.Action("Book", "Booking")?id=${id}`, function(data) {
-                $("#details").html(data);
-                $("#modal-details").show();
-                $("#modal-details").css("overflow", "auto");
-                $('.timepicker').timepicker({ 
-                    'timeFormat': 'H:i',
-                    'scrollDefault': 'now',
-                    'minTime': '10:00',
-                    'maxTime': '22:00',
-                   
-                });
-                
-               
-                $('input[type=radio][name=Date]').change(function() {
-                    
-                    if(this.value == "custom")
-                    {
-                       $("#customDate").removeClass('d-none');
-                       $('#customDate').datepicker(
-                           {
-                           language:'ru'
-                           }
-                       );
-                    }
-                    else
-                    {
-                         $("#customDate").addClass('d-none');
-                    }
-                })         
-                $("body").css("overflow", "hidden");
-            })
+            $.ajax(
+                {
+                  url: '@Url.Action("Book", "Booking")',
+                  type: 'GET',
+                  data: {id: id, date:$('input[type=radio][name=date]:checked').val(),
+                          timeFrom:$('input[name=timeFrom]').val(), 
+                          timeTo:$('input[name=timeTo]').val(),
+                          customDate: $('#customDate').val()},
+                  success: function(data) {
+                       $("#details").html(data);
+                       $("#modal-details").show();
+                       $("#modal-details").css("overflow", "auto");
+                            
+                       $("body").css("overflow", "hidden");
+                   }
+                })
         }
                 
         function Book(){
@@ -313,9 +337,9 @@
             url: '@Url.Action("Book", "Booking")',
             type: 'POST',
             data: { tableId:$('#tableId').val(),
-                    date:$('input[type=radio][name=Date]:checked').val(),
-                    timeFrom:$('#BookFrom').val(), 
-                    timeTo:$('#BookTo').val(), 
+                    date:$('#bookingDate').val(),
+                    timeFrom:$('#bookingFrom').val(), 
+                    timeTo:$('#bookingTo').val(), 
                     pax:$('#Pax').val(), 
                     clientName:$('#ClientName').val(), 
                     comment:$('#Comment').val(), 
@@ -325,17 +349,63 @@
                     },
             success: function(data){
                 $('#book').addClass('d-none');
+                console.log(data)
                 if (data)
                     {
                         $('.modal-body').html('Спасибо! Ваша заявка принята. Наш менеджер перезвонит Вам для подтверждения брони.')
                     }
-                else{
-                        $('.modal-body').html('Что-то пошло не так. Попробуйте еще раз.')
+                else 
+                    {
+                        
                     }
+                
                 }
             })
             
         }
+        
+        $('.check-book').change(function (){
+            $(".tableState").html("Available").addClass("text-success").removeClass("text-danger");
+            $(".card").removeClass("booked-table")
+            var date = $('input[type=radio][name=date]:checked').val();
+            if(date == "custom")
+            {
+                   $("#customDate").removeClass('d-none');
+                   $('#customDate').datepicker(
+                       {
+                       language:'ru'
+                       }
+                   );
+                }
+                else
+                {
+                     $("#customDate").addClass('d-none');
+                }
+            var timeFrom = $('#timeFrom').val();
+            var timeTo = $('#timeTo').val();
+          
+            $.ajax({
+            url: `@Url.Action("CheckTableAvailability", "Booking")`,
+            type: "GET",
+            data: {date: date, customDate: $('#customDate').val(), timeFrom: timeFrom, timeTo: timeTo},
+            success: function(data) {
+                console.log(data);
+                
+                $.each(data, function()
+                {
+                    {
+                        $(`#table-${this}`).addClass("booked-table");
+                        $(`#available-${this}`).html("Busy").removeClass("text-success").addClass("text-danger");
+                    }
+                })      
+                        
+                            
+                        
+                
+                
+            }
+            })
+        })
         
     </script>
 }

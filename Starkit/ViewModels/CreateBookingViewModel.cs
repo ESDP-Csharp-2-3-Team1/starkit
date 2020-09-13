@@ -8,11 +8,8 @@ namespace Starkit.ViewModels
     public class CreateBookingViewModel
     {
         public int TableId { get; set; }
-        [Required(ErrorMessage = "Выберите дату")]
         public string Date { get; set; }
-        [Required(ErrorMessage = "Выберите дату")]
         public string BookFrom { get; set; }
-        [Required(ErrorMessage = "Выберите дату")]
         public string BookTo { get; set; }
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         public string ClientName { get; set; }
@@ -25,6 +22,7 @@ namespace Starkit.ViewModels
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
         public string Comment { get; set; }
+        public string CustomDate { get; set; }
         
     }
 }

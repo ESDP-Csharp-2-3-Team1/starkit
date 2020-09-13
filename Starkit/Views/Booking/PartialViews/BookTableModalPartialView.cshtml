@@ -6,56 +6,20 @@
             <h2 >Бронирование стола</h2>
         </div>
         <div class="modal-body">
-            <form method="post" class="form-book">
+            <form method="post" class="form-book" id="partial-form">
+                
                 <input type="hidden" value="@Model.TableId" id="tableId" asp-for="@Model.TableId">
-                <div class="form-group row">
-                    <div class="col-sm-9 text-center m-auto">
-                        <div class="book-date">
-                            <input type="radio" asp-for="Date" class="chooseDate" id="date-today"  value="today">
-                            <label for="date-today">Сегодня</label>
-                            <input type="radio" asp-for="Date" class="choseDate" id="date-tomorrow" value="tomorrow">
-                            <label for="date-tomorrow">Завтра</label>
-                            <input type="radio" asp-for="Date" value="custom" id="custom" class="chooseDate">
-                            <label for="custom">Выбрать дату</label>
-                        </div>
-                        <span class="validationError" asp-validation-for="Date"></span>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-sm-5">
-                        <input type="text" name="customDate" class="form-control d-none" id="customDate" placeholder="01.01.2020">
-                    </div>
-                    
-                </div>
-                <div class="form-group row justify-content-sm-start">
-                    <label for="" class="col-sm-5 col-form-label createMenuLabel">Время от</label><br/>
-                    <div class="col-sm-5">
-                        <input asp-for="BookFrom" class="form-control timepicker" type="text" name="timeFrom"/>
-                    </div>
-                    <span class="validationError" asp-validation-for="BookFrom"></span>
-                </div>
-                <div class="form-group row">
-                    <label for="" class="col-sm-5 col-form-label createMenuLabel">Время до</label><br/>
-                    <div class="col-sm-5">
-                        <input asp-for="BookTo" class="form-control timepicker" type="text" name="timeTo">
-                    </div>
-                    <span class="validationError" asp-validation-for="BookTo"></span>
-                </div>
-               
+                <input type="hidden" value="@Model.Date" id="bookingDate" asp-for="@Model.Date">
+                <input type="hidden" value="@Model.CustomDate" id="bookingCustomDate" asp-for="@Model.CustomDate">
+                <input type="hidden" value="@Model.BookFrom" id="bookingFrom">
+                <input type="hidden" value="@Model.BookTo" id="bookingTo">
+
                 <div class="form-group row">
                     <label for="" class="col-sm-5 col-form-label createMenuLabel">Ваше имя</label><br/>
                     <div class="col-sm-5">
                         <input type="text" class="form-control" asp-for="ClientName">
                     </div>
                     <span class="validationError" asp-validation-for="ClientName"></span>
-                </div>
-
-                <div class="form-group row">
-                    <label for="" class="col-sm-5 col-form-label createMenuLabel">Комментарии</label><br/>
-                    <div class="col-sm-5">
-                        <textarea style="height: 150px; resize: none" asp-for="Comment" class="form-control"></textarea>
-                    </div>
-                    <span class="validationError" asp-validation-for="Comment"></span>
                 </div>
                 <div class="form-group row">
                     <label for="" class="col-sm-5 col-form-label createMenuLabel">Кол-во гостей</label><br/>
@@ -74,12 +38,17 @@
                 <div class="form-group row">
                     <label for="" class="col-sm-5 col-form-label createMenuLabel">Email</label><br/>
                     <div class="col-sm-5">
-                        <input type="text" class="form-control" asp-for="Email">
+                        <input type="email" class="form-control" asp-for="Email">
                     </div>
                     <span class="validationError" asp-validation-for="Email"></span>
                 </div>
-
-                
+                <div class="form-group row">
+                    <label for="" class="col-sm-5 col-form-label createMenuLabel">Комментарии</label><br/>
+                    <div class="col-sm-5">
+                        <textarea style="height: 150px; resize: none" asp-for="Comment" class="form-control"></textarea>
+                    </div>
+                    <span class="validationError" asp-validation-for="Comment"></span>
+                </div>
             </form>
         </div>
         <div class="modal-footer">

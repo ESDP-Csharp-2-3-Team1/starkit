@@ -8,8 +8,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Starkit.Models;
@@ -276,16 +278,21 @@ namespace Starkit.Controllers
             return Json(false);
         }
         
-        public IActionResult Book(int id)
+        public IActionResult Book(int id, string date, string customDate, string timeFrom, string timeTo)
         {
             CreateBookingViewModel bookingTable = new CreateBookingViewModel()
             {
-                TableId = id
+                TableId = id,
+                BookFrom = timeFrom,
+                BookTo = timeTo,
+                Date = date,
+                CustomDate = customDate
             };
             return PartialView("PartialViews/BookTableModalPartialView", bookingTable);
         }
         [HttpPost]
-        public IActionResult Book(int tableId, string date, string customDate, string timeFrom, string timeTo, int pax, string clientName, string comment, string phone, string email)
+        public IActionResult Book(int tableId, string date, string customDate, string timeFrom, string timeTo, 
+            int pax, string clientName, string comment, string phone, string email)
         {
             if (ModelState.IsValid)
             {
@@ -327,13 +334,51 @@ namespace Starkit.Controllers
                 _db.SaveChanges();
                 return Json(true);
             }
-
+            
             return Json(false);
 
         }
         
         
-        
+        public List<int> CheckTableAvailability(string date, string customDate, string timeFrom, string timeTo)
+        {
+            string bookingDate = DateTime.Today.ToShortDateString();
+            if (date == "today")
+            {
+                bookingDate = DateTime.Today.ToShortDateString();
+            }
+            else if (date == "tomorrow")
+            {
+                bookingDate = DateTime.Today.AddDays(1).ToShortDateString();
+            }
+            else if (date == "custom")
+            {
+                bookingDate = customDate;
+            }
+            var bookFrom = Convert.ToInt32(timeFrom.Split(":")[0]);
+            var bookTo = Convert.ToInt32(timeTo.Split(":")[0]);
+            var tables = new List<int>();
+            List<Booking> bookings = new List<Booking>();
+            var query = _db.BookingTables.Join(_db.Bookings, bt => bt.BookingId, b => b.Id,
+                (bt, b) => new {Bt = bt,  Booking = b}).ToList();
+            foreach (var q in query)
+            {
+                var from = Convert.ToInt32(q.Booking.BookFrom.Split(":")[0]);
+                var to = Convert.ToInt32(q.Booking.BookTo.Split(":")[0]);
+                if (q.Booking.Date == bookingDate && from + 1 >= bookFrom && to + 1 >= bookTo)
+                {
+                    tables.AddRange(_db.Tables.Where(t => t.Id == q.Bt.TableId).Select(t => t.Id).ToList());
+                }
+            }
+
+            return tables;
+        }
+
+        public bool CheckIfAvailable(int tableId, string date, string customDate, string bookFrom, string bookTo)
+        {
+            List<int> tableIds = CheckTableAvailability(date, customDate, bookFrom, bookTo);
+            return tableIds.All(t => t != tableId);
+        }
     }
 
 }

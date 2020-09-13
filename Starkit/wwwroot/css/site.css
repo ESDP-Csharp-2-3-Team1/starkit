@@ -1150,3 +1150,7 @@ body {
 .datepicker{
   z-index: 100000;
 }
+
+.booked-table{
+  opacity: 0.5;
+}

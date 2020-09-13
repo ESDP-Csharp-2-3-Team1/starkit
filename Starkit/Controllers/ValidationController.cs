@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Starkit.Models;
 using Starkit.Models.Data;
 using Starkit.Services;
@@ -150,30 +151,6 @@ namespace Starkit.Controllers
             Table table = _db.Tables.FirstOrDefault(t => t.Id == tableId);
             if (table.Capacity < pax)
                 return false;
-            return true;
-        }
-
-        public bool CheckTableAvailability(int id, string date, string bookFrom)
-        {
-            var timeFrom = Convert.ToInt32(bookFrom.Split(":")[0]);
-            Table table = _db.Tables.FirstOrDefault(t => t.Id == id);
-            List<BookingTable> bookingTable = _db.BookingTables.Where(bt => bt.TableId == table.Id).ToList();
-            List<Booking> bookings = new List<Booking>();
-            foreach (var bt in bookingTable)
-            {
-                bookings.Add(_db.Bookings.FirstOrDefault(b => b.Id == bt.BookingId));
-            }
-
-            foreach (var b in bookings)
-            {
-                var time = Convert.ToInt32(b.BookFrom.Split(":")[0]);
-                if (b.Date == date && time + 1 >= timeFrom)
-                {
-                    return false;
-                }
-                
-            }
-
             return true;
         }
 
