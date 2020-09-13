@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Starkit.Models;
@@ -204,8 +205,6 @@ namespace Starkit.Controllers
             {
                 tables = tables.Where(d => d.Id == id);
             }
-                
-            
 
             switch (sortOrder)
             {
@@ -234,6 +233,7 @@ namespace Starkit.Controllers
 
             var viewModel = new IndexViewModel
             {
+                BookingTablesFilterViewModel = new BookingTablesFilterViewModel(location, id),
                 PageViewModel = new PageViewModel(count, page, pageSize),
                 SortViewModel = new SortViewModel(sortOrder),
                 Tables = items

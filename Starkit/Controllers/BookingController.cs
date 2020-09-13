@@ -45,6 +45,7 @@ namespace Starkit.Controllers
             if (user.RestaurantId == null)
                 return RedirectToAction("Register", "Restaurants");
             var bookings = _db.Bookings.Where(t => t.RestaurantId == user.RestaurantId).ToList();
+               
             return View(bookings);
         }
 
@@ -164,7 +165,7 @@ namespace Starkit.Controllers
             return View();
         }
         
-        public async Task<IActionResult> GetBookings(string name, int page = 1, SortState sortOrder = SortState.AddTimeAsc)
+        public async Task<IActionResult> GetBookings(int name, string state, int page = 1, SortState sortOrder = SortState.AddTimeAsc)
         {
             User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
             if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
@@ -174,8 +175,23 @@ namespace Starkit.Controllers
             }
             var bookings = _db.Bookings.Where(b => b.RestaurantId == user.RestaurantId);
             
-            if (!string.IsNullOrEmpty(name))
-                bookings = bookings.Where(b => b.ClientName.ToLower().Contains(name.ToLower()));
+            var query = _db.BookingTables.Join(_db.Tables, bt => bt.TableId, t => t.Id,
+                (bt, t) => new {Bt = bt,  Table = t}).Select(bt_t => new {bt_t.Table.Id, bt_t.Bt.BookingId}).ToList();
+            if (state != null)
+            {
+                var s = (BookingStatus) Enum.Parse(typeof(BookingStatus), state, true);
+                bookings = bookings.Where(d => d.State == s);
+            }
+            
+            if (name != 0)
+                foreach (var q in query)
+                {
+                    if (q.Id == name)
+                    {
+                        bookings = bookings.Where(b => b.Id == q.BookingId);
+                    }
+                    
+                }
 
             switch (sortOrder)
             {
@@ -210,6 +226,7 @@ namespace Starkit.Controllers
 
             var viewModel = new IndexViewModel
             {
+                BookingTablesFilterViewModel = new BookingTablesFilterViewModel(state, name),
                 PageViewModel = new PageViewModel(count, page, pageSize),
                 SortViewModel = new SortViewModel(sortOrder),
                 Bookings = items
@@ -373,12 +390,7 @@ namespace Starkit.Controllers
 
             return tables;
         }
-
-        public bool CheckIfAvailable(int tableId, string date, string customDate, string bookFrom, string bookTo)
-        {
-            List<int> tableIds = CheckTableAvailability(date, customDate, bookFrom, bookTo);
-            return tableIds.All(t => t != tableId);
-        }
+        
     }
 
 }

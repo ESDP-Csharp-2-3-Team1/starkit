@@ -36,10 +36,11 @@
         <div class="p-2 bd-highlight">
             <label>Расположение: </label>
             <select id="filterLocation" class="form-control">
-                @foreach (var location in Enum.GetValues(typeof(Location)))
-                {
-                    <option value="@location">@location</option>
-                }
+                <option class="stateValue"  value="@Location.Middle">@GetEnumDescription.GetDescription(Location.Middle)</option>
+                <option class="stateValue"  value="@Location.Regular">@GetEnumDescription.GetDescription(Location.Regular)</option>
+                <option class="stateValue"  value="@Location.Outdoor">@GetEnumDescription.GetDescription(Location.Outdoor)</option>
+                <option class="stateValue"  value="@Location.Window">@GetEnumDescription.GetDescription(Location.Window)</option>
+                
             </select>
         </div>
         <div class="p-2 bd-highlight">
@@ -158,12 +159,12 @@
         });
         
         function idSort(){
-            var sortParam = $(".nameSort").attr('id');
+            var sortParam = $(".idSort").attr('id');
             sort(sortParam);
         }
         
         function paxSort() {
-            var sortParam = $(".nameSort").attr('id');
+            var sortParam = $(".paxSort").attr('id');
             sort(sortParam);
         }
         

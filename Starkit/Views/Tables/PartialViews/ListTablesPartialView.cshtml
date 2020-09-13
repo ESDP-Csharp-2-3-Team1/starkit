@@ -1,6 +1,10 @@
 ﻿@model IndexViewModel
 
 @addTagHelper *, Starkit
+<input type="hidden" id="modelLocation" value="@Model.BookingTablesFilterViewModel.SelectedItem">
+<input type="hidden" id="modelName" value="@Model.BookingTablesFilterViewModel.SelectedName">
+<input type="hidden" id="modelSort" value="@Model.SortViewModel.Current">
+<input type="hidden" id="modelPage" value="@Model.PageViewModel.PageNumber">
 
 <div style="overflow-x:auto; font-size: 14px">
     <table class="table table-bordered">
@@ -10,13 +14,13 @@
             <th style="vertical-align: middle; text-align: center" scope="col">Изображение</th>
             <th style="vertical-align: middle; text-align: center" scope="col">
                 № стола
-                 <a style="cursor: pointer" id="@Model.SortViewModel.IdSort" class="nameSort" onclick="idSort('')">
+                 <a style="cursor: pointer" id="@Model.SortViewModel.IdSort" class="idSort" onclick="idSort('')">
                     <img src="https://img.icons8.com/material-sharp/24/000000/sort.png"/>
                 </a>x
             </th>
             <th style="vertical-align: middle; text-align: center" scope="col">
                 Кол-во мест
-                <a style="cursor: pointer" id="@Model.SortViewModel.PaxSort" class="nameSort" onclick="paxSort('')">
+                <a style="cursor: pointer" id="@Model.SortViewModel.PaxSort" class="paxSort" onclick="paxSort('')">
                     <img src="https://img.icons8.com/material-sharp/24/000000/sort.png"/>
                 </a>
             </th>
@@ -56,6 +60,8 @@
     <li class="page-item">
         <a class="page-link" href="#@(Model.PageViewModel.PageNumber - 1)" aria-label="Previous"
            onclick="previousPage('@(Model.PageViewModel.PageNumber - 1)',
+                                    '@(Model.BookingTablesFilterViewModel.SelectedName)',
+                                                       '@(Model.BookingTablesFilterViewModel.SelectedItem)',
                            
                                     '@(Model.SortViewModel.Current)')"><span aria-hidden="true">&laquo;</span></a>
     </li>
@@ -67,6 +73,8 @@
                 <a class="page-link" href="#@itmp" id="page@itmp"
                    onclick="clickedPage(
                        '@itmp',
+                       '@(Model.BookingTablesFilterViewModel.SelectedName)',
+                                          '@(Model.BookingTablesFilterViewModel.SelectedItem)',
                        
                        '@(Model.SortViewModel.Current)')">@itmp.ToString()</a>
             </li>
@@ -77,6 +85,8 @@
                 <a class="page-link" href="#@itmp" id="page@itmp"
                    onclick="clickedPage(
                    '@itmp',
+                   '@(Model.BookingTablesFilterViewModel.SelectedName)',
+                                      '@(Model.BookingTablesFilterViewModel.SelectedItem)',
                    
                    '@(Model.SortViewModel.Current)')">@itmp.ToString()</a>
             </li>
@@ -85,6 +95,8 @@
     <li class="page-item">
         <a class="page-link" href="#@(Model.PageViewModel.PageNumber + 1)" aria-label="Next"
            onclick="nextPage('@(Model.PageViewModel.PageNumber + 1)',
+                           '@(Model.BookingTablesFilterViewModel.SelectedName)',
+                                              '@(Model.BookingTablesFilterViewModel.SelectedItem)',
                            
                            '@(Model.SortViewModel.Current)')"><span aria-hidden="true">&raquo;</span></a>
     </li>

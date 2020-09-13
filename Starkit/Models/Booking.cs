@@ -9,12 +9,18 @@ namespace Starkit.Models
 {
     public enum BookingStatus
     {
-        Pending,
-        Approved,
-        Done,
-        Cancelled,
-        NoShow,
-        Late
+        [Description("Новый")]
+        Pending = 0,
+        [Description("Подтвержден")]
+        Approved = 1,
+        [Description("Выполнен")]
+        Done = 2,
+        [Description("Отменен")]
+        Cancelled = 3,
+        [Description("Не пришел")]
+        NoShow = 4,
+        [Description("Опоздание")]
+        Late = 5
     }
     public class Booking
     {

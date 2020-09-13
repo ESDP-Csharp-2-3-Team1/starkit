@@ -330,36 +330,43 @@
                    }
                 })
         }
-                
+        
+               
         function Book(){
-            
+           
+           var form = $("#partial-form");
+           var url = form.attr("action");
+           var data = form.serialize();
             $.ajax({
-            url: '@Url.Action("Book", "Booking")',
+            url: url,
             type: 'POST',
-            data: { tableId:$('#tableId').val(),
-                    date:$('#bookingDate').val(),
-                    timeFrom:$('#bookingFrom').val(), 
-                    timeTo:$('#bookingTo').val(), 
-                    pax:$('#Pax').val(), 
-                    clientName:$('#ClientName').val(), 
-                    comment:$('#Comment').val(), 
-                    phone:$('#PhoneNumber').val(), 
-                    email:$('#Email').val(),
-                    customDate: $('#customDate').val()
-                    },
+            data: data,
             success: function(data){
-                $('#book').addClass('d-none');
                 console.log(data)
-                if (data)
+                if (data.status == "success")
                     {
+                        $('#book').addClass('d-none');
                         $('.modal-body').html('Спасибо! Ваша заявка принята. Наш менеджер перезвонит Вам для подтверждения брони.')
                     }
                 else 
                     {
-                        
+                      $("#details").html(data);
+                                             $("#modal-details").show();
+                                             $("#modal-details").css("overflow", "auto");
+                                                  
+                                             $("body").css("overflow", "hidden");
                     }
                 
-                }
+                },
+                error: function (data)
+                {
+                  $("#details").html(data);
+                                         $("#modal-details").show();
+                                         $("#modal-details").css("overflow", "auto");
+                                              
+                                         $("body").css("overflow", "hidden");
+                  
+                   }
             })
             
         }
@@ -393,10 +400,10 @@
                 
                 $.each(data, function()
                 {
-                    {
+                    
                         $(`#table-${this}`).addClass("booked-table");
                         $(`#available-${this}`).html("Busy").removeClass("text-success").addClass("text-danger");
-                    }
+                    
                 })      
                         
                             
