@@ -7,7 +7,8 @@
         </div>
         <div class="modal-body">
             <form method="post" asp-action="Book" class="form-book" id="partial-form">
-                
+                <div asp-validation-summary="ModelOnly"></div>
+
                 <input type="hidden" value="@Model.TableId" asp-for="@Model.TableId">
                 <input type="hidden" value="@Model.Date" id="bookingDate" asp-for="@Model.Date">
                 <input type="hidden" value="@Model.CustomDate" id="bookingCustomDate" asp-for="@Model.CustomDate">
@@ -19,35 +20,35 @@
                     <div class="col-sm-5">
                         <input type="text" class="form-control" asp-for="ClientName">
                     </div>
-                    <span class="validationError" asp-validation-for="ClientName"></span>
+                    <span asp-validation-for="ClientName"></span>
                 </div>
                 <div class="form-group row">
                     <label for="" class="col-sm-5 col-form-label createMenuLabel">Кол-во гостей</label><br/>
                     <div class="col-sm-5">
                         <input type="number" class="form-control" asp-for="Pax">
                     </div>
-                    <span class="validationError" asp-validation-for="Pax"></span>
+                    <span asp-validation-for="Pax"></span>
                 </div>
                 <div class="form-group row">
                     <label for="" class="col-sm-5 col-form-label createMenuLabel">Номер телефона</label><br/>
                     <div class="col-sm-5">
                         <input type="text" class="form-control" asp-for="PhoneNumber" placeholder="+7 (___) ___-____">
                     </div>
-                    <span class="validationError" asp-validation-for="PhoneNumber"></span>
+                    <span asp-validation-for="PhoneNumber"></span>
                 </div>
                 <div class="form-group row">
                     <label for="" class="col-sm-5 col-form-label createMenuLabel">Email</label><br/>
                     <div class="col-sm-5">
                         <input type="email" class="form-control" asp-for="Email">
                     </div>
-                    <span class="validationError" asp-validation-for="Email"></span>
+                    <span asp-validation-for="Email"></span>
                 </div>
                 <div class="form-group row">
                     <label for="" class="col-sm-5 col-form-label createMenuLabel">Комментарии</label><br/>
                     <div class="col-sm-5">
                         <textarea style="height: 150px; resize: none" asp-for="Comment" class="form-control"></textarea>
                     </div>
-                    <span class="validationError" asp-validation-for="Comment"></span>
+                    <span asp-validation-for="Comment"></span>
                 </div>
             </form>
         </div>

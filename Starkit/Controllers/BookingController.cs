@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -342,6 +343,19 @@ namespace Starkit.Controllers
                     
                     return PartialView("PartialViews/BookTableModalPartialView", model);
                 }
+
+                if (SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "booking") == null)
+                {
+                    List<Booking> items = new List<Booking>();
+                    items.Add(booking);
+                    SessionHelper.SetObjectAsJson(HttpContext.Session, "booking", items);
+                }
+                else
+                {
+                    List<Booking> items = SessionHelper.GetObjectFromJson<List<Booking>>(HttpContext.Session, "booking");
+                    items.Add(booking);
+                    SessionHelper.SetObjectAsJson(HttpContext.Session, "booking", items);
+                }
                 _db.Entry(booking).State = EntityState.Added;
                 BookingTable bookingTable = new BookingTable()
                 {
@@ -391,6 +405,39 @@ namespace Starkit.Controllers
             return tables;
         }
         
+        
+        public IActionResult Cancel(string id)
+        {
+            List<Booking> bookings = SessionHelper.GetObjectFromJson<List<Booking>>(HttpContext.Session, "booking");
+            Booking booking = bookings.FirstOrDefault(b => b.Id == id);
+            booking.State = BookingStatus.Cancelled;
+            bookings.Remove(booking);
+            _db.Bookings.Update(booking);
+            SessionHelper.SetObjectAsJson(HttpContext.Session, "booking", bookings);
+            return RedirectToAction("Index", "Site");
+        }
+
+        public IActionResult Booking()
+        {
+            var booking = SessionHelper.GetObjectFromJson<List<Booking>>(HttpContext.Session, "booking");
+            if (booking == null)
+            {
+                booking = new List<Booking>();
+
+            }
+            ViewBag.Booking = booking;
+
+            return View();
+        }
+        
+        public IActionResult GetTotal()
+        {
+            var booked = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "booking");
+            if (booked == null)
+                booked = new List<Item>();
+            decimal total = booked.Count;
+            return Json(total);
+        }
     }
 
 }

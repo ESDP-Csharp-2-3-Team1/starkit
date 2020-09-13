@@ -54,6 +54,18 @@
                 </div>
                 <span class="validationError" asp-validation-for="Desc"></span>
             </div>
+            <div class="form-group row">
+                <label for="" class="col-sm-4 col-form-label createMenuLabel">Расположение</label><br/>
+                <div class="col-sm-8">
+                    <select asp-for="Location">
+                        <option value="@Location.Regular">Без примечаний</option>
+                        <option value="@Location.Middle">В центре зала</option>
+                        <option value="@Location.Outdoor">Летник</option>
+                        <option value="@Location.Window">У окна</option>
+                    </select>
+                </div>
+                <span class="validationError" asp-validation-for="Location"></span>
+            </div>
             <div class="form-group row" id="cost" style="display: none">
                 <label for="" class="col-sm-4 col-form-label createMenuLabel">Этаж</label><br/>
                 <div class="col-sm-8">

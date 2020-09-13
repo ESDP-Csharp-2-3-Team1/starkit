@@ -7,7 +7,7 @@ namespace Starkit.ViewModels
 {
     public class EditBookingViewModel
     {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string Id { get; set; }
         [Required]
         public string Date { get; set; }
         [Required]
@@ -18,8 +18,6 @@ namespace Starkit.ViewModels
         public virtual List<Table> Tables { get; set; }
         [Required]
         public string ClientName { get; set; }
-        [Required]
-        public string ClientSurname { get; set; }
         [Required]
         public int Pax { get; set; }
         [Required]

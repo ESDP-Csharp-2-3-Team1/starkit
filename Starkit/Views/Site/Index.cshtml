@@ -173,16 +173,15 @@
     </div>
     <div class="form-group row justify-content-sm-start">
         <label for="" class="col-sm-5 col-form-label createMenuLabel">Время от</label><br/>
-        <div class="col-sm-5">
+        <div class="col-sm-3">
             <input class="form-control check-time timepicker" id="timeFrom" type="text" name="timeFrom"/>
         </div>
-    </div>
-    <div class="form-group row">
         <label for="" class="col-sm-5 col-form-label createMenuLabel">Время до</label><br/>
-        <div class="col-sm-5">
+        <div class="col-sm-3">
             <input class="form-control check-time timepicker" id="timeTo" type="text" name="timeTo">
         </div>
     </div>
+    
 </form>
 <div class="row" style="margin: 50px 0 0 0;" id="tables-list">
     @foreach (var table in Model.Tables)
@@ -218,6 +217,7 @@
            $("#nav-logo").attr("src", $("#logo").val());
            $('#PhoneNumber').mask("+7 (999) 999-9999");
            getTotal();
+           getTotalBookings();
             $('.timepicker').timepicker({ 
                'timeFormat': 'H:i',
                'scrollDefault': 'now',
@@ -225,7 +225,7 @@
                'maxTime': '22:00',
               
            });
-           
+            $('#totalBooked').text()
           
         });
         
@@ -330,7 +330,11 @@
                    }
                 })
         }
-        
+        function getTotalBookings(){
+           $.get('@Url.Action("GetTotal", "Booking")', function (data){              
+                $("#totalBooked").text(data);
+           }) 
+        }
                
         function Book(){
            
@@ -342,29 +346,30 @@
             type: 'POST',
             data: data,
             success: function(data){
-                console.log(data)
+               
                 if (data.status == "success")
                     {
                         $('#book').addClass('d-none');
                         $('.modal-body').html('Спасибо! Ваша заявка принята. Наш менеджер перезвонит Вам для подтверждения брони.')
+                        getTotalBookings();
                     }
                 else 
                     {
                       $("#details").html(data);
-                                             $("#modal-details").show();
-                                             $("#modal-details").css("overflow", "auto");
-                                                  
-                                             $("body").css("overflow", "hidden");
+                     $("#modal-details").show();
+                     $("#modal-details").css("overflow", "auto");
+                          
+                     $("body").css("overflow", "hidden");
                     }
                 
                 },
                 error: function (data)
                 {
-                  $("#details").html(data);
-                                         $("#modal-details").show();
-                                         $("#modal-details").css("overflow", "auto");
-                                              
-                                         $("body").css("overflow", "hidden");
+                     $("#details").html(data);
+                     $("#modal-details").show();
+                     $("#modal-details").css("overflow", "auto");
+                          
+                     $("body").css("overflow", "hidden");
                   
                    }
             })
