@@ -44,7 +44,7 @@ namespace Starkit.Controllers
                 string userId = user.IdOfTheSelectedRestaurateur;
                 user = await _userManager.FindByIdAsync(userId);
             }
-            var filePath = _environment.ContentRootPath + $"\\wwwroot\\images\\restaurants\\{user.RestaurantId}\\Dishes\\" + dish.Id;
+            var filePath = _environment.ContentRootPath + $"/wwwroot/images/restaurants/{user.RestaurantId}/Dishes/" + dish.Id;
             if (Directory.Exists(filePath)) System.IO.File.Delete("wwwroot/" + dish.Avatar);
         }
 
@@ -56,7 +56,7 @@ namespace Starkit.Controllers
                 string userId = user.IdOfTheSelectedRestaurateur;
                 user = await _userManager.FindByIdAsync(userId);
             }
-            var path = Path.Combine(_environment.ContentRootPath + $"\\wwwroot\\images\\restaurants\\{user.RestaurantId}\\Dishes\\{id}");
+            var path = Path.Combine(_environment.ContentRootPath + $"/wwwroot/images/restaurants/{user.RestaurantId}/Dishes/{id}");
             var photoPath = $"images/restaurants/{user.RestaurantId}/Dishes/{id}/{file.FileName}";
             if (!Directory.Exists($"wwwroot/images/restaurants/{user.RestaurantId}/Dishes/{id}"))
                 Directory.CreateDirectory($"wwwroot/images/restaurants/{user.RestaurantId}/Dishes/{id}");
@@ -264,7 +264,7 @@ namespace Starkit.Controllers
             foreach (var id in ids)
             {
                 dishes.Add(_db.Dishes.FirstOrDefault(d => d.Id == id));
-                var filePath = _environment.ContentRootPath + $"\\wwwroot\\images\\users\\{userId}\\Dishes\\" + id;
+                var filePath = _environment.ContentRootPath + $"/wwwroot/images/users/{userId}/Dishes/" + id;
                 if (Directory.Exists(filePath))
                     Directory.Delete(filePath, true);
             }

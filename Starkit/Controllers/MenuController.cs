@@ -40,7 +40,7 @@ namespace Starkit.Controllers
                 string userId = user.IdOfTheSelectedRestaurateur;
                 user = await _userManager.FindByIdAsync(userId);
             }
-            string path = Path.Combine(_environment.ContentRootPath + $"\\wwwroot\\images\\restaurants\\{user.RestaurantId}\\Menu\\{id}");
+            string path = Path.Combine(_environment.ContentRootPath + $"/wwwroot/images/restaurants/{user.RestaurantId}/Menu/{id}");
             string photoPath = $"images/restaurants/{user.RestaurantId}/Menu/{id}/{file.FileName}";
             if (!Directory.Exists($"wwwroot/images/restaurants/{user.RestaurantId}/Menu/{id}"))
             {
@@ -59,7 +59,7 @@ namespace Starkit.Controllers
                 string userId = user.IdOfTheSelectedRestaurateur;
                 user = await _userManager.FindByIdAsync(userId);
             }
-            string filePath = _environment.ContentRootPath + $"\\wwwroot\\images\\restaurants\\{user.RestaurantId}\\Menu\\" + menu.Id; 
+            string filePath = _environment.ContentRootPath + $"/wwwroot/images/restaurants/{user.RestaurantId}/Menu/" + menu.Id; 
             if (Directory.Exists(filePath))
             {
                 if (menu.Avatar == null)
