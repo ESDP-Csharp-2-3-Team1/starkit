@@ -9,97 +9,121 @@
      #dropdown1{
              display: block;
      }
-         #dropdown1-li-1{
+         #dropdown1-li-12{
          margin-left: 15px;
          background: #9ad9ea;
      }
-     #dropdown1-li-1 a{
+     #dropdown1-li-12 a{
          color: #262626;
          font-weight: 600;
          border-left: 2px solid #41728b;
      }
-     #dropdown1-li-1 a:hover{
+     #dropdown1-li-12 a:hover{
          color: #262626;
      }
   </style>
  
  <div class="row" style="margin: 30px 0 80px 0">
-     <div class="col-md-9 mt-5">
-         <h2 class="create-dish">Бронирование стола</h2>
-         <form asp-action="Create" method="post" enctype="multipart/form-data">
-             <div class="form-group row">
-                 <label for="" class="col-sm-4 col-form-label createMenuLabel">Стол</label><br/>
-                 <div class="col-sm-8">
-                     <select name="tableId" class="form-control">
-                         @foreach (var t in ViewBag.Tables)
-                         {
-                             <option value="@t.Id">@t.Id</option>
-                         }
-                     </select>
-                 </div>
-                 <span class="validationError"></span>
+ <div class="col-md-9 mt-5">
+     <h2 class="create-dish">Бронирование стола</h2>
+     <form asp-action="Create" method="post" enctype="multipart/form-data">
+         <div class="form-group row">
+             <label for="" class="col-sm-4 col-form-label createMenuLabel">Стол</label><br/>
+             <div class="col-sm-8">
+                 <select name="TableId" class="form-control">
+                     @foreach (var t in ViewBag.Tables)
+                     {
+                         <option value="@t.Id">@t.Id</option>
+                     }
+                 </select>
              </div>
-             <div class="form-group row">
-                 <label for="" class="col-sm-4 col-form-label createMenuLabel">ФИО клиента</label><br/>
-                 <div class="col-sm-8">
-                     <input type="text" class="form-control" asp-for="ClientName">
-                 </div>
-                 <span class="validationError" asp-validation-for="ClientName"></span>
+             <span class="validationError"></span>
+         </div>
+         <div class="form-group row">
+             <label for="" class="col-sm-4 col-form-label createMenuLabel">ФИО клиента</label><br/>
+             <div class="col-sm-8">
+                 <input type="text" class="form-control" asp-for="ClientName">
              </div>
-             <div class="form-group row">
-                 <label for="" class="col-sm-4 col-form-label createMenuLabel">Дата и время</label><br/>
-                 <div class="col-sm-4">
-                     <input style="font-size: 8px; margin-top: 5px" asp-for="DateTime" type="datetime-local" class="form-control" value="@DateTime.Now">
-                 </div>
-                 <span class="validationError" asp-validation-for="DateTime"></span>
+             <span class="validationError" asp-validation-for="ClientName"></span>
+         </div>
+         <div class="form-group row">
+             <label for="" class="col-sm-4 col-form-label createMenuLabel">Выберите дату</label><br/>
+             <div class="col-sm-8">
+                 <input type="text" asp-for="Date" class="form-control choose-date" placeholder="01.01.2020">
              </div>
-             <div class="form-group row">
-                 <label for="" class="col-sm-4 col-form-label createMenuLabel">Комментарии</label><br/>
-                 <div class="col-sm-8">
-                     <textarea style="height: 150px; resize: none" asp-for="Comment" class="form-control"></textarea>
-                 </div>
-                 <span class="validationError" asp-validation-for="Comment"></span>
-             </div>
-             <div class="form-group row">
-                 <label for="" class="col-sm-4 col-form-label createMenuLabel">Кол-во гостей</label><br/>
-                 <div class="col-sm-8">
-                     <input type="number" class="form-control" asp-for="Pax">
-                 </div>
-                 <span class="validationError" asp-validation-for="Pax"></span>
-             </div>
-             <div class="form-group row">
-                 <label for="" class="col-sm-4 col-form-label createMenuLabel">Номер телефона</label><br/>
-                 <div class="col-sm-8">
-                     <input type="text" class="form-control" asp-for="PhoneNumber">
-                 </div>
-                 <span class="validationError" asp-validation-for="PhoneNumber"></span>
-             </div>
-             <div class="form-group row">
-                 <label for="" class="col-sm-4 col-form-label createMenuLabel">Email</label><br/>
-                 <div class="col-sm-8">
-                     <input id="inputCost" type="text" class="form-control" asp-for="Email">
-                 </div>
-                 <span class="validationError" asp-validation-for="Email"></span>
-             </div>
+             <span class="validationError" asp-validation-for="Date"></span>
+         </div> 
              
-             <div style="text-align: center">
-                 <br/><button type="submit" class="btn btn-dark">Добавить</button>
+         <div class="form-group row justify-content-sm-start">
+             <label for="" class="col-sm-4 col-form-label createMenuLabel">Время от</label><br/>
+             <div class="col-sm-2">
+                 <input asp-for="BookFrom" class="form-control timepicker" type="text"/>
              </div>
-         </form>
-     </div>
+             <label for="" class="col-sm-3 col-form-label createMenuLabel">Время до</label><br/>
+             <div class="col-sm-2">
+                 <input asp-for="BookTo" class="form-control timepicker" type="text">
+             </div>
+         </div>
+         <div class="form-group row">
+             <label for="" class="col-sm-4 col-form-label createMenuLabel">Кол-во гостей</label><br/>
+             <div class="col-sm-8">
+                 <input type="number" class="form-control" asp-for="Pax">
+             </div>
+             <span class="validationError" asp-validation-for="Pax"></span>
+         </div>
+         <div class="form-group row">
+             <label for="" class="col-sm-4 col-form-label createMenuLabel">Номер телефона</label><br/>
+             <div class="col-sm-8">
+                 <input type="text" class="form-control" asp-for="PhoneNumber" placeholder="+7 (___) ___-____">
+             </div>
+             <span class="validationError" asp-validation-for="PhoneNumber"></span>
+         </div>
+         <div class="form-group row">
+             <label for="" class="col-sm-4 col-form-label createMenuLabel">Комментарии</label><br/>
+             <div class="col-sm-8">
+                 <textarea style="height: 150px; resize: none" asp-for="Comment" class="form-control"></textarea>
+             </div>
+             <span class="validationError" asp-validation-for="Comment"></span>
+         </div>
+         <div class="form-group row">
+             <label for="" class="col-sm-4 col-form-label createMenuLabel">Email</label><br/>
+             <div class="col-sm-8">
+                 <input id="inputCost" type="text" class="form-control" asp-for="Email">
+             </div>
+             <span class="validationError" asp-validation-for="Email"></span>
+         </div>
+             
+         <div style="text-align: center">
+             <br/><button type="submit" class="btn btn-dark">Добавить</button>
+         </div>
+     </form>
  </div>
+ </div>
+ 
  @section Scripts
  {
      @{ 
          await Html.RenderPartialAsync("_ValidationScriptsPartial");
      }
      <script>
-         $('.my').change(function() {
-             if ($(this).val() != '') $(this).prev().text('Выбрано файлов: ' + $(this)[0].files.length);
-             else $(this).prev().text('Выберите файлы');
-         });
-         
-       
+     
+        $(document).ready(function (){
+            $('.timepicker').timepicker({ 
+                'timeFormat': 'H:i',
+                'scrollDefault': 'now',
+                'minTime': '10:00',
+                'maxTime': '22:00'
+            });
+            
+           $('.choose-date').datepicker(
+               {
+               language:'ru'
+               }
+           );
+           $('#PhoneNumber').mask("+7 (999) 999-9999");
+        })      
+        
      </script>
+     
  }
 

@@ -2,29 +2,42 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Starkit.Models
 {
     public enum BookingStatus
     {
-        Pending,
-        Approved,
-        Done,
-        Cancelled,
-        NoShow,
-        Late
+        [Description("Новый")]
+        Pending = 0,
+        [Description("Подтвержден")]
+        Approved = 1,
+        [Description("Выполнен")]
+        Done = 2,
+        [Description("Отменен")]
+        Cancelled = 3,
+        [Description("Не пришел")]
+        NoShow = 4,
+        [Description("Опоздание")]
+        Late = 5
     }
     public class Booking
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
-        [Required] 
-        public DateTime DateTime { get; set; }
+        public string Date { get; set; }
+        [Required(ErrorMessage = "Выберите время")]
+        public string BookFrom { get; set; }
+        [Required(ErrorMessage = "Выберите время")]
+        [Remote("CheckTime", "Validation", ErrorMessage = "Ошибка ввода", AdditionalFields = "BookFrom")]
+        public string BookTo { get; set; }
         public virtual List<BookingTable> BookingTables { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         public string ClientName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
+        [Remote("CheckTableCapacity", "Validation", ErrorMessage = "Недостаточно мест, выберите другой столик или забронируйте еще один", AdditionalFields = "TableId")]
         public int Pax { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [DataType(DataType.PhoneNumber)]
         public string PhoneNumber { get; set; }
         [DataType(DataType.EmailAddress)]

@@ -2,6 +2,11 @@
 
 @addTagHelper *, Starkit
 
+<input type="hidden" id="modelState" value="@Model.BookingTablesFilterViewModel.SelectedItem">
+<input type="hidden" id="modelName" value="@Model.BookingTablesFilterViewModel.SelectedName">
+<input type="hidden" id="modelSort" value="@Model.SortViewModel.Current">
+<input type="hidden" id="modelPage" value="@Model.PageViewModel.PageNumber">
+
 <div style="overflow-x:auto; font-size: 14px">
     <table class="table table-bordered">
         <thead>
@@ -10,13 +15,13 @@
             <th style="vertical-align: middle; text-align: center" scope="col">Номер стола</th>
             <th style="vertical-align: middle; text-align: center" scope="col">
                 Дата и время
-                <a style="cursor: pointer" id="@Model.SortViewModel.DateSort" class="nameSort" onclick="dateSort('')">
+                <a style="cursor: pointer" id="@Model.SortViewModel.DateSort" class="dateSort" onclick="dateSort('')">
                     <img src="https://img.icons8.com/material-sharp/24/000000/sort.png"/>
                 </a>
             </th>
             <th style="vertical-align: middle; text-align: center" scope="col">
                 Кол-во гостей
-                <a style="cursor: pointer" id="@Model.SortViewModel.PaxSort" class="nameSort" onclick="paxSort('')">
+                <a style="cursor: pointer" id="@Model.SortViewModel.PaxSort" class="paxSort" onclick="paxSort('')">
                     <img src="https://img.icons8.com/material-sharp/24/000000/sort.png"/>
                 </a>
             </th>
@@ -37,21 +42,17 @@
                         @t.TableId<br>
                     }
                 </td>
-                <td class="link-dish-name" style="vertical-align: middle; text-align: center" onclick="detailsBooking('@booking.Id')"> @booking.DateTime</td>
+                <td class="link-dish-name" style="vertical-align: middle; text-align: center" onclick="detailsBooking('@booking.Id')"> @booking.Date @booking.BookFrom - @booking.BookTo</td>
                 <td style="vertical-align: middle; text-align: center">@booking.Pax</td>
                 <td style="vertical-align: middle ; text-align: center" onclick="changeState('@booking.Id')">
                     <select name="state" id="state">
-                        @foreach (var s in Enum.GetValues(typeof(BookingStatus)))
-                        {
-                            if (s.ToString() == booking.State.ToString())
-                            {
-                                <option class="stateValue" selected value="@s">@s</option>
-                            }
-                            else
-                            {
-                                <option class="stateValue" value="@s">@s</option>
-                            }
-                        }
+                        
+                        <option class="stateValue"  value="@BookingStatus.Pending">@GetEnumDescription.GetDescription(BookingStatus.Pending)</option>
+                        <option class="stateValue"  value="@BookingStatus.Approved">@GetEnumDescription.GetDescription(BookingStatus.Approved)</option>
+                        <option class="stateValue"  value="@BookingStatus.Cancelled">@GetEnumDescription.GetDescription(BookingStatus.Cancelled)</option>
+                        <option class="stateValue"  value="@BookingStatus.Done">@GetEnumDescription.GetDescription(BookingStatus.Done)</option>
+                        <option class="stateValue"  value="@BookingStatus.Late">@GetEnumDescription.GetDescription(BookingStatus.Late)</option>
+                        <option class="stateValue"  value="@BookingStatus.NoShow">@GetEnumDescription.GetDescription(BookingStatus.NoShow)</option>
                     </select>
                 </td>
                 <td style="vertical-align: middle; text-align: center">
@@ -71,6 +72,8 @@
     <li class="page-item">
         <a class="page-link" href="#@(Model.PageViewModel.PageNumber - 1)" aria-label="Previous"
            onclick="previousPage('@(Model.PageViewModel.PageNumber - 1)',
+                                    '@(Model.BookingTablesFilterViewModel.SelectedName)',
+                                    '@(Model.BookingTablesFilterViewModel.SelectedItem)',
                                     '@(Model.SortViewModel.Current)')"><span aria-hidden="true">&laquo;</span></a>
     </li>
     @for (int itmp = 1; itmp < Model.PageViewModel.TotalPages + 1; itmp++)
@@ -81,7 +84,8 @@
                 <a class="page-link" href="#@itmp" id="page@itmp"
                    onclick="clickedPage(
                        '@itmp',
-                       
+                       '@(Model.BookingTablesFilterViewModel.SelectedName)',
+                       '@(Model.BookingTablesFilterViewModel.SelectedItem)',
                        '@(Model.SortViewModel.Current)')">@itmp.ToString()</a>
             </li>
         }
@@ -91,7 +95,8 @@
                 <a class="page-link" href="#@itmp" id="page@itmp"
                    onclick="clickedPage(
                    '@itmp',
-                   
+                   '@(Model.BookingTablesFilterViewModel.SelectedName)',
+                   '@(Model.BookingTablesFilterViewModel.SelectedItem)',
                    '@(Model.SortViewModel.Current)')">@itmp.ToString()</a>
             </li>
         }
@@ -99,6 +104,8 @@
     <li class="page-item">
         <a class="page-link" href="#@(Model.PageViewModel.PageNumber + 1)" aria-label="Next"
            onclick="nextPage('@(Model.PageViewModel.PageNumber + 1)',
+                           '@(Model.BookingTablesFilterViewModel.SelectedName)',
+                           '@(Model.BookingTablesFilterViewModel.SelectedItem)',
                            '@(Model.SortViewModel.Current)')"><span aria-hidden="true">&raquo;</span></a>
     </li>
 </ul>

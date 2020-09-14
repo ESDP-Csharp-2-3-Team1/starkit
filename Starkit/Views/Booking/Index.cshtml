@@ -9,16 +9,16 @@
     #dropdown1{
         display: block;
     }
-    #dropdown1-li-8{
+    #dropdown1-li-12{
           margin-left: 15px;
             background: #9ad9ea;
     }
-    #dropdown1-li-8 a{
+    #dropdown1-li-12 a{
                 color: #262626;
                 font-weight: 600;
                 border-left: 2px solid #41728b;
     }
-    #dropdown1-li-8 a:hover{
+    #dropdown1-li-12 a:hover{
         color: #262626;
     }
  </style>
@@ -30,8 +30,22 @@
     </div>
     <h2 style="text-align: center; margin: 10px 0 50px 0">Список бронирования столов</h2>
     
-    <div class="d-flex bd-highlight mb-3">
-        
+    <div class="d-flex bd-highlight mb-3 align-items-center">
+        <div class="p-2 bd-highlight">
+            <a asp-action="Create" asp-controller="Booking" class="btn btn-outline-dark">Добавить бронирование</a>
+        </div>
+        <div class="p-2 bd-highlight">
+                    <label>Статус: </label>
+            <select id="filterState" class="form-control">
+                <option class="stateValue" value="@BookingStatus.Pending">@GetEnumDescription.GetDescription(BookingStatus.Pending)</option>
+                <option class="stateValue" value="@BookingStatus.Approved">@GetEnumDescription.GetDescription(BookingStatus.Approved)</option>
+                <option class="stateValue" value="@BookingStatus.Cancelled">@GetEnumDescription.GetDescription(BookingStatus.Cancelled)</option>
+                <option class="stateValue" value="@BookingStatus.Done">@GetEnumDescription.GetDescription(BookingStatus.Done)</option>
+                <option class="stateValue" value="@BookingStatus.Late">@GetEnumDescription.GetDescription(BookingStatus.Late)</option>
+                <option class="stateValue" value="@BookingStatus.NoShow">@GetEnumDescription.GetDescription(BookingStatus.NoShow)</option>
+            </select>
+                </div>
+                
         <div class="p-2 bd-highlight">
             <p id="changeStates" style="cursor: pointer; margin-top: 30px;">Изменить статус</p>
         </div>
@@ -111,16 +125,33 @@
             $(".modal").hide();
             $("body").css("overflow", "auto");
         }
-        
+        $("#filterState").change(function() {
+                  var filter = $("#filterState option:selected").val();
+                 
+                  var search = $("#searchTableId").val();
+                  $.ajax({
+                        url: '@Url.Action("GetBookings")',
+                        type: "GET",
+                        data: {
+                            name: search,
+                            state: filter,
+                            sortOrder: sort
+                        }
+                  }).done(function(data) {
+                    $("#result").html(data);
+                  });
+                });
        
         
-        $("#searchName").keyup(function() {
-            var search = $("#searchName").val();
+        $("#searchTableId").keyup(function() {
+            var filter = $("#filterState option:selected").val();
+            var search = $("#searchTableId").val();
             $.ajax({
                 url: '@Url.Action("GetBookings")',
                 type: "GET",
                 data: {
                     name: search,
+                    state: filter, 
                     sortOrder: sort
                 }
             }).done(function(data) {
@@ -129,22 +160,24 @@
         });
         
         function dateSort(){
-            var sortParam = $(".nameSort").attr('id');
+            var sortParam = $(".dateSort").attr('id');
             sort(sortParam);
         }
         
         function paxSort() {
-            var sortParam = $(".nameSort").attr('id');
+            var sortParam = $(".paxSort").attr('id');
             sort(sortParam);
         }
         
         function sort(sortParam){
-            var search = $("#searchName").val();
+            var filter = $("#filterState option:selected").val();
+            var search = $("#searchTableId").val();
             $.ajax({
             url: '@Url.Action("GetBookings")',
                 type: "GET",
                 data: {
                     name: search,
+                    state: filter, 
                     sortOrder: sortParam
                 }
             }).done(function(data) {
@@ -152,11 +185,12 @@
             })
         }
         
-        function previousPage(page, name, sortOrder) {
+        function previousPage(page, name, status, sortOrder) {
             $.ajax({
                 url: '@Url.Action("GetBookings", "Booking")',
                 type: "GET",
                 data: {
+                    state: status,
                     name: name,
                     page: page,
                     sortOrder: sortOrder
@@ -167,11 +201,12 @@
             })
         }
         
-        function nextPage(page, name, sortOrder) {
+        function nextPage(page, name, status, sortOrder) {
             $.ajax({
                 url: '@Url.Action("GetBookings", "Booking")',
                 type: "GET",
                 data: {
+                    location: status,
                     name: name,
                     page: page,
                     sortOrder: sortOrder
@@ -187,6 +222,7 @@
                 url: '@Url.Action("GetBookings", "Booking")',
                 type: "GET",
                 data: {
+                    state: $('#modelState').val(),
                     name: $("#modelName").val(),
                     page: $("#modelPage").val(),
                     sortOrder: $("#modelSort").val()        
@@ -197,7 +233,7 @@
             });
         }
         
-        function clickedPage(page, name, sortOrder) {
+        function clickedPage(page, name, status, sortOrder) {
             const active_page = page;
             var item = document.getElementsByClassName("page-item active");
             $(item[0]).toggleClass("active");
@@ -205,6 +241,7 @@
                 url: '@Url.Action("GetBookings", "Booking")',
                 type: "GET",
                 data: {
+                    state: status,
                     name: name,
                     page: page,
                     sortOrder: sortOrder

@@ -9,7 +9,7 @@
             <div class="modal-body">
                 <img src="~/@Model.IconUrl" alt="" style="width: 100%">
                 <p style="margin-top: 20px"><span style="font-weight: 700">Дата создания </span>- @Model.CreatedDate.ToShortDateString()</p>
-                @if (Model.EditedDate != null)
+                @if (Model.EditedDate > Model.CreatedDate)
                 {
                     <p><span style="font-weight: 700">Дата редактирования </span>- @Model.EditedDate.ToShortDateString()</p>
                 }
@@ -19,15 +19,19 @@
                 <p><span style="font-weight: 700">Расположение </span>- @Model.Location</p>
                 @if (Model.IsQuiet)
                 {
-                    <p><span style="font-weight: 700">Тихое место </span>- @Model.IsQuiet</p>
+                    <p><span style="font-weight: 700">Тихое место </span>-</p>
+                }
+                @if (Model.IsSmoking)
+                {
+                    <p><span style="font-weight: 700">Можно курить</span>-</p>
                 }
                 @if (Model.BookingTables.Count != 0)
                 {
-                    <p style="font-weight: 700">Бронирование</p>
+                    <p style="font-weight: 700">Бронирования</p>
                     <ul>
                         @foreach (var b in Model.BookingTables)
                         {
-                            <li>@b.Booking.DateTime</li>
+                            <li>@b.Booking.Date @b.Booking.BookFrom - @b.Booking.BookTo</li>
                         }
                     </ul>   
                 }

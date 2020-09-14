@@ -2,14 +2,19 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
+using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using Starkit.Models;
 using Starkit.Models.Data;
 using Starkit.Services;
@@ -41,6 +46,7 @@ namespace Starkit.Controllers
             if (user.RestaurantId == null)
                 return RedirectToAction("Register", "Restaurants");
             var bookings = _db.Bookings.Where(t => t.RestaurantId == user.RestaurantId).ToList();
+               
             return View(bookings);
         }
 
@@ -102,7 +108,7 @@ namespace Starkit.Controllers
                 EditBookingViewModel model = new EditBookingViewModel
                 {
                     Id = booking.Id,
-                    Date = booking.DateTime,
+                    Date = booking.Date,
                     Comment = booking.Comment,
                     ClientName = booking.ClientName,
                     PhoneNumber = booking.PhoneNumber,
@@ -141,7 +147,7 @@ namespace Starkit.Controllers
                         };
                         _db.Entry(bookingTable).State = EntityState.Added;
                     }
-                    booking.DateTime = model.Date;
+                    booking.Date = model.Date;
                     booking.Comment = model.Comment;
                     booking.ClientName = model.ClientName;
                     booking.PhoneNumber = model.PhoneNumber;
@@ -160,7 +166,7 @@ namespace Starkit.Controllers
             return View();
         }
         
-        public async Task<IActionResult> GetBookings(string name, int page = 1, SortState sortOrder = SortState.AddTimeAsc)
+        public async Task<IActionResult> GetBookings(int name, string state, int page = 1, SortState sortOrder = SortState.AddTimeAsc)
         {
             User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
             if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
@@ -170,8 +176,23 @@ namespace Starkit.Controllers
             }
             var bookings = _db.Bookings.Where(b => b.RestaurantId == user.RestaurantId);
             
-            if (!string.IsNullOrEmpty(name))
-                bookings = bookings.Where(b => b.ClientName.ToLower().Contains(name.ToLower()));
+            var query = _db.BookingTables.Join(_db.Tables, bt => bt.TableId, t => t.Id,
+                (bt, t) => new {Bt = bt,  Table = t}).Select(bt_t => new {bt_t.Table.Id, bt_t.Bt.BookingId}).ToList();
+            if (state != null)
+            {
+                var s = (BookingStatus) Enum.Parse(typeof(BookingStatus), state, true);
+                bookings = bookings.Where(d => d.State == s);
+            }
+            
+            if (name != 0)
+                foreach (var q in query)
+                {
+                    if (q.Id == name)
+                    {
+                        bookings = bookings.Where(b => b.Id == q.BookingId);
+                    }
+                    
+                }
 
             switch (sortOrder)
             {
@@ -179,10 +200,10 @@ namespace Starkit.Controllers
                     bookings = bookings.OrderByDescending(b => b.ClientName);
                     break;
                 case SortState.DateAsc:
-                    bookings = bookings.OrderBy(b => b.DateTime);
+                    bookings = bookings.OrderBy(b => b.Date);
                     break;
                 case SortState.DateDesc:
-                    bookings = bookings.OrderByDescending(b => b.DateTime);
+                    bookings = bookings.OrderByDescending(b => b.Date);
                     break;
                 case SortState.PaxAsc:
                     bookings = bookings.OrderBy(b => b.Pax);
@@ -206,6 +227,7 @@ namespace Starkit.Controllers
 
             var viewModel = new IndexViewModel
             {
+                BookingTablesFilterViewModel = new BookingTablesFilterViewModel(state, name),
                 PageViewModel = new PageViewModel(count, page, pageSize),
                 SortViewModel = new SortViewModel(sortOrder),
                 Bookings = items
@@ -274,6 +296,148 @@ namespace Starkit.Controllers
             return Json(false);
         }
         
+        public IActionResult Book(int id, string date, string customDate, string timeFrom, string timeTo)
+        {
+            CreateBookingViewModel bookingTable = new CreateBookingViewModel()
+            {
+                TableId = id,
+                BookFrom = timeFrom,
+                BookTo = timeTo,
+                Date = date,
+                CustomDate = customDate
+            };
+            return PartialView("PartialViews/BookTableModalPartialView", bookingTable);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Book(CreateBookingViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Table table = _db.Tables.FirstOrDefault(t => t.Id == model.TableId);
+                Booking booking = new Booking()
+                {
+                    ClientName = model.ClientName,
+                    BookFrom = model.BookFrom,
+                    BookTo = model.BookTo,
+                    Comment = model.Comment,
+                    RestaurantId = table.RestaurantId,
+                    Pax = model.Pax,
+                    PhoneNumber = model.PhoneNumber,
+                    Email = model.Email,
+                };
+                if (model.Date == "today")
+                {
+                    booking.Date = DateTime.Today.ToShortDateString();
+                }
+                else if (model.Date == "tomorrow")
+                {
+                    booking.Date = DateTime.Today.AddDays(1).ToShortDateString();
+                }
+                else if (model.Date == "custom")
+                {
+                    booking.Date = model.CustomDate;
+                }
+                else
+                {
+                    
+                    return PartialView("PartialViews/BookTableModalPartialView", model);
+                }
+
+                if (SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "booking") == null)
+                {
+                    List<Booking> items = new List<Booking>();
+                    items.Add(booking);
+                    SessionHelper.SetObjectAsJson(HttpContext.Session, "booking", items);
+                }
+                else
+                {
+                    List<Booking> items = SessionHelper.GetObjectFromJson<List<Booking>>(HttpContext.Session, "booking");
+                    items.Add(booking);
+                    SessionHelper.SetObjectAsJson(HttpContext.Session, "booking", items);
+                }
+                _db.Entry(booking).State = EntityState.Added;
+                BookingTable bookingTable = new BookingTable()
+                {
+                    BookingId = booking.Id,
+                    TableId = model.TableId 
+                };
+                _db.Entry(bookingTable).State = EntityState.Added;
+                await _db.SaveChangesAsync();
+                return Json(new{status = "success"});
+            }
+            
+            return PartialView("PartialViews/BookTableModalPartialView", model);
+
+        }
+        
+        public List<int> CheckTableAvailability(string date, string customDate, string timeFrom, string timeTo)
+        {
+            string bookingDate = DateTime.Today.ToShortDateString();
+            if (date == "today")
+            {
+                bookingDate = DateTime.Today.ToShortDateString();
+            }
+            else if (date == "tomorrow")
+            {
+                bookingDate = DateTime.Today.AddDays(1).ToShortDateString();
+            }
+            else if (date == "custom")
+            {
+                bookingDate = customDate;
+            }
+            var bookFrom = Convert.ToInt32(timeFrom.Split(":")[0]);
+            var bookTo = Convert.ToInt32(timeTo.Split(":")[0]);
+            var tables = new List<int>();
+            List<Booking> bookings = new List<Booking>();
+            var query = _db.BookingTables.Join(_db.Bookings, bt => bt.BookingId, b => b.Id,
+                (bt, b) => new {Bt = bt,  Booking = b}).ToList();
+            foreach (var q in query)
+            {
+                var from = Convert.ToInt32(q.Booking.BookFrom.Split(":")[0]);
+                var to = Convert.ToInt32(q.Booking.BookTo.Split(":")[0]);
+                if (q.Booking.Date == bookingDate && from + 1 >= bookFrom && to + 1 >= bookTo)
+                {
+                    tables.AddRange(_db.Tables.Where(t => t.Id == q.Bt.TableId).Select(t => t.Id).ToList());
+                }
+            }
+
+            return tables;
+        }
+        
+        
+        public IActionResult Cancel(string id)
+        {
+            List<Booking> bookings = SessionHelper.GetObjectFromJson<List<Booking>>(HttpContext.Session, "booking");
+            Booking booking = bookings.FirstOrDefault(b => b.Id == id);
+            booking.State = BookingStatus.Cancelled;
+            bookings.Remove(booking);
+            _db.Bookings.Update(booking);
+            SessionHelper.SetObjectAsJson(HttpContext.Session, "booking", bookings);
+            return RedirectToAction("Index", "Site");
+        }
+
+        public IActionResult Booking()
+        {
+            var booking = SessionHelper.GetObjectFromJson<List<Booking>>(HttpContext.Session, "booking");
+            if (booking == null)
+            {
+                booking = new List<Booking>();
+
+            }
+            ViewBag.Booking = booking;
+
+            return View();
+        }
+        
+        public IActionResult GetTotal()
+        {
+            var booked = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "booking");
+            if (booked == null)
+                booked = new List<Item>();
+            decimal total = booked.Count;
+            return Json(total);
+        }
     }
 
 }

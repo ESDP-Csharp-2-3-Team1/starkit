@@ -7,22 +7,17 @@ namespace Starkit.ViewModels
 {
     public class EditBookingViewModel
     {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string Id { get; set; }
         [Required]
-        [DataType(DataType.Date)]
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
         [Required]
-        [DataType(DataType.Time)]
-        public DateTime BookFrom { get; set; }
+        public string BookFrom { get; set; }
         [Required]
-        [DataType(DataType.Time)]
-        public DateTime BookTo { get; set; }
+        public string BookTo { get; set; }
         public virtual List<BookingTable> BookingTables { get; set; }
         public virtual List<Table> Tables { get; set; }
         [Required]
         public string ClientName { get; set; }
-        [Required]
-        public string ClientSurname { get; set; }
         [Required]
         public int Pax { get; set; }
         [Required]

@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Starkit.Models
 {
@@ -8,7 +9,6 @@ namespace Starkit.Models
         
         public string BookingId { get; set; }
         public virtual Booking Booking { get; set; }
-
         public int TableId { get; set; }
         public virtual Table Table { get; set; }
         public bool IsDeleted { get; set; }

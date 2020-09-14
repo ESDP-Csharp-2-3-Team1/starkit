@@ -10,6 +10,7 @@ namespace Starkit.ViewModels
         public IEnumerable<Table> Tables { get; set; }
         public PageViewModel PageViewModel { get; set; }
         public FilterViewModel FilterViewModel { get; set; }
+        public BookingTablesFilterViewModel BookingTablesFilterViewModel { get; set; }
         public SortViewModel SortViewModel { get; set; }
     }
 }

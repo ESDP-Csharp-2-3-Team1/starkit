@@ -5,12 +5,30 @@
     Layout = "_Layout";
 }
 
+<style>
+    #dropdown1{
+        display: block;
+    }
+    #dropdown1-li-8{
+          margin-left: 15px;
+            background: #9ad9ea;
+    }
+    #dropdown1-li-8 a{
+                color: #262626;
+                font-weight: 600;
+                border-left: 2px solid #41728b;
+    }
+    #dropdown1-li-8 a:hover{
+        color: #262626;
+    }
+ </style>
+
 <div class="row" style="margin: 30px 0 80px 0">
     <div class="col-md-9 mt-5">
-        <h2 class="create-category">Редактирование стола</h2>
+        <h2 class="create-category">Редактирование брони</h2>
         <form asp-action="Edit" method="post" enctype="multipart/form-data">
             @Html.Hidden("Id", Model.Id)
-            <div class="form-group row">
+                <div class="form-group row">
                 <label for="" class="col-sm-4 col-form-label createMenuLabel">Номер стола</label><br/>
                 <div class="col-sm-8">
                     <select name="tableId">
@@ -42,18 +60,21 @@
             <div class="form-group row">
                 <label for="" class="col-sm-4 col-form-label createMenuLabel">Дата и время</label><br/>
                 <div class="col-sm-4">
-                    <input style="font-size: 8px; margin-top: 5px" asp-for="Date" type="datetime-local" class="form-control" value="@Model.Date">
+                    <input type="text" asp-for="Date" name="customDate" class="form-control choose-date" value="@Model.Date">
                 </div>
                 <span class="validationError" asp-validation-for="Date"></span>
             </div>
-            <div class="form-group row">
-                <label for="" class="col-sm-4 col-form-label createMenuLabel">Комментарии</label><br/>
-                <div class="col-sm-8">
-                    <textarea style="height: 150px; resize: none" asp-for="Comment" class="form-control">@Model.Comment</textarea>
+            <div class="form-group row justify-content-sm-start">
+                <label for="" class="col-sm-3 col-form-label createMenuLabel">Время от</label><br/>
+                <div class="col-sm-3">
+                    <input asp-for="BookFrom" class="form-control timepicker" type="text" name="timeFrom" value="@Model.BookFrom"/>
                 </div>
-                <span class="validationError" asp-validation-for="Comment"></span>
+                <label for="" class="col-sm-3 col-form-label createMenuLabel">Время до</label><br/>
+                <div class="col-sm-3">
+                    <input asp-for="BookTo" class="form-control timepicker" type="text" name="timeTo" value="@Model.BookTo">
+                </div>
             </div>
-            <div class="form-group row">
+                <div class="form-group row">
                 <label for="" class="col-sm-4 col-form-label createMenuLabel">Количество гостей</label><br/>
                 <div class="col-sm-8">
                     <input id="inputCost" type="number" class="form-control" asp-for="Pax" value="@Model.Pax">
@@ -63,17 +84,24 @@
             <div class="form-group row">
                 <label for="" class="col-sm-4 col-form-label createMenuLabel">Номер телефона</label><br/>
                 <div class="col-sm-8">
-                    <input id="inputCost" type="text" class="form-control" asp-for="PhoneNumber" value="@Model.PhoneNumber">
+                    <input type="text" class="form-control" asp-for="PhoneNumber" value="@Model.PhoneNumber">
                 </div>
                 <span class="validationError" asp-validation-for="PhoneNumber"></span>
             </div>
-            <div class="form-group row">
-                <label for="" class="col-sm-4 col-form-label createMenuLabel">Email</label><br/>
-                <div class="col-sm-8">
-                    <input id="inputCost" type="text" class="form-control" asp-for="Email" value="@Model.Email">
+                <div class="form-group row">
+                    <label for="" class="col-sm-4 col-form-label createMenuLabel">Email</label><br/>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" asp-for="Email" value="@Model.Email">
+                    </div>
+                    <span class="validationError" asp-validation-for="Email"></span>
                 </div>
-                <span class="validationError" asp-validation-for="Email"></span>
-            </div>
+            <div class="form-group row">
+                            <label for="" class="col-sm-4 col-form-label createMenuLabel">Комментарии</label><br/>
+                            <div class="col-sm-8">
+                                <textarea style="height: 150px; resize: none" asp-for="Comment" class="form-control">@Model.Comment</textarea>
+                            </div>
+                            <span class="validationError" asp-validation-for="Comment"></span>
+                        </div>
 
             <div style="text-align: center">
                 <br/><button type="submit" class="btn btn-dark">Изменить</button>
@@ -88,7 +116,20 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     <script>
-        
+        $(document).ready(function (){
+            $('.timepicker').timepicker({ 
+                'timeFormat': 'H:i',
+                'scrollDefault': 'now',
+                'minTime': '10:00',
+                'maxTime': '22:00'
+            });
+            
+           $('.choose-date').datepicker(
+               {
+               language:'ru'
+               }
+           );
+        })   
     </script>
 }
 

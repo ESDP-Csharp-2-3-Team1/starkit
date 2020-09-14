@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Starkit.Models;
 using Starkit.Models.Data;
 using Starkit.Services;
@@ -143,6 +144,25 @@ namespace Starkit.Controllers
         public bool ComparePasswords(string oldPassword, string newPassword)
         {
             return oldPassword != newPassword;
+        }
+
+        public bool CheckTableCapacity(int tableId, int pax)
+        {
+            Table table = _db.Tables.FirstOrDefault(t => t.Id == tableId);
+            if (table.Capacity < pax)
+                return false;
+            return true;
+        }
+
+        public bool CheckTime(string bookFrom, string bookTo)
+        {
+            var timeFrom = Convert.ToInt32(bookFrom.Split(":")[0]);
+            var timeTo = Convert.ToInt32(bookTo.Split(":")[0]);
+            if (timeFrom > timeTo)
+            {
+                return false;
+            }
+            return timeFrom + 1 <= timeTo;
         }
     }
 }

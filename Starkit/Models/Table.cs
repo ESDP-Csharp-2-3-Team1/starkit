@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Http;
@@ -14,9 +15,13 @@ namespace Starkit.Models
 
     public enum Location
     {
+        [Description("У окна")]
         Window,
+        [Description("В центре")]
         Middle,
+        [Description("Летник")]
         Outdoor,
+        [Description("Без предпочтений")]
         Regular
     }
     

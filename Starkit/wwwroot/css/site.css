@@ -1122,3 +1122,42 @@ body {
 .icons-orders-index{
   cursor: pointer;
 }
+
+.book-date input[type=radio] {
+    position: absolute;
+    visibility: hidden;
+    display: none;
+}
+
+.book-date label {
+    color: #332f35;
+    display: inline-block;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 5px 20px;
+    margin-bottom: 0;
+    font-size: 12px;
+}
+
+.book-date input[type=radio]:checked + label{
+    color: #fff;
+    background: #000;
+}
+
+.book-date label + input[type=radio] + label {
+}
+.book-date {
+    border: solid 1px gray;
+    display: inline-block;
+    margin: 20px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.datepicker{
+  z-index: 100000;
+}
+
+.booked-table{
+  opacity: 0.5;
+}

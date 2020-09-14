@@ -1,0 +1,42 @@
+﻿@model object
+
+@{
+    ViewBag.Title = "Бронирования";
+    Layout = "_BusinessCardLayout";
+}
+
+<h3 class="text-cart">Забронированные столики</h3>
+<div style="overflow-x: auto">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th class="cart-cell">Стол</th>
+            <th class="cart-cell">Дата и время</th>
+            <th class="cart-cell">Действие</th>
+            <th class="cart-cell">Кол-во гостей</th>
+        </tr>
+        </thead>
+        <tbody id="result">
+            @foreach (var item in ViewBag.Booking)
+            {
+                if (item != null)
+                {
+                    <tr>
+                        <td class="cart-cell">@item.ClientName</td>
+                        <td class="cart-cell">@item.Date @item.BookFrom - @item.BookTo</td>
+                        <td class="cart-cell">
+                            <a asp-controller="Booking" asp-action="Cancel" asp-route-id="@item.Id">Отменить</a>
+                        </td>
+                        <td class="cart-cell">@item.Pax</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+<div id="message" style="display: none"></div>
+<div id="details"></div>
+<br>
+<div style="display: flex; justify-content: space-between">
+    <a asp-controller="Site" asp-action="index">Назад</a>
+</div>
