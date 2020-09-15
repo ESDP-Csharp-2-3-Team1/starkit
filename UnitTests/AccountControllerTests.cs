@@ -29,6 +29,15 @@ namespace UnitTests
             Assert.True(_basicSteps.IsElementFound("Неверная попытка входа в систему"));
         }
 
+        [Fact]
+        public void LoginThreeTimesWrongModelDataReturnsCaptcha()
+        {
+            DataForWrongAuthorization();
+            DataForWrongAuthorization();
+            DataForWrongAuthorization();
+            _driver.FindElement(By.Id("img-captcha"));
+        }
+
         public void DataForWrongAuthorization()
         {
             _basicSteps.GoToMainPage();
