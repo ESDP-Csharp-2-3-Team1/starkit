@@ -9,3 +9,5 @@ Starkit/Migrations
 /Starkit/wwwroot/images/
 Starkit/items.json
 Starkit/orderId.json
+UnitTests/bin
+UnitTests/obj
