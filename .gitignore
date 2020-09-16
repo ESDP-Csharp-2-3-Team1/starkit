@@ -6,6 +6,6 @@ riderModule.iml
 .idea
 [Dd]ebug/
 Starkit/Migrations
-#/Starkit/wwwroot/images/
+/Starkit/wwwroot/images/
 Starkit/items.json
 Starkit/orderId.json
