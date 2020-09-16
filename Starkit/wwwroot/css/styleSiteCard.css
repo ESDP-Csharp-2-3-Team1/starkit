@@ -6,6 +6,9 @@
 .container{
     max-width: 1170px;
 }
+.container-fluid{
+    padding: 0!important;
+}
 .navbar-bootstrap-null {
     padding: 0 !important;
 }
@@ -39,4 +42,10 @@
 .navbar-nav-in-code-415a6sd2 a:hover{
     color: #e7272d;
 }
+
+/*.carousel-caption-code-1{*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*}*/
+
 
