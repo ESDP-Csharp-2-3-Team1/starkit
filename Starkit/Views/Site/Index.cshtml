@@ -197,7 +197,7 @@
                     <p class="card-text">На @table.Capacity гостей</p>
                     <p class="card-text">@table.Floor Этаж</p>
                     <p class="text-success tableState" id="available-@table.Id">Свободен</p>
-                    <button class="btn btn-primary" type="button" onclick="tableBooking(@table.Id)">Забронировать </button>
+                    <button class="btn btn-primary book-btn" id="book-btn-@table.Id" type="button" onclick="tableBooking(@table.Id)">Забронировать </button>
                 </div>
             </div>
         }
@@ -380,6 +380,7 @@
         
         $('.check-book').change(function (){
             $(".tableState").html("Available").addClass("text-success").removeClass("text-danger");
+            $(".book-btn").removeAttr("disabled");
             $(".card").removeClass("booked-table")
             var date = $('input[type=radio][name=date]:checked').val();
             if(date == "custom")
@@ -407,10 +408,9 @@
                 
                 $.each(data, function()
                 {
-                    
-                        $(`#table-${this}`).addClass("booked-table");
-                        $(`#available-${this}`).html("Занят").removeClass("text-success").addClass("text-danger");
-                    
+                    $(`#table-${this}`).addClass("booked-table");
+                    $(`#available-${this}`).html("Занят").removeClass("text-success").addClass("text-danger");
+                    $(`#book-btn-${this}`).attr("disabled", "disabled");
                 })      
                         
                             
