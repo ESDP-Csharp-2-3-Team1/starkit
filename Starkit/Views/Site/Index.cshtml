@@ -149,8 +149,10 @@
 <div id="details"></div>
 <input type="hidden" id="contact-number" value="@Model.PhoneNumber">
 <input type="hidden" id="logo" value="../@Model.LogoPath">
+    
+    
 
-<h5 class="text-center">Забронировать столик</h5>
+<h2 class="text-center mt-3">Забронировать столик</h2>
 <p class="text-center">Условия бронирования</p>
 <p class="text-center">@Model.BookingTerms</p>
 <form class="check-book">
@@ -194,7 +196,7 @@
                     <h5 class="card-title">Стол № @table.Id</h5>
                     <p class="card-text">На @table.Capacity гостей</p>
                     <p class="card-text">@table.Floor Этаж</p>
-                    <p class="text-success tableState" id="available-@table.Id">Available</p>
+                    <p class="text-success tableState" id="available-@table.Id">Свободен</p>
                     <button class="btn btn-primary" type="button" onclick="tableBooking(@table.Id)">Забронировать </button>
                 </div>
             </div>
@@ -407,7 +409,7 @@
                 {
                     
                         $(`#table-${this}`).addClass("booked-table");
-                        $(`#available-${this}`).html("Busy").removeClass("text-success").addClass("text-danger");
+                        $(`#available-${this}`).html("Занят").removeClass("text-success").addClass("text-danger");
                     
                 })      
                         
