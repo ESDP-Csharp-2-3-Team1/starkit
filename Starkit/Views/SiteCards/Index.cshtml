@@ -4,12 +4,54 @@
     ViewBag.Title = "Сайт визитка";
     Layout = "_LayoutSiteCard";
 }
-<div class="container-fluid">
-@{
-  await Html.RenderPartialAsync("Partial/BlockCarouselPartial");
-}
-@{
-    await Html.RenderPartialAsync("Partial/BlockOrderPartial");
-}
 
+<div class="container-fluid">
+    @{
+        await Html.RenderPartialAsync("Partial/BlockCarouselPartial");
+    }
+    @{
+        await Html.RenderPartialAsync("Partial/BlockOrderPartial");
+    }
+    <div class="block-top-dishes">
+        <div class="top-dishes-container">
+            <div class="topDish-box-1">
+                <h2>СПЕЦИАЛЬНЫЕ БЛЮДА СЕГОДНЯ</h2>
+                <div class="asd5asdxc5">
+                    <span class="asd468"></span>
+                    <span class="asdasd">ДАВАЙТЕ ОТКРОЕМ ДЛЯ СЕБЯ ЕДУ</span>
+                    <span class="asd468"></span>
+                </div>
+            </div>
+            <div class="topDish-box-2">
+                <section class="center slider slider-code-asd154">
+                    @for (int i = 1; i < 10; i++)
+                    {
+                        <div>
+                            <img src="http://placehold.it/350x300?text=@i" alt="">
+                        </div>
+                    }
+                </section>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+
+
+@section Scripts
+{
+
+      <script type="text/javascript">
+        $(document).on('ready', function() {
+       
+             $(".center").slick({
+               dots: true,
+               infinite: true,
+               centerMode: true,
+               slidesToShow: 4,
+               slidesToScroll: 3
+             });
+           });
+    </script>
+}
