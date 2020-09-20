@@ -271,25 +271,14 @@ namespace Starkit.Controllers
         }
 
         [Authorize(Roles = "SuperAdmin,Registrant")]
-        public async Task<IActionResult> ChangeState(string id, BookingStatus state)
+        public IActionResult ChangeState(string id, BookingStatus state)
         {
             Booking booking = _db.Bookings.FirstOrDefault(b => b.Id == id);
             if (booking != null)
             {
                 booking.State = state;
-                booking.BookingTables = _db.BookingTables.Where(bt => bt.BookingId == booking.Id).ToList();
-                if (state == BookingStatus.Cancelled || state == BookingStatus.Done || state == BookingStatus.NoShow)
-                {
-                    foreach (var b in booking.BookingTables)
-                    {
-                        b.IsDeleted = true;
-                        Table table = _db.Tables.FirstOrDefault(t => t.Id == b.TableId);
-                        table.State = TableState.Available;
-                    }
-                    _db.Entry(booking.BookingTables).State = EntityState.Modified;
-                }
                 _db.Entry(booking).State = EntityState.Modified;
-                await _db.SaveChangesAsync();
+                _db.SaveChanges();
                 return Json(booking.State);
             }
 
@@ -408,26 +397,25 @@ namespace Starkit.Controllers
         
         public IActionResult Cancel(string id)
         {
-            List<Booking> bookings = SessionHelper.GetObjectFromJson<List<Booking>>(HttpContext.Session, "booking");
+            List<Booking> bookings = HttpContext.Session.GetObjectFromJson<List<Booking>>("booking");
             Booking booking = bookings.FirstOrDefault(b => b.Id == id);
-            booking.State = BookingStatus.Cancelled;
-            bookings.Remove(booking);
-            _db.Bookings.Update(booking);
-            SessionHelper.SetObjectAsJson(HttpContext.Session, "booking", bookings);
+            if (booking != null)
+            {
+                booking.State = BookingStatus.Cancelled;
+                bookings.Remove(booking);
+                _db.Bookings.Update(booking);
+                _db.SaveChanges();
+            }
+
+            HttpContext.Session.SetObjectAsJson("booking", bookings);
             return RedirectToAction("Index", "Site");
         }
 
         public IActionResult Booking()
         {
-            var booking = SessionHelper.GetObjectFromJson<List<Booking>>(HttpContext.Session, "booking");
-            if (booking == null)
-            {
-                booking = new List<Booking>();
+            var bookings = HttpContext.Session.GetObjectFromJson<List<Booking>>("booking") ?? new List<Booking>();
 
-            }
-            ViewBag.Booking = booking;
-
-            return View();
+            return View(bookings);
         }
         
         public IActionResult GetTotal()

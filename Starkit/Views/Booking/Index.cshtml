@@ -37,12 +37,10 @@
         <div class="p-2 bd-highlight">
                     <label>Статус: </label>
             <select id="filterState" class="form-control">
-                <option class="stateValue" value="@BookingStatus.Pending">@GetEnumDescription.GetDescription(BookingStatus.Pending)</option>
-                <option class="stateValue" value="@BookingStatus.Approved">@GetEnumDescription.GetDescription(BookingStatus.Approved)</option>
-                <option class="stateValue" value="@BookingStatus.Cancelled">@GetEnumDescription.GetDescription(BookingStatus.Cancelled)</option>
-                <option class="stateValue" value="@BookingStatus.Done">@GetEnumDescription.GetDescription(BookingStatus.Done)</option>
-                <option class="stateValue" value="@BookingStatus.Late">@GetEnumDescription.GetDescription(BookingStatus.Late)</option>
-                <option class="stateValue" value="@BookingStatus.NoShow">@GetEnumDescription.GetDescription(BookingStatus.NoShow)</option>
+                @foreach (var s in Enum.GetValues(typeof(BookingStatus)))
+                {
+                    <option class="stateValue" value="@s">@GetEnumDescription.GetBookingStateDescription(s.ToString())</option>
+                }
             </select>
                 </div>
                 
@@ -62,7 +60,7 @@
                     <select name="state" id="stateModal">
                         @foreach (var s in Enum.GetValues(typeof(BookingStatus)))
                         {
-                            <option class="stateValue" value="@s">@s</option>
+                            <option class="stateValue" value="@s">@GetEnumDescription.GetBookingStateDescription(s.ToString())</option>
                         }
                     </select>
                 </div>
@@ -296,7 +294,11 @@
                  type: "POST",
                  data: {
                      id: id, 
-                     state: $('#state').val(),       
+                     state: $(`#state-${id}`).val(),     
+                 },
+                 success: function (data)
+                 {
+                     console.log(data)
                  }
                 
              });

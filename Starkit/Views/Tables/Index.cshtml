@@ -36,10 +36,10 @@
         <div class="p-2 bd-highlight">
             <label>Расположение: </label>
             <select id="filterLocation" class="form-control">
-                <option class="stateValue"  value="@Location.Middle">@GetEnumDescription.GetDescription(Location.Middle)</option>
-                <option class="stateValue"  value="@Location.Regular">@GetEnumDescription.GetDescription(Location.Regular)</option>
-                <option class="stateValue"  value="@Location.Outdoor">@GetEnumDescription.GetDescription(Location.Outdoor)</option>
-                <option class="stateValue"  value="@Location.Window">@GetEnumDescription.GetDescription(Location.Window)</option>
+                @foreach (var l in Enum.GetValues(typeof(Location)))
+                {
+                    <option class="stateValue" value="@l">@GetEnumDescription.GetTableLocationDescription(l.ToString())</option>
+                }
                 
             </select>
         </div>

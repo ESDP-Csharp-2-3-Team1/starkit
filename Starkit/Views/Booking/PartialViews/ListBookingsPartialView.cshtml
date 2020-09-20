@@ -44,15 +44,20 @@
                 </td>
                 <td class="link-dish-name" style="vertical-align: middle; text-align: center" onclick="detailsBooking('@booking.Id')"> @booking.Date @booking.BookFrom - @booking.BookTo</td>
                 <td style="vertical-align: middle; text-align: center">@booking.Pax</td>
-                <td style="vertical-align: middle ; text-align: center" onclick="changeState('@booking.Id')">
-                    <select name="state" id="state">
-                        
-                        <option class="stateValue"  value="@BookingStatus.Pending">@GetEnumDescription.GetDescription(BookingStatus.Pending)</option>
-                        <option class="stateValue"  value="@BookingStatus.Approved">@GetEnumDescription.GetDescription(BookingStatus.Approved)</option>
-                        <option class="stateValue"  value="@BookingStatus.Cancelled">@GetEnumDescription.GetDescription(BookingStatus.Cancelled)</option>
-                        <option class="stateValue"  value="@BookingStatus.Done">@GetEnumDescription.GetDescription(BookingStatus.Done)</option>
-                        <option class="stateValue"  value="@BookingStatus.Late">@GetEnumDescription.GetDescription(BookingStatus.Late)</option>
-                        <option class="stateValue"  value="@BookingStatus.NoShow">@GetEnumDescription.GetDescription(BookingStatus.NoShow)</option>
+                <td style="vertical-align: middle ; text-align: center" onchange="changeState('@booking.Id')">
+                    
+                    <select name="state" id="state-@booking.Id">
+                        @foreach (var s in Enum.GetValues(typeof(BookingStatus)))
+                        {
+                            if (s.ToString() == booking.State.ToString())
+                            {
+                                <option class="stateValue" selected value="@s">@GetEnumDescription.GetBookingStateDescription(s.ToString())</option>
+                            }
+                            else
+                            {
+                                <option class="stateValue" value="@s">@GetEnumDescription.GetBookingStateDescription(s.ToString())</option>
+                            }
+                        }
                     </select>
                 </td>
                 <td style="vertical-align: middle; text-align: center">

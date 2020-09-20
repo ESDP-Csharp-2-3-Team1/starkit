@@ -1,23 +1,23 @@
-﻿@model object
+﻿@model List<Booking>
 
 @{
     ViewBag.Title = "Бронирования";
     Layout = "_BusinessCardLayout";
 }
-
-<h3 class="text-cart">Забронированные столики</h3>
-<div style="overflow-x: auto">
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th class="cart-cell">Стол</th>
-            <th class="cart-cell">Дата и время</th>
-            <th class="cart-cell">Действие</th>
-            <th class="cart-cell">Кол-во гостей</th>
-        </tr>
-        </thead>
-        <tbody id="result">
-            @foreach (var item in ViewBag.Booking)
+<div class="container">
+    <h3 class="text-cart">Забронированные столики</h3>
+    <div style="overflow-x: auto">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th class="cart-cell">Стол</th>
+                <th class="cart-cell">Дата и время</th>
+                <th class="cart-cell">Действие</th>
+                <th class="cart-cell">Кол-во гостей</th>
+            </tr>
+            </thead>
+            <tbody id="result">
+            @foreach (var item in Model)
             {
                 if (item != null)
                 {
@@ -31,12 +31,13 @@
                     </tr>
                 }
             }
-        </tbody>
-    </table>
-</div>
-<div id="message" style="display: none"></div>
-<div id="details"></div>
-<br>
-<div style="display: flex; justify-content: space-between">
-    <a asp-controller="Site" asp-action="index">Назад</a>
+            </tbody>
+        </table>
+    </div>
+    <div id="message" style="display: none"></div>
+    <div id="details"></div>
+    <br>
+    <div style="display: flex; justify-content: space-between">
+        <a asp-controller="Site" asp-action="index">Назад</a>
+    </div>
 </div>

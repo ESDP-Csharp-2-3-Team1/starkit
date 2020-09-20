@@ -16,7 +16,7 @@
                 <p><span style="font-weight: 700">Кол-во мест </span>- @Model.Capacity</p>
                 <p><span style="font-weight: 700">Описание </span>- @Model.Desc</p>
                 <p><span style="font-weight: 700">Этаж </span>- @Model.Floor</p>
-                <p><span style="font-weight: 700">Расположение </span>- @Model.Location</p>
+                <p><span style="font-weight: 700">Расположение </span>- @GetEnumDescription.GetTableLocationDescription(Model.Location.ToString())</p>
                 @if (Model.IsQuiet)
                 {
                     <p>Тихо</p>
