@@ -212,7 +212,6 @@
 
     <ItemGroup>
       <Folder Include="wwwroot\images\SiteCardDefaultPath" />
-      <Folder Include="wwwroot\images\Tables" />
       <Folder Include="wwwroot\lib\datepicker\css" />
       <Folder Include="wwwroot\lib\datepicker\js" />
       <Folder Include="wwwroot\lib\timepicker" />
