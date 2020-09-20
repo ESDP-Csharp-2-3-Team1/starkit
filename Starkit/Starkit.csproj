@@ -165,6 +165,7 @@
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </Content>
+      <Content Remove="Views\SiteCards\Partial\BlockMenuPartialView.cshtml" />
     </ItemGroup>
 
     <ItemGroup>

@@ -4,102 +4,17 @@
     ViewBag.Title = "Сайт визитка";
     Layout = "_BusinessCardLayout";
 }
-
-<div class="container">
-    <div class="row">
-        <div class="heading-block-business-card">
-            <h2 class="heading-text">@Model.NameRestaurant</h2>
-            <h5 class="heading-text">@Model.RestaurantInformation</h5>
-        </div>
-    </div>
-    <div class="row" style="margin: 50px 0 0 0;">
-        @foreach (var stock in Model.Stocks)
-        {
-            if (stock.Validity == "По времени")
-            {
-                if (stock.At.TimeOfDay <= DateTime.Now.TimeOfDay && stock.To.TimeOfDay >= DateTime.Now.TimeOfDay)
-                {
-                    if (stock.SecondDish != null && stock.ThirdDish != null)
-                    {
-                        if (stock.FirstDish.Visibility != false && stock.SecondDish.Visibility != false && stock.ThirdDish.Visibility != false)
-                        {
-                            <div class="col-sm-3 mb-3">
-                                <img class="stock-img" onclick="stockDetails('@stock.Id')" src="~/@stock.Avatar" alt="">
-                                <p class="text-stock-business-card">@stock.Name</p>
-                                <div style="text-align: center">
-                                    <form class="buy" id="@stock.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@stock.Id" asp-route-name="stock">
-                                        <input id="qty-@stock.Id" type="number" name="quantity" min="1" style="width: 50px">
-                                        <button type="submit" class="btn btn-light">В корзину</button>
-                                        <p style="margin: 10px 0 10px 0" id="message-@stock.Id"></p>
-                                    </form>
-                                </div>
-                            </div>
-                        }
-                    }
-                    else
-                    {
-                        if (stock.FirstDish.Visibility != false)
-                        {
-                            <div class="col-sm-3 mb-3">
-                                <img class="stock-img" onclick="stockDetails('@stock.Id')" src="~/@stock.Avatar" alt="">
-                                <p class="text-stock-business-card">@stock.Name</p>
-                                <div style="text-align: center">
-                                    <form class="buy" id="@stock.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@stock.Id" asp-route-name="stock">
-                                        <input id="qty-@stock.Id" type="number" name="quantity" min="1" style="width: 50px">
-                                        <button type="submit" class="btn btn-light">В корзину</button>
-                                        <p style="margin: 10px 0 10px 0" id="message-@stock.Id"></p>
-                                    </form>
-                                </div>
-                            </div>
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (stock.At < DateTime.Now && stock.To > DateTime.Now)
-                {
-                    if (stock.SecondDish != null && stock.ThirdDish != null)
-                    {
-                        if (stock.FirstDish.Visibility != false && stock.SecondDish.Visibility != false && stock.ThirdDish.Visibility != false)
-                        {
-                            <div class="col-sm-3 mb-3">
-                                <img class="stock-img" onclick="stockDetails('@stock.Id')" src="~/@stock.Avatar" alt="">
-                                <p class="text-stock-business-card">@stock.Name</p>
-                                <div style="text-align: center">
-                                    <form class="buy" id="@stock.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@stock.Id" asp-route-name="stock">
-                                        <input id="qty-@stock.Id" type="number" name="quantity" min="1" style="width: 50px">
-                                        <button type="submit" class="btn btn-light">В корзину</button>
-                                        <p style="margin: 10px 0 10px 0" id="message-@stock.Id"></p>
-                                    </form>
-                                </div>
-                            </div>
-                        }
-                    }
-                    else
-                    {
-                        if (stock.FirstDish.Visibility != false)
-                        {
-                            <div class="col-sm-3 mb-3">
-                                <img class="stock-img" onclick="stockDetails('@stock.Id')" src="~/@stock.Avatar" alt="">
-                                <p class="text-stock-business-card">@stock.Name</p>
-                                <div style="text-align: center">
-                                    <form class="buy" id="@stock.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@stock.Id" asp-route-name="stock">
-                                        <input id="qty-@stock.Id" type="number" name="quantity" min="1" style="width: 50px">
-                                        <button type="submit" class="btn btn-light">В корзину</button>
-                                        <p style="margin: 10px 0 10px 0" id="message-@stock.Id"></p>
-                                    </form>
-                                </div>
-                            </div>
-                        }
-                    }
-                }
-            }
-        }
-    </div>
-    <hr>
+@{ await Html.RenderPartialAsync("Partial/SiteCarouselPartial");}
+@{ await Html.RenderPartialAsync("Partial/SiteAboutUsPartial");}
+@{ await Html.RenderPartialAsync("Partial/SiteOffersPartial");}
+<section id="menu">
     <div style="text-align: center; margin-top: 30px;">
-        <h2>Сеты</h2>
+        <h2 class="section-title">Меню</h2>
+        <div class="section-subtitle text-center">
+            <span class="subtitle-line"></span>
+            <span class="subtitle-text">Lorem ipsum dolor sit amet.</span>
+            <span class="subtitle-line subtitle-line-rt"></span>
+        </div>
     </div>
     <div class="row mt-5">
         @foreach (var menu in Model.Menu)
@@ -107,107 +22,32 @@
             if (!menu.MenuDishes.Any(m => m.Dish.Visibility == false))
             {
                 <div class="col-sm-3 mb-3">
-                    <img class="menu-img" onclick="menuDetails('@menu.Id')" src="~/@menu.Avatar" alt="">
+                    <div class="menu-img-wrapper img-wrapper">
+                        <img class="menu-img" onclick="menuDetails('@menu.Id')" src="~/@menu.Avatar" alt="">
+                    </div>
                     <p class="text-menu-business-card">@menu.Name</p>
+                    <p class="menu-cost item-cost text-center">@menu.Cost тг</p>
                     <div style="text-align: center">
                         <form class="buy" id="@menu.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@menu.Id" asp-route-name="menu">
-                            <input id="qty-@menu.Id" type="number" name="quantity" min="1" style="width: 50px">
-                            <button type="submit" class="btn btn-light">В корзину</button>
-                            <p style="margin: 10px 0 10px 0" id="message-@menu.Id"></p>
+                            <input class="text-center mr-3" id="qty-@menu.Id" type="number" name="quantity" min="1" value="1" style="width: 50px">
+                            <button type="submit" class="btn btn-light menu-btn">В корзину</button>
+                            <p class="text-danger" style="margin: 10px 0 10px 0" id="message-@menu.Id"></p>
                         </form>
                     </div>
                 </div>
             }
         }
     </div>
-    @foreach (var g in Model.DishesGroup)
-    {
-        <hr>
-        <div style="text-align: center; margin-top: 30px;">
-            <h2>@g.Key.Name</h2>
-        </div>
-        <div class="row mt-5">
-            @foreach (var dish in g)
-            {
-                if (dish.Visibility)
-                {
-                    <div class="col-sm-3 mb-3" style="text-align: center; height: 265px">
-                        <img class="dish-img" onclick="dishDetails('@dish.Id')" src="~/@dish.Avatar" alt="">
-                        <p class="text-dish-business-card">@dish.Name</p>
-                        <div style="text-align: center">
-                            <form class="buy" id="@dish.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@dish.Id" asp-route-name="dish">
-                                <input id="qty-@dish.Id" type="number" name="quantity" min="1" style="width: 50px">
-                                <button type="submit" class="btn btn-light">В корзину</button>
-                                <p style="margin: 10px 0 10px 0" id="message-@dish.Id"></p>
-                            </form>
-                        </div>
-                    </div>
-                }
-            }
-        </div>
-    }
+</section>
+@{ await Html.RenderPartialAsync("Partial/SiteDishesPartial");}
 <div id="details"></div>
 <input type="hidden" id="contact-number" value="@Model.PhoneNumber">
 <input type="hidden" id="logo" value="../@Model.LogoPath">
-    
-    
+<div class="mt-5"></div>
+<hr>
 
-<h2 class="text-center mt-3">Забронировать столик</h2>
-<p class="text-center">Условия бронирования</p>
-<p class="text-center">@Model.BookingTerms</p>
-<form class="check-book">
-    <div class="form-group row">
-        <div class="col-sm-9 text-center m-auto">
-            <div class="book-date">
-                <input type="radio" class="chooseDate checkDate" id="date-today" value="today" name="date">
-                <label for="date-today">Сегодня</label>
-                <input type="radio" class="choseDate checkDate" id="date-tomorrow" value="tomorrow" name="date">
-                <label for="date-tomorrow">Завтра</label>
-                <input type="radio" value="custom" id="custom" class="chooseDate checkDate" name="date">
-                <label for="custom">Выбрать дату</label>
-            </div>
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="col-sm-5">
-            <input type="text" name="customDate" class="form-control d-none" id="customDate" placeholder="01.01.2020" value="01.01.2020">
-        </div>
-    </div>
-    <div class="form-group row justify-content-sm-start">
-        <label for="" class="col-sm-5 col-form-label createMenuLabel">Время от</label><br/>
-        <div class="col-sm-3">
-            <input class="form-control check-time timepicker" id="timeFrom" type="text" name="timeFrom"/>
-        </div>
-        <label for="" class="col-sm-5 col-form-label createMenuLabel">Время до</label><br/>
-        <div class="col-sm-3">
-            <input class="form-control check-time timepicker" id="timeTo" type="text" name="timeTo">
-        </div>
-    </div>
-    
-</form>
-<div class="row" style="margin: 50px 0 0 0;" id="tables-list">
-    @foreach (var table in Model.Tables)
-    {
-        if (!table.isDeleted)
-        {
-            <div class="card m-2" style="width: 18rem;" id="table-@table.Id">
-                <img src="~/@table.IconUrl" onclick="tablesDetails('@table.Id')" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Стол № @table.Id</h5>
-                    <p class="card-text">На @table.Capacity гостей</p>
-                    <p class="card-text">@table.Floor Этаж</p>
-                    <p class="text-success tableState" id="available-@table.Id">Свободен</p>
-                    <button class="btn btn-primary book-btn" id="book-btn-@table.Id" type="button" onclick="tableBooking(@table.Id)">Забронировать </button>
-                </div>
-            </div>
-        }
-    }
-</div>
+@{ await Html.RenderPartialAsync("Partial/SiteBookingsPartial");}
 
-<div>
-
-</div>
-</div>
 @section Scripts
 {
     @{
@@ -215,7 +55,9 @@
     }
     <script>
         $(document).ready(function (){
-           $(".contact-number").text($("#contact-number").val());
+           var contactNumber = $("#contact-number").val();
+           $(".contact-number").append(contactNumber).attr("href", `tel:${contactNumber}`);
+           
            $("#nav-logo").attr("src", $("#logo").val());
            $('#PhoneNumber').mask("+7 (999) 999-9999");
            getTotal();
@@ -225,9 +67,18 @@
                'scrollDefault': 'now',
                'minTime': '10:00',
                'maxTime': '22:00',
-              
+               'disableTimeRanges': [
+               		['10:00', 'now']
+               	]
            });
-            $('#totalBooked').text()
+            $('#totalBooked').text();
+            $(".center").slick({
+               dots: true,
+               infinite: true,
+               centerMode: true,
+               slidesToShow: 4,
+               slidesToScroll: 3
+             });
           
         });
         
@@ -316,21 +167,21 @@
         }
         function tableBooking(id) {
             $.ajax(
-                {
-                  url: '@Url.Action("Book", "Booking")',
-                  type: 'GET',
-                  data: {id: id, date:$('input[type=radio][name=date]:checked').val(),
-                          timeFrom:$('input[name=timeFrom]').val(), 
-                          timeTo:$('input[name=timeTo]').val(),
-                          customDate: $('#customDate').val()},
-                  success: function(data) {
-                       $("#details").html(data);
-                       $("#modal-details").show();
-                       $("#modal-details").css("overflow", "auto");
-                            
-                       $("body").css("overflow", "hidden");
-                   }
-                })
+            {
+              url: '@Url.Action("Book", "Booking")',
+              type: 'GET',
+              data: {id: id, date:$('input[type=radio][name=date]:checked').val(),
+                      timeFrom:$('input[name=timeFrom]').val(), 
+                      timeTo:$('input[name=timeTo]').val(),
+                      customDate: $('#customDate').val()},
+              success: function(data) {
+                   $("#details").html(data);
+                   $("#modal-details").show();
+                   $("#modal-details").css("overflow", "auto");
+                        
+                   $("body").css("overflow", "hidden");
+               }
+            })
         }
         function getTotalBookings(){
            $.get('@Url.Action("GetTotal", "Booking")', function (data){              
@@ -357,7 +208,7 @@
                     }
                 else 
                     {
-                      $("#details").html(data);
+                     $("#details").html(data);
                      $("#modal-details").show();
                      $("#modal-details").css("overflow", "auto");
                           
@@ -379,16 +230,19 @@
         }
         
         $('.check-book').change(function (){
-            $(".tableState").html("Available").addClass("text-success").removeClass("text-danger");
+            $(".tableState").html("Свободен").addClass("text-success").removeClass("text-danger");
             $(".book-btn").removeAttr("disabled");
-            $(".card").removeClass("booked-table")
+            $(".card").removeClass("booked-table");
             var date = $('input[type=radio][name=date]:checked').val();
             if(date == "custom")
             {
                    $("#customDate").removeClass('d-none');
                    $('#customDate').datepicker(
                        {
-                       language:'ru'
+                       language:'ru',
+                       minDate: new Date(),
+                       maxDate: '',
+                       disableNavWhenOutOfRange: true,
                        }
                    );
                 }
@@ -412,13 +266,27 @@
                     $(`#available-${this}`).html("Занят").removeClass("text-success").addClass("text-danger");
                     $(`#book-btn-${this}`).attr("disabled", "disabled");
                 })      
-                        
-                            
-                        
-                
-                
-            }
+                  
+              }
             })
+        })
+        
+        $('#timeTo').click(function ()
+        {
+            var from = $('#timeFrom').val();
+            var time = from.split(":");
+            var toHours = parseInt(time[0]) + 1;
+            var toMins = parseInt(time[1]) + 30;
+            
+            $('#timeTo').timepicker('option',{   
+                'timeFormat': 'H:i',
+                'scrollDefault': 'now',
+                'minTime': '10:00',
+                'maxTime': '22:00',
+                'disableTimeRanges': [
+                    [from, `${toHours}:${toMins}`]
+                ]
+            });
         })
         
     </script>

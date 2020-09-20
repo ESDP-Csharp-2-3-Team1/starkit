@@ -1,0 +1,65 @@
+<section id="bookings">        
+    <h2 class="text-center section-title mt-3 mb-4">Забронировать столик</h2>
+    <div class="section-subtitle text-center">
+        <span class="subtitle-line"></span>
+        <span class="subtitle-text">Lorem ipsum dolor.</span>
+        <span class="subtitle-line subtitle-line-rt"></span>
+    </div>
+    <p class="text-center">@Model.BookingTerms</p>
+    <form class="check-book ml-auto mr-auto mt-5">
+    <div class="form-group row">
+        <div class="col-sm-9 text-center m-auto">
+            <div class="book-date">
+                <input type="radio" class="chooseDate checkDate" id="date-today" value="today" name="date">
+                <label for="date-today">Сегодня</label>
+                <input type="radio" class="choseDate checkDate" id="date-tomorrow" value="tomorrow" name="date">
+                <label for="date-tomorrow">Завтра</label>
+                <input type="radio" value="custom" id="custom" class="chooseDate checkDate" name="date">
+                <label for="custom">Выбрать дату</label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-4">
+            <input type="text" name="customDate" class="form-control d-none" id="customDate" placeholder="01.01.2020" value="01.01.2020">
+        </div>
+    </div>
+    <div class="form-group row justify-content-sm-start">
+        <label for="" class="col-sm-3 col-form-label createMenuLabel">Время от</label><br/>
+        <div class="col-sm-3">
+            <input class="form-control check-time timepicker" id="timeFrom" type="text" name="timeFrom" placeholder="__:__"/>
+        </div>
+        <label for="" class="col-sm-3 col-form-label createMenuLabel">Время до</label><br/>
+        <div class="col-sm-3">
+            <input class="form-control check-time timepicker" id="timeTo" type="text" name="timeTo" placeholder="__:__">
+        </div>
+    </div>
+
+</form>
+<div class="row" style="margin: 50px 0 0 0;" id="tables-list">
+    @foreach (var table in Model.Tables)
+    {
+        if (!table.isDeleted)
+        {
+            <div class="card m-2" style="width: 15rem;" id="table-@table.Id">
+                <div class="card-img-th img-wrapper">
+                    <img src="~/@table.IconUrl" onclick="tablesDetails('@table.Id')" class="card-img-top" alt="Стол №@table.Id">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Стол № @table.Id</h5>
+                    <span class="card-text">@table.Floor Этаж @GetEnumDescription.GetTableLocationDescription(table.Location.ToString())</span><br>
+                    <span class="text-success tableState" id="available-@table.Id">Свободен</span>
+                    <span class="card-text text-danger" title="На @table.Capacity персоны">
+                        @table.Capacity <i class="fas fa-user"></i>
+                    </span>
+                </div>
+                <button class="btn btn-danger book-btn" id="book-btn-@table.Id" type="button" onclick="tableBooking(@table.Id)">Забронировать</button>
+            </div>
+        }
+    }
+</div>
+<div>
+
+</div>
+</section>
+
