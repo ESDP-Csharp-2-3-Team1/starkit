@@ -1161,3 +1161,15 @@ body {
 .booked-table{
   opacity: 0.5;
 }
+.block-order{
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  background: url(..images/SiteCardDefaultPath/table-reservation2.jpg) !important;
+  /*background: url(../images/Login/no-eye.svg) 0 0 no-repeat;*/
+
+  /*background-position: center !important;*/
+  /*background-repeat: no-repeat !important;*/
+  background-size: cover !important;
+}
