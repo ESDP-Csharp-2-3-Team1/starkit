@@ -69,7 +69,7 @@ body {
   margin-bottom: 60px;
 }
 .footer {
-  position: absolute;
+  /*position: absolute;*/
   bottom: 0;
   width: 100%;
   white-space: nowrap;
@@ -969,21 +969,6 @@ body {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .createDishLabel, .createCategoryLabel, .createSubCategoryLabel{
   font-weight: 600;
   text-align: end;
@@ -1123,6 +1108,16 @@ body {
   cursor: pointer;
 }
 
+.check-book{
+  width: 500px;
+}
+#customDate, .check-time{
+  border: none;
+  border-bottom: 1px solid #e7272d;;
+  border-radius: 0;
+  text-align: center;
+}
+
 .book-date input[type=radio] {
     position: absolute;
     visibility: hidden;
@@ -1130,7 +1125,7 @@ body {
 }
 
 .book-date label {
-    color: #332f35;
+    color: #e7272d;;
     display: inline-block;
     cursor: pointer;
     font-weight: bold;
@@ -1141,15 +1136,14 @@ body {
 
 .book-date input[type=radio]:checked + label{
     color: #fff;
-    background: #000;
+    background: #e7272d;
 }
 
 .book-date label + input[type=radio] + label {
 }
 .book-date {
-    border: solid 1px gray;
+    border: solid 1px #e7272d;
     display: inline-block;
-    margin: 20px;
     overflow: hidden;
     text-align: center;
 }
@@ -1160,6 +1154,25 @@ body {
 
 .booked-table{
   opacity: 0.5;
+}
+
+.card{
+  border-radius: 0;
+}
+
+.card-img-th{
+  width: 100%;
+  height: 150px;
+  overflow: hidden;
+}
+
+.book-btn{
+  padding: 20px;
+  border-radius: 0;
+}
+
+.ui-timepicker-list li{
+  text-align: center;
 }
 .block-order{
   margin-top: 0px !important;
