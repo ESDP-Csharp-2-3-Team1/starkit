@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Starkit.Models
 {
@@ -44,9 +45,10 @@ namespace Starkit.Models
         public int OrderNum { get; set; }
 
         public PaymentMethod PaymentMethod { get; set; }
-
         public string RestaurantId { get; set; }
+        [JsonIgnore]
         public virtual Restaurant Restaurant { get; set; }
+        [JsonIgnore]
         public virtual List<OrderProduct> OrdersProducts { get; set; }
 
         public bool Hide { get; set; }
