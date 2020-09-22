@@ -48,5 +48,7 @@ namespace Starkit.Models
         public string RestaurantId { get; set; }
         public virtual Restaurant Restaurant { get; set; }
         public virtual List<OrderProduct> OrdersProducts { get; set; }
+
+        public bool Hide { get; set; }
     }
 }
