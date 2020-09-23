@@ -1186,3 +1186,6 @@ body {
   /*background-repeat: no-repeat !important;*/
   background-size: cover !important;
 }
+.sort-statistic{
+  margin-right: 20px;
+}

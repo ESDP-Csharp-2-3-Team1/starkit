@@ -21,7 +21,13 @@
     }
  </style>
  
-
+<div style="margin-top: 50px; width: 75%; margin-left: auto; margin-right: auto;">
+    <a class="sort-statistic" href="#" onclick="getOrders('day')">День</a>
+    <a class="sort-statistic" href="#" onclick="getOrders('week')">Неделя</a>
+    <a class="sort-statistic" href="#" onclick="getOrders('month')">Месяц</a>
+    <a class="sort-statistic" href="#" onclick="getOrders('threeMonth')">3 Месяца</a>
+    <a class="sort-statistic" href="#" onclick="getOrders('year')">Год</a>
+</div>
 <div id="columnchart_div"></div>
 
 @section Scripts
@@ -29,58 +35,78 @@
     <script src="https://www.google.com/jsapi"></script>
     <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+    <script src="https://momentjs.com/static/js/global.js"></script>
     <script >
         $(document).ready(function (){
-           $.ajax({
-                type: "POST",
-                dataType: "json",
-                contentType: "application/json",
+            getOrders();
+        });
+        
+        function getOrders(sortParam){
+            
+            $.ajax({
+                type: "GET",
                 url: '@Url.Action("VisualizeSalesActionResult")',
+                data: {sortParam : sortParam},
                 success: function (result){
                     google.charts.load('current', {
                         'packages' : ['corechart'] 
                     });
                     google.charts.setOnLoadCallback(function (){
-                       drawChart(result); 
+                       drawChart(result, sortParam); 
                     });
                 }
-           }) 
-        });
+           });
+        }
         
-        function drawChart(result){ 
-            const groups = result.reduce((groups, order) => {
-              const date = order.orderTime.split('T')[0];
-              if (!groups[date]) {
-                groups[date] = [];
-              }
-              groups[date].push(order);
-              return groups;
-            }, {});
+        function drawChart(result, sortParam){ 
+            const groups = (() => {
+                const day = (item) => moment(item.orderTime).format('MMM DD YYYY'),
+                    hour = (item) => moment(item.orderTime).format('hh a'),
+                    month = (item) => moment(item.orderTime).format('MMM YYYY'),
+                    week = (item) => month(item) + ' ' + moment(item.orderTime).format('ww');
+                return {
+                    day,
+                    hour,
+                    month,
+                    week,
+                };
+            })();
             
-            const groupArrays = Object.keys(groups).map((date) => {
-              return {
-                date,
-                order: groups[date]
-              };
-            });
+            var currentGroup;
             
-            groupArrays.sort((a, b) => (a.date > b.date) ? 1 : -1);
-            console.log(groupArrays);
+            switch (sortParam){
+                case "week":
+                    currentGroup = "day";
+                    break;
+                case "month":
+                    currentGroup = "day";
+                    break;
+                case "threeMonth":
+                    currentGroup = "week";
+                    break;
+                case "year":
+                    currentGroup = "month";
+                    break;    
+                default:
+                    currentGroup = "hour";
+                    break;    
+            }
+            var groupBy = _.groupBy(result, groups[currentGroup]);
             
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Время заказа');
             data.addColumn('number', 'Количество заказов');
             var dataArray = [];
-            $.each(groupArrays, function (i, obj){
-               dataArray.push([obj.date, obj.order.length]);
+            $.each(groupBy, function (i, obj){
+               dataArray.push([i, obj.length]);
             });
             data.addRows(dataArray);
             
             var columnChartOptions = {
-                title: "Статистика продаж",
                 width: 800, 
                 height: 400,
-                bar: {groupWidth: "20%"}
+                bar: {groupWidth: "10%"}
             }
             
             var columnChart = new google.visualization.LineChart(document.getElementById('columnchart_div'))

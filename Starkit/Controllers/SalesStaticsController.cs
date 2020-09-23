@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -36,13 +37,32 @@ namespace Starkit.Controllers
             return View();
         }
         
-        public async Task<IActionResult> VisualizeSalesActionResult()
+        [HttpGet]
+        public async Task<IActionResult> VisualizeSalesActionResult(string sortParam)
         {
             User user = await _userManager.GetUserAsync(User);
             Restaurant restaurant = _db.Restaurants.FirstOrDefault(r => r.Id == user.RestaurantId);
-            if (restaurant != null)
-                return Json(restaurant.Orders.Where(o => o.Status != Status.Отказ && o.Status != Status.Новая));
-            return NotFound();
+            List<Order> orders = restaurant.Orders.Where(o => o.Status != Status.Отказ && o.Status != Status.Новая)
+                .ToList();
+            switch (sortParam)
+            {
+                case "week":
+                    orders = orders.Where(o => o.OrderTime.Date >= DateTime.Now.Date.AddDays(-7)).ToList();
+                    break;
+                case "month":
+                    orders = orders.Where(o => o.OrderTime.Date >= DateTime.Now.Date.AddMonths(-1)).ToList();
+                    break;
+                case "threeMonth":
+                    orders = orders.Where(o => o.OrderTime.Date >= DateTime.Now.Date.AddMonths(-3)).ToList();
+                    break;
+                case "year":
+                    orders = orders.Where(o => o.OrderTime.Date >= DateTime.Now.Date.AddYears(-1)).ToList();
+                    break;
+                default:
+                    orders = orders.Where(o => o.OrderTime.Date == DateTime.Now.Date).ToList();
+                    break;
+            }
+            return Json(orders.OrderBy(o => o.OrderTime));
         }
     }
 }
