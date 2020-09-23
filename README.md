@@ -67,7 +67,7 @@ End with an example of getting some data out of the system or using it for a lit
 # Авторы
 ### Состав команды:
 * <a href="https://hh.kz/resume/43807f53ff040e36910039ed1f524977745261">Алмат Сейдералы</a>
-* <a href="mailto:muratsamat090598@gmail.com">Самат Мұрат</a>
+* <a href="https://hh.kz/resume/e7681825ff084c85aa0039ed1f516c51754b48">Самат Мұрат</a>
 * <a href="https://www.facebook.com/samal.zhex">Самал Жексемалиева</a>
 * <a href="https://www.instagram.com/rashitnurzhanov/">Рашит Нуржанов</a>
 

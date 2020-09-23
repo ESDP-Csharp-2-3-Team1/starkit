@@ -131,6 +131,12 @@ body {
   margin: 50px 0 50px 0;
 }
 
+.text-statistic{
+  text-align: center;
+  margin: 50px 0 50px 0;
+  color: #41728b;
+}
+
 .answer-modal{
   background:rgba(0,0,0,.7);
 }
