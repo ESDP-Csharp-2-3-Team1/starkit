@@ -62,7 +62,7 @@
         {
             <div>
                 <li class="nav-item my-dropdown">
-                    <a role="button" class="my-drop-btn-menu" onclick="showDropdown(2)" id="drop-btn-prof">Управление аккаунтом</a>
+                    <a role="button" class="my-drop-btn-menu" asp-controller="Users" asp-action="Index" onclick="showDropdown(2)" id="drop-btn-prof">Управление аккаунтом</a>
                 </li>
                 <div class="my-dropdown-menu" id="dropdown2">
                     @if (User.IsInRole(Convert.ToString(Roles.Registrant)))
