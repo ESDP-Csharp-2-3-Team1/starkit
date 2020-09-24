@@ -133,6 +133,7 @@ namespace Starkit.Controllers
                 restaurant.TotalNumberSeats = model.TotalNumberSeats;
                 restaurant.AvailableNumberSeats = model.AvailableNumberSeats;
                 restaurant.OrderConditions = model.OrderConditions;
+                restaurant.GoogleMapsApi = model.GoogleMapsApi;
                 _db.Restaurants.Update(restaurant);
                 await _db.SaveChangesAsync();
                 return RedirectToAction("Index");

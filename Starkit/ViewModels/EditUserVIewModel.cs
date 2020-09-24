@@ -15,6 +15,7 @@ namespace Starkit.ViewModels
         public string IIN { get; set; }
         public string PhoneNumber { get; set; }
         public string CityPhone { get; set; }
+        public string GoogleMapsApi { get; set; }
         public LegalAddress LegalAddress { get; set; }
         public PostalAddress PostalAddress { get; set; }
 
