@@ -31,6 +31,7 @@
 </div>
 <div id="columnchart_div"></div>
 
+<h2 class="text-statistic">Популярные продукты</h2>
 <table class="table table-bordered" style="width: 76%; margin-left: auto; margin-right: auto;">
     <thead>
     <tr>
@@ -52,13 +53,14 @@
     <script >
         $(document).ready(function (){
             getOrders();
-            $.get(`@Url.Action("GetPopularGoods")`, function (data){
-                
-            });
         });
         
         function getOrders(sortParam){
-            
+            getStatistic(sortParam)
+            getPopularProducts(sortParam)
+        }
+        
+        function getStatistic(sortParam){
             $.ajax({
                 type: "GET",
                 url: '@Url.Action("VisualizeSalesActionResult")',
@@ -127,6 +129,12 @@
             var columnChart = new google.visualization.LineChart(document.getElementById('columnchart_div'))
             
             columnChart.draw(data, columnChartOptions);
+        }
+        
+        function getPopularProducts(sortParam){
+            $.get(`@Url.Action("GetPopularGoods")?sortParam=${sortParam}`, function (data){
+                $("#result").html(data); 
+            });
         }
     </script>
 }

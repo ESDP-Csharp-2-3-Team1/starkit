@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -66,12 +68,30 @@ namespace Starkit.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPopularGoods()
+        public async Task<IActionResult> GetPopularGoods(string sortParam)
         {
             User user = await _userManager.GetUserAsync(User);
             Restaurant restaurant = _db.Restaurants.FirstOrDefault(r => r.Id == user.RestaurantId);
             List<Order> orders = restaurant.Orders.Where(o => o.Status != Status.Отказ && o.Status != Status.Новая)
                 .ToList();
+            switch (sortParam)
+            {
+                case "week":
+                    orders = orders.Where(o => o.OrderTime.Date >= DateTime.Now.Date.AddDays(-7)).ToList();
+                    break;
+                case "month":
+                    orders = orders.Where(o => o.OrderTime.Date >= DateTime.Now.Date.AddMonths(-1)).ToList();
+                    break;
+                case "threeMonth":
+                    orders = orders.Where(o => o.OrderTime.Date >= DateTime.Now.Date.AddMonths(-3)).ToList();
+                    break;
+                case "year":
+                    orders = orders.Where(o => o.OrderTime.Date >= DateTime.Now.Date.AddYears(-1)).ToList();
+                    break;
+                default:
+                    orders = orders.Where(o => o.OrderTime.Date == DateTime.Now.Date).ToList();
+                    break;
+            }
             IEnumerable<OrderProduct> dishes = orders.Where(o => o.OrdersProducts != null)
                 .SelectMany(o => o.OrdersProducts.Where(op => op.Dish != null));
             var popularDish = dishes.GroupBy(d => d.Dish.Name)
@@ -99,11 +119,11 @@ namespace Starkit.Controllers
                     Qantity = g.Sum(s => s.Quantity),
                     Sum = g.Sum(s => s.Quantity) * g.First().Stock.Cost
                 }).OrderByDescending(s => s.Qantity).First();
-            List<Object> popularProducts = new List<object>();
+            ArrayList popularProducts = new ArrayList();
             popularProducts.Add(popularDish);
             popularProducts.Add(popularMenu);
             popularProducts.Add(popularStock);
-            return Json(true);
+            return PartialView("PartialViews/PopularProductsPartialView", popularProducts);
         }
     }
 }
