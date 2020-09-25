@@ -46,15 +46,15 @@
     </div>
     <div class="ri-block2">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
-          <li class="nav-item" role="presentation">
-            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">О ресторане</a>
-          </li>
-          <li class="nav-item" role="presentation">
-            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">График работы</a>
-          </li>
-          <li class="nav-item" role="presentation">
-            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Контакты</a>
-          </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">О ресторане</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">График работы</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Контакты</a>
+            </li>
         </ul>
         <div class="tab-content content-idcontact" id="myTabContent">
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -68,15 +68,16 @@
                     @Model.RestaurantInformation</p>
                 
             </div>
-          <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">@Model.WorkSchedule</div>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">@Model.WorkSchedule</div>
             <div class="tab-pane fade " id="contact" role="tabpanel" aria-labelledby="contact-tab">
                 <p><span>Контактное лицо:</span> @Model.ContactPerson</p>
                 <p><span>Номер телефона:</span> @Model.PhoneNumber</p>
-                <p><span>Адрес:</span> @Model.Address @Model.City @Model.Country</p>
+                <p><span>Адрес:</span> @Model.Address</p>
             </div>
         </div>
     </div>
 </div>
+
 
 
 

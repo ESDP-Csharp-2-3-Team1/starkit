@@ -28,7 +28,7 @@ namespace Starkit.Controllers
         
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> UpdateInfo(string cityphone,string postalCity, string postalRegion, string legalCity, string legalRegion)
+        public async Task<IActionResult> UpdateInfo(string cityphone,string postalCity, string postalRegion, string legalCity, string legalRegion, string apiKey)
         {
             string userId = _userManager.GetUserId(User);
                 LegalAddress legalAddress = await _db.LegalAddresses.FirstOrDefaultAsync(l => l.UserId == userId);
@@ -46,6 +46,12 @@ namespace Starkit.Controllers
                 {
                     User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
                     user.CityPhone = cityphone;
+                    _db.Users.Update(user);
+                }
+                if (!(apiKey is null))
+                {
+                    User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                    user.GoogleMapsApi = apiKey;
                     _db.Users.Update(user);
                 }
                 _db.LegalAddresses.Update(legalAddress);

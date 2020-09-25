@@ -173,3 +173,7 @@
 .block-top-dishes{
     background-image: url("../images/SiteCardDefaultPath/offers-bg.jpg") !important;;
 }
+
+#map {
+    height: 100%;
+}

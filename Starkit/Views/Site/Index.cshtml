@@ -43,19 +43,20 @@
 <div id="details"></div>
 <input type="hidden" id="contact-number" value="@Model.PhoneNumber">
 <input type="hidden" id="logo" value="../@Model.LogoPath">
-<input type="hidden" id="country" value="../@Model.Country">
-<input type="hidden" id="city" value="../@Model.City">
-<input type="hidden" id="address" value="@Model.Address, @Model.City, @Model.Country">
+<input type="hidden" id="address" value="@Model.Address">
 <div class="mt-5"></div>
 <hr>
 
 @{ await Html.RenderPartialAsync("Partial/SiteBookingsPartial");}
-<section id="contacts">
+<section id="contacts" class="mb-5">
     <div class="container">
         <div class="row">
             <div class="col-sm-6">
-                <h2>График работы:</h2>
-                <p>@Model.WorkSchedule</p>
+                <h2>Lorem ipsum dolor.</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci amet assumenda atque cum fuga minus necessitatibus quaerat quidem, sequi voluptas?</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci amet assumenda atque cum fuga minus necessitatibus quaerat quidem, sequi voluptas?</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci amet assumenda atque cum fuga minus necessitatibus quaerat quidem, sequi voluptas?</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci amet assumenda atque cum fuga minus necessitatibus quaerat quidem, sequi voluptas?</p>
                 <img src="" alt="">
             </div>
             <div class="col-sm-6">
@@ -115,7 +116,7 @@
                      new google.maps.Marker({
                          position: results[0].geometry.location,
                          map,
-                         title: "!",
+                         title: "Restaurant",
                        });
         
                   } else {

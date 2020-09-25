@@ -56,5 +56,14 @@
            value === true ? $('#block-domain').show() : $('#block-domain').hide()
       
         }
+        
+        function placesAuto()
+        {
+            const input = document.getElementById("addressInput");
+            const autocomplete = new google.maps.places.Autocomplete(input);
+            autocomplete.setFields(["address_components", "geometry", "icon", "name"]);    
+        }
+        
+        
     </script>
 }

@@ -19,9 +19,6 @@ namespace Starkit.Models
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         public string Address { get; set; }
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
-        public string City { get; set; }
-        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
-        public string Country { get; set; } = "Kazakhstan";
         public string RestaurantInformation { get; set; }
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         public bool DomainAvailability { get; set; }
