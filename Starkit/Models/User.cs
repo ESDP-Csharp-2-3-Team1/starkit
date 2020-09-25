@@ -28,13 +28,12 @@ namespace Starkit.Models
         public string RestaurantId { get; set; }
         public string IdOfTheSelectedRestaurateur { get; set; }
         public EmployeePosition Position { get; set; } = EmployeePosition.Registrant;
-        
-        
         [NotMapped]
         public Restaurant Restaurant { get; set; }
         [NotMapped]
         public LegalAddress LegalAddress { get; set; }
         [NotMapped]
         public PostalAddress PostalAddress { get; set; }
+        public string GoogleMapsApi { get; set; }
     }
 }

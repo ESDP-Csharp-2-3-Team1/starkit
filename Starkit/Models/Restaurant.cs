@@ -18,6 +18,7 @@ namespace Starkit.Models
         public string ContactPerson { get; set; }
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         public string Address { get; set; }
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         public string RestaurantInformation { get; set; }
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         public bool DomainAvailability { get; set; }
@@ -29,6 +30,7 @@ namespace Starkit.Models
         public int AvailableNumberSeats { get; set; }
         public string OrderConditions { get; set; }
         public string BookingTerms { get; set; }
+        public string GoogleMapsApi { get; set; }
         public string UserId { get; set; }
         [NotMapped]
         public IFormFile File { get; set; }

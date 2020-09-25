@@ -43,16 +43,37 @@
 <div id="details"></div>
 <input type="hidden" id="contact-number" value="@Model.PhoneNumber">
 <input type="hidden" id="logo" value="../@Model.LogoPath">
+<input type="hidden" id="address" value="@Model.Address">
 <div class="mt-5"></div>
 <hr>
 
 @{ await Html.RenderPartialAsync("Partial/SiteBookingsPartial");}
+<section id="contacts" class="mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <h2>Lorem ipsum dolor.</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci amet assumenda atque cum fuga minus necessitatibus quaerat quidem, sequi voluptas?</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci amet assumenda atque cum fuga minus necessitatibus quaerat quidem, sequi voluptas?</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci amet assumenda atque cum fuga minus necessitatibus quaerat quidem, sequi voluptas?</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci amet assumenda atque cum fuga minus necessitatibus quaerat quidem, sequi voluptas?</p>
+                <img src="" alt="">
+            </div>
+            <div class="col-sm-6">
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+    
+</section>
 
 @section Scripts
 {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=@Model.GoogleMapsApi&callback=initMap&libraries=&v=weekly"></script>
     <script>
         $(document).ready(function (){
            var contactNumber = $("#contact-number").val();
@@ -79,8 +100,30 @@
                slidesToShow: 4,
                slidesToScroll: 3
              });
-          
-        });
+            
+            });
+       
+        function initMap() {
+              const address = document.getElementById("address").value;
+              const geocoder = new google.maps.Geocoder();
+                geocoder.geocode({ address: address }, (results, status) => {
+                  if (status === "OK") {
+                     const map = new google.maps.Map(document.getElementById("map"), {
+                      zoom: 15,
+                      center: results[0].geometry.location
+                     
+                    });
+                     new google.maps.Marker({
+                         position: results[0].geometry.location,
+                         map,
+                         title: "Restaurant",
+                       });
+        
+                  } else {
+                    alert("Не удалось определить месторасположение объекта: " + status);
+                  }
+            });
+        }
         
         $(".buy").submit(function (event){
             event.preventDefault();

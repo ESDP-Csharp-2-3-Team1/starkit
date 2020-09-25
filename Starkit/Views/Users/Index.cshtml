@@ -65,7 +65,9 @@
                 r = r !== undefined ?  r : "";
                 let l = $('#legal-city').val();
                 l = l !== undefined ?  l : "";
-                let result = a + b + c + r + l;
+                let k = $('#apiKey').val();
+                l = k !== undefined ?  l : "";
+                let result = a + b + c + r + l + k;
                  
                 if(result.trim() !== '') 
                     {
