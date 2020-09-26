@@ -5,6 +5,7 @@ body{
     font-family: Roboto Slab, sans-serif;
     font-size: 14px;
     line-height: 24px;
+    margin-bottom: 0;
 }
 /*body{*/
 /*    font-family: Roboto Slab  arial;*/
@@ -336,3 +337,78 @@ body{
     transition: 0.5s;
     background: #e7272d;
 }
+/*Блок меню ___________________________________*/
+.bl-men-box1 h2{
+    text-align: center;
+    font-size: 48px;
+    font-family: Oswald, sans-serif;
+    text-transform: uppercase;
+    color: white;
+}
+.bl-men-box1-1{
+    text-align: center;
+    font-size: 18px;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-family: Roboto Slab, sans-serif;
+    line-height: 24px;
+}
+.bl-men-box2{
+    display: grid;
+    grid-auto-columns: 1fr 1fr;
+}
+.blank-menu{
+    padding: 0 15px;
+    margin-bottom: 30px;
+    
+}
+.menu-bgr-code-asd582{
+    background-image: url(../images/SiteCardDefaultPath/default-foody_bg-1.jpg);
+}
+.panelupravlenia-btn{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr ;
+}
+.panelupravlenia-btn button{
+    text-transform: uppercase;
+    margin: 0 2px 5px;
+    /*padding: 10px 30px;*/
+    font-size: 16px;
+}
+.dish-as15{
+    padding: 0 15px;
+    margin-bottom: 30px;
+}
+.box-dish-code15{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+.dish-as15-box-img img{
+    width: 100%;
+}
+.dish-as15-box-title{
+    padding: 20px 0 5px;
+    background: white;
+}
+.dish-as15-box-title h3{
+    text-align: center;
+    margin-bottom: 20px;
+}
+.dish-as15-box-title a{
+    font-size: 18px;
+    font-family: Oswald, sans-serif;
+    color: #222222;
+    text-decoration: none;
+}
+.dish-as15-box-title a:hover{
+    transition: 0.5s;
+    color: #e7272d;
+}
+.dish-as15-box-img{
+    /*max-width: 162.500px;*/
+    /*max-height: 174.766px;*/
+}
+
+
+
