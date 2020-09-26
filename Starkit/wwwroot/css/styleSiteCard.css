@@ -409,6 +409,50 @@ body{
     /*max-width: 162.500px;*/
     /*max-height: 174.766px;*/
 }
+/*Блок footer_________________________________________________________*/
+.block-footer-code-a62{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.code-a62{
+    padding: 15px ;
+    margin-bottom: 21px;
+}
+.code-a62 h3{
+    font-size: 26px; 
+    font-family:  Oswald, sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 67px;
+}
+.asd-54asdklln152{
+    white-space: pre-line;
+    line-height: 24px
+}
+.footer-social{
+    padding: 0;
+    margin: 40px 0 16px 0;
+}
 
-
-
+.footer-social li{
+    margin: 5px 5px 5px 0;
+    display: inline-block;
+    text-align: center;
+    background-color: #e7272d;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    list-style-type : none;
+    cursor: pointer;
+}
+.footer-social a{
+    font-size: 18px;
+    color: white;
+}
+.footer-social li:hover{
+    transition: 0.5s;
+    background: white;
+}
+.footer{
+    padding: 0;
+    margin: 0;
+}
