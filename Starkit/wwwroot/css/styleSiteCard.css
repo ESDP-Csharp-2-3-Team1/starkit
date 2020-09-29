@@ -410,6 +410,8 @@ body{
     /*max-height: 174.766px;*/
 }
 /*Блок footer_________________________________________________________*/
+
+
 .block-footer-code-a62{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -417,6 +419,7 @@ body{
 .code-a62{
     padding: 15px ;
     margin-bottom: 21px;
+    color:  #d7d7d7;
 }
 .code-a62 h3{
     font-size: 26px; 
@@ -483,10 +486,14 @@ body{
     letter-spacing: 1px;
     line-height: 20px;
     font-weight: 500;
+    /*white-space: pre-line;*/
+
 }
 .media-ax-h4 a{
     color: white;
     text-decoration: none;
+    /*white-space: pre-line;*/
+
 }
 .media-ax-h4 a:hover{
     transition: 0.5s;
@@ -497,4 +504,32 @@ body{
     line-height: 18px;
     margin-top: 10px;
     color: #e7272d;
+}
+/*class code-a62-3___________________________________________________*/
+.code-a62-3 ul{
+    font-family: Roboto Slab, sans-serif;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 400;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+
+
+}
+.code-a62-3 li{
+    list-style: outside none none;
+    font-weight: 500;
+    box-sizing: inherit;
+    /*display: list-item;*/
+    font-size: 15px;
+    margin-bottom: 12px;
+    text-transform: capitalize;
+    color: #d7d7d7;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: space-between;
+}
+.code-a62-3 .sp2{
+    text-align: end;
 }
