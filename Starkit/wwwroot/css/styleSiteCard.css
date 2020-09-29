@@ -456,3 +456,45 @@ body{
     padding: 0;
     margin: 0;
 }
+.media-ax{
+    margin-top: 15px;
+}
+.media-ax img{
+    height: 67.047px;
+    width: 69px;
+    max-height: 67.047px;
+    max-width: 69px;
+    min-height: 67.047px;
+    min-width: 69px;
+    border: 1px solid red;
+    margin-right: 20px;
+}
+.media-ax a{
+    padding-right: 10px;
+    
+}
+.media-ax-h4 {
+    display: inline-block;
+}
+.media-ax-h4 h4{
+    font-size: 15px;
+    font-family: "Oswald", sans-serif;
+    margin-bottom: 7px;
+    letter-spacing: 1px;
+    line-height: 20px;
+    font-weight: 500;
+}
+.media-ax-h4 a{
+    color: white;
+    text-decoration: none;
+}
+.media-ax-h4 a:hover{
+    transition: 0.5s;
+    color: #e7272d;
+}
+
+.media-ax-h4 p{
+    line-height: 18px;
+    margin-top: 10px;
+    color: #e7272d;
+}
