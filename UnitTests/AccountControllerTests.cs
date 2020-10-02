@@ -25,25 +25,15 @@ namespace UnitTests
         [Fact]
         public void LoginWrongModelDataReturnsErrorMessageTest()
         {
-            DataForWrongAuthorization();
+            _basicSteps.DataForWrongAuthorization();
             Assert.True(_basicSteps.IsElementFound("Неверная попытка входа в систему"));
         }
 
         [Fact]
         public void LoginThreeTimesWrongModelDataReturnsCaptcha()
         {
-            DataForWrongAuthorization();
-            DataForWrongAuthorization();
-            DataForWrongAuthorization();
+            _basicSteps.DataForWrongAuthorization();
             _driver.FindElement(By.Id("img-captcha"));
-        }
-
-        public void DataForWrongAuthorization()
-        {
-            _basicSteps.GoToMainPage();
-            _basicSteps.FillTextField("Email", "wrong@mail.ru");
-            _basicSteps.FillTextField("inputPassword", "wrongPassword");
-            _basicSteps.ClickById("login-btn");
         }
     }
 }

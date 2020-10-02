@@ -45,5 +45,13 @@ namespace UnitTests
             var element = _driver.FindElement(By.XPath($"//*[contains(text(), '{text}')]"));
             return element != null;
         }
+        
+        public void DataForWrongAuthorization()
+        {
+            GoToMainPage();
+            FillTextField("Email", "wrong@mail.ru");
+            FillTextField("inputPassword", "wrongPassword"); 
+            ClickById("login-btn");
+        }
     }
 }
