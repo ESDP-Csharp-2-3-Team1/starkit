@@ -19,6 +19,13 @@ jobs:
         dotnet-version: 3.1.301
     - name: Install dependencies
       run: dotnet restore
+    - name: Update database
+      run: |
+        dotnet tool install --global dotnet-ef
+        dotnet tool restore
+        dotnet ef database update --c DataContext --p MyProj --s MyProjFactory
+      env:
+        ASPNETCORE_ENVIRONMENT: Development
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Test
