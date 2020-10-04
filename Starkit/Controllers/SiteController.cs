@@ -28,12 +28,28 @@ namespace Starkit.Controllers
                 string userId = user.IdOfTheSelectedRestaurateur;
                 user = await _userManager.FindByIdAsync(userId);
             }
-            if (user.RestaurantId == null)
-                return RedirectToAction("Register", "Restaurants");
-            Restaurant restaurant = await _db.Restaurants
-                .FirstOrDefaultAsync(r => r.Id == user.RestaurantId);
-            restaurant.DishesGroup = restaurant.Dishes.GroupBy(d => d.Category);
-            return View(restaurant);
+
+            Restaurant restaurant;
+
+            if (user != null)
+            {
+                restaurant = await _db.Restaurants
+                    .FirstOrDefaultAsync(r => r.Id == user.RestaurantId);
+                restaurant.DishesGroup = restaurant.Dishes.GroupBy(d => d.Category);
+                return View(restaurant);
+            }
+            
+            else
+            {
+                string host = HttpContext.Request.Host.Value;
+            
+                restaurant = await _db.Restaurants
+                    .FirstOrDefaultAsync(r => r.DomainName == host);
+                restaurant.DishesGroup = restaurant.Dishes.GroupBy(d => d.Category);
+                return View(restaurant);
+            }
+            
+            
         }
     }
 }

@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Primitives;
 using Starkit.Models;
 using Starkit.Models.Data;
 using Starkit.Services;
@@ -73,6 +75,22 @@ namespace Starkit
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+            
+            app.Use(async (context, next) =>
+            {
+                const string XForwardedProto = "X-Forwarded-Proto";
+                if (context.Request.Headers.TryGetValue(XForwardedProto, out StringValues proto))
+                {
+                    context.Request.Protocol = proto;
+                    context.Request.Scheme = proto;
+                }
+
+                await next();
+            });
 
             app.UseAuthentication();
             app.UseAuthorization();
