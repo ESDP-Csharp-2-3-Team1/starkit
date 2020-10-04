@@ -14,9 +14,22 @@ namespace UnitTests
 {
     public interface IRepository
     {
-        IEnumerable<User> GetAll();
-        User Get(int id);
-        void Create(User user);
+        IEnumerable<Order> GetAll();
+        Order Get(int id);
+        void Create(Order order);
+    }
+    
+    public class OrdersController : Controller
+    {
+        IRepository repo;
+        public OrdersController(IRepository r)
+        {
+            repo = r;
+        }
+        public IActionResult Index()
+        {
+            return View("Index", repo.GetAll());
+        }
     }
     
     public class OrdersControllerTests
@@ -25,28 +38,38 @@ namespace UnitTests
         private UserManager<User> _userManager;
                 
         [Fact]
-        public void IndexViewDataMessage()
+        public void IndexViewResultNotNull()
         {
             // Arrange
-            OrdersController controller = new OrdersController(_db, _userManager);
-
+            var mock = new Mock<IRepository>();
+            mock.Setup(repo=>repo.GetAll()).Returns(GetTestOrders());
+            var controller = new OrdersController(mock.Object);
             // Act
-            // ViewResult result = controller.Index() as ViewResult;
-            Task<IActionResult> result = controller.Index();
-
+            ViewResult result = controller.Index() as ViewResult;
             // Assert
-            // Assert.Equal("Hello world!", result?.ViewData["Message"]);
-            Assert.Equal("Hello world!", result?.ToString());
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void IndexViewNameEqualIndex()
+        {
+            // Arrange
+            var mock = new Mock<IRepository>();
+            mock.Setup(repo=>repo.GetAll()).Returns(GetTestOrders());
+            var controller = new OrdersController(mock.Object);
+            // Act
+            ViewResult result = controller.Index() as ViewResult;
+            // Assert
+            Assert.Equal("Index", result?.ViewName);
         }
         
         [Fact]
         public void IndexReturnsAViewResultWithAListOfOrders()
         {
             // Arrange
-            var mock = new Mock<StarkitContext>();
-            // mock.Setup(repo=>repo.GetAll()).Returns(GetTestOrders());
-            // var controller = new OrdersController(mock.Object);
-            OrdersController controller = new OrdersController(_db, _userManager);
+            var mock = new Mock<IRepository>();
+            mock.Setup(repo=>repo.GetAll()).Returns(GetTestOrders());
+            var controller = new OrdersController(mock.Object);
  
             // Act
             var result = controller.Index();

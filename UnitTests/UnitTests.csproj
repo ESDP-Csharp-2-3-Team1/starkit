@@ -21,4 +21,8 @@
       <ProjectReference Include="..\Starkit\Starkit.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Include="Pages\Orders\Index.cshtml" />
+    </ItemGroup>
+
 </Project>
