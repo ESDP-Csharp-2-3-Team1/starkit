@@ -1,0 +1,104 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Moq;
+using Starkit.Controllers;
+using Starkit.Models;
+using Starkit.Models.Data;
+using Xunit;
+
+namespace UnitTests
+{
+    public interface IRepository
+    {
+        IEnumerable<User> GetAll();
+        User Get(int id);
+        void Create(User user);
+    }
+    
+    public class OrdersControllerTests
+    {
+        private StarkitContext _db;
+        private UserManager<User> _userManager;
+                
+        [Fact]
+        public void IndexViewDataMessage()
+        {
+            // Arrange
+            OrdersController controller = new OrdersController(_db, _userManager);
+
+            // Act
+            // ViewResult result = controller.Index() as ViewResult;
+            Task<IActionResult> result = controller.Index();
+
+            // Assert
+            // Assert.Equal("Hello world!", result?.ViewData["Message"]);
+            Assert.Equal("Hello world!", result?.ToString());
+        }
+        
+        [Fact]
+        public void IndexReturnsAViewResultWithAListOfOrders()
+        {
+            // Arrange
+            var mock = new Mock<StarkitContext>();
+            // mock.Setup(repo=>repo.GetAll()).Returns(GetTestOrders());
+            // var controller = new OrdersController(mock.Object);
+            OrdersController controller = new OrdersController(_db, _userManager);
+ 
+            // Act
+            var result = controller.Index();
+ 
+            // Assert
+            var viewResult = Assert.IsType<ViewResult>(result);
+            var model = Assert.IsAssignableFrom<IEnumerable<Order>>(viewResult.Model);
+            Assert.Equal(GetTestOrders().Count, model.Count());
+        }
+        private List<Order> GetTestOrders()
+        {
+            var orders = new List<Order>
+            {
+                new Order
+                {
+                    Id = Guid.NewGuid().ToString(), 
+                    Name = "Алмат", 
+                    ContactNumber = "7 707 141 18 19", 
+                    Address = "seyderaly98@gmail.com", 
+                    OrderTime = DateTime.Today, 
+                    Status = Status.Новая
+                },
+                new Order
+                {
+                    Id = Guid.NewGuid().ToString(), 
+                    Name = "Самат", 
+                    ContactNumber = "7 708 871 21 98", 
+                    Address = "muratsamat090598@gmail.com", 
+                    OrderTime = DateTime.Today, 
+                    Status = Status.Новая
+                },
+                new Order
+                {
+                    Id = Guid.NewGuid().ToString(), 
+                    Name = "Самал", 
+                    ContactNumber = "7 700 766 76 80", 
+                    Address = "samal.zhex@gmail.com", 
+                    OrderTime = DateTime.Today, 
+                    Status = Status.Новая
+                },
+                new Order
+                {
+                    Id = Guid.NewGuid().ToString(), 
+                    Name = "Рашит", 
+                    ContactNumber = "7 701 711 9967", 
+                    Address = "rashit.nurzhanov@gmail.com", 
+                    OrderTime = DateTime.Today, 
+                    Status = Status.Новая
+                },
+            };
+            return orders;
+        }
+
+    }
+}
