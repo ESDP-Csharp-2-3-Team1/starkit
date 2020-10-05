@@ -28,11 +28,11 @@
                             <ul class="navbar-nav flex-grow-1 justify-content-start ">
                               <li class="nav-item">
                                   <i class="fas fa-phone-alt nav-ic code-asdml215693zx" ></i>
-                                  <a class="nav-link text-dark" asp-area="">812324567</a>
+                                  <a class="nav-link text-dark" asp-area="">@ViewBag.Restaurant.PhoneNumber</a>
                                </li>
                                 <li class="nav-item">
                                     <i class="far fa-envelope nav-ic code-4156as"></i>
-                                    <a class="nav-link text-dark" asp-area="">info@redchili.com</a>
+                                    <a class="nav-link text-dark" asp-area="">@ViewBag.Restaurant.Email</a>
                                 </li>
                             </ul>
                         </div>
@@ -108,12 +108,18 @@
         </div>
     </nav>
 </header>
-    <main role="main" class="pb-3">
+    <main role="main">
         @RenderBody()
     </main>
 <footer class="border-top footer text-muted">
-    <div class="container">
-        &copy; 2020 - test - <a asp-area="" >Privacy</a>
+    @{
+        await Html.RenderPartialAsync("Partial/_PartialFooterSiteCard");
+    }
+    <div style="padding-top: 19px; background-color: #e7272d;">
+        <div class="container" style="line-height: normal">
+            <p style="padding-bottom: 20px; color: #ffffff;font-size: 15px;text-align: center">&copy; Copyright Red Chili 2020. Все Права Защищены. Разработанный и разработанный компанией
+                <a asp-area="" style="color: #ffffff;">StarKit</a></p>
+        </div>
     </div>
 </footer>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
