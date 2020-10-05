@@ -20,6 +20,7 @@ namespace Starkit.Models.Data
         public DbSet<Table> Tables { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<BookingTable> BookingTables { get; set; }
+        public DbSet<DataSiteCard> DataSiteCards { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderProduct> OrdersProducts { get; set; }
         public StarkitContext(DbContextOptions<StarkitContext> options) : base(options) {}

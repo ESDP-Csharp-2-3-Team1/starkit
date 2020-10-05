@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -27,9 +28,15 @@ namespace Starkit.Controllers
             return View();
         }
 
-        public async Task<ActionResult> SiteSettings()
+        [Authorize]
+        public async Task<ActionResult> SiteSettings(string restaurantId)
         {
-            
+            if (!await _db.DataSiteCards.AnyAsync(d => d.RestaurantId == restaurantId)) return View();
+            {
+                DataSiteCard dataSiteCard =
+                    await _db.DataSiteCards.FirstOrDefaultAsync(d => d.RestaurantId == restaurantId);
+                return View(dataSiteCard);
+            }
         }
     }
 }
