@@ -26,5 +26,10 @@ namespace Starkit.Controllers
             ViewBag.Restaurant = await _db.Restaurants.FirstOrDefaultAsync(r => r.UserId == userId);
             return View();
         }
+
+        public async Task<ActionResult> SiteSettings()
+        {
+            
+        }
     }
 }
