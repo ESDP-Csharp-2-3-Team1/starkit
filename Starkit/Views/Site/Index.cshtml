@@ -98,7 +98,7 @@
                infinite: true,
                centerMode: true,
                slidesToShow: 4,
-               slidesToScroll: 3
+               slidesToScroll: 3    
              });
             
             });
@@ -301,8 +301,6 @@
             type: "GET",
             data: {date: date, customDate: $('#customDate').val(), timeFrom: timeFrom, timeTo: timeTo},
             success: function(data) {
-                console.log(data);
-                
                 $.each(data, function()
                 {
                     $(`#table-${this}`).addClass("booked-table");

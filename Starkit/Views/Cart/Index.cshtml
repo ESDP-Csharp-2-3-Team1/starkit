@@ -4,7 +4,7 @@
     ViewBag.Title = "Корзина";
     Layout = "_BusinessCardLayout";
 }
-
+<div class="container">
 <h3 class="text-cart">Корзина</h3>
 <div style="overflow-x: auto">
     <table class="table table-bordered">
@@ -27,6 +27,7 @@
 <div style="display: flex; justify-content: space-between">
     <a asp-controller="Site" asp-action="index">Назад</a>
     <button style="cursor: pointer" type="button" class="btn btn-primary" onclick="toOrder('')">Оформить заказ</button>
+</div>
 </div>
 @section Scripts
 {
