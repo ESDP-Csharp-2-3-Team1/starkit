@@ -23,6 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Content Include="Pages\Booking\Index.cshtml" />
       <Content Include="Pages\Orders\Index.cshtml" />
     </ItemGroup>
 

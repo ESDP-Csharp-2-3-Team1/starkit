@@ -12,7 +12,7 @@ using Xunit;
 
 namespace UnitTests
 {
-    public interface IRepository
+    public partial interface IRepository
     {
         IEnumerable<Order> GetAll();
         Order Get(int id);
