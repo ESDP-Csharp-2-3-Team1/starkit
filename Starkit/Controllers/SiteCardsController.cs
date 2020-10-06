@@ -22,9 +22,10 @@ namespace Starkit.Controllers
 
         public async Task<IActionResult> Index()
         {
-            
             var userId = _userManager.GetUserId(User);
-            ViewBag.Restaurant = await _db.Restaurants.FirstOrDefaultAsync(r => r.UserId == userId);
+            var restaurant = await _db.Restaurants.FirstOrDefaultAsync(r => r.UserId == userId);
+            ViewBag.Restaurant = restaurant;
+            ViewBag.Carousel = await _db.DataSiteCards.FirstOrDefaultAsync(d => d.RestaurantId == restaurant.Id);
             return View();
         }
 

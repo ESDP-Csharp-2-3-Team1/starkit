@@ -8,7 +8,11 @@
 
 <div class="container-fluid">
     @{
-        await Html.RenderPartialAsync("Partial/BlockCarouselPartial"); // block 1
+        <form >
+        @{
+            await Html.RenderPartialAsync("Partial/BlockCarouselPartial"); // block 1
+        }
+        </form>
         await Html.RenderPartialAsync("Partial/BlockOrderPartial"); // block 2
         await Html.RenderPartialAsync("Partial/BlockSpecialDishPartial"); // block 3
         await Html.RenderPartialAsync("Partial/BlockMenuPartial"); // block 4

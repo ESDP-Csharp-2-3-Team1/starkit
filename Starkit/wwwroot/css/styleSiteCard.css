@@ -572,5 +572,20 @@ body{
     border: 3px solid #ffffff2e;
 
 }
+/*где input*/
+.my-carousel-caption-code-1 h5 input{
+    font-size: 72px;
+    color: rgb(255, 250, 250);
+    font-family: "Oswald", sans-serif;
+    text-align: center;
+    font-weight: 700;
+    font-style: normal;
+    text-transform: uppercase;
+}
+.my-carousel-caption-code-1 p textarea{
+    font-size: 20px;
+    color: #fff;
+    text-align: center;
+}
 /*_____________*/
 

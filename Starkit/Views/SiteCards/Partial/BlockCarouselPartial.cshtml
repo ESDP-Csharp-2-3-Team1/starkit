@@ -1,17 +1,35 @@
 ﻿
+<style>
+  input{
+  padding: 0; 
+  border: none; 
+  outline: none; 
+  background: none;
+  width: 100%;
+  text-align: center;
+  }
+  textarea{
+   padding: 0; 
+    border: none; 
+    outline: none; 
+    background: none;
+    width: 100%;
+    text-align: center;
+  }
+</style>
 <div class="block-carr" >
     <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
-      <ol class="carousel-indicators">
+      <ul class="carousel-indicators">
         <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
         <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
         <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
-      </ol>
+      </ul>
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <img src="~/images/SiteCardDefaultPath/slide1-1-ok.jpg" class="d-block w-100" alt="...">
+          <img src="~/@ViewBag.Carousel.ImgPathCarousel1" class="d-block w-100" alt="...">
           <div class="carousel-caption d-none d-md-block carousel-caption-code-1 my-carousel-caption-code-1">
-            <h5>СЭНДВИЧ НА ГРИЛЕ ШАВАРМА</h5>
-            <p>Dorem Ipsum - это просто макет стандартного макета печати и набора, когда</p>
+            <h5><input  name="DishNameCarousel1" type="text" value="СЭНДВИЧ НА ГРИЛЕ ШАВАРМА"></h5>
+            <p> <textarea type="text" name="DishTextCarousel1">Dorem Ipsum - это просто макет стандартного макета печати и набора, когда</textarea></p>
             <a class="btn btn-primary">Заказать сейчас</a>
           </div>
         </div>
