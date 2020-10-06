@@ -587,5 +587,17 @@ body{
     color: #fff;
     text-align: center;
 }
+#EditCarouselBTN {
+    position: absolute;
+    z-index: 100;
+}
+#inputImgPathCarousel2{
+    position: absolute;
+    z-index: 1000;
+}
+#inputImgPathCarousel{
+    text-align: center;
+    margin: auto;
+}
 /*_____________*/
 

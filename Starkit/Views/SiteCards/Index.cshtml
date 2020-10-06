@@ -8,7 +8,7 @@
 
 <div class="container-fluid">
     @{
-        <form >
+        <form asp-action="SaveCarouselData" asp-controller="SiteCards" method="post" enctype="multipart/form-data">
         @{
             await Html.RenderPartialAsync("Partial/BlockCarouselPartial"); // block 1
         }

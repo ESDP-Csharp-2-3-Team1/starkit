@@ -33,14 +33,24 @@ namespace Starkit.Controllers
         }
 
         [Authorize]
-        public async Task<ActionResult> SiteSettings(string restaurantId)
+        public async Task<ActionResult> SaveCarouselData(string dishNameCarousel1, string dishNameCarousel2 , string dishNameCarousel3, string dishTextCarousel1,string dishTextCarousel2, string dishTextCarousel3)
         {
-            if (!await _db.DataSiteCards.AnyAsync(d => d.RestaurantId == restaurantId)) return View();
-            {
-                DataSiteCard dataSiteCard =
-                    await _db.DataSiteCards.FirstOrDefaultAsync(d => d.RestaurantId == restaurantId);
-                return View(dataSiteCard);
-            }
+            var userId = _userManager.GetUserId(User);
+            var restaurant = await _db.Restaurants.FirstOrDefaultAsync(r => r.UserId == userId);
+            var siteData = await _db.DataSiteCards.FirstOrDefaultAsync(d => d.RestaurantId == restaurant.Id);
+
+            siteData.DishNameCarousel1 = dishNameCarousel1;
+            siteData.DishNameCarousel2 = dishNameCarousel2;
+            siteData.DishNameCarousel3 = dishNameCarousel3;
+
+            siteData.DishTextCarousel1 = dishTextCarousel1;
+            siteData.DishTextCarousel2 = dishTextCarousel2;
+            siteData.DishTextCarousel3 = dishTextCarousel3;
+
+            _db.DataSiteCards.Update(siteData);
+            await _db.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
+      
     }
 }
