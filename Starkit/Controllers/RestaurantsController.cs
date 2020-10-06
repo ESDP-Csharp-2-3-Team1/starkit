@@ -90,6 +90,7 @@ namespace Starkit.Controllers
                     model.LogoPath = $"images/restaurants/{model.Id}/logo/{model.File.FileName}";
                 }
                 await _db.Restaurants.AddAsync(model);
+                await _db.DataSiteCards.AddAsync(new DataSiteCard() {RestaurantId = model.Id});
                 User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
                 user.RestaurantId = model.Id;
                 await _db.SaveChangesAsync();
