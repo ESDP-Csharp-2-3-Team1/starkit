@@ -131,16 +131,15 @@
 }
 
 .menu-btn, .dishes-btn{
-    border-color: #e7272d;
-    background: #e7272d;
-    color: #fff;
+    border-color: #fff;
+    background: #fff;
+    color: #e7272d;
 }
 
 .menu-btn:hover, .dishes-btn:hover{
-
     border-color: #e7272d;
     background: transparent;
-    color: #e7272d;
+    color: #fff;
 }
 
 .about-us-left{

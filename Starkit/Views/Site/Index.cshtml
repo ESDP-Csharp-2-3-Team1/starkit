@@ -101,6 +101,8 @@
                slidesToScroll: 3    
              });
             
+            getDishes('');
+            
             });
        
         function initMap() {
@@ -125,10 +127,9 @@
             });
         }
         
-        $(".buy").submit(function (event){
-            event.preventDefault();
-            var form = $(this);
-            var id = $(form).attr("id");
+        function inOrder(id){
+            var form = $(`#${id}`);
+            
             var url = $(form).attr("action");
             var data = $(form).serialize();
             var message = $(`#message-${id}`);
@@ -153,7 +154,7 @@
                 $(message).text("Не указано количество");
                 setTime(id); 
             }
-        });
+        }
         
         function setTime(id){
             setTimeout(function (){
@@ -330,5 +331,10 @@
             });
         })
         
+        function getDishes(id){
+            $.get(`@Url.Action("GetDishes")?id=${id}`, function (data){
+                 $("#dishList").html(data);
+            });
+        }
     </script>
 }

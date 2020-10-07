@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -50,6 +51,33 @@ namespace Starkit.Controllers
             }
             
             
+        }
+
+        public async Task<IActionResult> GetDishes(string id = null)
+        {
+            List<Dish> dishes = new List<Dish>();
+            if (id != null)
+            {
+                 dishes = _db.Dishes.Where(d => d.CategoryId == id).ToList();
+                 return PartialView("Partial/ListDishesPartialView", dishes);
+            }
+            else
+            {
+                User user = await _db.Users.
+                    FirstOrDefaultAsync(u => u.Id == _userManager.GetUserId(User));
+                Restaurant restaurant;
+                if (user != null)
+                {
+                    restaurant = await _db.Restaurants
+                        .FirstOrDefaultAsync(r => r.Id == user.RestaurantId);
+                    return PartialView("Partial/ListDishesPartialView", restaurant.Dishes);
+                }
+                string host = HttpContext.Request.Host.Value;
+            
+                restaurant = await _db.Restaurants
+                    .FirstOrDefaultAsync(r => r.DomainName == host);
+                return PartialView("Partial/ListDishesPartialView", restaurant.Dishes);
+            }
         }
     }
 }
