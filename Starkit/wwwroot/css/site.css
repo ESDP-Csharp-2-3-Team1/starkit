@@ -1195,3 +1195,14 @@ body {
 .sort-statistic{
   margin-right: 20px;
 }
+.btn-order-menu{
+  background: transparent;
+  border: 1px solid red;
+  color: white;
+  padding: 10px 44px;
+  font-size: 16px;
+}
+
+.btn-order-menu:hover{
+  background: red;
+}
