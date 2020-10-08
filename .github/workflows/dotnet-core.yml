@@ -7,7 +7,6 @@ on:
     branches: [ master ]
 
 jobs:      
-  build:
   container-job:
     # Containers must run in Linux based operating systems
     runs-on: ubuntu-latest
