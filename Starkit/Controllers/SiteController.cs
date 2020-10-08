@@ -21,6 +21,14 @@ namespace Starkit.Controllers
 
         public async Task<IActionResult> Index()
         {
+            /// Обязательный параметр без этого редактирование сайта не будет работать 
+            ViewBag.UserIsAuthenticated = User.Identity.IsAuthenticated;
+            
+            var userID = _userManager.GetUserId(User);
+            var _restaurant = await _db.Restaurants.FirstOrDefaultAsync(r => r.UserId == userID);
+            ViewBag.Restaurant = _restaurant;
+            ViewBag.Carousel = await _db.DataSiteCards.FirstOrDefaultAsync(d => d.RestaurantId == _restaurant.Id);
+            
             User user = await _db.Users.
                 FirstOrDefaultAsync(u => u.Id == _userManager.GetUserId(User));
             if (User.IsInRole("SuperAdmin"))

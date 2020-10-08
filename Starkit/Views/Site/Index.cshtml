@@ -4,7 +4,13 @@
     ViewBag.Title = "Сайт визитка";
     Layout = "_BusinessCardLayout";
 }
-@{ await Html.RenderPartialAsync("Partial/SiteCarouselPartial");}
+@{
+    <form asp-action="SaveCarouselData" asp-controller="SiteCards" method="post" enctype="multipart/form-data">
+        @{
+            await Html.RenderPartialAsync("Partial/BlockCarouselPartial"); // block 1
+        }
+    </form>
+}
 @{ await Html.RenderPartialAsync("Partial/SiteAboutUsPartial");}
 @{ await Html.RenderPartialAsync("Partial/SiteOffersPartial");}
 <section id="menu">

@@ -64,7 +64,7 @@ namespace Starkit.Controllers
             
             _db.DataSiteCards.Update(siteData);
             await _db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","Site");
         }
 
         private async Task<string> CreateFile(IFormFile file)
