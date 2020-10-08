@@ -1,8 +1,9 @@
 ﻿@model Restaurant
 
 @{
+    ViewBag.Restaurant = ViewBag.Restaurant;
     ViewBag.Title = "Сайт визитка";
-    Layout = "_BusinessCardLayout";
+    Layout = "_LayoutSiteCard";
 }
 @{
     <form asp-action="SaveCarouselData" asp-controller="SiteCards" method="post" enctype="multipart/form-data">

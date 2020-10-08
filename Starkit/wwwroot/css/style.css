@@ -8,30 +8,6 @@
     z-index: 1000;
 }
 
-.carousel-item{
-    position: relative;
-}
-
-.carousel-caption{
-    position: absolute;
-    top: 30%;
-}
-
-.carousel-caption h1{
-    font-size: 72px;
-    font-weight: 700;
-    margin-bottom: 30px;
-}
-
-.carousel-caption p{
-    font-size: 20px;
-    margin-bottom: 70px;
-}
-
-.carousel-caption button{
-    padding: 10px 30px;
-    margin-bottom: 30px;
-}
 
 .about-us-left{
     margin: 100px;
