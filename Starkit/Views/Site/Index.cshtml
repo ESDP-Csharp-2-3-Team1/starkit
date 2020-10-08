@@ -23,22 +23,20 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     
-    <script type="text/javascript">
-            $(document).on('ready', function() {
-                 $(".center").slick({
-                   dots: true,
-                   infinite: true,
-                   centerMode: true,
-                   slidesToShow: 4,
-                   slidesToScroll: 0
-                 });
-               });
-        </script>
-    
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script defer src="https://maps.googleapis.com/maps/api/js?key=@Model.GoogleMapsApi&callback=initMap&libraries=&v=weekly"></script>
     <script>
         $(document).ready(function (){
+            @*По этому скрипту работает карусель акционных блюд*@
+            $(".center").slick({
+                               dots: true,
+                               infinite: true,
+                               centerMode: true,
+                               slidesToShow: 4,
+                               slidesToScroll: 0
+                             });
+              @*____________________________________________________*@
+            
            var contactNumber = $("#contact-number").val();
            $(".contact-number").append(contactNumber).attr("href", `tel:${contactNumber}`);
            
@@ -56,14 +54,6 @@
                	]
            });
             $('#totalBooked').text();
-            $(".center").slick({
-               dots: true,
-               infinite: true,
-               centerMode: true,
-               slidesToShow: 4,
-               slidesToScroll: 3    
-             });
-            
             });
        
         function initMap() {
