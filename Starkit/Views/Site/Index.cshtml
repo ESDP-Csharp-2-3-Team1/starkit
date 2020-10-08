@@ -67,27 +67,12 @@
                             <div style="text-align: center; width: 235px"> 
                                 <form class="buy" id="@menu.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@menu.Id" asp-route-name="menu">
                                     <input class="text-center mr-3" id="qty-@menu.Id" type="number" name="quantity" min="1" value="1" style="width: 50px">
-                                    <button type="submit" class="btn-order-menu">В корзину</button>
+                                    <button type="button" onclick="inOrder('@menu.Id')" class="btn-order-menu">В корзину</button>
                                     <p class="text-danger" style="margin: 10px 0 10px 0" id="message-@menu.Id"></p>
                                 </form>
                             </div>
                         </div>
                     }
-@*                     @for (int i = 1; i < 10; i++) *@
-@*                     { *@
-@*                         <div class="slider-in-code-asd45412"> *@
-@*                             <div> *@
-@*                                 <img src="http://placehold.it/350x300?text=@i" alt=""> *@
-@*                             </div> *@
-@*                             <div> *@
-@*                                 <h3>Чипотл Куриная Миска</h3> *@
-@*                             </div> *@
-@*                             <p>Мы создаем, и обслуживаем</p> *@
-@*                             <div style="margin-bottom: 30px"> *@
-@*                                 <a class="btn ">Подробнее</a> *@
-@*                             </div> *@
-@*                         </div> *@
-@*                     } *@
                 </section>
             </div>
         </div>
