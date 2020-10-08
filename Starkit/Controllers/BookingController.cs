@@ -408,7 +408,7 @@ namespace Starkit.Controllers
             }
 
             HttpContext.Session.SetObjectAsJson("booking", bookings);
-            return RedirectToAction("Index", "Site");
+            return RedirectToAction("Booking");
         }
 
         public IActionResult Booking()
