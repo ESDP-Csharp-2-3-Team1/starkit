@@ -1,3 +1,6 @@
+Status of Last Deployment:<br>
+<img src="https://github.com/ESDP-Csharp-2-3-Team1/starkit/workflows/.NET Core/badge.svg?branch=master"><br>
+
 # Starkit 
 Программное решение **Starkit** предоставляет возможность владельцам ресторанов и пунктов питания быстро создать стандартизированный сайт-визитку и получить мобильное приложение для перевода своего бизнеса в режим онлайн.
 
