@@ -1,39 +1,77 @@
-<div class="container">
-<section id="all-dishes">
-@foreach (var g in Model.DishesGroup)
-{
-    <hr>
-    <div style="text-align: center; margin-top: 30px;">
-        <h2 class="section-title">@g.Key.Name</h2>
-        <div class="section-subtitle text-center">
-            <span class="subtitle-line"></span>
-            <span class="subtitle-text">Lorem ipsum dolor sit amet.</span>
-            <span class="subtitle-line subtitle-line-rt"></span>
-        </div>
-    </div>
-    <div class="row mt-5">
-        @foreach (var dish in g)
-        {
-            if (dish.Visibility)
-            {
-                <div class="col-sm-2 mb-3" style="text-align: center;">
-                    <div class="dish-img-wrapper img-wrapper">
-                        <img class="dish-img" onclick="dishDetails('@dish.Id')" src="~/@dish.Avatar" alt="">
-                    </div>
-                    <p class="text-dish-business-card">@dish.Name</p>
-                    <p class="dish-cost item-cost">@dish.Cost тг</p>
-                    <div style="text-align: center">
-                        <form class="buy" id="@dish.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@dish.Id" asp-route-name="dish">
-                            <input class="text-center mr-3" id="qty-@dish.Id" type="number" name="quantity" min="1" value="1" style="width: 50px">
-                            <button type="submit" class="btn btn-light dishes-btn">В корзину</button>
-                            <p class="text-danger" style="margin: 10px 0 10px 0" id="message-@dish.Id"></p>
-                        </form>
+@* <div class="container"> *@
+@* <section id="all-dishes"> *@
+@* @foreach (var g in Model.DishesGroup) *@
+@* { *@
+@*     <hr> *@
+@*     <div style="text-align: center; margin-top: 30px;"> *@
+@*         <h2 class="section-title">@g.Key.Name</h2> *@
+@*         <div class="section-subtitle text-center"> *@
+@*             <span class="subtitle-line"></span> *@
+@*             <span class="subtitle-text">Lorem ipsum dolor sit amet.</span> *@
+@*             <span class="subtitle-line subtitle-line-rt"></span> *@
+@*         </div> *@
+@*     </div> *@
+@*     <div class="row mt-5"> *@
+@*         @foreach (var dish in g) *@
+@*         { *@
+@*             if (dish.Visibility) *@
+@*             { *@
+@*                 <div class="col-sm-2 mb-3" style="text-align: center;"> *@
+@*                     <div class="dish-img-wrapper img-wrapper"> *@
+@*                         <img class="dish-img" onclick="dishDetails('@dish.Id')" src="~/@dish.Avatar" alt=""> *@
+@*                     </div> *@
+@*                     <p class="text-dish-business-card">@dish.Name</p> *@
+@*                     <p class="dish-cost item-cost">@dish.Cost тг</p> *@
+@*                     <div style="text-align: center"> *@
+@*                         <form class="buy" id="@dish.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@dish.Id" asp-route-name="dish"> *@
+@*                             <input class="text-center mr-3" id="qty-@dish.Id" type="number" name="quantity" min="1" value="1" style="width: 50px"> *@
+@*                             <button type="submit" class="btn btn-light dishes-btn">В корзину</button> *@
+@*                             <p class="text-danger" style="margin: 10px 0 10px 0" id="message-@dish.Id"></p> *@
+@*                         </form> *@
+@*                     </div> *@
+@*                 </div> *@
+@*             } *@
+@*         } *@
+@*     </div> *@
+@* } *@
+@* </section> *@
+@* *@
+@* </div> *@
+
+<div class="menu-bgr-code-asd582">
+    <div class="container">
+        <div style="padding-top: 50px; padding-bottom: 70px">
+            <div class="block-menu-code-x14a" style="padding-top: 35px;padding-left: 15px;padding-right: 15px;">
+                <div class="block-menu-in-code-x14a">
+                    <div>
+                        <div class="bl-men-box1" style="padding-bottom: 20px">
+                            <h2 style="padding-bottom: 12px;margin-bottom: 20px">ВКУСНОЕ МЕНЮ СЕГОДНЯ</h2>
+                            <div class="bl-men-box1-1" style="margin-bottom: 35px">
+                                <span class="subtitle-line"></span>
+                                <span class="subtitle-color">Выбор шеф-повара</span>
+                                <span class="subtitle-line"></span>
+                            </div>
+
+                            <div class="bl-men-box2" style="padding: 0 15px">
+                                <div class="BM-panel-upr" style="margin-bottom: 32px ">
+                                    <div class="panelupravlenia-btn">
+                                        <button class="btn btn-light" onclick="getDishes('')">ПОКАЗАТЬ ВСЕ</button>
+                                        @foreach(var category in Model.Categories){
+                                            <button class="btn btn-light" onclick="getDishes('@category.Id')">
+                                                @category.Name
+                                            </button>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="box-dish-code15" id="dishList">
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            }
-        }
+            </div>
+        </div>
     </div>
-}
-</section>
-
-</div>
+    </div>
+    

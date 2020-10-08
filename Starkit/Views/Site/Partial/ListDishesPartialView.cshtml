@@ -1,0 +1,24 @@
+@model IEnumerable<Dish>
+@foreach (var dish in Model)
+{
+    <div class="dish-as15">
+        <div>
+            <div class="dish-as15-box-img">
+                <img class="dish-as15-img" src="~/@dish.Avatar" alt="">
+            </div>
+            <div class="dish-as15-box-title">
+                <h3 class="">
+                    <a href="#">@dish.Name</a>
+                </h3>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+            <form class="buy" id="@dish.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@dish.Id" asp-route-name="dish">
+                <input class="text-center mr-3" id="qty-@dish.Id" type="number" name="quantity" min="1" value="1" style="width: 50px">
+                <button type="button" onclick="inOrder('@dish.Id')" class="btn btn-light dishes-btn">В корзину</button>
+                <p class="text-danger" style="margin: 10px 0 10px 0" id="message-@dish.Id"></p>
+            </form>
+        </div>
+    </div>   
+}
+
