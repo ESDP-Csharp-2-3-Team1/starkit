@@ -212,6 +212,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="wwwroot\images\restaurants\Carousel" />
       <Folder Include="wwwroot\images\SiteCardDefaultPath" />
       <Folder Include="wwwroot\lib\datepicker\css" />
       <Folder Include="wwwroot\lib\datepicker\js" />

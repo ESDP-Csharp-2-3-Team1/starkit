@@ -6,7 +6,7 @@ riderModule.iml
 .idea
 [Dd]ebug/
 Starkit/Migrations
-/Starkit/wwwroot/images/restaurants
+#/Starkit/wwwroot/images/restaurants
 Starkit/items.json
 Starkit/orderId.json
 UnitTests/bin
