@@ -27,7 +27,7 @@ namespace Starkit.Controllers
         // GET
         
         public async Task<IActionResult> Index( int page = 1)
-        { 
+        {
             string userId = _userManager.GetUserId(User);
            int pageSize = 5; 
            List<User> users = _db.Users.Where(u=>u.Id != userId && u.Position == EmployeePosition.Registrant).Skip((page - 1) * pageSize).Take(pageSize).ToList();

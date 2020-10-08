@@ -13,7 +13,7 @@ using Starkit.ViewModels;
 
 namespace Starkit.Controllers
 {
-    [Authorize(Roles = "Registrant")]
+    [Authorize(Roles = "SuperAdmin, Registrant")]
     public class UsersController : Controller
     {
         private UserManager<User> _userManager { get; set; }
@@ -64,6 +64,11 @@ namespace Starkit.Controllers
         public async Task<IActionResult> Index()
         {
             string userId = _userManager.GetUserId(User);
+            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+            {
+                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                userId = admin.IdOfTheSelectedRestaurateur;
+            }
             EditUserViewModel model = new EditUserViewModel()
             {
                 Id = userId,

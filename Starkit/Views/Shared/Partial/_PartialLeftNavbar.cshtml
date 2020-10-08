@@ -65,12 +65,12 @@
                     <a role="button" class="my-drop-btn-menu" asp-controller="Users" asp-action="Index" onclick="showDropdown(2)" id="drop-btn-prof">Управление аккаунтом</a>
                 </li>
                 <div class="my-dropdown-menu" id="dropdown2">
-                    @if (User.IsInRole(Convert.ToString(Roles.Registrant)))
+                    @if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)) || User.IsInRole(Convert.ToString(Roles.Registrant)))
                     {
                         <li class="link-1" id="dropdown2-li-1"><a asp-action="Index" asp-controller="Users">Редактировать профиль</a></li>
                     }
                     <li class="link-1 " id="my-dr-ResInd"><a asp-action="Index" asp-controller="Restaurants">Ресторан</a></li>
-                    @if (await _db.Users.AnyAsync(u => u.Id == userId && u.RestaurantId != null))
+                    @if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)) || await _db.Users.AnyAsync(u => u.Id == userId && u.RestaurantId != null))
                     {
                         <li class="link-1 " id="dropdown2-li-3"><a asp-action="Create" asp-controller="Employees">Добавить сотрудника</a></li>
                         <li class="link-1 " id="dropdown2-li-4"><a asp-action="Index" asp-controller="Employees">Список сотрудника</a></li>
