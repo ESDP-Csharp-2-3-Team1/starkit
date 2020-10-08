@@ -5,80 +5,36 @@
     ViewBag.Title = "Сайт визитка";
     Layout = "_LayoutSiteCard";
 }
-@{
-    <form asp-action="SaveCarouselData" asp-controller="SiteCards" method="post" enctype="multipart/form-data">
-        @{
-            await Html.RenderPartialAsync("Partial/BlockCarouselPartial"); // block 1
-        }
-    </form>
-}
-@{ await Html.RenderPartialAsync("Partial/SiteAboutUsPartial");}
-@{ await Html.RenderPartialAsync("Partial/SiteOffersPartial");}
-<section id="menu">
-    <div style="text-align: center; margin-top: 30px;">
-        <h2 class="section-title">Меню</h2>
-        <div class="section-subtitle text-center">
-            <span class="subtitle-line"></span>
-            <span class="subtitle-text">Lorem ipsum dolor sit amet.</span>
-            <span class="subtitle-line subtitle-line-rt"></span>
-        </div>
-    </div>
-    <div class="row mt-5">
-        @foreach (var menu in Model.Menu)
-        {
-            if (!menu.MenuDishes.Any(m => m.Dish.Visibility == false))
-            {
-                <div class="col-sm-3 mb-3">
-                    <div class="menu-img-wrapper img-wrapper">
-                        <img class="menu-img" onclick="menuDetails('@menu.Id')" src="~/@menu.Avatar" alt="">
-                    </div>
-                    <p class="text-menu-business-card">@menu.Name</p>
-                    <p class="menu-cost item-cost text-center">@menu.Cost тг</p>
-                    <div style="text-align: center">
-                        <form class="buy" id="@menu.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@menu.Id" asp-route-name="menu">
-                            <input class="text-center mr-3" id="qty-@menu.Id" type="number" name="quantity" min="1" value="1" style="width: 50px">
-                            <button type="submit" class="btn btn-light menu-btn">В корзину</button>
-                            <p class="text-danger" style="margin: 10px 0 10px 0" id="message-@menu.Id"></p>
-                        </form>
-                    </div>
-                </div>
-            }
-        }
-    </div>
-</section>
-@{ await Html.RenderPartialAsync("Partial/SiteDishesPartial");}
-<div id="details"></div>
-<input type="hidden" id="contact-number" value="@Model.PhoneNumber">
-<input type="hidden" id="logo" value="../@Model.LogoPath">
-<input type="hidden" id="address" value="@Model.Address">
-<div class="mt-5"></div>
-<hr>
 
-@{ await Html.RenderPartialAsync("Partial/SiteBookingsPartial");}
-<section id="contacts" class="mb-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-6">
-                <h2>Lorem ipsum dolor.</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci amet assumenda atque cum fuga minus necessitatibus quaerat quidem, sequi voluptas?</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci amet assumenda atque cum fuga minus necessitatibus quaerat quidem, sequi voluptas?</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci amet assumenda atque cum fuga minus necessitatibus quaerat quidem, sequi voluptas?</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci amet assumenda atque cum fuga minus necessitatibus quaerat quidem, sequi voluptas?</p>
-                <img src="" alt="">
-            </div>
-            <div class="col-sm-6">
-                <div id="map"></div>
-            </div>
-        </div>
-    </div>
-    
-</section>
+<div class="container-fluid">
+    @{
+        
+        await Html.RenderPartialAsync("Partial/BlockCarouselPartial"); // block 1
+        await Html.RenderPartialAsync("Partial/BlockOrderPartial"); // block 2
+        await Html.RenderPartialAsync("Partial/BlockSpecialDishPartial"); // block 3
+        await Html.RenderPartialAsync("Partial/BlockMenuPartial"); // block 4
+    }
+</div>
+
 
 @section Scripts
 {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    
+    <script type="text/javascript">
+            $(document).on('ready', function() {
+                 $(".center").slick({
+                   dots: true,
+                   infinite: true,
+                   centerMode: true,
+                   slidesToShow: 4,
+                   slidesToScroll: 0
+                 });
+               });
+        </script>
+    
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script defer src="https://maps.googleapis.com/maps/api/js?key=@Model.GoogleMapsApi&callback=initMap&libraries=&v=weekly"></script>
     <script>
