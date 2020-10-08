@@ -6,10 +6,21 @@ on:
   pull_request:
     branches: [ master ]
 
-jobs:
+jobs:      
   build:
 
     runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: Almatzxccx152451
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
     - uses: actions/checkout@v2
@@ -19,13 +30,22 @@ jobs:
         dotnet-version: 3.1.301
     - name: Install dependencies
       run: dotnet restore
-    - name: Update database
+    - name: Connect to PostgreSQL
       run: |
         dotnet tool install --global dotnet-ef
         dotnet tool restore
         dotnet ef database update --c DataContext --p MyProj --s MyProjFactory
-      env:
-        ASPNETCORE_ENVIRONMENT: Development
+        # Environment variable used by the `client.js` script to create a new PostgreSQL client.
+        env:
+          POSTGRES_HOST: postgres
+          POSTGRES_PORT: 5432
+#     - name: Update database
+#       run: |
+#         dotnet tool install --global dotnet-ef
+#         dotnet tool restore
+#         dotnet ef database update --c DataContext --p MyProj --s MyProjFactory
+#       env:
+#         ASPNETCORE_ENVIRONMENT: Development
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Test
