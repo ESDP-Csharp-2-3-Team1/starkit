@@ -1122,6 +1122,7 @@ body {
   border-bottom: 1px solid #e7272d;;
   border-radius: 0;
   text-align: center;
+  background: transparent;
 }
 
 .book-date input[type=radio] {
@@ -1194,4 +1195,8 @@ body {
 }
 .sort-statistic{
   margin-right: 20px;
+}
+/*___________*/
+.primer-corusel{
+  padding-bottom:30px;
 }

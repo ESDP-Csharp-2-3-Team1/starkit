@@ -1,0 +1,50 @@
+﻿@using System.Net.WebSockets
+<div class="menu-bgr-code-asd582">
+    <div class="container">
+        <div style="padding-top: 50px; padding-bottom: 70px">
+            <div class="block-menu-code-x14a" style="padding-top: 35px;padding-left: 15px;padding-right: 15px;">
+                <div class="block-menu-in-code-x14a">
+                    <div>
+                        <div class="bl-men-box1" style="padding-bottom: 20px">
+                            <h2 style="padding-bottom: 12px;margin-bottom: 20px">Наше меню</h2>
+                            <div class="bl-men-box1-1" style="margin-bottom: 35px">
+                                <span class="subtitle-line"></span>
+                                <span class="subtitle-color">Lorem</span>
+                                <span class="subtitle-line"></span>
+                            </div>
+
+                            <div class="bl-men-box2" style="padding: 0 15px">
+                                <div class="BM-panel-upr" style="margin-bottom: 32px ">
+                                    <div class="panelupravlenia-btn">
+                                        @foreach (var category in ViewBag.Categories)
+                                        {
+                                            <button class="btn btn-light">@category.Name</button>
+                                        }
+                                    </div>
+                                </div>
+                                @foreach (var dish in Model.Dishes)
+                                {
+                                    <div class="box-dish-code15">
+                                        <div class="dish-as15">
+                                            <div>
+                                                <div class="dish-as15-box-img">
+                                                    <img class="dish-as15-img" src="~/@dish.Avatar" alt="@dish.Name">
+                                                </div>
+                                                <div class="dish-as15-box-title">
+                                                    <h3 class="">
+                                                        <a href="#">@dish.Name</a>
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

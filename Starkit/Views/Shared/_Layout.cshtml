@@ -104,12 +104,8 @@
 <script src="~/lib/timepicker/js/jquery.timepicker.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/lib/datepicker/dist/js/datepicker.js"></script>
-@if (User.Identity.IsAuthenticated && _userManager.FindByNameAsync(User.Identity.Name).Result.GoogleMapsApi != null)
-    {
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-        <script defer type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@_userManager.FindByNameAsync(User.Identity.Name).Result.GoogleMapsApi&libraries=places"></script>
-    }
-
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<script defer type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhAhvYy9xeEs2hsjnUJrlodNv9heLgXmA&libraries=places"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
 <script src="~/js/jquery.maskedinput.min.js"></script>
 <script src="~/js/dropdown.js"></script>

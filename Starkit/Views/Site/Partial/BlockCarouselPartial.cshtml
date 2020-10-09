@@ -17,6 +17,7 @@
     text-align: center;
   }
 </style>
+<form asp-action="SaveCarouselData" asp-controller="SiteCards" method="post" enctype="multipart/form-data">
 <div class="block-carr" >
   <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
     <ul class="carousel-indicators">
@@ -24,9 +25,7 @@
       <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
       <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
     </ul>
-    
     <div class="carousel-inner">
-        
       <div class="carousel-item active">
         <img src="~/@ViewBag.Carousel.ImgPathCarousel1" class="d-block w-100" alt="...">
         <div class="carousel-caption d-none d-md-block carousel-caption-code-1 my-carousel-caption-code-1">
@@ -125,3 +124,4 @@
             <button id="EditCarouselBTN" type="submit">Сохранить</button>
           }
 </div>
+</form>

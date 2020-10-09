@@ -35,7 +35,6 @@ namespace Starkit.Models
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         public string ClientName { get; set; }
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
-        [Remote("CheckTableCapacity", "Validation", ErrorMessage = "Недостаточно мест, выберите другой столик или забронируйте еще один", AdditionalFields = "TableId")]
         public int Pax { get; set; }
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [DataType(DataType.PhoneNumber)]

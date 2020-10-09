@@ -426,6 +426,8 @@ namespace Starkit.Controllers
             decimal total = booked.Count;
             return Json(total);
         }
+        
+        
     }
 
 }
