@@ -40,11 +40,12 @@ jobs:
       run: dotnet test --no-restore --verbosity normal
     - name: Dotnet Publish
       run: dotnet publish Starkit -c Release -o deploy
-    - name: change
+    - name: Change
       run: ls
     - name: Deploy to Server
       uses: garygrossgarten/github-action-scp@v0.5.3
       env: 
+        local: /deploy/
         SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
         REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
         REMOTE_USER: ${{ secrets.REMOTE_USER }}
