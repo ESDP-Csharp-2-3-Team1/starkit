@@ -45,7 +45,7 @@ jobs:
     - name: Deploy to Server
       uses: garygrossgarten/github-action-scp@v0.5.3
       with: 
-        local: /home/runner/work/starkit/Starkit/deploy/
+        local: /deploy/
         privateKey: ${{ secrets.SERVER_SSH_KEY }}
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
