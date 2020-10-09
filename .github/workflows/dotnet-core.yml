@@ -40,8 +40,8 @@ jobs:
       run: dotnet test --no-restore --verbosity normal
     - name: Dotnet Publish
       run: dotnet publish Starkit -c Release -o deploy
-#     - name: Change
-#       run: ls
+    - name: Change
+      run: ls
     - name: Copy via ssh
       uses: garygrossgarten/github-action-scp@release
       with: 
