@@ -10,16 +10,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     
-    services:
-      postgres:
-        image: postgres:10.8
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: Almatzxccx152451
-          POSTGRES_DB: starkitDb
-        ports:
-          - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+#     services:
+#       postgres:
+#         image: postgres:10.8
+#         env:
+#           POSTGRES_USER: postgres
+#           POSTGRES_PASSWORD: Almatzxccx152451
+#           POSTGRES_DB: starkitDb
+#         ports:
+#           - 5432:5432
+#         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
     - uses: actions/checkout@v2
@@ -48,5 +48,5 @@ jobs:
         local: /home/runner/work/starkit/Starkit/deploy/
         privateKey: ${{ secrets.SERVER_SSH_KEY }}
         host: ${{ secrets.REMOTE_HOST }}
-        user: ${{ secrets.REMOTE_USER }}
+        username: ${{ secrets.REMOTE_USER }}
         remote: ${{ secrets.REMOTE_TARGET }}
