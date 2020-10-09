@@ -7,28 +7,20 @@ on:
     branches: [ master ]
 
 jobs:      
-  container-job:
-    # Containers must run in Linux based operating systems
+  build:
     runs-on: ubuntu-latest
-    # Docker Hub image that `container-job` executes in
-    container: node:10.18-jessie
+    
+#     services:
+#       postgres:
+#         image: postgres:10.8
+#         env:
+#           POSTGRES_USER: postgres
+#           POSTGRES_PASSWORD: Almatzxccx152451
+#           POSTGRES_DB: starkitDb
+#         ports:
+#           - 5432:5432
+#         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
-    # Service containers to run with `container-job`
-    services:
-      # Label used to access the service container
-      postgres:
-        # Docker Hub image
-        image: postgres
-        # Provide the password for postgres
-        env:
-          POSTGRES_PASSWORD: Almatzxccx152451
-        # Set health checks to wait until postgres has started
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-           
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
@@ -37,19 +29,24 @@ jobs:
         dotnet-version: 3.1.301
     - name: Install dependencies
       run: dotnet restore
-    - name: Connect to PostgreSQL
-      run: node client.js
-      env:
-          POSTGRES_HOST: postgres
-          POSTGRES_PORT: 5432
-#     - name: Update database
+#     - name: Run migrations
 #       run: |
 #         dotnet tool install --global dotnet-ef
 #         dotnet tool restore
 #         dotnet ef database update --c DataContext --p MyProj --s MyProjFactory
-#       env:
-#         ASPNETCORE_ENVIRONMENT: Development
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --no-restore --verbosity normal
+    - name: Dotnet Publish
+      run: dotnet publish Starkit -c Release -o deploy
+#     - name: Change
+#       run: ls
+    - name: Copy via ssh
+      uses: garygrossgarten/github-action-scp@v0.5.3
+      with: 
+        local: Starkit
+        privateKey: ${{ secrets.SERVER_SSH_KEY }}
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        remote: ${{ secrets.REMOTE_TARGET }}
