@@ -10,11 +10,18 @@
     @{
         
         await Html.RenderPartialAsync("Partial/BlockCarouselPartial"); // block 1
-        await Html.RenderPartialAsync("Partial/BlockOrderPartial"); // block 2
-        await Html.RenderPartialAsync("Partial/BlockSpecialDishPartial"); // block 3
-        await Html.RenderPartialAsync("Partial/BlockMenuPartial"); // block 4
+        await Html.RenderPartialAsync("Partial/BlockAboutUsPartial"); // block 2
+        await Html.RenderPartialAsync("Partial/SiteOffersPartial"); // block 3
+        await Html.RenderPartialAsync("Partial/SiteDishesPartial"); // block 4
+        await Html.RenderPartialAsync("Partial/BlockOrderPartial"); // block 5
     }
 </div>
+<div id="details"></div>
+<input type="hidden" id="contact-number" value="@Model.PhoneNumber">
+<input type="hidden" id="logo" value="../@Model.LogoPath">
+<input type="hidden" id="address" value="@Model.Address">
+<div class="mt-5"></div>
+<hr>
 
 
 @section Scripts
@@ -22,9 +29,8 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-    
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <script defer src="https://maps.googleapis.com/maps/api/js?key=@Model.GoogleMapsApi&callback=initMap&libraries=&v=weekly"></script>
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhAhvYy9xeEs2hsjnUJrlodNv9heLgXmA&callback=initMap&libraries=&v=weekly"></script>
     <script>
         $(document).ready(function (){
             @*По этому скрипту работает карусель акционных блюд*@

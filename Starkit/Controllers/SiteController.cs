@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Starkit.Models;
 using Starkit.Models.Data;
@@ -24,11 +25,6 @@ namespace Starkit.Controllers
             /// Обязательный параметр без этого редактирование сайта не будет работать 
             ViewBag.UserIsAuthenticated = User.Identity.IsAuthenticated;
             
-            var userID = _userManager.GetUserId(User);
-            var _restaurant = await _db.Restaurants.FirstOrDefaultAsync(r => r.UserId == userID);
-            ViewBag.Restaurant = _restaurant;
-            ViewBag.Carousel = await _db.DataSiteCards.FirstOrDefaultAsync(d => d.RestaurantId == _restaurant.Id);
-            
             User user = await _db.Users.
                 FirstOrDefaultAsync(u => u.Id == _userManager.GetUserId(User));
             if (User.IsInRole("SuperAdmin"))
@@ -36,28 +32,28 @@ namespace Starkit.Controllers
                 string userId = user.IdOfTheSelectedRestaurateur;
                 user = await _userManager.FindByIdAsync(userId);
             }
-
             Restaurant restaurant;
-
+            var _restaurant = await _db.Restaurants.FirstOrDefaultAsync(r => r.UserId == user.Id);
+            ViewBag.Restaurant = _restaurant;
             if (user != null)
             {
                 restaurant = await _db.Restaurants
                     .FirstOrDefaultAsync(r => r.Id == user.RestaurantId);
-                restaurant.DishesGroup = restaurant.Dishes.GroupBy(d => d.Category);
-                return View(restaurant);
             }
             
             else
             {
                 string host = HttpContext.Request.Host.Value;
-            
                 restaurant = await _db.Restaurants
                     .FirstOrDefaultAsync(r => r.DomainName == host);
-                restaurant.DishesGroup = restaurant.Dishes.GroupBy(d => d.Category);
-                return View(restaurant);
             }
+            restaurant.DishesGroup = restaurant.Dishes.GroupBy(d => d.Category);
+            ViewBag.Carousel = await _db.DataSiteCards.FirstOrDefaultAsync(d => d.RestaurantId == restaurant.Id);
+            var categories = _db.Categories.Where(c=>c.RestaurantId == restaurant.Id).ToList();
+            categories.Insert(0, new Category {Name = "Все", Id = null});
+            ViewBag.Categories = categories;
             
-            
+            return View(restaurant);
         }
     }
 }
