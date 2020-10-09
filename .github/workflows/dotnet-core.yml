@@ -39,7 +39,7 @@ jobs:
     - name: Test
       run: dotnet test --no-restore --verbosity normal
     - name: Dotnet Publish
-      run: dotnet publish TestApp2 -c Release -o deploy
+      run: dotnet publish Starkit -c Release -o deploy
     - name: change
       run: ls
     - name: Deploy to Server
