@@ -40,6 +40,8 @@ jobs:
       run: dotnet test --no-restore --verbosity normal
     - name: Dotnet Publish
       run: dotnet publish TestApp2 -c Release -o deploy
+    - name: change
+      run: ls
     - name: Deploy to Server
       uses: garygrossgarten/github-action-scp@v0.5.3
       env: 
