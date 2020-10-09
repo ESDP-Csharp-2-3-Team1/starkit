@@ -50,3 +50,4 @@ jobs:
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
         remote: ${{ secrets.REMOTE_TARGET }}
+        recursive: true 
