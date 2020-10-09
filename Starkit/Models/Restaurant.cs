@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Starkit.Models
 {
@@ -22,6 +23,8 @@ namespace Starkit.Models
         public string RestaurantInformation { get; set; }
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         public bool DomainAvailability { get; set; }
+        [RegularExpression("^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}$", ErrorMessage = "Неверное доменное имя. Попробуйте еще раз.")]
+        [Remote("CheckDomain", "Validation", ErrorMessage = "Этот домен уже зарегестрирован в приложении")]
         public string DomainName { get; set; }
         public string DomainRegistrar { get; set; }
         public string LogoPath { get; set; }

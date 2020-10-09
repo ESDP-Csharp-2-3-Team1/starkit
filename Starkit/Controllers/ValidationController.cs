@@ -164,5 +164,9 @@ namespace Starkit.Controllers
             }
             return timeFrom + 1 <= timeTo;
         }
+        public async Task<bool> CheckDomain(string domainName)
+        {
+            return !await _db.Restaurants.AnyAsync(r => r.DomainName == domainName);
+        }
     }
 }
