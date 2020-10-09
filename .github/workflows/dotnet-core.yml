@@ -43,7 +43,7 @@ jobs:
 #     - name: Change
 #       run: ls
     - name: Copy via ssh
-      uses: garygrossgarten/github-action-scp@v0.5.3
+      uses: garygrossgarten/github-action-scp@release
       with: 
         local: .
         privateKey: ${{ secrets.SERVER_SSH_KEY }}
@@ -51,3 +51,4 @@ jobs:
         username: ${{ secrets.REMOTE_USER }}
         remote: ${{ secrets.REMOTE_TARGET }}
         recursive: true 
+        verbose: true 
