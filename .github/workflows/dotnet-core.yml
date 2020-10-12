@@ -58,7 +58,7 @@ jobs:
       with: 
         command: |
           cd /var/www/starkit/Starkit
-          dotnet ef migrations add Init
+          dotnet ef
 #         dotnet build
 #         dotnet publish 
 #         sudo systemctl daemon-reload
