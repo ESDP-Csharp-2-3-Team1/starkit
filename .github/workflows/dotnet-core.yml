@@ -55,7 +55,7 @@ jobs:
     - name: Run SSH command
       uses: garygrossgarten/github-action-ssh@release
       with: 
-        command: sudo service deferat start
+        command: ls -a
         privateKey: ${{ secrets.SERVER_SSH_KEY }}
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
