@@ -50,5 +50,10 @@ jobs:
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
         remote: ${{ secrets.REMOTE_TARGET }}
-        recursive: true 
-        verbose: true 
+    - name: Run SSH command
+      uses: garygrossgarten/github-action-ssh@release
+      with: 
+        command: dotnet ef database update
+        privateKey: ${{ secrets.SERVER_SSH_KEY }}
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
