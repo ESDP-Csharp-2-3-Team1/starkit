@@ -58,6 +58,7 @@ jobs:
       with: 
         command: |
           cd /var/www/starkit/Starkit
+          dotnet tool update --global dotnet-ef
           dotnet ef
 #         dotnet build
 #         dotnet publish 
