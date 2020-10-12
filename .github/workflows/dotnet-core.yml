@@ -36,28 +36,32 @@ jobs:
 #         dotnet tool restore
 #         dotnet ef database update --c DataContext --p MyProj --s MyProjFactory
 
-#     - name: Build
-#       run: dotnet build --configuration Release --no-restore
-#     - name: Test
-#       run: dotnet test --no-restore --verbosity normal
-#     - name: Dotnet Publish
-#       run: dotnet publish Starkit -c Release -o deploy
-#     - name: Change
-#       run: ls
-#     - name: Copy via ssh
-#       uses: garygrossgarten/github-action-scp@release
-#       with: 
-#         local: .
-#         privateKey: ${{ secrets.SERVER_SSH_KEY }}
-#         host: ${{ secrets.REMOTE_HOST }}
-#         username: ${{ secrets.REMOTE_USER }}
-#         remote: ${{ secrets.REMOTE_TARGET }}
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal
+    - name: Dotnet Publish
+      run: dotnet publish Starkit -c Release -o deploy
+    - name: Change
+      run: ls
+    - name: Copy via ssh
+      uses: garygrossgarten/github-action-scp@release
+      with: 
+        local: .
+        privateKey: ${{ secrets.SERVER_SSH_KEY }}
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        remote: ${{ secrets.REMOTE_TARGET }}
     - name: Run SSH command
       uses: garygrossgarten/github-action-ssh@release
       with: 
         command: |
-          cd /var/www/starkit
-          ls
+          cd /var/www/starkit/Starkit
+          dotnet ef database update
+          dotnet build
+          dotnet publish 
+          sudo systemctl daemon-reload
+          sudo nginx -s reload
         privateKey: ${{ secrets.SERVER_SSH_KEY }}
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
