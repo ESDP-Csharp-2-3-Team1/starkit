@@ -22,13 +22,13 @@ jobs:
 #         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.301
-    - name: Install dependencies
-      run: dotnet restore
+#     - uses: actions/checkout@v2
+#     - name: Setup .NET Core
+#       uses: actions/setup-dotnet@v1
+#       with:
+#         dotnet-version: 3.1.301
+#     - name: Install dependencies
+#       run: dotnet restore
 
 #     - name: Run migrations
 #       run: |
@@ -36,28 +36,30 @@ jobs:
 #         dotnet tool restore
 #         dotnet ef database update --c DataContext --p MyProj --s MyProjFactory
 
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
-    - name: Dotnet Publish
-      run: dotnet publish Starkit -c Release -o deploy
-    - name: Change
-      run: ls
-    - name: Copy via ssh
-      uses: garygrossgarten/github-action-scp@release
-      with: 
-        local: .
-        privateKey: ${{ secrets.SERVER_SSH_KEY }}
-        host: ${{ secrets.REMOTE_HOST }}
-        username: ${{ secrets.REMOTE_USER }}
-        remote: ${{ secrets.REMOTE_TARGET }}
+#     - name: Build
+#       run: dotnet build --configuration Release --no-restore
+#     - name: Test
+#       run: dotnet test --no-restore --verbosity normal
+#     - name: Dotnet Publish
+#       run: dotnet publish Starkit -c Release -o deploy
+#     - name: Change
+#       run: ls
+#     - name: Copy via ssh
+#       uses: garygrossgarten/github-action-scp@release
+#       with: 
+#         local: .
+#         privateKey: ${{ secrets.SERVER_SSH_KEY }}
+#         host: ${{ secrets.REMOTE_HOST }}
+#         username: ${{ secrets.REMOTE_USER }}
+#         remote: ${{ secrets.REMOTE_TARGET }}
 
     - name: Run SSH command
       uses: garygrossgarten/github-action-ssh@release
       with: 
         command: |
           cd /var/www/starkit/Starkit
+          dotnet tool install --global dotnet-ef
+          dotnet tool restore
           dotnet ef database update
           dotnet build
           dotnet publish 
