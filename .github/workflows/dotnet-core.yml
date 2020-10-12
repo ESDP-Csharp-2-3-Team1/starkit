@@ -58,9 +58,7 @@ jobs:
       with: 
         command: |
           cd /var/www/starkit/Starkit
-          dotnet tool install --global dotnet-ef
-          dotnet tool restore
-          dotnet ef database update
+          sudo dotnet ef database update
           dotnet build
           dotnet publish 
           sudo systemctl daemon-reload
