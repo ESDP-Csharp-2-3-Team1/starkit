@@ -55,7 +55,9 @@ jobs:
     - name: Run SSH command
       uses: garygrossgarten/github-action-ssh@release
       with: 
-        command: ls -a
+        command: |
+          cd /var/www/starkit
+          ls
         privateKey: ${{ secrets.SERVER_SSH_KEY }}
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
