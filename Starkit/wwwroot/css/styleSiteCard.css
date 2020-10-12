@@ -317,7 +317,6 @@ body{
 }
 .slider-in-code-asd45412 p{
     margin: 20px 0;
-    padding-top: 14px;
 }
 .slider-in-code-asd45412 a{
     background: none;
@@ -332,10 +331,18 @@ body{
     cursor: pointer;
     
 }
+
+.buy-qty{
+    background: #fff;
+}
 .slider-in-code-asd45412 a:hover{
     color: white;
     transition: 0.5s;
     background: #e7272d;
+}
+.slick-track{
+    margin-left: 0px;
+    margin-right: 0px;
 }
 /*Блок меню ___________________________________*/
 .bl-men-box1 h2{
