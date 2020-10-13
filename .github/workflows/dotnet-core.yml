@@ -56,14 +56,14 @@ jobs:
     - name: Run SSH command
       uses: garygrossgarten/github-action-ssh@release
       with: 
-        command: |
-          cd /var/www/starkit/Starkit
-          dotnet tool update --global dotnet-ef
-          dotnet ef
-          dotnet build
-          dotnet publish 
-          sudo systemctl daemon-reload
-          sudo nginx -s reload
+        command: $PATH
+#          cd /var/www/starkit/Starkit
+#          dotnet tool update --global dotnet-ef
+#          dotnet ef
+#          dotnet build
+#          dotnet publish 
+#          sudo systemctl daemon-reload
+#          sudo nginx -s reload
         privateKey: ${{ secrets.SERVER_SSH_KEY }}
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
