@@ -26,7 +26,7 @@
                                                     <img class="stock-img" onclick="stockDetails('@stock.Id')" src="~/@stock.Avatar" alt="">
                                                 </div>
                                                 <span class="offers-cost">@stock.Cost тг</span>
-                                                    <p class="text-stock-business-card">@stock.Name</p>
+                                                <p class="text-stock-business-card">@stock.Name</p>
                                                 <div style="text-align: center">
                                                     <form class="buy" id="@stock.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@stock.Id" asp-route-name="stock">
                                                         <input class="text-center mr-3" id="qty-@stock.Id" type="number" name="quantity" min="1" value="1" style="width: 50px">

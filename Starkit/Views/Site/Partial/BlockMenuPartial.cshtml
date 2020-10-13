@@ -1,4 +1,4 @@
-﻿@using System.Net.WebSockets
+﻿@using Microsoft.EntityFrameworkCore
 <div class="menu-bgr-code-asd582">
     <div class="container">
         <div style="padding-top: 50px; padding-bottom: 70px">
@@ -6,39 +6,43 @@
                 <div class="block-menu-in-code-x14a">
                     <div>
                         <div class="bl-men-box1" style="padding-bottom: 20px">
-                            <h2 style="padding-bottom: 12px;margin-bottom: 20px">Наше меню</h2>
+                            <h2 style="padding-bottom: 12px;margin-bottom: 20px">Специальные меню</h2>
                             <div class="bl-men-box1-1" style="margin-bottom: 35px">
                                 <span class="subtitle-line"></span>
-                                <span class="subtitle-color">Lorem</span>
+                                <span class="subtitle-color">На любой вкус</span>
                                 <span class="subtitle-line"></span>
                             </div>
 
                             <div class="bl-men-box2" style="padding: 0 15px">
-                                <div class="BM-panel-upr" style="margin-bottom: 32px ">
-                                    <div class="panelupravlenia-btn">
-                                        @foreach (var category in ViewBag.Categories)
-                                        {
-                                            <button class="btn btn-light">@category.Name</button>
-                                        }
-                                    </div>
-                                </div>
-                                @foreach (var dish in Model.Dishes)
+                                <section class="center slider slider-code-asd154 menu-slider">
+                                @foreach (var menu in Model.Menu)
                                 {
-                                    <div class="box-dish-code15">
-                                        <div class="dish-as15">
-                                            <div>
-                                                <div class="dish-as15-box-img">
-                                                    <img class="dish-as15-img" src="~/@dish.Avatar" alt="@dish.Name">
-                                                </div>
-                                                <div class="dish-as15-box-title">
-                                                    <h3 class="">
-                                                        <a href="#">@dish.Name</a>
-                                                    </h3>
+                                    <div class="menu-slider-block">    
+                                <div class="box-menu">
+                                    <div class="menu-block">
+                                        <div>
+                                            <div class="menu-box-img">
+                                                <img class="menu-avatar-img" src="~/@menu.Avatar" alt="@menu.Name">
+                                            </div>
+                                            <div class="menu-box-title">
+                                                <h3 class="">
+                                                    <a href="#">@menu.Name</a>
+                                                </h3>
+                                                <span class="menu-cost">@menu.Cost тг</span>
+                                                <div style="text-align: center">
+                                                    <form class="buy" id="@menu.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@menu.Id" asp-route-name="menu">
+                                                        <input class="text-center mr-3" id="qty-@menu.Id" type="number" name="quantity" min="1" value="1" style="width: 50px">
+                                                        <button type="submit" class="btn btn-light offers-btn">В корзину</button>
+                                                        <p class="text-light" style="margin: 10px 0 10px 0" id="message-@menu.Id"></p>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                                </div>
                                 }
+                                </section>
                             </div>
                         </div>
                     </div>

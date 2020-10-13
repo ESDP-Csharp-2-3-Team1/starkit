@@ -50,10 +50,7 @@ namespace Starkit.Controllers
             }
             restaurant.DishesGroup = restaurant.Dishes.GroupBy(d => d.Category);
             ViewBag.Carousel = await _db.DataSiteCards.FirstOrDefaultAsync(d => d.RestaurantId == restaurant.Id);
-            var categories = _db.Categories.Where(c=>c.RestaurantId == restaurant.Id).ToList();
-            categories.Insert(0, new Category {Name = "Все", Id = null});
-            ViewBag.Categories = categories;
-            
+
             return View(restaurant);
         }
 
