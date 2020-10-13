@@ -57,6 +57,7 @@ jobs:
       uses: garygrossgarten/github-action-ssh@release
       with: 
         command: |
+          export path= $path /root/.dotnet/tools
           cd /var/www/starkit/Starkit
           dotnet clean
           dotnet restore
