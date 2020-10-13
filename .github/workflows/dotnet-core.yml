@@ -58,9 +58,8 @@ jobs:
       with: 
         command: |
           cd /var/www/starkit/Starkit
-          dotnet clean
-          dotnet restore
-          dotnet build
+          export PATH="$PATH:$HOME/.dotnet/tools/"
+          $PATH
           dotnet ef migrations add Initial
 #          dotnet tool update --global dotnet-ef
 #          dotnet ef
