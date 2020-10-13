@@ -57,13 +57,13 @@ jobs:
       uses: garygrossgarten/github-action-ssh@release
       with: 
         command: |
+          export PATH="$PATH:$HOME/.dotnet/tools/"
+          $PATH
           dotnet clean
           dotnet restore
           cd /var/www/starkit/Starkit
-          export PATH="$PATH:$HOME/.dotnet/tools/"
-          $PATH
+          dotnet ef
           dotnet build
-          dotnet ef database update
           dotnet publish 
           sudo systemctl daemon-reload
           sudo systemctl restart study_blog.service
