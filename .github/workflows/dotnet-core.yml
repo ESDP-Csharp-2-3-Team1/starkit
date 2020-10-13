@@ -58,15 +58,14 @@ jobs:
       with: 
         command: |
           cd /var/www/starkit/Starkit
-          export PATH="$PATH:$HOME/.dotnet/tools/"
-          $PATH
-          dotnet ef migrations add Initial
-#          dotnet tool update --global dotnet-ef
-#          dotnet ef
-#          dotnet build
-#          dotnet publish 
-#          sudo systemctl daemon-reload
-#          sudo nginx -s reload
+          dotnet clean
+          dotnet restore
+          dotnet build
+          dotnet ef database update
+          dotnet publish 
+          sudo systemctl daemon-reload
+          sudo systemctl restart study_blog.service
+          sudo nginx -s reload
         privateKey: ${{ secrets.SERVER_SSH_KEY }}
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
