@@ -56,8 +56,12 @@ jobs:
     - name: Run SSH command
       uses: garygrossgarten/github-action-ssh@release
       with: 
-        command: $PATH
-#          cd /var/www/starkit/Starkit
+        command: |
+          cd /var/www/starkit/Starkit
+          dotnet clean
+          dotnet restore
+          dotnet build
+          dotnet ef migrations add Initial
 #          dotnet tool update --global dotnet-ef
 #          dotnet ef
 #          dotnet build
