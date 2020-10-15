@@ -21,14 +21,14 @@ jobs:
 #           - 5432:5432
 #         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
-    steps:
-     - uses: actions/checkout@v2
-     - name: Setup .NET Core
-       uses: actions/setup-dotnet@v1
-       with:
-         dotnet-version: 3.1.301
-     - name: Install dependencies
-       run: dotnet restore
+#     steps:
+#      - uses: actions/checkout@v2
+#      - name: Setup .NET Core
+#        uses: actions/setup-dotnet@v1
+#        with:
+#          dotnet-version: 3.1.301
+#      - name: Install dependencies
+#        run: dotnet restore
 
 #     - name: Run migrations
 #       run: |
@@ -36,34 +36,34 @@ jobs:
 #         dotnet tool restore
 #         dotnet ef database update --c DataContext --p MyProj --s MyProjFactory
 
-     - name: Build
-       run: dotnet build --configuration Release --no-restore
-     - name: Test
-       run: dotnet test --no-restore --verbosity normal
-     - name: Dotnet Publish
-       run: dotnet publish Starkit -c Release -o deploy
-     - name: Copy via ssh
-       uses: garygrossgarten/github-action-scp@release
-       with: 
-        local: .
-        privateKey: ${{ secrets.SERVER_SSH_KEY }}
-        host: ${{ secrets.REMOTE_HOST }}
-        username: ${{ secrets.REMOTE_USER }}
-        remote: ${{ secrets.REMOTE_TARGET }}
+#      - name: Build
+#        run: dotnet build --configuration Release --no-restore
+#      - name: Test
+#        run: dotnet test --no-restore --verbosity normal
+#      - name: Dotnet Publish
+#        run: dotnet publish Starkit -c Release -o deploy
+#      - name: Copy via ssh
+#        uses: garygrossgarten/github-action-scp@release
+#        with: 
+#         local: .
+#         privateKey: ${{ secrets.SERVER_SSH_KEY }}
+#         host: ${{ secrets.REMOTE_HOST }}
+#         username: ${{ secrets.REMOTE_USER }}
+#         remote: ${{ secrets.REMOTE_TARGET }}
 
-     - name: Run SSH command
-       uses: garygrossgarten/github-action-ssh@release
-       with: 
-        command: |
-          export PATH="$PATH:$HOME/.dotnet/tools/"
-          $PATH
-          cd /var/www/starkit/Starkit
-          dotnet ef database update
-          dotnet build
-          dotnet publish 
-          sudo systemctl daemon-reload
-          sudo systemctl restart starkit.service
-          sudo nginx -s reload
-        privateKey: ${{ secrets.SERVER_SSH_KEY }}
-        host: ${{ secrets.REMOTE_HOST }}
-        username: ${{ secrets.REMOTE_USER }}
+#      - name: Run SSH command
+#        uses: garygrossgarten/github-action-ssh@release
+#        with: 
+#         command: |
+#           export PATH="$PATH:$HOME/.dotnet/tools/"
+#           $PATH
+#           cd /var/www/starkit/Starkit
+#           dotnet ef database update
+#           dotnet build
+#           dotnet publish 
+#           sudo systemctl daemon-reload
+#           sudo systemctl restart starkit.service
+#           sudo nginx -s reload
+#         privateKey: ${{ secrets.SERVER_SSH_KEY }}
+#         host: ${{ secrets.REMOTE_HOST }}
+#         username: ${{ secrets.REMOTE_USER }}
