@@ -56,7 +56,6 @@ jobs:
        with: 
         command: |
           export PATH="$PATH:$HOME/.dotnet/tools/"
-          $PATH
           cd /var/www/starkit/Starkit
           dotnet ef database update
           dotnet build
