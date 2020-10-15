@@ -295,5 +295,11 @@
                  $("#dishList").html(data);
             });
         }
+        function ham(){
+           $(".hb-menu").slideToggle("slow", function() {});
+       }
+       $(".hb-menu").click(function() {
+           $(this).fadeOut("slow")
+       })
     </script>
 }
