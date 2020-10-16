@@ -35,17 +35,6 @@ jobs:
 #         dotnet tool install --global dotnet-ef
 #         dotnet tool restore
 #         dotnet ef database update --c DataContext --p MyProj --s MyProjFactory
-     
-     - name: Delete App
-       uses: garygrossgarten/github-action-ssh@release
-       with: 
-        command: |
-          cd /var/www/
-          sudo -rm -r -f starkit
-          mkdir starkit
-        privateKey: ${{ secrets.SERVER_SSH_KEY }}
-        host: ${{ secrets.REMOTE_HOST }}
-        username: ${{ secrets.REMOTE_USER }}
 
      - name: Build
        run: dotnet build --configuration Release --no-restore
@@ -53,6 +42,19 @@ jobs:
        run: dotnet test --no-restore --verbosity normal
      - name: Dotnet Publish
        run: dotnet publish Starkit -c Release -o deploy
+       
+     - name: Delete App
+       uses: garygrossgarten/github-action-ssh@release
+       with: 
+        command: |
+          cd /var/www/
+          sudo -rm -r -f /starkit
+          mkdir starkit
+          
+        privateKey: ${{ secrets.SERVER_SSH_KEY }}
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        
      - name: Copy via ssh
        uses: garygrossgarten/github-action-scp@release
        with: 
@@ -61,7 +63,7 @@ jobs:
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
         remote: ${{ secrets.REMOTE_TARGET }}
-
+   
      - name: Run SSH command
        uses: garygrossgarten/github-action-ssh@release
        with: 
