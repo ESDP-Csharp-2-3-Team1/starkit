@@ -816,3 +816,14 @@ body{
 
 
 
+
+
+#EditCarouselBTN{
+    position: absolute;
+    z-index: 1000;
+    bottom: 0%;
+    color: white;
+    right: 5%;
+}
+
+
