@@ -49,9 +49,10 @@ jobs:
         command: |
           export PATH="$PATH:$HOME/.dotnet/tools/"
           cd /var/www/starkit/Starkit
-          git pull
+          git pull origin master
           dotnet ef database update
-          dotnet msbuild
+          dotnet restore
+          dotnet build
           sudo systemctl daemon-reload
           sudo systemctl restart starkit.service
           sudo nginx -s reload
