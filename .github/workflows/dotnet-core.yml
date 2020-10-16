@@ -48,7 +48,7 @@ jobs:
        with: 
         command: |
           cd /var/www/
-          sudo -rm -r -f /starkit
+          sudo -rm -R starkit
           mkdir starkit
           
         privateKey: ${{ secrets.SERVER_SSH_KEY }}
