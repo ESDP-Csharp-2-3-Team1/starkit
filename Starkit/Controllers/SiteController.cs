@@ -49,7 +49,7 @@ namespace Starkit.Controllers
                     .FirstOrDefaultAsync(r => r.DomainName == host);
             }
             restaurant.DishesGroup = restaurant.Dishes.GroupBy(d => d.Category);
-            ViewBag.Carousel = await _db.DataSiteCards.FirstOrDefaultAsync(d => d.RestaurantId == restaurant.Id);
+            ViewBag.Data = await _db.DataSiteCards.FirstOrDefaultAsync(d => d.RestaurantId == restaurant.Id);
 
             return View(restaurant);
         }

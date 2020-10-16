@@ -1,22 +1,53 @@
-<div class="menu-bgr-code-asd582">
+<section class="dish-bgr-code-asd582" id="dishes-section" style="background-image: url('../@ViewBag.Data.ImgPathDishes')">
     <div class="container">
-        <div style="padding-top: 50px; padding-bottom: 70px">
-            <div class="block-menu-code-x14a" style="padding-top: 35px;padding-left: 15px;padding-right: 15px;">
+        <div>
+            <div class="block-menu-code-x14a">
                 <div class="block-menu-in-code-x14a">
                     <div>
                         <div class="bl-men-box1" style="padding-bottom: 20px">
-                            <h2 style="padding-bottom: 12px;margin-bottom: 20px">ВКУСНОЕ МЕНЮ СЕГОДНЯ</h2>
-                            <div class="bl-men-box1-1" style="margin-bottom: 35px">
-                                <span class="subtitle-line"></span>
-                                <span class="subtitle-color">Выбор шеф-повара</span>
-                                <span class="subtitle-line"></span>
+                            <div class="edit-form">
+                                <form asp-action="SaveSectionData" asp-controller="SiteCards" asp-route-block="dishes" method="post" enctype="multipart/form-data">
+                                    @if (ViewBag.UserIsAuthenticated)
+                                        {
+                                            <div class="section-edit bg-input">
+                                                <label for="inputImgPathDishes"><i class="fas fa-upload"></i></label>
+                                                <input name="file" type="file" id="inputImgPathDishes">
+                                                <button class="btn editBlockBtn" type="submit"><i class="fas fa-save"></i></button>
+                                            </div> 
+                                        }
+                                    <h2 class="section-title" style="padding-bottom: 12px;margin-bottom: 20px">
+                                        @if (ViewBag.UserIsAuthenticated)
+                                        {
+                                            <input name="Title" type="text" value="@ViewBag.Data.DishesTitle">
+                                        }
+                                        else
+                                        {
+                                            @ViewBag.Data.DishesTitle
+                                        }
+                                    </h2>
+                                    <div class="bl-men-box1-1" style="margin-bottom: 35px">
+                                        <span class="subtitle-line"></span>
+                                        <span class="subtitle-text">
+                                            @if (ViewBag.UserIsAuthenticated)
+                                            {
+                                                <input name="Subtitle" type="text" value="@ViewBag.Data.DishesSubtitle">
+                                            }
+                                            else
+                                            {
+                                                @ViewBag.Data.DishesSubtitle
+                                            }
+                                        </span>
+                                        <span class="subtitle-line subtitle-line-rt"></span>
+                                    </div>
+                                </form>
                             </div>
 
                             <div class="bl-men-box2" style="padding: 0 15px">
                                 <div class="BM-panel-upr" style="margin-bottom: 32px ">
                                     <div class="control-panel-btn">
                                         <button class="btn btn-light" onclick="getDishes('')">ПОКАЗАТЬ ВСЕ</button>
-                                        @foreach(var category in Model.Categories){
+                                        @foreach (var category in Model.Categories)
+                                        {
                                             <button class="btn btn-light" onclick="getDishes('@category.Id')">
                                                 @category.Name
                                             </button>
@@ -33,5 +64,5 @@
             </div>
         </div>
     </div>
-    </div>
+</section>
     

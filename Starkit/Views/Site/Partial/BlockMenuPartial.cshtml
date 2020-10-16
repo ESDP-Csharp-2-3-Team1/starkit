@@ -1,49 +1,78 @@
-﻿@using Microsoft.EntityFrameworkCore
-<div class="menu-bgr-code-asd582">
-    <div class="container">
-        <div style="padding-top: 50px; padding-bottom: 70px">
-            <div class="block-menu-code-x14a" style="padding-top: 35px;padding-left: 15px;padding-right: 15px;">
-                <div class="block-menu-in-code-x14a">
-                    <div>
-                        <div class="bl-men-box1" style="padding-bottom: 20px">
-                            <h2 style="padding-bottom: 12px;margin-bottom: 20px">Специальные меню</h2>
+﻿<section class="menu-bgr-code-asd582" id="menu-section" style="background-image: url('../@ViewBag.Data.ImgPathMenu')">
+    
+<div class="container">
+    <div>
+        <div class="block-menu-code-x14a">
+            <div class="block-menu-in-code-x14a">
+                <div>
+                    <div class="bl-men-box1" style="padding-bottom: 20px">
+                        <div class="edit-form">
+                            <form asp-action="SaveSectionData" asp-controller="SiteCards" asp-route-block="menu" method="post" enctype="multipart/form-data">
+                            @if (ViewBag.UserIsAuthenticated)
+                                {
+                                    <div class="section-edit bg-input">
+                                        <label for="inputImgPathMenu"><i class="fas fa-upload"></i></label>
+                                        <input name="file" type="file" id="inputImgPathMenu">
+                                        <button class="btn editBlockBtn" type="submit"><i class="fas fa-save"></i></button>
+                                    </div> 
+                                }
+                            <h2 class="section-title text-dark" style="padding-bottom: 12px;margin-bottom: 20px">
+                                @if (ViewBag.UserIsAuthenticated)
+                                {
+                                    <input class="text-dark" name="Title" type="text" value="@ViewBag.Data.MenuTitle">
+                                }
+                                else
+                                {
+                                    @ViewBag.Data.MenuTitle
+                                }
+                            </h2>
                             <div class="bl-men-box1-1" style="margin-bottom: 35px">
-                                <span class="subtitle-line"></span>
-                                <span class="subtitle-color">На любой вкус</span>
-                                <span class="subtitle-line"></span>
+                                <span class="subtitle-line border-danger"></span>
+                                <span class="subtitle-text text-danger">
+                                    @if (ViewBag.UserIsAuthenticated)
+                                    {
+                                        <input name="Subtitle" type="text" value="@ViewBag.Data.MenuSubtitle">
+                                    }
+                                    else
+                                    {
+                                        @ViewBag.Data.MenuSubtitle
+                                    }
+                                </span>
+                                <span class="subtitle-line subtitle-line-rt border-danger"></span>
                             </div>
+                            </form>
+                        </div>
 
-                            <div class="bl-men-box2" style="padding: 0 15px">
-                                <section class="center slider slider-code-asd154 menu-slider">
+                        <div class="bl-men-box2" style="padding: 0 15px">
+                            <section class="center slider slider-code-asd154 menu-slider">
                                 @foreach (var menu in Model.Menu)
                                 {
-                                    <div class="menu-slider-block">    
-                                <div class="box-menu">
-                                    <div class="menu-block">
-                                        <div>
-                                            <div class="menu-box-img">
-                                                <img class="menu-avatar-img" src="~/@menu.Avatar" alt="@menu.Name">
-                                            </div>
-                                            <div class="menu-box-title">
-                                                <h3 class="">
-                                                    <a href="#">@menu.Name</a>
-                                                </h3>
-                                                <span class="menu-cost">@menu.Cost тг</span>
-                                                <div style="text-align: center">
-                                                    <form class="buy" id="@menu.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@menu.Id" asp-route-name="menu">
-                                                        <input class="text-center mr-3" id="qty-@menu.Id" type="number" name="quantity" min="1" value="1" style="width: 50px">
-                                                        <button type="submit" class="btn btn-light offers-btn">В корзину</button>
-                                                        <p class="text-light" style="margin: 10px 0 10px 0" id="message-@menu.Id"></p>
-                                                    </form>
+                                    <div class="menu-slider-block">
+                                        <div class="box-menu">
+                                            <div class="menu-block">
+                                                <div>
+                                                    <div class="menu-box-title text-center">
+                                                        <div class="menu-box-img">
+                                                            <img class="menu-avatar-img" src="~/@menu.Avatar" alt="@menu.Name">
+                                                        </div>
+                                                        <h3 class="">
+                                                            <a href="#">@menu.Name</a>
+                                                        </h3>
+                                                        <span class="menu-cost">@menu.Cost тг</span>
+                                                        <div style="text-align: center">
+                                                            <form class="buy" id="@menu.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@menu.Id" asp-route-name="menu">
+                                                                <input class="text-center mr-3 menu-qty-input" id="qty-@menu.Id" type="number" name="quantity" min="1" value="1" style="width: 50px">
+                                                                <button type="submit" class="btn btn-danger">В корзину</button>
+                                                                <p class="text-light" style="margin: 10px 0 10px 0" id="message-@menu.Id"></p>
+                                                            </form>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                </div>
                                 }
-                                </section>
-                            </div>
+                            </section>
                         </div>
                     </div>
                 </div>
@@ -51,4 +80,6 @@
         </div>
     </div>
 </div>
+</section>
+
 

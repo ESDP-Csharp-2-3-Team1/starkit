@@ -69,44 +69,48 @@ namespace Starkit.Controllers
 
         private async Task<string> CreateFile(IFormFile file)
         {
-            string directoryPath = Path.Combine(_environment.ContentRootPath,"wwwroot/images/restaurants/Carousel");
+            string directoryPath = Path.Combine(_environment.ContentRootPath,"wwwroot/images/restaurants/Custom");
             await _uploadService.Upload(directoryPath,file.FileName,file);
             return $"images/restaurants/Custom/{file.FileName}";
         }
+
         [Authorize]
-        public async Task<ActionResult> SaveSpecialDishData(string specialOffersTitle, string specialOffersSubtitle, IFormFile file1)
+        public async Task<ActionResult> SaveSectionData(string block, string title, string subtitle, IFormFile file)
         {
             var userId = _userManager.GetUserId(User);
             var restaurant = await _db.Restaurants.FirstOrDefaultAsync(r => r.UserId == userId);
             var siteData = await _db.DataSiteCards.FirstOrDefaultAsync(d => d.RestaurantId == restaurant.Id);
+            switch (block)
+            {
+                case "specialOffers":
+                    siteData.SpecialOffersTitle = title;
+                    siteData.SpecialOffersSubtitle = subtitle;
+                    if (file != null)
+                        siteData.ImgPathSpecialOffers = await CreateFile(file);
+                    break;
+                case "menu":
+                    siteData.MenuTitle = title;
+                    siteData.MenuSubtitle = subtitle;
+                    if (file != null)
+                        siteData.ImgPathMenu = await CreateFile(file);
+                    break;
+                case "dishes":
+                    siteData.DishesTitle = title;
+                    siteData.DishesSubtitle = subtitle;
+                    if (file != null)
+                        siteData.ImgPathDishes = await CreateFile(file);
+                    break;
+                case "booking":
+                    siteData.BookingTitle = title;
+                    siteData.BookingSubtitle = subtitle;
+                    if (file != null)
+                        siteData.ImgPathBooking = await CreateFile(file);
+                    break;
+            }
 
-            siteData.SpecialOffersTitle = specialOffersTitle;
-            siteData.SpecialOffersSubtitle = specialOffersSubtitle;
-
-            if (file1 != null)
-                siteData.ImgPathSpecialOffers = await CreateFile(file1);
-            
             _db.DataSiteCards.Update(siteData);
             await _db.SaveChangesAsync();
             return RedirectToAction("Index","Site");
         }
-        [Authorize]
-        public async Task<ActionResult> SaveMenuData(string menuTitle, string menuSubtitle, IFormFile file1)
-        {
-            var userId = _userManager.GetUserId(User);
-            var restaurant = await _db.Restaurants.FirstOrDefaultAsync(r => r.UserId == userId);
-            var siteData = await _db.DataSiteCards.FirstOrDefaultAsync(d => d.RestaurantId == restaurant.Id);
-
-            siteData.MenuTitle = menuTitle;
-            siteData.MenuSubtitle = menuSubtitle;
-
-            if (file1 != null)
-                siteData.ImgPathMenu = await CreateFile(file1);
-            
-            _db.DataSiteCards.Update(siteData);
-            await _db.SaveChangesAsync();
-            return RedirectToAction("Index","Site");
-        }
-      
     }
 }

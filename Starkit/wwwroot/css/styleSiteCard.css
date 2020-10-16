@@ -15,7 +15,6 @@ body{
 }
 .container-fluid{
     padding: 0!important;
-    margin-top: -150px;
 }
 .navbar-bootstrap-null {
     padding: 0 !important;
@@ -204,7 +203,7 @@ body{
     align-items: center;
 }
 .block-top-dishes{
-    background-image: url(../images/SiteCardDefaultPath/default-especial-dishes-back.jpg) !important;
+    background-image: url(../images/SiteCardDefaultPath/default-foody_bg-1.jpg) !important;
     background-position: center !important;
     background-repeat: no-repeat !important;
     background-size: cover !important;
@@ -274,6 +273,8 @@ body{
 }
 
 
+
+
 /*.slick-slide {*/
 /*    transition: all ease-in-out .3s;*/
 /*    opacity: .2;*/
@@ -296,8 +297,8 @@ body{
 }
 .slick-next{
     transition: 0.5s;
-    border: 1px solid #e7272d;
-    background: #e7272d;
+    /*border: 1px solid #e7272d;*/
+    /*background: #e7272d;*/
     padding: 4px 7px;
     width: 40px;
     height: 40px;
@@ -308,8 +309,8 @@ body{
 }
 .slick-prev{
     transition: 0.5s;
-    border: 1px solid #e7272d;
-    background: #e7272d;
+    /*border: 1px solid #e7272d;*/
+    /*background: #e7272d;*/
     padding: 4px 7px;
     width: 40px;
     height: 40px;
@@ -369,12 +370,7 @@ body{
 }
 .bl-men-box1-1{
     text-align: center;
-    font-size: 18px;
     color: white;
-    text-transform: uppercase;
-    letter-spacing: 4px;
-    font-family: Roboto Slab, sans-serif;
-    line-height: 24px;
 }
 .bl-men-box2{
     display: grid;
@@ -386,8 +382,12 @@ body{
     
 }
 .menu-bgr-code-asd582{
-    background-image: url(../images/SiteCardDefaultPath/default-foody_bg-1.jpg);
+    background-image: url(../images/SiteCardDefaultPath/menu-back.jpg);
 }
+.dish-bgr-code-asd582{
+    background-image: url(../images/SiteCardDefaultPath/default-especial-dishes-back.jpg);
+}
+
 .control-panel-btn{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr ;
@@ -401,6 +401,7 @@ body{
 .dish-as15, .menu-block{
     padding: 0 15px;
     margin-bottom: 30px;
+    width: 245px;
 }
 .box-dish-code15, .box-menu{
     display: grid;
@@ -558,13 +559,15 @@ body{
 
 /*block 1*/
 .block-carr img{
-    height: 990px;
+    height: 100vh;
     max-height: 990px;
     width: 100%
 }
 .carousel-item .my-carousel-caption-code-1{
     margin-bottom:200px;
-    
+}
+.carousel-caption {
+    top: 20%;
 }
 .my-carousel-caption-code-1 h5{
     font-size: 72px;
@@ -609,17 +612,8 @@ body{
     color: #fff;
     text-align: center;
 }
-#EditCarouselBTN {
-    position: absolute;
-    z-index: 100;
-}
-#inputImgPathCarousel2{
-    position: absolute;
-    z-index: 1000;
-}
-#inputImgPathCarousel{
-    text-align: center;
-    margin: auto;
+#carousel-section{
+    position: relative;
 }
 
 /*_____________*/
@@ -686,8 +680,16 @@ body{
     color: #fff;
 }
 
-.section-title{
+.section-title, h2.section-title input{
+    font-size: 48px;
+    color: #ffffff;
     text-transform: uppercase;
+    text-align: center;
+    line-height: 1.4;
+    padding-bottom: 12px;
+    font-family: Oswald, sans-serif;
+    margin-bottom: 20px;
+    clear: both;
 }
 
 .subtitle-line{
@@ -709,12 +711,9 @@ body{
     margin-left: 17px;
 }
 
-.subtitle-text{
+.subtitle-text, .subtitle-text input{
     font-size: 18px;
-}
-
-#menu, #dishes, #bookings{
-    padding: 80px 0;
+    width: auto;
 }
 
 #bookings .subtitle-line, #menu .subtitle-line, #all-dishes .subtitle-line{
@@ -774,10 +773,6 @@ body{
     height: 100%;
 }
 
-.menu-block{
-    width: 245px;
-}
-
 .menu-box-img, .dish-as15-box-img{
     width: 100%;
     height: 150px;
@@ -812,18 +807,32 @@ body{
     font-size: 50px;
 
 }
+.bg-input input{
+    display: none;
+    width: 0;
+    height: 0;
+}
+.bg-input label, .editBlockBtn{
+    font-size: 20px;
+    color: #fff;
+}
+section{
+    position: relative;
+    padding: 50px 15px;
+}
 
-
-
-
-
-
-#EditCarouselBTN{
+.section-edit, #EditCarouselBTN{
     position: absolute;
     z-index: 1000;
     bottom: 0%;
     color: white;
     right: 5%;
 }
+.section-edit .btn{
+    vertical-align: initial;
+}
 
+#carousel-section{
+    padding: 0;
+}
 

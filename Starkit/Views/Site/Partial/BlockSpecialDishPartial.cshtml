@@ -1,127 +1,153 @@
-﻿<section class="block-top-dishes">
+﻿<section class="block-top-dishes" style="background-image: url('../@ViewBag.Data.ImgPathSpecialOffers')">
     <div class="container">
-
         <div class="top-dishes-container">
-            <div class="topDish-box-1">
-                <h2 class="section-title">Акции</h2>
-                <div class="asd5asdxc5">
-                    <span class="subtitle-line"></span>
-                    <span class="subtitle-text">Не пропустите</span>
-                    <span class="subtitle-line subtitle-line-rt"></span>
-                </div>
-            </div>
-            
-            <div class="topDish-box-2">
-                <div class="center slider slider-code-asd154">
-                    @foreach (var stock in Model.Stocks)
+        <div class="topDish-box-1">
+            <form asp-action="SaveSectionData" asp-controller="SiteCards" asp-route-block="specialOffers" method="post" enctype="multipart/form-data">
+            @if (ViewBag.UserIsAuthenticated)
+            {
+                <div class="section-edit bg-input">
+                    <label for="inputImgPathSpecialOffers"><i class="fas fa-upload"></i></label>
+                    <input name="file" type="file" id="inputImgPathSpecialOffers">
+                    <button class="btn editBlockBtn" type="submit"><i class="fas fa-save"></i></button>
+                </div> 
+            }
+            <h2 class="section-title">
+                @if (ViewBag.UserIsAuthenticated)
+                {
+                    <input name="Title" type="text" value="@ViewBag.Data.SpecialOffersTitle">
+                }
+                else
+                {
+                    @ViewBag.Data.SpecialOffersTitle
+                }
+            </h2>
+            <div class="asd5asdxc5">
+                <span class="subtitle-line border-light"></span>
+                <span class="subtitle-text text-light">
+                    @if (ViewBag.UserIsAuthenticated)
                     {
+                        <input name="Subtitle" type="text" value="@ViewBag.Data.SpecialOffersSubtitle">
+                    }
+                    else
+                    {
+                        @ViewBag.Data.SpecialOffersSubtitle
+                    }
+                </span>
+                <span class="subtitle-line border-light subtitle-line-rt"></span>
+            </div>
+            </form>
+        </div>
+        <div class="topDish-box-2">
+            <div class="center slider slider-code-asd154">
+                @foreach (var stock in Model.Stocks)
+                {
                         
-                        if (stock.Validity == "По времени")
+                    if (stock.Validity == "По времени")
+                    {
+                        if (stock.At.TimeOfDay <= DateTime.Now.TimeOfDay && stock.To.TimeOfDay >= DateTime.Now.TimeOfDay)
+                        {
+                            if (stock.SecondDish != null && stock.ThirdDish != null)
                             {
-                                if (stock.At.TimeOfDay <= DateTime.Now.TimeOfDay && stock.To.TimeOfDay >= DateTime.Now.TimeOfDay)
+                                if (stock.FirstDish.Visibility && stock.SecondDish.Visibility && stock.ThirdDish.Visibility)
                                 {
-                                    if (stock.SecondDish != null && stock.ThirdDish != null)
-                                    {
-                                        if (stock.FirstDish.Visibility && stock.SecondDish.Visibility && stock.ThirdDish.Visibility)
-                                        {
-                                            <div class="slider-in-code-asd45412">
-                                                <div>
-                                                    <img onclick="stockDetails('@stock.Id')" src="~/@stock.Avatar" alt="@stock.Name">
-                                                </div>
-                                                <div>
-                                                    <h3>@stock.Name</h3>
-                                                </div>
-                                                <p>@stock.Cost</p>
-                                                <div style="margin-bottom: 30px">
-                                                    <form class="buy" id="@stock.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@stock.Id" asp-route-name="stock">
-                                                        <input class="buy-qty text-center mr-3" id="qty-@stock.Id" type="number" name="quantity" min="1" value="1" style="width: 50px">
-                                                        <button type="submit" class="btn btn-light offers-btn">В корзину</button>
-                                                        <p class="text-light" style="margin: 10px 0 10px 0" id="message-@stock.Id"></p>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (stock.FirstDish.Visibility)
-                                        {
-                                            <div class="slider-in-code-asd45412">
-                                                <div>
-                                                    <img onclick="stockDetails('@stock.Id')" src="~/@stock.Avatar" alt="@stock.Name">
-                                                </div>
-                                                <div>
-                                                    <h3>@stock.Name</h3>
-                                                </div>
-                                                <p>@stock.Cost</p>
-                                                <div style="margin-bottom: 30px">
-                                                    <form class="buy" id="@stock.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@stock.Id" asp-route-name="stock">
-                                                        <input class="buy-qty text-center mr-3" id="qty-@stock.Id" type="number" name="quantity" min="1" value="1" style="width: 50px">
-                                                        <button type="submit" class="btn btn-light offers-btn">В корзину</button>
-                                                        <p class="text-light" style="margin: 10px 0 10px 0" id="message-@stock.Id"></p>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                            
-                                        }
-                                    }
+                                    <div class="slider-in-code-asd45412">
+                                        <div>
+                                            <img onclick="stockDetails('@stock.Id')" src="~/@stock.Avatar" alt="@stock.Name">
+                                        </div>
+                                        <div>
+                                            <h3>@stock.Name</h3>
+                                        </div>
+                                        <p>@stock.Cost</p>
+                                        <div style="margin-bottom: 30px">
+                                            <form class="buy" id="@stock.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@stock.Id" asp-route-name="stock">
+                                                <input class="buy-qty text-center mr-3" id="qty-@stock.Id" type="number" name="quantity" min="1" value="1" style="width: 50px">
+                                                <button type="submit" class="btn btn-light offers-btn">В корзину</button>
+                                                <p class="text-light" style="margin: 10px 0 10px 0" id="message-@stock.Id"></p>
+                                            </form>
+                                        </div>
+                                    </div>
                                 }
                             }
                             else
                             {
-                                if (stock.At < DateTime.Now && stock.To > DateTime.Now)
+                                if (stock.FirstDish.Visibility)
                                 {
-                                    if (stock.SecondDish != null && stock.ThirdDish != null)
-                                    {
-                                        if (stock.FirstDish.Visibility && stock.SecondDish.Visibility && stock.ThirdDish.Visibility)
-                                        {
-                                            <div class="slider-in-code-asd45412">
-                                                <div>
-                                                    <img onclick="stockDetails('@stock.Id')" src="~/@stock.Avatar" alt="@stock.Name">
-                                                </div>
-                                                <div>
-                                                    <h3>@stock.Name</h3>
-                                                </div>
-                                                <p>@stock.Cost</p>
-                                                <div style="margin-bottom: 30px">
-                                                    <form class="buy" id="@stock.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@stock.Id" asp-route-name="stock">
-                                                        <input class="buy-qty text-center mr-3" id="qty-@stock.Id" type="number" name="quantity" min="1" value="1" style="width: 50px">
-                                                        <button type="submit" class="btn btn-light offers-btn">В корзину</button>
-                                                        <p class="text-light" style="margin: 10px 0 10px 0" id="message-@stock.Id"></p>
-                                                    </form>
-                                                </div>
-                                            </div>
+                                    <div class="slider-in-code-asd45412">
+                                        <div>
+                                            <img onclick="stockDetails('@stock.Id')" src="~/@stock.Avatar" alt="@stock.Name">
+                                        </div>
+                                        <div>
+                                            <h3>@stock.Name</h3>
+                                        </div>
+                                        <p>@stock.Cost</p>
+                                        <div style="margin-bottom: 30px">
+                                            <form class="buy" id="@stock.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@stock.Id" asp-route-name="stock">
+                                                <input class="buy-qty text-center mr-3" id="qty-@stock.Id" type="number" name="quantity" min="1" value="1" style="width: 50px">
+                                                <button type="submit" class="btn btn-light offers-btn">В корзину</button>
+                                                <p class="text-light" style="margin: 10px 0 10px 0" id="message-@stock.Id"></p>
+                                            </form>
+                                        </div>
+                                    </div>
                                             
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (stock.FirstDish.Visibility)
-                                        {
-                                            <div class="slider-in-code-asd45412">
-                                                <div>
-                                                    <img onclick="stockDetails('@stock.Id')" src="~/@stock.Avatar" alt="@stock.Name">
-                                                </div>
-                                                <div>
-                                                    <h3>@stock.Name</h3>
-                                                </div>
-                                                <p>@stock.Cost</p>
-                                                <div style="margin-bottom: 30px">
-                                                    <form class="buy" id="@stock.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@stock.Id" asp-route-name="stock">
-                                                        <input class="buy-qty text-center mr-3" id="qty-@stock.Id" type="number" name="quantity" min="1" value="1" style="width: 50px">
-                                                        <button type="submit" class="btn btn-light offers-btn">В корзину</button>
-                                                        <p class="text-light" style="margin: 10px 0 10px 0" id="message-@stock.Id"></p>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                               
-                                        }
-                                    }
                                 }
                             }
+                        }
                     }
-                </div>
+                    else
+                    {
+                        if (stock.At < DateTime.Now && stock.To > DateTime.Now)
+                        {
+                            if (stock.SecondDish != null && stock.ThirdDish != null)
+                            {
+                                if (stock.FirstDish.Visibility && stock.SecondDish.Visibility && stock.ThirdDish.Visibility)
+                                {
+                                    <div class="slider-in-code-asd45412">
+                                        <div>
+                                            <img onclick="stockDetails('@stock.Id')" src="~/@stock.Avatar" alt="@stock.Name">
+                                        </div>
+                                        <div>
+                                            <h3>@stock.Name</h3>
+                                        </div>
+                                        <p>@stock.Cost</p>
+                                        <div style="margin-bottom: 30px">
+                                            <form class="buy" id="@stock.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@stock.Id" asp-route-name="stock">
+                                                <input class="buy-qty text-center mr-3" id="qty-@stock.Id" type="number" name="quantity" min="1" value="1" style="width: 50px">
+                                                <button type="submit" class="btn btn-light offers-btn">В корзину</button>
+                                                <p class="text-light" style="margin: 10px 0 10px 0" id="message-@stock.Id"></p>
+                                            </form>
+                                        </div>
+                                    </div>
+                                            
+                                }
+                            }
+                            else
+                            {
+                                if (stock.FirstDish.Visibility)
+                                {
+                                    <div class="slider-in-code-asd45412">
+                                        <div>
+                                            <img onclick="stockDetails('@stock.Id')" src="~/@stock.Avatar" alt="@stock.Name">
+                                        </div>
+                                        <div>
+                                            <h3>@stock.Name</h3>
+                                        </div>
+                                        <p>@stock.Cost</p>
+                                        <div style="margin-bottom: 30px">
+                                            <form class="buy" id="@stock.Id" asp-controller="Cart" asp-action="Buy" asp-route-id="@stock.Id" asp-route-name="stock">
+                                                <input class="buy-qty text-center mr-3" id="qty-@stock.Id" type="number" name="quantity" min="1" value="1" style="width: 50px">
+                                                <button type="submit" class="btn btn-light offers-btn">В корзину</button>
+                                                <p class="text-light" style="margin: 10px 0 10px 0" id="message-@stock.Id"></p>
+                                            </form>
+                                        </div>
+                                    </div>
+                                               
+                                }
+                            }
+                        }
+                    }
+                }
             </div>
         </div>
     </div>
+</div>
 </section>
