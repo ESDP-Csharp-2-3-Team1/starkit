@@ -51,6 +51,9 @@ jobs:
           cd /var/www/starkit/Starkit
           git pull origin master
           dotnet ef database update
+          rm -R bin
+          rm -R obj
+          sudo systemctl stop starkit.service
           dotnet restore
           dotnet build
           dotnet publish
