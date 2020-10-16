@@ -70,12 +70,14 @@ jobs:
         command: |
           export PATH="$PATH:$HOME/.dotnet/tools/"
           cd /var/www/starkit/Starkit
+          dotnet restore
           dotnet build
           dotnet ef database update
           dotnet publish 
           sudo systemctl daemon-reload
           sudo systemctl restart starkit.service
           sudo nginx -s reload
+          sudo chown -R www-data:www-data /var/www
         privateKey: ${{ secrets.SERVER_SSH_KEY }}
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
