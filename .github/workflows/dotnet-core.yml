@@ -42,38 +42,15 @@ jobs:
        run: dotnet test --no-restore --verbosity normal
      - name: Dotnet Publish
        run: dotnet publish Starkit -c Release -o deploy
-       
-     - name: Delete App
-       uses: garygrossgarten/github-action-ssh@release
-       with: 
-        command: |
-          cd /var/www/
-          sudo wipe -rfi starkit
-          mkdir starkit
-          
-        privateKey: ${{ secrets.SERVER_SSH_KEY }}
-        host: ${{ secrets.REMOTE_HOST }}
-        username: ${{ secrets.REMOTE_USER }}
         
-     - name: Copy via ssh
-       uses: garygrossgarten/github-action-scp@release
-       with: 
-        local: .
-        privateKey: ${{ secrets.SERVER_SSH_KEY }}
-        host: ${{ secrets.REMOTE_HOST }}
-        username: ${{ secrets.REMOTE_USER }}
-        remote: ${{ secrets.REMOTE_TARGET }}
-   
-     - name: Run SSH command
+     - name: Update Project
        uses: garygrossgarten/github-action-ssh@release
        with: 
         command: |
           export PATH="$PATH:$HOME/.dotnet/tools/"
           cd /var/www/starkit/Starkit
-          dotnet restore
-          dotnet build
+          dotnet pull
           dotnet ef database update
-          dotnet publish 
           sudo systemctl daemon-reload
           sudo systemctl restart starkit.service
           sudo nginx -s reload

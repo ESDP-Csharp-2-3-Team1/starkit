@@ -10,7 +10,7 @@ using Starkit.Models.Data;
 namespace Starkit.Migrations
 {
     [DbContext(typeof(StarkitContext))]
-    [Migration("20201016131718_Initial")]
+    [Migration("20201016142247_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
