@@ -56,9 +56,10 @@ jobs:
        with: 
         command: |
           export PATH="$PATH:$HOME/.dotnet/tools/"
-          cd /var/www/starkit/Starkit
-          dotnet clean
-          dotnet restore
+          cd /var/www/
+          sudo -rm -r -f starkit
+          mkdir starkit
+          cd starkit/Starkit
           dotnet build
           dotnet ef database update
           dotnet publish 
