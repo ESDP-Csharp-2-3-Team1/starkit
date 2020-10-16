@@ -36,7 +36,26 @@
     .carousel-control-next, .carousel-control-prev{
         display: none;
     }
+    .carousel-item{
+        height:auto;
+    }
+    .container-fluid{
+        margin-top: 0;
+    }
+    .carousel-item{
+        height: 200px;
+    }
     .block-carr img{
-        height: 100vh;
+        height: auto;
+        overflow: hidden;
+    }
+    #about-us{
+        display: none;
+    }
+    .subtitle-line{
+        display: none;
+    }
+    .slick-slide, .slick-current, .slick-center{
+        width: auto;
     }
 }
