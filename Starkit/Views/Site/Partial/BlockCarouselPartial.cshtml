@@ -17,7 +17,12 @@
     text-align: center;
   }
 </style>
+<section id="carousel-section">
 <form asp-action="SaveCarouselData" asp-controller="SiteCards" method="post" enctype="multipart/form-data">
+@if (ViewBag.UserIsAuthenticated)
+  {
+    <button class="btn" id="EditCarouselBTN" type="submit"><i class="fas fa-save"></i></button>
+  }
 <div class="block-carr" >
   <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
     <ul class="carousel-indicators">
@@ -27,27 +32,30 @@
     </ul>
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img src="~/@ViewBag.Carousel.ImgPathCarousel1" class="d-block w-100" alt="...">
+        <img src="~/@ViewBag.Data.ImgPathCarousel1" class="d-block w-100" alt="...">
         <div class="carousel-caption d-none d-md-block carousel-caption-code-1 my-carousel-caption-code-1">
           <h5>
             @if (ViewBag.UserIsAuthenticated)
             {
-              <input name="DishNameCarousel1" type="text" value="@ViewBag.Carousel.DishNameCarousel1">
+              <input name="DishNameCarousel1" type="text" value="@ViewBag.Data.DishNameCarousel1">
             }
             else
             {
-              @ViewBag.Carousel.DishNameCarousel1
+              @ViewBag.Data.DishNameCarousel1
             }
           </h5>
           <p>
             @if (ViewBag.UserIsAuthenticated)
             {
-              <textarea name="DishTextCarousel1" type="text">@ViewBag.Carousel.DishTextCarousel1</textarea>
-              <input name="file1" type="file" id="inputImgPathCarousel">
+              <textarea name="DishTextCarousel1" type="text">@ViewBag.Data.DishTextCarousel1</textarea>
+              <div class="bg-input">
+                <label for="inputImgPathCarousel1"><i class="fas fa-upload"></i></label>
+                <input name="file1" type="file" id="inputImgPathCarousel1">
+              </div> 
             }
             else
             {
-              @ViewBag.Carousel.DishTextCarousel1
+              @ViewBag.Data.DishTextCarousel1
             }
 
           </p>
@@ -56,54 +64,60 @@
       </div>
       <div class="carousel-item">
         
-        <img src="~/@ViewBag.Carousel.ImgPathCarousel2" class="d-block w-100" alt="...">
+        <img src="~/@ViewBag.Data.ImgPathCarousel2" class="d-block w-100" alt="...">
         <div class="carousel-caption d-none d-md-block carousel-caption-code-1 my-carousel-caption-code-1">
           <h5>
             @if (ViewBag.UserIsAuthenticated)
             {
-              <input name="DishNameCarousel2" type="text" value="@ViewBag.Carousel.DishNameCarousel2">
+              <input name="DishNameCarousel2" type="text" value="@ViewBag.Data.DishNameCarousel2">
             }
             else
             {
-              @ViewBag.Carousel.DishNameCarousel2
+              @ViewBag.Data.DishNameCarousel2
             }
           </h5>
           <p>
             @if (ViewBag.UserIsAuthenticated)
             {
-              <textarea name="DishTextCarousel2" type="text">@ViewBag.Carousel.DishTextCarousel2</textarea>
-              <input name="file2" type="file" id="inputImgPathCarousel">
+              <textarea name="DishTextCarousel2" type="text">@ViewBag.Data.DishTextCarousel2</textarea>
+              <div class="bg-input">
+              <label for="inputImgPathCarousel2"><i class="fas fa-upload"></i></label>
+            <input name="file2" type="file" id="inputImgPathCarousel2">
+            </div>
             }
             else
             {
-              @ViewBag.Carousel.DishTextCarousel2
+              @ViewBag.Data.DishTextCarousel2
             }
           </p>
           <a class="btn btn-primary">Заказать сейчас</a>
         </div>
       </div>
       <div class="carousel-item">
-        <img src="~/@ViewBag.Carousel.ImgPathCarousel3" class="d-block w-100" alt="...">
+        <img src="~/@ViewBag.Data.ImgPathCarousel3" class="d-block w-100" alt="...">
         <div class="carousel-caption d-none d-md-block carousel-caption-code-1 my-carousel-caption-code-1">
           <h5>
             @if (ViewBag.UserIsAuthenticated)
             {
-              <input name="DishNameCarousel3" type="text" value="@ViewBag.Carousel.DishNameCarousel3">
+              <input name="DishNameCarousel3" type="text" value="@ViewBag.Data.DishNameCarousel3">
             }
             else
             {
-              @ViewBag.Carousel.DishNameCarousel3
+              @ViewBag.Data.DishNameCarousel3
             }
           </h5>
           <p>
             @if (ViewBag.UserIsAuthenticated)
             {
-              <textarea name="DishTextCarousel3" type="text">@ViewBag.Carousel.DishTextCarousel3</textarea>
-              <input name="file3" type="file" id="inputImgPathCarousel">
+              <textarea name="DishTextCarousel3" type="text">@ViewBag.Data.DishTextCarousel3</textarea>
+              <div class="bg-input">
+                <label for="inputImgPathCarousel3"><i class="fas fa-upload"></i></label>
+                <input name="file3" type="file" id="inputImgPathCarousel3">
+              </div>
             }
             else
             {
-              @ViewBag.Carousel.DishTextCarousel3
+              @ViewBag.Data.DishTextCarousel3
             }
           </p>
           <a class="btn btn-primary">Заказать сейчас</a>
@@ -119,9 +133,6 @@
       <span class="sr-only">Next</span>
     </a>
   </div>
-  @if (ViewBag.UserIsAuthenticated)
-          {
-            <button id="EditCarouselBTN" type="submit">Сохранить</button>
-          }
 </div>
 </form>
+</section>

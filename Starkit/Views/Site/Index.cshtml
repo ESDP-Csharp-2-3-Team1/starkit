@@ -11,8 +11,9 @@
         await Html.RenderPartialAsync("Partial/BlockCarouselPartial"); // block 1
         await Html.RenderPartialAsync("Partial/BlockAboutUsPartial"); // block 2
         await Html.RenderPartialAsync("Partial/BlockSpecialDishPartial"); // block 3
-        await Html.RenderPartialAsync("Partial/SiteDishesPartial"); // block 4
-        await Html.RenderPartialAsync("Partial/BlockOrderPartial"); // block 5
+        await Html.RenderPartialAsync("Partial/BlockMenuPartial"); // block 4
+        await Html.RenderPartialAsync("Partial/SiteDishesPartial"); // block 5
+        await Html.RenderPartialAsync("Partial/BlockOrderPartial"); // block 6
     }
 </div>
 <div id="details"></div>
@@ -49,6 +50,7 @@
            $('#PhoneNumber').mask("+7 (999) 999-9999");
            getTotal();
            getTotalBookings();
+           getDishes();
             $('.timepicker').timepicker({ 
                'timeFormat': 'H:i',
                'scrollDefault': 'now',
@@ -283,7 +285,7 @@
                 'minTime': '10:00',
                 'maxTime': '22:00',
                 'disableTimeRanges': [
-                    [from, `${toHours}:${toMins}`]
+                    ['now', `${toHours}:${toMins}`]
                 ]
             });
         })
@@ -293,5 +295,11 @@
                  $("#dishList").html(data);
             });
         }
+        function ham(){
+           $(".hb-menu").slideToggle("slow", function() {});
+       }
+       $(".hb-menu").click(function() {
+           $(this).fadeOut("slow")
+       })
     </script>
 }

@@ -27,7 +27,15 @@ body{
 /*    height: 70px;*/
 /*}*/
 .nav-hr-code-156{
-    margin: 0 0 20px 0;
+    margin: 0;
+}
+
+.main-nav{
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: #fff;
+    text-align: center;
 }
 
 .navbar-nav-in-code-415a6sd2{
@@ -39,12 +47,14 @@ body{
     font-style: normal;
     letter-spacing: 1px;
     text-transform: uppercase;
+    flex-direction: row;
+    padding: 20px 0;    
 }
 .navbar-nav-in-code-415a6sd2 ul{
     text-align: center;
 }
-.navbar-nav-in-code-415a6sd2 a{
-    padding: 0 15px 20px 15px!important;
+.navbar-nav-in-code-415a6sd2 a{ 
+    padding: 0 15px 0px 15px!important;
 }
 .navbar-nav-in-code-415a6sd2 a:hover{
     color: #e7272d!important;
@@ -69,14 +79,11 @@ body{
     text-align: start;
 }
 .navbar-bootstrap-null{
-    /*margin-bottom: 0!important;*/
-    /*margin-bottom: 60px;*/
+    z-index: 1000;
 }
 
 .main-header{
     width: 100%;
-    height: 60px;
-    position: fixed;
     background: #fff;
     z-index: 1000;
 }
@@ -86,14 +93,22 @@ body{
 .layout-up{
     white-space: nowrap;
 }
+.layout-up-box{
+    display: inline-block;
+}
+
 .layout-up-box1, .layout-up-box3{
     padding: 15px 0;
 }
 .layout-up-box2{
-    max-height: 70px;
+    max-height: 100px;
 }
 .layout-up-box2 img{
-    max-height: 51px;
+    max-height: 90px;
+}
+
+.amount{
+    padding-left: 40px;
 }
 .nav-item-code-asd154{
     padding: 5px 0;
@@ -188,7 +203,7 @@ body{
     align-items: center;
 }
 .block-top-dishes{
-    background-image: url(../images/SiteCardDefaultPath/default-especial-dishes-back.jpg) !important;
+    background-image: url(../images/SiteCardDefaultPath/default-foody_bg-1.jpg) !important;
     background-position: center !important;
     background-repeat: no-repeat !important;
     background-size: cover !important;
@@ -241,7 +256,7 @@ body{
     padding: 0 15px;
 }
 
-.slick-slide img {
+.slider-in-code-asd45412 img {
     width: 150px;
     height: 150px;
     min-width: 150px;
@@ -256,6 +271,8 @@ body{
 .slick-next:before {
     color: white;
 }
+
+
 
 
 /*.slick-slide {*/
@@ -280,8 +297,8 @@ body{
 }
 .slick-next{
     transition: 0.5s;
-    border: 1px solid #e7272d;
-    background: #e7272d;
+    /*border: 1px solid #e7272d;*/
+    /*background: #e7272d;*/
     padding: 4px 7px;
     width: 40px;
     height: 40px;
@@ -292,8 +309,8 @@ body{
 }
 .slick-prev{
     transition: 0.5s;
-    border: 1px solid #e7272d;
-    background: #e7272d;
+    /*border: 1px solid #e7272d;*/
+    /*background: #e7272d;*/
     padding: 4px 7px;
     width: 40px;
     height: 40px;
@@ -353,12 +370,7 @@ body{
 }
 .bl-men-box1-1{
     text-align: center;
-    font-size: 18px;
     color: white;
-    text-transform: uppercase;
-    letter-spacing: 4px;
-    font-family: Roboto Slab, sans-serif;
-    line-height: 24px;
 }
 .bl-men-box2{
     display: grid;
@@ -370,44 +382,49 @@ body{
     
 }
 .menu-bgr-code-asd582{
-    background-image: url(../images/SiteCardDefaultPath/default-foody_bg-1.jpg);
+    background-image: url(../images/SiteCardDefaultPath/menu-back.jpg);
 }
-.panelupravlenia-btn{
+.dish-bgr-code-asd582{
+    background-image: url(../images/SiteCardDefaultPath/default-especial-dishes-back.jpg);
+}
+
+.control-panel-btn{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr ;
 }
-.panelupravlenia-btn button{
+.control-panel-btn button{
     text-transform: uppercase;
     margin: 0 2px 5px;
     /*padding: 10px 30px;*/
     font-size: 16px;
 }
-.dish-as15{
+.dish-as15, .menu-block{
     padding: 0 15px;
     margin-bottom: 30px;
+    width: 245px;
 }
-.box-dish-code15{
+.box-dish-code15, .box-menu{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
 }
-.dish-as15-box-img img{
+.dish-as15-box-img img, .menu-avatar-img img{
     width: 100%;
 }
-.dish-as15-box-title{
+.dish-as15-box-title, .menu-box-title{
     padding: 20px 0 5px;
     background: white;
 }
-.dish-as15-box-title h3{
+.dish-as15-box-title h3, .menu-box-title h3{
     text-align: center;
     margin-bottom: 20px;
 }
-.dish-as15-box-title a{
+.dish-as15-box-title a, .menu-box-title a{
     font-size: 18px;
     font-family: Oswald, sans-serif;
     color: #222222;
     text-decoration: none;
 }
-.dish-as15-box-title a:hover{
+.dish-as15-box-title a:hover, .menu-box-title a:hover{
     transition: 0.5s;
     color: #e7272d;
 }
@@ -542,13 +559,15 @@ body{
 
 /*block 1*/
 .block-carr img{
-    height: 990px;
+    height: 100vh;
     max-height: 990px;
     width: 100%
 }
 .carousel-item .my-carousel-caption-code-1{
     margin-bottom:200px;
-    
+}
+.carousel-caption {
+    top: 20%;
 }
 .my-carousel-caption-code-1 h5{
     font-size: 72px;
@@ -593,19 +612,227 @@ body{
     color: #fff;
     text-align: center;
 }
-#EditCarouselBTN {
-    position: absolute;
-    z-index: 100;
-}
-#inputImgPathCarousel2{
-    position: absolute;
-    z-index: 1000;
-}
-#inputImgPathCarousel{
-    text-align: center;
-    margin: auto;
+#carousel-section{
+    position: relative;
 }
 
 /*_____________*/
 /*Cfv*/
+.btn{
+    border-radius: 0;
+}
+
+.about-us-left{
+    margin: 100px;
+}
+
+.about-us-right{
+    margin-right: 150px;
+    align-self: center;
+}
+
+.img-wrapper{
+    width: 100%;
+    overflow: hidden;
+}
+
+.menu-img-wrapper, .dish-img-wrapper{
+    height: 150px;
+}
+
+.about-us-img-wrapper{
+    width: 100%;
+    height: 500px;
+}
+
+.stock-img, .about-us-img, .menu-img, .dish-img{
+    width: 100%;
+    height: initial;
+}
+
+.slick-slide .offers-img-wrapper {
+    width: 200px;
+    height: 200px;
+    min-width: 150px;
+    min-height: 150px;
+    max-width: 200px;
+    max-height: 200px;
+    margin: auto;
+}
+
+#offers .section-subtitle{
+    color: #fff;
+}
+
+.offers-cost, .item-cost{
+    font-size: 20px;
+}
+
+.offers-btn{
+    border-color: #fff;
+    background: transparent;
+    color: #fff;
+}
+
+.offers-btn:hover{
+    border-color: #e7272d;
+    background: #000;
+    color: #fff;
+}
+
+.section-title, h2.section-title input{
+    font-size: 48px;
+    color: #ffffff;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.4;
+    padding-bottom: 12px;
+    font-family: Oswald, sans-serif;
+    margin-bottom: 20px;
+    clear: both;
+}
+
+.subtitle-line{
+    border-top: 1px solid #fff;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    display: inline-flex;
+    float: none;
+    height: 2px;
+    margin-right: 17px;
+    margin-left: 0px;
+    position: relative;
+    top: -6px;
+    width: 70px;
+}
+.subtitle-line-rt{
+    margin-right: 0px;
+    margin-left: 17px;
+}
+
+.subtitle-text, .subtitle-text input{
+    font-size: 18px;
+    width: auto;
+}
+
+#bookings .subtitle-line, #menu .subtitle-line, #all-dishes .subtitle-line{
+    border-color: #e7272d;
+}
+
+#bookings .subtitle-text, #menu .subtitle-text, #all-dishes .subtitle-text{
+    color: #e7272d;
+}
+
+.menu-btn, .dishes-btn{
+    border-color: #fff;
+    background: #fff;
+    color: #e7272d;
+}
+
+.menu-btn:hover, .dishes-btn:hover{
+    border-color: #e7272d;
+    background: transparent;
+    color: #fff;
+}
+
+.about-us-left{
+    width: 430px;
+}
+
+.about-us-right{
+    width: 600px;
+}
+
+.card{
+    border-radius: 0;
+}
+
+.card-img-th{
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+}
+
+.book-btn{
+    padding: 20px;
+    border-radius: 0;
+}
+
+.ui-timepicker-list li{
+    text-align: center;
+}
+
+/*.block-top-dishes{*/
+/*    background-image: url("../images/SiteCardDefaultPath/offers-bg.jpg") !important;*/
+/*}*/
+
+
+
+#map {
+    height: 100%;
+}
+
+.menu-box-img, .dish-as15-box-img{
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+}
+
+.menu-block img, .dish-as15 img{
+    width: 100%;
+}
+
+.menu-qty-input, .dish-qty-input{
+    border: 1px solid red;
+}
+
+.hamburger{
+    display: none;
+}
+
+.hb-menu {
+    position: absolute;
+    display: none;
+    background: #fff;
+    width: 100%;
+    text-align: center;
+    height: 100%;
+    top: 113px;
+    left: 0;
+    z-index: 100;
+}
+
+.hb-menu li a{
+    font-size: 50px;
+
+}
+.bg-input input{
+    display: none;
+    width: 0;
+    height: 0;
+}
+.bg-input label, .editBlockBtn{
+    font-size: 20px;
+    color: #fff;
+}
+section{
+    position: relative;
+    padding: 50px 15px;
+}
+
+.section-edit, #EditCarouselBTN{
+    position: absolute;
+    z-index: 1000;
+    bottom: 0%;
+    color: white;
+    right: 5%;
+}
+.section-edit .btn{
+    vertical-align: initial;
+}
+
+#carousel-section{
+    padding: 0;
+}
 

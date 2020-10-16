@@ -141,5 +141,23 @@ namespace Starkit.Controllers
             }
             return RedirectToAction("Register", model);
         }
+
+        public async Task<IActionResult> Reset()
+        {
+            string userId = _userManager.GetUserId(User);
+            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+            {
+                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                userId = admin.IdOfTheSelectedRestaurateur;
+            }
+            Restaurant restaurant = await _db.Restaurants.FirstOrDefaultAsync(r => r.UserId == userId);
+            if (restaurant is null)
+                return RedirectToAction("Register");
+            DataSiteCard data = await _db.DataSiteCards.FirstOrDefaultAsync(d => d.RestaurantId == restaurant.Id);
+            _db.DataSiteCards.Remove(data);
+            await _db.DataSiteCards.AddAsync(new DataSiteCard() {RestaurantId = restaurant.Id});
+            await _db.SaveChangesAsync();
+            return RedirectToAction("Index", "Site");
+        }
     }
 }

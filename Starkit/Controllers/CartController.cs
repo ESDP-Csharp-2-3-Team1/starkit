@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Starkit.Models;
 using Starkit.Models.Data;
 using Starkit.Services;
@@ -10,14 +13,25 @@ namespace Starkit.Controllers
     public class CartController : Controller
     {
         private readonly StarkitContext _db;
+        private readonly UserManager<User> _userManager;
 
-        public CartController(StarkitContext db)
+        public CartController(StarkitContext db, UserManager<User> userManager)
         {
             _db = db;
+            _userManager = userManager;
         }
         
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            User user = await _db.Users.
+                FirstOrDefaultAsync(u => u.Id == _userManager.GetUserId(User));
+            if (User.IsInRole("SuperAdmin"))
+            {
+                string userId = user.IdOfTheSelectedRestaurateur;
+                user = await _userManager.FindByIdAsync(userId);
+            }
+            var restaurant = await _db.Restaurants.FirstOrDefaultAsync(r => r.UserId == user.Id);
+            ViewBag.Restaurant = restaurant;
             return View();
         }
         
