@@ -53,6 +53,7 @@ jobs:
           dotnet ef database update
           dotnet restore
           dotnet build
+          dotnet publish
           sudo systemctl daemon-reload
           sudo systemctl restart starkit.service
           sudo nginx -s reload
