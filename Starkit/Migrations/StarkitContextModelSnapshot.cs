@@ -276,6 +276,12 @@ namespace Starkit.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<string>("BookingSubtitle")
+                        .HasColumnType("text");
+
+                    b.Property<string>("BookingTitle")
+                        .HasColumnType("text");
+
                     b.Property<string>("DishNameCarousel1")
                         .HasColumnType("text");
 
@@ -294,6 +300,15 @@ namespace Starkit.Migrations
                     b.Property<string>("DishTextCarousel3")
                         .HasColumnType("text");
 
+                    b.Property<string>("DishesSubtitle")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DishesTitle")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ImgPathBooking")
+                        .HasColumnType("text");
+
                     b.Property<string>("ImgPathCarousel1")
                         .HasColumnType("text");
 
@@ -303,7 +318,28 @@ namespace Starkit.Migrations
                     b.Property<string>("ImgPathCarousel3")
                         .HasColumnType("text");
 
+                    b.Property<string>("ImgPathDishes")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ImgPathMenu")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ImgPathSpecialOffers")
+                        .HasColumnType("text");
+
+                    b.Property<string>("MenuSubtitle")
+                        .HasColumnType("text");
+
+                    b.Property<string>("MenuTitle")
+                        .HasColumnType("text");
+
                     b.Property<string>("RestaurantId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SpecialOffersSubtitle")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SpecialOffersTitle")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
