@@ -6,8 +6,8 @@
                     <div>
                         <div class="bl-men-box1" style="padding-bottom: 20px">
                             <div class="edit-form">
-                                <form asp-action="SaveSectionData" asp-controller="SiteCards" asp-route-block="dishes" method="post" enctype="multipart/form-data">
-                                    @if (ViewBag.UserIsAuthenticated)
+                                <form asp-action="SaveSectionData" asp-controller="Site" asp-route-block="dishes" method="post" enctype="multipart/form-data">
+                                    @if (User.Identity.IsAuthenticated)
                                         {
                                             <div class="section-edit bg-input">
                                                 <label for="inputImgPathDishes"><i class="fas fa-upload"></i></label>
@@ -16,7 +16,7 @@
                                             </div> 
                                         }
                                     <h2 class="section-title" style="padding-bottom: 12px;margin-bottom: 20px">
-                                        @if (ViewBag.UserIsAuthenticated)
+                                        @if (User.Identity.IsAuthenticated)
                                         {
                                             <input name="Title" type="text" value="@ViewBag.Data.DishesTitle">
                                         }
@@ -28,7 +28,7 @@
                                     <div class="bl-men-box1-1" style="margin-bottom: 35px">
                                         <span class="subtitle-line"></span>
                                         <span class="subtitle-text">
-                                            @if (ViewBag.UserIsAuthenticated)
+                                            @if (User.Identity.IsAuthenticated)
                                             {
                                                 <input name="Subtitle" type="text" value="@ViewBag.Data.DishesSubtitle">
                                             }

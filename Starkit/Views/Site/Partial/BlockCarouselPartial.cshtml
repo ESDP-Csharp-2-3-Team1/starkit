@@ -18,8 +18,8 @@
   }
 </style>
 <section id="carousel-section">
-<form asp-action="SaveCarouselData" asp-controller="SiteCards" method="post" enctype="multipart/form-data">
-@if (ViewBag.UserIsAuthenticated)
+<form asp-action="SaveCarouselData" asp-controller="Site" method="post" enctype="multipart/form-data">
+@if (User.Identity.IsAuthenticated)
   {
     <button class="btn" id="EditCarouselBTN" type="submit"><i class="fas fa-save"></i></button>
   }
@@ -35,7 +35,7 @@
         <img src="~/@ViewBag.Data.ImgPathCarousel1" class="d-block w-100" alt="...">
         <div class="carousel-caption d-none d-md-block carousel-caption-code-1 my-carousel-caption-code-1">
           <h5>
-            @if (ViewBag.UserIsAuthenticated)
+            @if (User.Identity.IsAuthenticated)
             {
               <input name="DishNameCarousel1" type="text" value="@ViewBag.Data.DishNameCarousel1">
             }
@@ -45,7 +45,7 @@
             }
           </h5>
           <p>
-            @if (ViewBag.UserIsAuthenticated)
+            @if (User.Identity.IsAuthenticated)
             {
               <textarea name="DishTextCarousel1" type="text">@ViewBag.Data.DishTextCarousel1</textarea>
               <div class="bg-input">
@@ -67,7 +67,7 @@
         <img src="~/@ViewBag.Data.ImgPathCarousel2" class="d-block w-100" alt="...">
         <div class="carousel-caption d-none d-md-block carousel-caption-code-1 my-carousel-caption-code-1">
           <h5>
-            @if (ViewBag.UserIsAuthenticated)
+            @if (User.Identity.IsAuthenticated)
             {
               <input name="DishNameCarousel2" type="text" value="@ViewBag.Data.DishNameCarousel2">
             }
@@ -77,7 +77,7 @@
             }
           </h5>
           <p>
-            @if (ViewBag.UserIsAuthenticated)
+            @if (User.Identity.IsAuthenticated)
             {
               <textarea name="DishTextCarousel2" type="text">@ViewBag.Data.DishTextCarousel2</textarea>
               <div class="bg-input">
@@ -97,7 +97,7 @@
         <img src="~/@ViewBag.Data.ImgPathCarousel3" class="d-block w-100" alt="...">
         <div class="carousel-caption d-none d-md-block carousel-caption-code-1 my-carousel-caption-code-1">
           <h5>
-            @if (ViewBag.UserIsAuthenticated)
+            @if (User.Identity.IsAuthenticated)
             {
               <input name="DishNameCarousel3" type="text" value="@ViewBag.Data.DishNameCarousel3">
             }
@@ -107,7 +107,7 @@
             }
           </h5>
           <p>
-            @if (ViewBag.UserIsAuthenticated)
+            @if (User.Identity.IsAuthenticated)
             {
               <textarea name="DishTextCarousel3" type="text">@ViewBag.Data.DishTextCarousel3</textarea>
               <div class="bg-input">
