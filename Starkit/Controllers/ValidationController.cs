@@ -37,11 +37,9 @@ namespace Starkit.Controllers
             return await _db.Users.AnyAsync(u => u.Email == email);
         }
 
-        public bool CheckIIN(string IIN)
+        public async Task<bool> CheckIIN(string IIN)
         {
-            string pattern = "^[0-9]+$";
-            if (!Regex.IsMatch(IIN, pattern)) return false;
-            return true;
+            return !await _db.Users.AnyAsync(u => u.IIN == IIN);
         }
 
         public async Task<bool> CheckNameCategory(string name, string id)
