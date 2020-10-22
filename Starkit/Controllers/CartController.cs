@@ -30,7 +30,18 @@ namespace Starkit.Controllers
                 string userId = user.IdOfTheSelectedRestaurateur;
                 user = await _userManager.FindByIdAsync(userId);
             }
-            var restaurant = await _db.Restaurants.FirstOrDefaultAsync(r => r.UserId == user.Id);
+            Restaurant restaurant;
+            if (user != null)
+            {
+                restaurant = await _db.Restaurants
+                    .FirstOrDefaultAsync(r => r.Id == user.RestaurantId);
+            }
+            else
+            {
+                string host = HttpContext.Request.Host.Value;
+                restaurant = await _db.Restaurants
+                    .FirstOrDefaultAsync(r => r.DomainName == host);
+            }
             ViewBag.Restaurant = restaurant;
             return View();
         }
@@ -72,7 +83,7 @@ namespace Starkit.Controllers
             else
             {
                 List<Item> cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
-                int index = isExist(id, name);
+                int index = IsExist(id, name);
                 if (index != -1)
                 {
                     cart[index].Quantity += quantity;
@@ -100,13 +111,13 @@ namespace Starkit.Controllers
         public IActionResult Remove(string id, string name)
         {
             List<Item> cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
-            int index = isExist(id, name);
+            int index = IsExist(id, name);
             cart.RemoveAt(index);
             SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
             return RedirectToAction("Index");
         }
 
-        private int isExist(string id, string name)
+        private int IsExist(string id, string name)
         {
             List<Item> cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
             switch (name)
@@ -151,12 +162,12 @@ namespace Starkit.Controllers
         public IActionResult ChangeQuantity(string id, int quantity, string name)
         {
             List<Item> cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
-            int index = isExist(id, name);
+            int index = IsExist(id, name);
             cart[index].Quantity = quantity;
             SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
             return RedirectToAction("GetContentCard");
         }
-
+        
         public IActionResult GetContentCard()
         {
             var cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
@@ -164,7 +175,7 @@ namespace Starkit.Controllers
             IEnumerable<Item> items = new List<Item>();
             if (cart == null)
                 cart = new List<Item>();
-            ViewBag.cart = cart;
+            ViewBag.Cart = cart;
             if (cart.Any(item => item.Dish != null))
             {
                 items = cart.Where(c => c.Dish != null);
@@ -180,7 +191,7 @@ namespace Starkit.Controllers
                 items = cart.Where(c => c.Stock != null);
                 total += items.Sum(i => i.Stock.Cost * i.Quantity);
             }
-            ViewBag.total = total;
+            ViewBag.Total = total;
             return PartialView("PartialView/CartContentPartialView");
         }
 
