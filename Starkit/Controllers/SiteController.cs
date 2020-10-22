@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -86,10 +87,17 @@ namespace Starkit.Controllers
             
             
         }
+        
+        [ValidateAntiForgeryToken]
         [Authorize]
         public async Task<ActionResult> SaveCarouselData(string dishNameCarousel1, string dishNameCarousel2 , string dishNameCarousel3, string dishTextCarousel1,string dishTextCarousel2, string dishTextCarousel3,IFormFile file1, IFormFile file2, IFormFile file3)
         {
-            var userId = _userManager.GetUserId(User);
+            string userId = _userManager.GetUserId(User);
+            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+            {
+                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                userId = admin.IdOfTheSelectedRestaurateur;
+            }
             var restaurant = await _db.Restaurants.FirstOrDefaultAsync(r => r.UserId == userId);
             var siteData = await _db.DataSiteCards.FirstOrDefaultAsync(d => d.RestaurantId == restaurant.Id);
 
@@ -112,19 +120,24 @@ namespace Starkit.Controllers
             await _db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
-        [Authorize]
 
         private async Task<string> CreateFile(IFormFile file)
         {
-            string directoryPath = Path.Combine(_environment.ContentRootPath,"wwwroot/images/restaurants/Custom");
+            string directoryPath = Path.Combine(_environment.ContentRootPath,"wwwroot/images/restaurants/Carousel");
             await _uploadService.Upload(directoryPath,file.FileName,file);
-            return $"images/restaurants/Custom/{file.FileName}";
+            return $"images/restaurants/Carousel/{file.FileName}";
         }
 
         [Authorize]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> SaveSectionData(string block, string title, string subtitle, IFormFile file)
         {
-            var userId = _userManager.GetUserId(User);
+            string userId = _userManager.GetUserId(User);
+            if (User.IsInRole(Convert.ToString(Roles.SuperAdmin)))
+            {
+                User admin = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                userId = admin.IdOfTheSelectedRestaurateur;
+            }
             var restaurant = await _db.Restaurants.FirstOrDefaultAsync(r => r.UserId == userId);
             var siteData = await _db.DataSiteCards.FirstOrDefaultAsync(d => d.RestaurantId == restaurant.Id);
             switch (block)
