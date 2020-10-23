@@ -18,6 +18,7 @@ namespace Starkit.Controllers
             _db = db;
         }
         
+        [ValidateAntiForgeryToken]
         [Authorize(Roles = "SuperAdmin,Registrant")]
         [HttpPost]
         public async Task<IActionResult> Create(string dishId, List<string> menuIds)

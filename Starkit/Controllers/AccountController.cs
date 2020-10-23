@@ -20,11 +20,11 @@ namespace Starkit.Controllers
     public class AccountController : Controller
     {
         private readonly IRecaptchaService _recaptcha;
-        public UserManager<User> _userManager { get; set; }
-        public RoleManager<IdentityRole> _roleManager { get; set; }
-        public SignInManager<User> _signInManager { get; set; }
-        public StarkitContext _db { get; set; }
-        public IHostEnvironment _environment { get; set; }
+        private UserManager<User> _userManager;
+        private RoleManager<IdentityRole> _roleManager;
+        private SignInManager<User> _signInManager;
+        private StarkitContext _db;
+        private IHostEnvironment _environment;
         
         
         public AccountController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, SignInManager<User> signInManager, StarkitContext db, IHostEnvironment environment, IRecaptchaService recaptcha)
@@ -37,14 +37,13 @@ namespace Starkit.Controllers
             _recaptcha = recaptcha;
         }
         
-        // GET
         public IActionResult Login()
         {
             if (User.Identity.IsAuthenticated)
                 return RedirectToAction("Index","Users");
             return View();
         }
-
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> Login(Login model)
         {
@@ -95,6 +94,7 @@ namespace Starkit.Controllers
             return View();
         }
         
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> Register(Register model)
         {
@@ -180,6 +180,7 @@ namespace Starkit.Controllers
             return RedirectToAction("Login","Account");
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> ChangePassword(string id, string oldPassword, string newPassword)

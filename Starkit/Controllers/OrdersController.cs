@@ -65,6 +65,7 @@ namespace Starkit.Controllers
             return Json(false);
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> Add(Order order)
         {
@@ -171,7 +172,7 @@ namespace Starkit.Controllers
             return RedirectToAction("GetContentOrder");
         }
 
-        public async Task<IActionResult> GetContentOrder()
+        public IActionResult GetContentOrder()
         {
             string json = System.IO.File.ReadAllText(_path);
             List<Item> items = JsonConvert.DeserializeObject<List<Item>>(json);
@@ -197,7 +198,7 @@ namespace Starkit.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> DeleteItem(string id)
+        public IActionResult DeleteItem(string id)
         {
             string json = System.IO.File.ReadAllText(_path);
             List<Item> items = JsonConvert.DeserializeObject<List<Item>>(json);
@@ -207,6 +208,7 @@ namespace Starkit.Controllers
             return RedirectToAction("GetContentOrder");
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> SaveChange()
         {
@@ -246,6 +248,7 @@ namespace Starkit.Controllers
             return PartialView("PartialViews/ChangeStatusModalWindowPartialView");
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPut]
         public async Task<IActionResult> ChangeStatus(string id, Status status)
         {

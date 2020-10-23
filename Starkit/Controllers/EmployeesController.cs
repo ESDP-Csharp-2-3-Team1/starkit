@@ -16,8 +16,8 @@ namespace Starkit.Controllers
     [Authorize(Roles = "SuperAdmin,Registrant")]
     public class EmployeesController : Controller
     {
-        private UserManager<User> _userManager { get; set; }
-        private StarkitContext _db { get; set; }
+        private UserManager<User> _userManager;
+        private StarkitContext _db;
 
         public EmployeesController(UserManager<User> userManager, StarkitContext db)
         {
@@ -58,8 +58,8 @@ namespace Starkit.Controllers
             return View();
         }
         
+        [ValidateAntiForgeryToken]
         [HttpPost]
-   
         public async Task<IActionResult> Create(EmployeeViewModel model)
         {
             if (ModelState.IsValid)
@@ -104,8 +104,8 @@ namespace Starkit.Controllers
             return View(model);
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
-       
         public async Task<IActionResult> UpdateRegistrantStatus(string userId)
         {
             User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
@@ -119,12 +119,11 @@ namespace Starkit.Controllers
             return Json(false);
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
-        
-        // Функционал требует доработки. Осталось реализовать валидацию Email-а и интеграцию ajax. (Пароль)
         public async Task<IActionResult> Edit(EmployeeViewModel model) 
         {
-            if (ModelState.IsValid || model.ConfirmPassword == null && model.Password == null) // Осталось доработать валидацию по ключам password= false остальные true
+            if (ModelState.IsValid || model.ConfirmPassword == null && model.Password == null) 
             {
                 User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == model.Id);
                 user.Name = model.Name;
@@ -139,7 +138,7 @@ namespace Starkit.Controllers
                 await _db.SaveChangesAsync();
                 return RedirectToAction("Index","Employees");
             }
-            return RedirectToAction("Index","Employees"); // Доработать код ошибки после интеграции ajax
+            return RedirectToAction("Index","Employees"); 
         }
     }
 }

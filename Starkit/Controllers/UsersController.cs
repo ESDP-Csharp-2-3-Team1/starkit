@@ -16,8 +16,8 @@ namespace Starkit.Controllers
     [Authorize(Roles = "SuperAdmin, Registrant")]
     public class UsersController : Controller
     {
-        private UserManager<User> _userManager { get; set; }
-        private StarkitContext _db { get; set; }
+        private UserManager<User> _userManager;
+        private StarkitContext _db;
 
         public UsersController(UserManager<User> userManager, StarkitContext db)
         {
@@ -25,7 +25,7 @@ namespace Starkit.Controllers
             _db = db;
         }
         
-        
+        [ValidateAntiForgeryToken]
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> UpdateInfo(string cityphone,string postalCity, string postalRegion, string legalCity, string legalRegion, string apiKey)

@@ -16,8 +16,8 @@ namespace Starkit.Controllers
     [Authorize(Roles = "SuperAdmin")]
     public class SuperAdminController : Controller
     {
-        private StarkitContext _db { get; set; }
-        private UserManager<User> _userManager { get; set; }
+        private StarkitContext _db;
+        private UserManager<User> _userManager;
         public SuperAdminController(StarkitContext db, UserManager<User> userManager)
         {
             _db = db;
@@ -45,7 +45,7 @@ namespace Starkit.Controllers
         }
 
         [HttpPost]
-       
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateRegistrantStatus(string userId)
         {
             User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
@@ -59,6 +59,7 @@ namespace Starkit.Controllers
             return Json(false);
         }
         
+        [ValidateAntiForgeryToken]
         [ActionName("Index")]
         [HttpPost]
         public async Task<IActionResult> EditRegistrantInfo(SuperAdminIndexViewModel model)

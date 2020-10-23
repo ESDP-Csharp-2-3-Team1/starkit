@@ -109,7 +109,8 @@ namespace Starkit.Controllers
             };
             return PartialView("PartialViews/SubcategoryOptions", dish);
         }
-
+        
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> Create(Dish dish)
         {
@@ -152,6 +153,7 @@ namespace Starkit.Controllers
             return View(model);
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> Edit(EditDishViewModel model)
         {
