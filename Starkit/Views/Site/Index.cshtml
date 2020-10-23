@@ -180,6 +180,26 @@
                    $("#details").html(data);
                    $("#modal-details").show();
                    $("#modal-details").css("overflow", "auto");
+                   $("#bookingCustomDateModal").datepicker(
+                       {
+                          language:'ru',
+                          minDate: new Date(),
+                          maxDate: '',
+                          disableNavWhenOutOfRange: true,
+                          dateFormat: 'dd/mm/yyyy',
+                          }
+                   );
+                   
+                   $('.timepicker').timepicker({ 
+                      'timeFormat': 'H:i',
+                      'scrollDefault': 'now',
+                      'minTime': '10:00',
+                      'maxTime': '22:00',
+                      'disableTimeRanges': [
+                            ['10:00', 'now']
+                        ]
+                  });
+
                         
                    $("body").css("overflow", "hidden");
                }
@@ -213,7 +233,26 @@
                      $("#details").html(data);
                      $("#modal-details").show();
                      $("#modal-details").css("overflow", "auto");
-                          
+                       $("#bookingCustomDateModal").datepicker(
+                          {
+                             language:'ru',
+                             minDate: new Date(),
+                             maxDate: '',
+                             disableNavWhenOutOfRange: true,
+                             dateFormat: 'dd/mm/yyyy',
+                             }
+                      );
+                      
+                      $('.timepicker').timepicker({ 
+                         'timeFormat': 'H:i',
+                         'scrollDefault': 'now',
+                         'minTime': '10:00',
+                         'maxTime': '22:00',
+                         'disableTimeRanges': [
+                               ['10:00', 'now']
+                           ]
+                     });   
+                     
                      $("body").css("overflow", "hidden");
                     }
                 
@@ -231,7 +270,7 @@
             
         }
         
-        $('.check-book').change(function (){
+        $('.check-book').click(function (){
             $(".tableState").html("Свободен").addClass("text-success").removeClass("text-danger");
             $(".book-btn").removeAttr("disabled");
             $(".card").removeClass("booked-table");
@@ -245,6 +284,7 @@
                        minDate: new Date(),
                        maxDate: '',
                        disableNavWhenOutOfRange: true,
+                       dateFormat: 'dd/mm/yyyy',
                        }
                    );
                 }
@@ -271,14 +311,14 @@
             })
         })
         
-        $('#timeTo').click(function ()
+        $('.timeTo').click(function ()
         {
             var from = $('#timeFrom').val();
             var time = from.split(":");
             var toHours = parseInt(time[0]) + 1;
             var toMins = parseInt(time[1]) + 29;
             
-            $('#timeTo').timepicker('option',{   
+            $('.timeTo').timepicker('option',{   
                 'timeFormat': 'H:i',
                 'scrollDefault': 'now',
                 'minTime': '10:00',

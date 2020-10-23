@@ -19,7 +19,7 @@ namespace Starkit.Controllers
     public class MenuController : Controller
     {
         private StarkitContext _db;
-        private UserManager<User> _userManager { get; set; }
+        private UserManager<User> _userManager;
         private IHostEnvironment _environment;
         private UploadService _uploadService;
 
@@ -112,6 +112,7 @@ namespace Starkit.Controllers
             return View();
         }
         
+        [ValidateAntiForgeryToken]
         [Authorize(Roles = "SuperAdmin,Registrant")]
         [HttpPost]
         public async Task<IActionResult> Create(Menu menu)
@@ -159,6 +160,7 @@ namespace Starkit.Controllers
             return View(model);
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         [Authorize(Roles = "SuperAdmin,Registrant")]
         public async Task<IActionResult> Edit(EditMenuViewModel model)

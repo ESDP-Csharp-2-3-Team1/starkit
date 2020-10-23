@@ -16,7 +16,7 @@ namespace Starkit.Controllers
     public class CategoriesController : Controller
     {
         private StarkitContext _db;
-        private UserManager<User> _userManager { get; set; }
+        private UserManager<User> _userManager;
 
         public CategoriesController(StarkitContext db, UserManager<User> userManager)
         {
@@ -68,6 +68,7 @@ namespace Starkit.Controllers
             return View(new Category());
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         [Authorize(Roles = "SuperAdmin,Registrant,ContentManager")]
         public async Task<IActionResult> Create(Category category)
@@ -113,6 +114,7 @@ namespace Starkit.Controllers
             return View(model);
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         [Authorize(Roles = "SuperAdmin,Registrant,ContentManager")]
         public async Task<IActionResult> Edit(EditCategoryViewModel model)

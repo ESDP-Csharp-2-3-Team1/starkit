@@ -19,7 +19,7 @@ namespace Starkit.Controllers
     public class StocksController : Controller
     {
         private StarkitContext _db;
-        private UserManager<User> _userManager { get; set; }
+        private UserManager<User> _userManager;
         private IHostEnvironment _environment;
         private UploadService _uploadService;
 
@@ -97,6 +97,7 @@ namespace Starkit.Controllers
             return View();
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> Create(Stock stock)
         {
@@ -122,7 +123,7 @@ namespace Starkit.Controllers
             Stock stock = new Stock{Id = id};
             _db.Entry(stock).State = EntityState.Deleted;
             await _db.SaveChangesAsync();
-            DeleteStockAvatar(stock);
+            await DeleteStockAvatar(stock);
             return RedirectToAction("GetStocks");
         }
 

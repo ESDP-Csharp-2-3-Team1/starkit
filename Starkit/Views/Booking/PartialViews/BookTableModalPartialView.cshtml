@@ -8,13 +8,36 @@
         <div class="modal-body">
             <form method="post" asp-action="Book" class="form-book" id="partial-form">
                 <div asp-validation-summary="ModelOnly"></div>
-
                 <input type="hidden" value="@Model.TableId" asp-for="@Model.TableId">
-                <input type="hidden" value="@Model.Date" id="bookingDate" asp-for="@Model.Date">
-                <input type="hidden" value="@Model.CustomDate" id="bookingCustomDate" asp-for="@Model.CustomDate">
-                <input type="hidden" value="@Model.BookFrom" asp-for="BookFrom">
-                <input type="hidden" value="@Model.BookTo" asp-for="BookTo">
-
+                @if (Model.CustomDate == null || Model.BookFrom == null || Model.BookTo == null)
+                {
+                    <input type="hidden" value="custom" id="bookingDateModal" asp-for="@Model.Date">
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="bookingCustomDateModal" asp-for="CustomDate" placeholder="--.--.----">
+                        </div>
+                    </div>
+                    <div class="form-group row justify-content-sm-start">
+                        <label for="" class="col-sm-3 col-form-label createMenuLabel">Время от</label><br/>
+                        <div class="col-sm-3">
+                            <input class="form-control check-time timepicker timeTo" id="timeFromModal" asp-for="BookFrom" placeholder="__:__"/>
+                        </div>
+                        <label for="" class="col-sm-3 col-form-label createMenuLabel">Время до</label><br/>
+                        <div class="col-sm-3">
+                            <input class="form-control check-time timepicker" id="timeToModal" asp-for="BookTo" placeholder="__:__">
+                        </div>
+                        <span class="mr-auto" asp-validation-for="BookFrom"></span>
+                        <span class="mr-auto ml-auto" asp-validation-for="CustomDate"></span>
+                        <span class="ml-auto" asp-validation-for="BookTo"></span>
+                    </div>
+                }
+                else
+                {
+                    <input type="hidden" value="@Model.Date" id="bookingDate" asp-for="@Model.Date">
+                    <input type="hidden" value="@Model.CustomDate" id="bookingCustomDate" asp-for="@Model.CustomDate">
+                    <input type="hidden" value="@Model.BookFrom" asp-for="BookFrom">
+                    <input type="hidden" value="@Model.BookTo" asp-for="BookTo">
+                }
                 <div class="form-group row">
                     <label for="" class="col-sm-5 col-form-label createMenuLabel">Ваше имя</label><br/>
                     <div class="col-sm-5">

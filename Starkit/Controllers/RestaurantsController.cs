@@ -17,10 +17,10 @@ namespace Starkit.Controllers
     [Authorize(Roles = "SuperAdmin,Registrant")]
     public class RestaurantsController : Controller
     {
-        private StarkitContext _db { get; set; }
-        private UserManager<User> _userManager { get; set; }
-        private IHostEnvironment _environment { get; set; }
-        private UploadService _uploadService { get; set; }
+        private StarkitContext _db;
+        private UserManager<User> _userManager;    
+        private IHostEnvironment _environment;
+        private UploadService _uploadService;
 
         public RestaurantsController(StarkitContext db, UserManager<User> userManager, IHostEnvironment environment, UploadService uploadService)
         {
@@ -67,6 +67,8 @@ namespace Starkit.Controllers
                 return RedirectToAction("Index");
             return View();
         }
+        
+        [ValidateAntiForgeryToken]
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Register(Restaurant model)
@@ -99,6 +101,7 @@ namespace Starkit.Controllers
             return View(model);
         }
         
+        [ValidateAntiForgeryToken]
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Edit(Restaurant model)

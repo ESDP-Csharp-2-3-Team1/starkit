@@ -41,6 +41,7 @@ namespace Starkit.Controllers
             return View(subCategory);
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Create(SubCategory subCategory)
@@ -85,7 +86,8 @@ namespace Starkit.Controllers
             EditSubCategoryViewModel model = new EditSubCategoryViewModel{Id = id, Name = subCategory.Name, Category = subCategory.Category};
             return View(model);
         }
-
+        
+        [ValidateAntiForgeryToken]
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Edit(EditSubCategoryViewModel model)

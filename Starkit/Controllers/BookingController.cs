@@ -68,6 +68,7 @@ namespace Starkit.Controllers
         }
         
         [Authorize(Roles = "SuperAdmin,Registrant")]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> Create(Booking booking, int[] tableId)
         {
@@ -125,6 +126,7 @@ namespace Starkit.Controllers
             return NotFound();
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         [Authorize(Roles = "SuperAdmin,Registrant")]
         public async Task<IActionResult> Edit(EditBookingViewModel model, int tableId)
@@ -235,6 +237,8 @@ namespace Starkit.Controllers
 
             return PartialView("PartialViews/LIstBookingsPartialView", viewModel);
         }
+        
+        [ValidateAntiForgeryToken]
         [Authorize(Roles = "SuperAdmin,Registrant")]
         [HttpPost]
         public async Task<IActionResult> ChangeBookingsState(string[] ids, BookingStatus state)
