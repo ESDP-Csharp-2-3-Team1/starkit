@@ -193,8 +193,7 @@ namespace Starkit.Controllers
 
             return View(model);
         }
-
-        [Authorize]
+        
         [HttpGet]
         public IActionResult Details(string id)
         {

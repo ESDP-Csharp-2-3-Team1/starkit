@@ -780,7 +780,8 @@ body{
 }
 
 .menu-block img, .dish-as15 img{
-    width: 100%;
+    width: auto;
+    height: 100%;
 }
 
 .menu-qty-input, .dish-qty-input{

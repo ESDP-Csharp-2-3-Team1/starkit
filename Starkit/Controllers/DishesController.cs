@@ -23,7 +23,7 @@ namespace Starkit.Controllers
         private readonly StarkitContext _db;
         private readonly IHostEnvironment _environment;
         private readonly UploadService _uploadService;
-        private int pageSize = 5;
+        private int pageSize = 10;
 
         public DishesController(StarkitContext db, IHostEnvironment environment, UploadService uploadService,
             UserManager<User> userManager)
@@ -310,6 +310,7 @@ namespace Starkit.Controllers
             return PartialView("PartialViews/ModalAddDishToMenuPartialView", dish);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Details(string id)
         {
