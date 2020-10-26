@@ -54,11 +54,11 @@
                 </div>
             </div>
             <div class="form-group row justify-content-sm-start">
-                <label for="" class="col-sm-3 col-form-label createMenuLabel">Время от</label><br/>
+                <label for="" class="col-sm-3 col-form-label createBookingLabel">Время от</label><br/>
                 <div class="col-sm-3">
                     <input class="form-control check-time timepicker timeTo" id="timeFrom" type="text" name="timeFrom" placeholder="__:__"/>
                 </div>
-                <label for="" class="col-sm-3 col-form-label createMenuLabel">Время до</label><br/>
+                <label for="" class="col-sm-3 col-form-label createBookingLabel">Время до</label><br/>
                 <div class="col-sm-3">
                     <input class="form-control check-time timepicker" id="timeTo" type="text" name="timeTo" placeholder="__:__">
                 </div>
@@ -70,7 +70,7 @@
             {
                 if (!table.isDeleted)
                 {
-                    <div class="card m-2" style="width: 15rem;" id="table-@table.Id">
+                    <div class="card ml-auto mr-auto m-lg-2" style="width: 15rem;" id="table-@table.Id">
                         <div class="card-img-th img-wrapper">
                             <img src="~/@table.IconUrl" onclick="tablesDetails('@table.Id')" class="card-img-top" alt="Стол №@table.Id">
                         </div>

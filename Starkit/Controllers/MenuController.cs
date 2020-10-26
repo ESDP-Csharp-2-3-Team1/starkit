@@ -191,7 +191,6 @@ namespace Starkit.Controllers
             return View();
         }
         
-        [Authorize(Roles = "SuperAdmin,Registrant,ContentManager")]
         [HttpGet]
         public IActionResult Details(string id)
         {

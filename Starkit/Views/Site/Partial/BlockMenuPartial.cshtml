@@ -44,11 +44,11 @@
                         </div>
 
                         <div class="bl-men-box2" style="padding: 0 15px">
-                            <section class="center slider slider-code-asd154 menu-slider">
-                                @foreach (var menu in Model.Menu)
-                                {
-                                    <div class="menu-slider-block">
-                                        <div class="box-menu">
+                            <div class="menu-slider">
+                                <div class="menu-slider-block">
+                                    <div class="box-menu">
+                                        @foreach (var menu in Model.Menu)
+                                        {
                                             <div class="menu-block">
                                                 <div>
                                                     <div class="menu-box-title text-center">
@@ -69,10 +69,11 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        }
                                     </div>
-                                }
-                            </section>
+                                    </div>
+                                
+                            </div>
                         </div>
                     </div>
                 </div>

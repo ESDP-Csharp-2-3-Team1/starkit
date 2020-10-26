@@ -1,7 +1,52 @@
 @media screen and (max-width: 992px) {
+    .container-edit{
+        display: block;
+        grid-template-columns: none;
+    }
 }
 @media screen and (max-width: 768px) {
     
+    .login-block{
+        width: auto;
+    }
+    .ed2-form-group{
+        display: block;
+        grid-template-columns: none;
+    }
+    .ed2-form-label{
+        padding: 0;
+        text-align: start;
+    }
+    .boxx2{
+        width: auto;
+    }
+    .boxx22{
+        margin-left: 0;
+    }
+    .ed2p22{
+        text-align: start;
+    }
+    .ed2-form-input{
+        padding-right: 0;
+    }
+}
+@media screen and (max-width: 576px) {
+    .register-label{
+        text-align: start;
+    }
+    .navbar-expand-sm>.container{
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
+
+/*Сайт-визитка*/
+@media screen and (max-width: 992px) {
+    
+}
+@media screen and (max-width: 768px) {
+
 }
 @media screen and (max-width: 576px) {
     .layout-up{
@@ -56,6 +101,47 @@
         display: none;
     }
     .slick-slide, .slick-current, .slick-center{
+        width: 100%!important;
+    }
+    
+    .block-top-dishes {
+        padding: 0px;
+    }   
+    
+    /*.slick-track{*/
+    /*    */
+    /*}*/
+    
+    .box-menu, .box-dish-code15{
+        grid-template-columns: 1fr;
+    }
+    
+    .control-panel-btn{
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    
+    .check-book{
         width: auto;
     }
+    
+    .createBookingLabel{
+        text-align: start;
+    }
+    .dish-as15{
+        margin: 20px auto;
+    }
+    .menu-block{
+        margin: 20px auto;
+    }
+    #menu-section .container, #dishes-section .container{
+        padding-left: 0;
+    }
+    .block-footer-code-a62{
+        grid-template-columns: 1fr; 
+        padding: 20px;  
+    }
+    .code-a62-2{
+        margin-top: 80px;
+    }
+    
 }
