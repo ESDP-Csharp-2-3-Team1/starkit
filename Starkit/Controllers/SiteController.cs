@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Starkit.Models;
 using Starkit.Models.Data;
 using Starkit.Services;
@@ -23,17 +22,13 @@ namespace Starkit.Controllers
         private UserManager<User> _userManager;
         private IHostEnvironment _environment;
         private UploadService _uploadService;
-        private readonly ILogger<SiteController> _logger;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public SiteController(StarkitContext db, UserManager<User> userManager, IHostEnvironment environment, UploadService uploadService, ILogger<SiteController> logger, IHttpContextAccessor httpContextAccessor)
+        public SiteController(StarkitContext db, UserManager<User> userManager, IHostEnvironment environment, UploadService uploadService)
         {
             _db = db;
             _userManager = userManager;
             _environment = environment;
             _uploadService = uploadService;
-            _logger = logger;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<IActionResult> Index()
@@ -51,9 +46,10 @@ namespace Starkit.Controllers
                 restaurant = await _db.Restaurants
                     .FirstOrDefaultAsync(r => r.Id == user.RestaurantId);
             }
+            
             else
             {
-                string host = _httpContextAccessor.HttpContext.Request.Host.Value;
+                string host = HttpContext.Request.Host.Value;
                 restaurant = await _db.Restaurants
                     .FirstOrDefaultAsync(r => r.DomainName == host);
             }
@@ -62,7 +58,7 @@ namespace Starkit.Controllers
 
             return View(restaurant);
         }
-        
+
         public async Task<IActionResult> GetDishes(string id = null)
         {
             User user = await _db.Users.
