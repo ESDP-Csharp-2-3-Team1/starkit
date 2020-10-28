@@ -9,7 +9,7 @@
             <form method="post" asp-action="Book" class="form-book" id="partial-form">
                 <div asp-validation-summary="ModelOnly"></div>
                 <input type="hidden" value="@Model.TableId" asp-for="@Model.TableId">
-                @if (Model.CustomDate == null || Model.BookFrom == null || Model.BookTo == null)
+                @if (Model.Date == null || Model.BookFrom == null || Model.BookTo == null)
                 {
                     <input type="hidden" value="custom" id="bookingDateModal" asp-for="@Model.Date">
                     <div class="form-group row">
