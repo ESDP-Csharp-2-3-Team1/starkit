@@ -9,17 +9,6 @@ on:
 jobs:      
   build:
     runs-on: ubuntu-latest
-    
-#     services:
-#       postgres:
-#         image: postgres:10.8
-#         env:
-#           POSTGRES_USER: postgres
-#           POSTGRES_PASSWORD: Almatzxccx152451
-#           POSTGRES_DB: starkitDb
-#         ports:
-#           - 5432:5432
-#         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
      - uses: actions/checkout@v2
@@ -29,12 +18,6 @@ jobs:
          dotnet-version: 3.1.301
      - name: Install dependencies
        run: dotnet restore
-
-#     - name: Run migrations
-#       run: |
-#         dotnet tool install --global dotnet-ef
-#         dotnet tool restore
-#         dotnet ef database update --c DataContext --p MyProj --s MyProjFactory
 
      - name: Build
        run: dotnet build --configuration Release --no-restore
