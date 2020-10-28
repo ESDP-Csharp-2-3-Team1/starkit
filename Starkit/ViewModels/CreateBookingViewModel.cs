@@ -26,7 +26,6 @@ namespace Starkit.ViewModels
         [DataType(DataType.EmailAddress, ErrorMessage = "Введите корректный email")]
         public string Email { get; set; }
         public string Comment { get; set; }
-        [Required(ErrorMessage = "Выберите дату")]
         public string CustomDate { get; set; }
         
     }
